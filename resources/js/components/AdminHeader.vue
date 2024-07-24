@@ -19,11 +19,10 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
-
-const props = defineProps(['userInformation'])
-
+import { onMounted, ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from "vue-router";
 //modal
 const target = ref(null)
 onClickOutside(target, event => showModal.value = false)
@@ -32,6 +31,23 @@ const showModal = ref(false)
 const profileModal = () => {
     showModal.value = true
 }
+
+
+const router = useRouter()
+const userInformation = ref({})
+
+onMounted(() => {
+    const token = localStorage.getItem('responseTKN')
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    axios.get('api/user').then(response => {
+       userInformation.value = response.data
+    })
+    if(!token){
+        router.push('/')
+    }
+})
+
+
 </script>
 
 <style scoped>

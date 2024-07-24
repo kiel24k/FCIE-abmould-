@@ -16,13 +16,13 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'first_name' => 'memberFirstName',
-            'middle_name' => 'memberMIddleName',
-            'last_name' => 'memberLastName',
-            'age' => 23,
-            'role' => 'member',
-            'email' => 'member@example.com',
-            'password' => 'admin'
+            'first_name' => 'adminName',
+            'middle_name' => 'adminMiddleNmae',
+            'last_name' => 'adminLastName',
+            'role' => 'admin',
+            'email' => 'admin@example.com',
+            'password' => 'admin',
+            'image' => 'dadsad'
         ]);
     }
 }
