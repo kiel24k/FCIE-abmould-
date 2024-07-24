@@ -80,7 +80,6 @@ const token = localStorage.getItem('responseTKN')
  onMounted(() => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     axios.get('api/user').then(response => {
-        console.log(response.data.role);
         if(response.data.role == 'admin'){
             localStorage.setItem('administrationPermission', response.data.role)
             router.push('/admin-dashboard')

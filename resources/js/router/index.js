@@ -20,9 +20,25 @@ const routes = [
         path:'/admin-dashboard',
         name:'admin-dashboard',
         component: ()=>import('../pages/admin/AdminDashboard.vue'),
-        // meta: {
-        //     requireToken: true
-        // }
+        meta: {
+            requireToken: true
+        }
+    },
+    {
+        path:'/admin-user-list',
+        name: 'admin-user-list',
+        component: () => import ('../pages/admin/AdminUserList.vue')
+    },
+    {
+        path:'/admin-update-user/:id',
+        name: 'admin-update-user',
+        component: () => import('../pages/admin/AdminUpdateUser.vue')
+    },
+    {
+        path:'/create-user',
+        name: 'create-user',
+        component: () => import ('../pages/admin/AdminCreateUser.vue')
+
     },
     {
         path:'/inventory-manager-dashboard',
