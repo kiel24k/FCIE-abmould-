@@ -17,5 +17,11 @@ Route::controller(AdminController::class)->group(function () {
     Route::delete('/delete-user/{id}', 'deleteUser');
     Route::get('/updated-user-data/{id}','userUpdatedData');
     Route::post('/update-user-data/{id}', 'userUpdateData');
+    Route::post('/new-tools', 'newItemTools');
+    Route::post('/new-material', 'newMaterial');
+    Route::get('/get-materials', 'getMaterials');
+    Route::delete('/delete-material/{id}', 'deleteMaterial');
+    Route::get('/updated-material/{id}', 'updatedMaterial');
+    Route::post('/update-material/{id}', 'updateMaterial');
+    Route::get('/scheduled-date/{date}', 'scheduledDate');
 });
-

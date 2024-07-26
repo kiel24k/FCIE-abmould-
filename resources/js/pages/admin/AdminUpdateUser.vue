@@ -8,6 +8,7 @@
             <div class="update-user">
                 <form @submit.prevent enctype="multipart/form-data">
                     <h4>Update User | <span style="color:gray;font-size:15px; font-weight:400">Enter User Information</span></h4>
+                    <hr>
                     <div class="row">
                         <div class="col">
                             <label for="">First Name <span class="text-danger" v-if="validation.first_name">

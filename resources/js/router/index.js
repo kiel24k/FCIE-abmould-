@@ -38,8 +38,36 @@ const routes = [
         path:'/create-user',
         name: 'create-user',
         component: () => import ('../pages/admin/AdminCreateUser.vue')
+    },
+    {
+        path: '/admin-new-tool',
+        name: 'admin-new-tool',
+        component: () => import ('../pages/admin/AdminNewTools.vue')
+    },
+    {
+        path: '/amdin-new-materials',
+        name: 'admin-new-materials',
+        component: () => import ('../pages/admin/AdminNewMaterials.vue')
 
     },
+    {
+        path: '/admin-inventory-list',
+        name: 'admin-inventory-list',
+        component: () => import ('../pages/admin/AdminInventoryList.vue')
+
+    },
+    {
+        path:'/admin-edit-material/:id',
+        name:'admin-edit-material',
+        component: () => import('../pages/admin/AdminEditMaterial.vue')
+
+    },
+    {
+        path: '/admin-scheduling',
+        name: 'admin-scheduling',
+        component: () => import('../pages/admin/AdminScheduling.vue')
+    },
+
     {
         path:'/inventory-manager-dashboard',
         name:'inventory-manager-dashboard',
