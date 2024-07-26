@@ -11,5 +11,7 @@
 	<div id="app"></div>
 
 	@vite('resources/js/app.js')
+     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+      
 </body>
 </html>

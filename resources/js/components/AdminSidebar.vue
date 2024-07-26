@@ -35,28 +35,40 @@
                         :class="{ inventoryOptionStyle: isInventory }"
                     >
                         <li class="nav-item">
-                            <a href="" class="nav-link text-white">
+                            <router-link :to="{name: 'admin-inventory-list'}" class="nav-link text-white">
                                 <div class="item">
                                     <img
                                         src="/public/icon/inventoryIcon.svg"
                                         width="25px"
                                         alt=""
                                     />
-                                    <b>Item List</b>
+                                    <b>inventory List</b>
                                 </div>
-                            </a>
+                            </router-link>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link text-white">
+                            <router-link :to="{name: 'admin-new-tool'}" class="nav-link text-white">
                                 <div class="item">
                                     <img
                                         src="/public/icon/inventoryIcon.svg"
                                         width="25px"
                                         alt=""
                                     />
-                                    <b>New Item</b>
+                                    <b>New Tools</b>
                                 </div>
-                            </a>
+                            </router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link :to="{name: 'admin-new-materials'}" class="nav-link text-white">
+                                <div class="item">
+                                    <img
+                                        src="/public/icon/inventoryIcon.svg"
+                                        width="25px"
+                                        alt=""
+                                    />
+                                    <b>New Meterials</b>
+                                </div>
+                            </router-link>
                         </li>
                     </div>
                     <!--end inventory option animation-->
@@ -74,7 +86,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a href="" class="nav-link">
+                        <router-link :to="{name: 'admin-scheduling'}" class="nav-link">
                             <div class="item">
                                 <img
                                     src="/public/icon/schedulingIcon.svg"
@@ -83,7 +95,7 @@
                                 />
                                 <b>Scheduling</b>
                             </div>
-                        </a>
+                        </router-link>
                     </li>
                     <li class="nav-item" @click="showAccount">
                         <a class="nav-link">
@@ -292,7 +304,7 @@ aside .inventory-option {
     background: #90a4df;
 }
 aside .inventoryOptionStyle {
-    height: 120px;
+    height: 180px;
 }
 aside .account-option {
     height: 0;

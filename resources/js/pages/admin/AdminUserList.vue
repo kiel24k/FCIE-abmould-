@@ -60,7 +60,6 @@ const userList = ref({})
 const page =  (page) => {
      axios.get(`api/user-list?page=${page}`).then(response => {
         userList.value = response.data
-        console.log(data);
     })
 }
 
