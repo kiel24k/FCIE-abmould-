@@ -183,4 +183,20 @@ class AdminController extends Controller
             'message' => '200'
         ]);
     }
+    public function addSchedule(Request $request) {
+        $request->validate([
+            'supplier_name' => 'required',
+            'item_code' => 'required',
+            'quantity' => 'required',
+            'date_schedule' => 'required'
+        ]);
+        $schedule = new Schedule();
+        $schedule->supplier_name = $request->supplier_name;
+        $schedule->item_code = $request->item_code;
+        $schedule->quantity = $request->quantity;
+        $schedule->date_schedule = $request->date_schedule;
+        $schedule->status = 'pending';
+        $schedule->save();
+        return response()->json($schedule);
+    }
 }

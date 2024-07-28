@@ -24,4 +24,5 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/updated-material/{id}', 'updatedMaterial');
     Route::post('/update-material/{id}', 'updateMaterial');
     Route::get('/scheduled-date/{date}', 'scheduledDate');
+    Route::post('/add-schedule', 'addSchedule');
 });

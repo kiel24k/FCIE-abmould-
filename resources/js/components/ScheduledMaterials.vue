@@ -1,22 +1,18 @@
 <template>
+
    <div class="container-fluid">
     <div class="col text-center">
         <h4>Schedules of materials & Equipments</h4>
     </div>
     <div class="row text-center justify-content-center">
-        <div class="col-2">
-            <p>Materials</p>
-        </div>
-        <div class="col-2">
-            <p>equipments</p>
-        </div>
         <hr>
     </div>
    <table class="table table-borderless">
+
     <thead>
         <tr>
             <th>Supplier</th>
-            <th>Materials</th>
+            <th>Item</th>
             <th>Quantity</th>
             <th>Status</th>
         </tr>
@@ -30,17 +26,19 @@
         </tr>
     </tbody>
    </table>
-    <Loading v-if="loading"/>
    </div>
+
 </template>
 
 <script setup>
 import { onMounted, ref, watch } from 'vue';
 const props = defineProps(['data'])
 import Loading from '@/components/Loading.vue'
+import AddSchedule from '@/components/AddSchedule.vue'
 
 const loading = ref(false)
 const scheduledResponse = ref([])
+
 try{
 
 watch(props, (oldVal, newVal) => {
@@ -49,6 +47,7 @@ watch(props, (oldVal, newVal) => {
         method: 'GET',
         url: `/api/scheduled-date/${props.data}`
     }).then(response=> {
+        console.log(props.data);
         if(response.data.message == 200){
             loading.value = false
             scheduledResponse.value = response.data
@@ -68,11 +67,11 @@ watch(props, (oldVal, newVal) => {
 
 
 
+
 </script>
 <style scoped>
 .container-fluid{
-
-    box-shadow: 5px 5px 15px 0px gray;
+    box-shadow: 5px 5px 15px 0px rgb(83, 81, 81);
     border-radius: 15px;
     height: 40rem;
     width: 100%;
