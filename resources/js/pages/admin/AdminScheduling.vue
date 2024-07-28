@@ -9,11 +9,10 @@
         <div class="row scheduling">
             <div class="col" style="width:50rem">
                 <Schedule :data="selectedDate"/>
-
             </div>
             <div class="col-4 side-action">
                 <div class="add-schedule">
-                    <button class="btn">
+                    <button class="btn" @click="addSchedule">
                         Add schedule
                     </button>
                 </div>
@@ -22,23 +21,30 @@
                 </div>
             </div>
         </div>
-
     </div>
+    <transition name="addScheduleTransition">
+        <AddSchedule class="addSchedule" v-if="addScheduleModal" :addScheduleModal="addScheduleModal" @data="addScheduleModal = false"/>
+    </transition>
    </div>
+
 </template>
 <script setup>
 import Sidebar from '@/components/AdminSidebar.vue'
 import Header from '@/components/AdminHeader.vue'
 import Schedule from '@/components/ScheduledMaterials.vue'
 import { onMounted, ref, watch } from 'vue';
+import AddSchedule from '../../components/AddSchedule.vue';
 
 const selectedDate = ref({})
 const masks = ref({
-    modelValue: 'YYYY-MM-DD hh-mm-ss'
+    modelValue: 'YYYY-MM-DD'
 })
 
-
-
+const hideModal = ref(false)
+const addScheduleModal = ref(false)
+const addSchedule = () => {
+    addScheduleModal.value = true
+}
 
 </script>
 
@@ -65,6 +71,18 @@ border-radius: 15px;
 .calendar, .add-schedule button{
     border-radius:15px;
     box-shadow: 5px 5px 15px 0px gray;
+}
+
+.addSchedule{
+    transition: all linear 0.2s;
+    transform:translate(0);
+
+}
+
+.addScheduleTransition-enter-from,
+.addScheduleTransition-leave-to{
+    transform: translateY(-100%);
+    opacity: 0;
 }
 
 </style>

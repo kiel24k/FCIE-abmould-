@@ -70,7 +70,7 @@
                     </div>
                     <div class="row">
                         <div class="col-3">
-                            <img  width="250px" height="250px" alt="" :src="imageUrl" class="p-4 bg-danger">
+                            <img  width="250px" height="250px" alt="" :src="imageUrl" class="p-4">
                             <input type="File" accept="image/*" @change="image">
                         </div>
                     </div>
