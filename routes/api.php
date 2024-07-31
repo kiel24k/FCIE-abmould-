@@ -13,16 +13,19 @@ Route::post('/login',[AuthController::class, 'login']);
 
 Route::controller(AdminController::class)->group(function () {
     Route::get('/user-list', 'userList');
+    Route::get('/user-list-search', 'userListSearch');
     Route::post('/add-user', 'addUser');
     Route::delete('/delete-user/{id}', 'deleteUser');
     Route::get('/updated-user-data/{id}','userUpdatedData');
     Route::post('/update-user-data/{id}', 'userUpdateData');
-    Route::post('/new-tools', 'newItemTools');
-    Route::post('/new-material', 'newMaterial');
-    Route::get('/get-materials', 'getMaterials');
-    Route::delete('/delete-material/{id}', 'deleteMaterial');
-    Route::get('/updated-material/{id}', 'updatedMaterial');
-    Route::post('/update-material/{id}', 'updateMaterial');
+    Route::post('/new-item', 'newItem');
+    Route::get('/get-items', 'getItems');
+    Route::get('/item-category','itemCategory');
+    Route::get('/items-search','itemsSearch');
+    Route::delete('/delete-item/{id}', 'deleteItem');
+    Route::get('/updated-item/{id}', 'updatedItem');
+    Route::post('/update-item/{id}', 'updateitem');
     Route::get('/scheduled-date/{date}', 'scheduledDate');
     Route::post('/add-schedule', 'addSchedule');
+    // route::get('/test/{category}/{search}','test');
 });

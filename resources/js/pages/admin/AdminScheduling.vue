@@ -8,7 +8,7 @@
 
         <div class="row scheduling">
             <div class="col" style="width:50rem">
-                <Schedule :data="selectedDate"/>
+                <ScheduledItems :selectedDate="selectedDate"/>
             </div>
             <div class="col-4 side-action">
                 <div class="add-schedule">
@@ -30,8 +30,8 @@
 </template>
 <script setup>
 import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/AdminHeader.vue'
-import Schedule from '@/components/ScheduledMaterials.vue'
+import Header from '@/components/Header.vue'
+import ScheduledItems from '@/components/ScheduledMaterials.vue'
 import { onMounted, ref, watch } from 'vue';
 import AddSchedule from '../../components/AddSchedule.vue';
 
@@ -40,7 +40,7 @@ const masks = ref({
     modelValue: 'YYYY-MM-DD'
 })
 
-const hideModal = ref(false)
+
 const addScheduleModal = ref(false)
 const addSchedule = () => {
     addScheduleModal.value = true

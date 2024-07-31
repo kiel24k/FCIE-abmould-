@@ -6,7 +6,7 @@
         </div>
         <div class="col">
             <Header :userInformation="userInformation"/>
-           
+
         </div>
     </div>
 
@@ -15,7 +15,7 @@
 <script setup>
 
 import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/AdminHeader.vue'
+import Header from '@/components/Header.vue'
 
 
 

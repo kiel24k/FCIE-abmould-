@@ -2,20 +2,43 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Item;
 use App\Models\Material;
 use App\Models\Schedule;
 use App\Models\Tool_Inventory;
 use App\Models\User;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
-    public function userList()
+    public function userList(Request $request)
     {
-        $table = User::latest()->paginate(5);
-        return response()->json($table);
+        if ($request->role) {
+            $table = User::where('role', '=', $request->role)
+                ->latest()->paginate(5);
+            return response()->json($table);
+        } else if (!$request->category) {
+            return response()->json(User::latest()->paginate(10));
+        } else if ($request->category) {
+            return response()->json(User::latest()->paginate(10));
+        }
+    }
+    public function userListSearch(Request $request)
+    {
+        if (!$request->role) {
+            $allUser = User::where('first_name', 'LIKE', '%' . $request->search . '%')
+                ->latest()->paginate(10);
+            return response()->json($allUser);
+        } else if ($request->role) {
+            $user = User::where('role', '=', $request->role)
+                ->where('first_name', 'LIKE', '%' . $request->search . '%')
+                ->latest()->paginate(10);
+            return response()->json($user);
+        }
     }
     public function deleteUser($id)
     {
@@ -58,7 +81,6 @@ class AdminController extends Controller
         $user = User::find($id);
         return response()->json($user);
     }
-
     public function userUpdateData(Request $request, $id)
     {
         $request->validate([
@@ -93,97 +115,96 @@ class AdminController extends Controller
         $user->update();
         return response()->json($user);
     }
-
-    public function newItemTools(Request $request)
+    public function newitem(Request $request)
     {
         $request->validate([
-            'item_code' => 'required | unique:tools_inventories,item_code',
-            'brand' => 'required',
+            'item_code' => 'required | unique:items,item_code',
             'supplier_name' => 'nullable',
             'unit_cost' => 'numeric',
             'quantity' => 'numeric',
-            'item_type' => 'required',
+            'category' => 'required',
             'description' => 'required',
         ]);
 
-        $tools_inventory = new Tool_Inventory();
-        $tools_inventory->item_code = $request->item_code;
-        $tools_inventory->brand = $request->brand;
-        $tools_inventory->supplier_name = $request->supplier_name;
-        $tools_inventory->unit_cost = $request->unit_cost;
-        $tools_inventory->quantity = $request->quantity;
-        $tools_inventory->item_type = $request->item_type;
-        $tools_inventory->description = $request->description;
-        $tools_inventory->save();
-        return response()->json($tools_inventory);
+        $item = new Item();
+        $item->item_code = $request->item_code;
+        $item->supplier_name = $request->supplier_name;
+        $item->unit_cost = $request->unit_cost;
+        $item->quantity = $request->quantity;
+        $item->category = $request->category;
+        $item->description = $request->description;
+        $item->brand = $request->brand;
+        $item->save();
+        return response()->json($item);
     }
 
-    public function newMaterial(Request $request)
+    public function itemCategory(Request $request)
     {
-        $request->validate([
-            'item_code' => 'required | unique:materials,item_code',
-            'supplier_name' => 'nullable',
-            'unit_cost' => 'numeric',
-            'quantity' => 'numeric',
-            'item_type' => 'required',
-            'description' => 'required',
-        ]);
-
-        $material = new Material();
-        $material->item_code = $request->item_code;
-        $material->supplier_name = $request->supplier_name;
-        $material->unit_cost = $request->unit_cost;
-        $material->quantity = $request->quantity;
-        $material->item_type = $request->item_type;
-        $material->description = $request->description;
-        $material->save();
-        return response()->json($material);
+        if ($request->category) {
+            $item = Item::where('category', '=', $request->category)
+                ->paginate(10);
+            return response()->json($item);
+        } else if (!$request->category) {
+            return response()->json(Item::latest()->paginate(10));
+        } else if ($request->category) {
+            return response()->json(Item::latest()->paginate(10));
+        }
     }
-
-    public function getMaterials()
+    public function itemsSearch(Request $request)
     {
-        $material = Material::paginate(8);
-        return response()->json($material);
+        if (!$request->category) {
+            $allItem = Item::where('item_code', 'LIKE', '%' . $request->search . '%')
+                ->paginate(10);
+            return response()->json($allItem);
+        } else if ($request->search) {
+            $item = Item::where('category', '=', $request->category)
+                ->where('item_code', 'LIKE', '%' . $request->search . '%')
+                ->paginate(10);
+            return response()->json($item);
+        }
     }
-    public function deleteMaterial($id)
+    public function deleteItem($id)
     {
-        $material = Material::find($id)->delete();
-        return response()->json($material);
+        $item = Item::find($id)->delete();
+        return response()->json($item);
     }
-    public function updatedMaterial($id)
+    public function updatedItem($id)
     {
-        $material = Material::find($id);
-        return response()->json($material);
+        $item = Item::find($id);
+        return response()->json($item);
     }
-    public function updateMaterial(Request $request, $id)
+    public function updateItem(Request $request, $id)
     {
         $request->validate([
             'item_code' => 'required',
             'supplier_name' => 'nullable',
             'unit_cost' => 'numeric',
             'quantity' => 'numeric',
-            'item_type' => 'required',
+            'category' => 'required',
             'description' => 'required',
         ]);
 
-        $material = Material::find($id);
+        $material = Item::find($id);
         $material->item_code = $request->item_code;
         $material->supplier_name = $request->supplier_name;
         $material->unit_cost = $request->unit_cost;
         $material->quantity = $request->quantity;
-        $material->item_type = $request->item_type;
+        $material->category = $request->category;
         $material->description = $request->description;
+        $material->brand = $request->brand;
         $material->update();
         return response()->json($material);
     }
-    public function scheduledDate($date) {
+    public function scheduledDate($date)
+    {
         $schedule = Schedule::where('date_schedule', $date)->get();
         return response()->json([
             'data' => $schedule,
             'message' => '200'
         ]);
     }
-    public function addSchedule(Request $request) {
+    public function addSchedule(Request $request)
+    {
         $request->validate([
             'supplier_name' => 'required',
             'item_code' => 'required',

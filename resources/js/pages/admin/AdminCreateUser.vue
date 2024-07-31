@@ -88,7 +88,7 @@
 </template>
 <script setup>
 import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/AdminHeader.vue'
+import Header from '@/components/Header.vue'
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter} from 'vue-router';

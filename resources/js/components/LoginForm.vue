@@ -58,6 +58,8 @@ const router = useRouter()
     const validation = ref({})
     const disabled = ref(false)
 
+
+    //submit login JWT
 const submit = async () => {
    await axios({
     method: 'POST',
@@ -95,9 +97,6 @@ const token = localStorage.getItem('responseTKN')
     })
 }
  )
-
-
-
 </script>
 <style scoped>
 #login {
