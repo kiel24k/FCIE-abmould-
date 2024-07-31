@@ -40,14 +40,9 @@ const routes = [
         component: () => import ('../pages/admin/AdminCreateUser.vue')
     },
     {
-        path: '/admin-new-tool',
-        name: 'admin-new-tool',
-        component: () => import ('../pages/admin/AdminNewTools.vue')
-    },
-    {
-        path: '/amdin-new-materials',
-        name: 'admin-new-materials',
-        component: () => import ('../pages/admin/AdminNewMaterials.vue')
+        path: '/amdin-new-item',
+        name: 'admin-new-item',
+        component: () => import ('../pages/admin/AdminNewItem.vue')
 
     },
     {
@@ -57,9 +52,9 @@ const routes = [
 
     },
     {
-        path:'/admin-edit-material/:id',
-        name:'admin-edit-material',
-        component: () => import('../pages/admin/AdminEditMaterial.vue')
+        path:'/admin-edit-item/:id',
+        name:'admin-edit-item',
+        component: () => import('../pages/admin/AdminEditItem.vue')
 
     },
     {

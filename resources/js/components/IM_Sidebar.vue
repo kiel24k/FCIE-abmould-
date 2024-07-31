@@ -35,7 +35,7 @@
                         :class="{ inventoryOptionStyle: isInventory }"
                     >
                         <li class="nav-item">
-                            <router-link :to="{name: 'admin-inventory-list'}" class="nav-link text-white">
+                            <a class="nav-link text-white">
                                 <div class="item">
                                     <img
                                         src="/public/icon/inventoryIcon.svg"
@@ -44,10 +44,10 @@
                                     />
                                     <b>inventory List</b>
                                 </div>
-                            </router-link>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <router-link :to="{name: 'admin-new-item'}" class="nav-link text-white">
+                            <a class="nav-link text-white">
                                 <div class="item">
                                     <img
                                         src="/public/icon/inventoryIcon.svg"
@@ -56,7 +56,7 @@
                                     />
                                     <b>New Item</b>
                                 </div>
-                            </router-link>
+                            </a>
                         </li>
                     </div>
                     <!--end inventory option animation-->
@@ -74,7 +74,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <router-link :to="{name: 'admin-scheduling'}" class="nav-link">
+                        <a class="nav-link">
                             <div class="item">
                                 <img
                                     src="/public/icon/schedulingIcon.svg"
@@ -83,7 +83,7 @@
                                 />
                                 <b>Scheduling</b>
                             </div>
-                        </router-link>
+                        </a>
                     </li>
                     <li class="nav-item" @click="showAccount">
                         <a class="nav-link">
@@ -107,7 +107,7 @@
                         :class="{ accountStyle: isAccountStyle }"
                     >
                         <li class="nav-item">
-                            <router-link :to="{ name: 'create-user' }" class="nav-link text-white">
+                            <a class="nav-link text-white">
                                 <div class="item">
                                     <img
                                         src="/public/icon/inventoryIcon.svg"
@@ -116,10 +116,10 @@
                                     />
                                     <b>New User</b>
                                 </div>
-                            </router-link>
+                            </a>
                         </li>
                         <li class="nav-item">
-                            <router-link :to="{name: 'admin-user-list'}" class="nav-link text-white">
+                            <a class="nav-link text-white">
                                 <div class="item">
                                     <img
                                         src="/public/icon/inventoryIcon.svg"
@@ -128,7 +128,7 @@
                                     />
                                     <b>User List</b>
                                 </div>
-                            </router-link>
+                            </a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link text-white">

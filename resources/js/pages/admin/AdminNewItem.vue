@@ -6,13 +6,21 @@
         <div class="col">
             <Header/>
             <form @submit.prevent enctype="multipart/form-data">
-                <h4>New Material | <span style="color:gray;font-size:15px; font-weight:400">Enter Material Information</span></h4>
+                <h4>New Item | <span style="color:gray;font-size:15px; font-weight:400">Enter Item Information</span></h4>
                 <div class="row">
                     <div class="col">
                         <label for="">Item Code <span class="text-danger" v-if="validation.item_code">
                             {{ validation.item_code[0] }}
                         </span></label>
                         <input type="text" class="form-control" placeholder="" v-model="input.item_code" >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="">Brand: <span class="text-danger">
+                            option
+                        </span></label>
+                        <input type="text" class="form-control" placeholder="" v-model="input.brand" >
                     </div>
                 </div>
                 <div class="row">
@@ -40,12 +48,12 @@
                         <input type="number" class="form-control" placeholder="" v-model="input.quantity">
                     </div>
                     <div class="col">
-                        <label for="">Item Type: <span class="text-danger" v-if="validation.item_type">
-                            {{ validation.item_type[0] }}
+                        <label for="">Item Type: <span class="text-danger" v-if="validation.category">
+                            {{ validation.category[0] }}
                         </span></label>
-                        <select class="form-select" v-model="input.item_type">
-                            <option value="new">new</option>
-                            <option value="old">old</option>
+                        <select class="form-select" v-model="input.category">
+                            <option value="materials">materials</option>
+                            <option value="tools">tools</option>
                         </select>
                     </div>
                 </div>
@@ -68,9 +76,11 @@
 </template>
 <script setup>
 import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/AdminHeader.vue'
+import Header from '@/components/Header.vue'
 import axios from 'axios';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+const router = useRouter()
 
 
 const validation = ref({})
@@ -79,29 +89,32 @@ const input = ref({
     supplier_name: '',
     unit_cost: '',
     quantity: '',
-    item_type: '',
-    description: ''
+    category: '',
+    description: '',
+    brand: ''
 
 })
 const submit = () => {
     axios({
         method: 'POST',
-        url: 'api/new-material',
+        url: 'api/new-item',
         data: {
         item_code: input.value.item_code,
         supplier_name: input.value.supplier_name,
         unit_cost: input.value.unit_cost,
         quantity: input.value.quantity,
-        item_type: input.value.item_type,
+        category: input.value.category,
         description: input.value.description,
+        brand: input.value.brand
 
         }
     }).then(response => {
         console.log(response);
         if(response.status = 200){
-            alert("dsd")
+            router.push('/admin-inventory-list')
         }
     }).catch(res => {
+        console.log(res);
         if(res.response.status == 422){
           validation.value = res.response.data.errors
         }

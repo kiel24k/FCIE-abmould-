@@ -5,24 +5,30 @@
         <h4>Schedules of materials & Equipments</h4>
     </div>
     <div class="row text-center justify-content-center">
+        <div class="col-2">
+            <p>Materials</p>
+        </div>
+        <div class="col-2">
+            <p>equipments</p>
+        </div>
         <hr>
     </div>
-   <table class="table table-borderless">
+   <table class="table table-borderless table-hover">
 
     <thead>
         <tr>
             <th>Supplier</th>
             <th>Item</th>
             <th>Quantity</th>
-            <th>Status</th>
+            <th>Date scheduled</th>
         </tr>
     </thead>
-    <tbody v-if="scheduledResponse.data != 0">
-        <tr v-for="(data, index) in scheduledResponse" :key="index" >
-            <td>{{ data[0].supplier_name }}</td>
-            <td>{{ data[0].item_code }}</td>
-            <td>{{ data[0].quantity }}</td>
-            <td>{{ data[0].status }}</td>
+    <tbody>
+        <tr v-for="(data, index) in scheduledData" :key="index">
+            <td>{{ data.supplier_name }}</td>
+            <td>{{ data.item_code }}</td>
+            <td>{{ data.quantity }}</td>
+            <td>{{ data.date_schedule }}</td>
         </tr>
     </tbody>
    </table>
@@ -32,41 +38,18 @@
 
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-const props = defineProps(['data'])
-import Loading from '@/components/Loading.vue'
-import AddSchedule from '@/components/AddSchedule.vue'
+const props = defineProps(['selectedDate'])
 
-const loading = ref(false)
-const scheduledResponse = ref([])
-
-try{
-
+//get date selected
+const scheduledData = ref({})
 watch(props, (oldVal, newVal) => {
-    loading.value = true
     axios({
         method: 'GET',
-        url: `/api/scheduled-date/${props.data}`
-    }).then(response=> {
-        console.log(props.data);
-        if(response.data.message == 200){
-            loading.value = false
-            scheduledResponse.value = response.data
-        }else{
-            loading.value = false
-        }
+        url:`/api/scheduled-date/${props.selectedDate}`
+    }).then(response => {
+        scheduledData.value = response.data.data
     })
 })
-
-}catch(error) {
-    alert("dsds")
-
-}
-
-
-
-
-
-
 
 </script>
 <style scoped>

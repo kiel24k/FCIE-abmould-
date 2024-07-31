@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tool_inventories', function (Blueprint $table) {
+        Schema::create('items', function (Blueprint $table) {
             $table->id();
             $table->string('item_code')->nullable();
-            $table->string('brand');
             $table->string('supplier_name')->nullable();
             $table->decimal('unit_cost', 10, 2)->nullable();
             $table->integer('quantity')->nullable();
-            $table->enum('item_type',['new','old']);
+            $table->string('category');
             $table->string('description');
+            $table->string('brand')->nuillable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tool__inventories');
+        Schema::dropIfExists('items');
     }
 };

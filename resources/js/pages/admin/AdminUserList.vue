@@ -6,7 +6,25 @@
         <div class="col">
             <Header/>
             <div class="user-list-table">
-                <table class="table  table-bordered table-hover">
+                <div class="filter">
+                  <div class="category">
+                    <label for="">Roles: </label>
+                    <select class="form-select" v-model="selected">
+                        <option value="selected" disabled>Default</option>
+                        <option value="">all</option>
+                        <option value="admin">admin</option>
+                        <option value="member">member</option>
+                        <option value="inventory-manager">inventory-manager</option>
+                    </select>
+                  </div>
+                  <div class="search col-8">
+                    <input type="text" class="form-control" placeholder="Search for roles" v-model="search">
+                  </div>
+                  <div class="create">
+                    <router-link :to="{name: 'create-user'}" class="btn btn-success">Create</router-link>
+                  </div>
+                </div>
+                <table class="table  table-bordered table-hover mt-3">
                     <thead>
                         <tr>
                             <th>Image</th>
@@ -47,8 +65,8 @@
 
 <script setup>
 import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/AdminHeader.vue'
-import { onMounted, ref } from 'vue';
+import Header from '@/components/Header.vue'
+import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import Loading from '@/components/Loading.vue'
 import { Bootstrap5Pagination } from 'laravel-vue-pagination';
@@ -56,13 +74,34 @@ import { Bootstrap5Pagination } from 'laravel-vue-pagination';
 const loading = ref(false)
 
 //user list pagination
+const selected = ref('')
 const userList = ref({})
 const page =  (page) => {
-     axios.get(`api/user-list?page=${page}`).then(response => {
+     axios.get(`api/user-list?role=${selected.value}&page=${page}`).then(response => {
         userList.value = response.data
     })
 }
 
+watch(selected, (oldVal, newVal) => {
+    page()
+})
+
+const search = ref('')
+watch(search, (oldVal, newVal) => {
+    axios({
+        method: 'GET',
+        url: `/api/user-list-search?role=${selected.value}&search=${search.value}`
+    }).then(response => {
+        userList.value = response.data
+    })
+
+    if(search.value === ''){
+        page()
+    }
+})
+onMounted(() => {
+    page()
+})
 //delete user
 const deleteUser = async(id) => {
      loading.value = true
@@ -82,5 +121,15 @@ onMounted(() => {
 .user-list-table {
     max-width: 75%;
     margin:auto;
+}
+.filter{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.category{
+    display: flex;
+    align-items: center;
+    gap:10px;
 }
 </style>

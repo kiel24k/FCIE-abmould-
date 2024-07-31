@@ -67,7 +67,7 @@
                     </div>
                     <div class="row">
                         <div class="col-3">
-                            <img  width="250px" height="250px" alt="" :src="`http://127.0.0.1:8000/UserImage/${userData.image}`" class="p-4 bg-danger">
+                            <img  width="250px" height="250px" alt="" :src="`http://127.0.0.1:8000/UserImage/${userData.image}`" class="p-4 bg-white">
                             <input type="File" accept="image/*" @change="image">
                         </div>
                     </div>
@@ -86,7 +86,7 @@
 <script setup>
 
 import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/AdminHeader.vue'
+import Header from '@/components/Header.vue'
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
