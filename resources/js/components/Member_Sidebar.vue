@@ -35,7 +35,7 @@
                         :class="{ inventoryOptionStyle: isInventory }"
                     >
                         <li class="nav-item">
-                            <router-link :to="{name: 'inventory-manager-item-list'}" class="nav-link text-white">
+                            <a class="nav-link text-white">
                                 <div class="item">
                                     <img
                                         src="/public/icon/inventoryIcon.svg"
@@ -44,7 +44,7 @@
                                     />
                                     <b>Item List</b>
                                 </div>
-                            </router-link>
+                            </a>
                         </li>
                     </div>
                     <!--end inventory option animation-->
@@ -62,7 +62,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <router-link :to="{name: 'inventory-manager-scheduling'}" class="nav-link">
+                        <a class="nav-link">
                             <div class="item">
                                 <img
                                     src="/public/icon/schedulingIcon.svg"
@@ -71,7 +71,7 @@
                                 />
                                 <b>Scheduling</b>
                             </div>
-                        </router-link>
+                        </a>
                     </li>
                     <li class="nav-item" @click="showSetings">
                         <a class="nav-link">

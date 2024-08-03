@@ -5,10 +5,11 @@
     </div>
     <div class="col">
         <Header/>
-
         <div class="row scheduling">
             <div class="col" style="width:50rem">
-                <ScheduledItems :selectedDate="selectedDate"/>
+                <ScheduledItems
+                 :selectedDate="selectedDate"
+                 />
             </div>
             <div class="col-4 side-action">
                 <div class="add-schedule">
@@ -23,7 +24,10 @@
         </div>
     </div>
     <transition name="addScheduleTransition">
-        <AddSchedule class="addSchedule" v-if="addScheduleModal" :addScheduleModal="addScheduleModal" @data="addScheduleModal = false"/>
+        <AddSchedule class="addSchedule"
+          v-if="addScheduleModal"
+         :addScheduleModal="addScheduleModal"
+          @data="addScheduleModal = false"/>
     </transition>
    </div>
 

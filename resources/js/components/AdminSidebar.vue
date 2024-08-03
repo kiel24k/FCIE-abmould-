@@ -238,6 +238,7 @@ const showSetings = () => {
 const logout = () => {
     localStorage.removeItem("responseTKN");
     localStorage.removeItem("administrationPermission");
+    localStorage.removeItem("inventoryManagerPermission");
 };
 </script>
 <style scoped>

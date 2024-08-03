@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InventoryManagerController;
+use App\Http\Controllers\MemberController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +30,15 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/scheduled-date/{date}', 'scheduledDate');
     Route::post('/add-schedule', 'addSchedule');
     // route::get('/test/{category}/{search}','test');
+});
+
+Route::controller(InventoryManagerController::class)->group(function () {
+    Route::get('/IM_get_item_list', 'getItemList');
+    Route::get('/IM_item-search-list', 'itemSearchList');
+    Route::get('/IM_update-item/{id}','getUpdatedItem');
+    Route::post('/IM_submit-updated-item/{id}', 'submitUpdatedItem');
+});
+
+Route::controller(MemberController::class)->group(function () {
+    Route::get('/member-get-item', 'getItem');
 });

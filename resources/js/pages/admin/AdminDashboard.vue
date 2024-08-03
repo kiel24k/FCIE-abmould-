@@ -18,6 +18,4 @@ import Sidebar from '@/components/AdminSidebar.vue'
 import Header from '@/components/Header.vue'
 
 
-
-
 </script>
