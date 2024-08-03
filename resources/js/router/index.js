@@ -86,6 +86,11 @@ const routes = [
         path: '/member-item-list',
         name: 'member-item-list',
         component: () => import('../pages/member/Member_ItemList.vue')
+    },
+    {
+        path: '/member-scheduling',
+        name: 'member-scheduling',
+        component: () => import('../pages/member/Member_Scheduling.vue')
     }
 ]
 

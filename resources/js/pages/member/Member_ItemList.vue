@@ -1,11 +1,11 @@
 <template>
-    <div class="row">
+            <Header/>
+       <div class="row">
         <div class="col-1">
             <Sidebar/>
         </div>
         <div class="col">
-            <Header/>
-             <div class="admin-inventory-list">
+            <div class="admin-inventory-list">
 <!-- Filter -->
 <div class="inventory-filter">
     <div class="category">
@@ -18,11 +18,11 @@
         </select>
     </div>
     <div class="search col-8">
-        <input type="text" placeholder="Search by item code" class="form-control" >
+        <input type="text" placeholder="Search by item code" class="form-control" v-model="search">
     </div>
 </div>
 
-            <table class="table  table-bordered table-hover mt-3">
+            <table class="table table-bordered table-hover table-responsive mt-3">
                 <thead>
                     <tr>
                         <th>Category</th>
@@ -51,13 +51,14 @@
             <div class="pagination justify-content-center">
                 <Bootstrap5Pagination
                 :data="responseData"
-                @pagination-change-page="category"
+                @pagination-change-page="getItem"
                 />
             </div>
         </div>
         </div>
-    </div>
-    <h1>IM DASHBOARD</h1>
+       </div>
+
+
 </template>
 <script setup>
 import Sidebar from '@/components/Member_Sidebar.vue'
@@ -67,10 +68,11 @@ import { onMounted, ref, watch } from 'vue'
 
 const selected = ref('')
 const responseData = ref({})
-const getItem = () => {
+const search = ref('')
+const getItem = (page) => {
     axios({
         method: 'GET',
-        url: `/api/member-get-item?category=${selected.value}`
+        url: `/api/member-get-item?category=${selected.value}&page=${page}`
     }).then(response => {
        responseData.value = response.data
     })
@@ -80,9 +82,27 @@ const getItem = () => {
 watch(selected, (oldVal, newVal) => {
     getItem()
 })
+
+watch(search,(oldVal, newVal) => {
+    console.log(selected.value);
+
+  axios({
+      method: 'GET',
+      url: `/api/member-item-search-list?category=${selected.value}&search=${search.value}`
+  }).then(response => {
+     responseData.value = response.data
+  })
+
+  if(search.value === ''){
+    getItem()
+  }
+})
+
 onMounted(() => {
     getItem()
 })
+
+
 
 
 </script>
@@ -108,5 +128,9 @@ onMounted(() => {
     display: flex;
     align-items: center;
     gap:10px;
+}
+th{
+    background: rgb(22, 22, 22);
+    color:white;
 }
 </style>
