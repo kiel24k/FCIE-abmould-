@@ -1,6 +1,6 @@
 <template>
     <div>
-        <aside>
+        <aside style="position:absolute; top:0; z-index:999;" >
             <div class="title">
                 <img
                     src="/public/background/abMouldLogo.png"
@@ -35,7 +35,7 @@
                         :class="{ inventoryOptionStyle: isInventory }"
                     >
                         <li class="nav-item">
-                            <a class="nav-link text-white">
+                            <router-link :to="{name: 'member-item-list'}" class="nav-link text-white">
                                 <div class="item">
                                     <img
                                         src="/public/icon/inventoryIcon.svg"
@@ -44,7 +44,7 @@
                                     />
                                     <b>Item List</b>
                                 </div>
-                            </a>
+                            </router-link>
                         </li>
                     </div>
                     <!--end inventory option animation-->
@@ -62,7 +62,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link">
+                        <router-link :to="{name: 'member-scheduling'}" class="nav-link">
                             <div class="item">
                                 <img
                                     src="/public/icon/schedulingIcon.svg"
@@ -71,55 +71,8 @@
                                 />
                                 <b>Scheduling</b>
                             </div>
-                        </a>
+                        </router-link>
                     </li>
-                    <li class="nav-item" @click="showSetings">
-                        <a class="nav-link">
-                            <div class="item">
-                                <img
-                                    src="/public/icon/analyticsIcon.svg"
-                                    width="25px"
-                                    alt=""
-                                />
-                                <b>Settings</b>
-                            </div>
-                            <div class="other">
-                                <p>></p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <!-- show settings animation -->
-                    <div
-                        class="setting-option"
-                        :class="{ settingStyle: isSettingStyle }"
-                    >
-                        <li class="nav-item">
-                            <a href="" class="nav-link text-white">
-                                <div class="item">
-                                    <img
-                                        src="/public/icon/inventoryIcon.svg"
-                                        width="25px"
-                                        alt=""
-                                    />
-                                    <b>Company Profile</b>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link text-white">
-                                <div class="item">
-                                    <img
-                                        src="/public/icon/inventoryIcon.svg"
-                                        width="25px"
-                                        alt=""
-                                    />
-                                    <b>Change password</b>
-                                </div>
-                            </a>
-                        </li>
-                    </div>
-                    <!-- end settings animation -->
                     <li class="nav-item" @click="logout">
                         <a href="" class="nav-link text-danger"
                             ><b>Logout</b></a
@@ -143,14 +96,7 @@ const showInventory = () => {
 };
 
 //setting option animation
-const isSettingStyle = ref(false);
-const showSetings = () => {
-    if (isSettingStyle.value == false) {
-        isSettingStyle.value = true;
-    } else if ((isSettingStyle.value = true)) {
-        isSettingStyle.value = false;
-    }
-};
+
 
 //logout method
 const logout = () => {

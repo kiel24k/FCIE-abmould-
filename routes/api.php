@@ -41,4 +41,5 @@ Route::controller(InventoryManagerController::class)->group(function () {
 
 Route::controller(MemberController::class)->group(function () {
     Route::get('/member-get-item', 'getItem');
+    Route::get('/member-item-search-list', 'itemSearchList');
 });
