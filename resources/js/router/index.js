@@ -14,8 +14,8 @@ const routes = [
         path: '/:unauthorized(.*)*',
         name: '404',
         component: () => import ('../error/404.vue')
-    }
-    ,
+    },
+
     {
         path:'/admin-dashboard',
         name:'admin-dashboard',
@@ -62,16 +62,30 @@ const routes = [
         name: 'admin-scheduling',
         component: () => import('../pages/admin/AdminScheduling.vue')
     },
-
     {
         path:'/inventory-manager-dashboard',
         name:'inventory-manager-dashboard',
         component: ()=>import('../pages/inventory-manager/ManagerDashboard.vue')
     },
     {
+        path: '/inventory-manager-scheduling',
+        name: 'inventory-manager-scheduling',
+        component: () => import('../pages/inventory-manager/IM_Scheduling.vue')
+    },
+    {
+        path:'/inventory-manager-item-list',
+        name: 'inventory-manager-item-list',
+        component: () => import('../pages/inventory-manager/IM_ItemList.vue')
+    },
+    {
         path:'/member-dashboard',
         name:'member-dashboard',
         component: ()=>import('../pages/member/MemberDashboard.vue')
+    },
+    {
+        path: '/member-item-list',
+        name: 'member-item-list',
+        component: () => import('../pages/member/Member_ItemList.vue')
     }
 ]
 
