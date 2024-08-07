@@ -11,7 +11,6 @@
         <div class="col-2">
             <p>equipments</p>
         </div>
-        <hr>
     </div>
    <table class="table table-borderless table-hover">
 

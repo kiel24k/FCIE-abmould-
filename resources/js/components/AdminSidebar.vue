@@ -92,24 +92,17 @@ const closeBtn = () => {
 }
 </script>
 <style scoped>
-
-  /* Sidebar Styles */
-
-
   #sidebar {
     z-index: 1000;
-    position: fixed;
+    position:absolute;
     top:0;
     left: 250px;
     width: 300px;
-    height: 100%;
+    height: 100vh;
     margin-left: -250px;
     overflow-y: auto;
     background: #fdfdfd;
-    -webkit-transition: all 0.5s ease;
-    -moz-transition: all 0.5s ease;
-    -o-transition: all 0.5s ease;
-    transition: all 0.5s ease;
+    transition: all linear 0.5s;
   }
 
   #sidebar header {
