@@ -83,6 +83,7 @@ const routes = [
         component: ()=>import('../pages/member/MemberDashboard.vue')
     },
     {
+<<<<<<< HEAD
         path:'/nav',
         name: 'nav',
         component: () => import('../pages/test/Nav.vue')
@@ -96,6 +97,16 @@ const routes = [
         path:'/test-post',
         name: 'test-post',
         component: () => import('../pages/test/Post.vue')
+=======
+        path: '/member-item-list',
+        name: 'member-item-list',
+        component: () => import('../pages/member/Member_ItemList.vue')
+    },
+    {
+        path: '/member-scheduling',
+        name: 'member-scheduling',
+        component: () => import('../pages/member/Member_Scheduling.vue')
+>>>>>>> 04b4d02bb769db456c776c543d09ad1e9620aa21
     }
 
 ]
