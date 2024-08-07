@@ -1,4 +1,7 @@
 <template>
+    <transition name="sidebarTransition">
+        <Sidebar v-if="sidebar" class="ss" @closeSidebar="sidebar = false"/>
+    </transition>
     <div class="row header">
       <div class="col-1 menu" @click="menu">
        <img src="/public/icon/menu.png" alt="">
@@ -20,9 +23,7 @@
            </div>
       </div>
         </div>
-        <transition name="sidebarTransition">
-            <Sidebar v-if="sidebar" class="sidebar1" @closeSidebar="sidebar = false"/>
-        </transition>
+
 </template>
 
 <script setup>
@@ -59,13 +60,6 @@ const sidebar = ref(true)
 const menu = () => {
    sidebar.value = true
 }
-
-
-
-
-
-
-
 </script>
 
 <style scoped>
@@ -102,11 +96,13 @@ img{
     background: rgb(216, 214, 214);
 
 }
-
+.ss{
+    transform:translate(0%);
+}
 .sidebarTransition-enter-from,
 .sidebarTransition-leave-to{
-    transform: translateY(-100%);
-    opacity: 0;
+    transition: all linear 2s;
+    transform: translateX(-100%);
 }
 
 </style>
