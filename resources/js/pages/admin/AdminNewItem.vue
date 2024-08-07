@@ -1,8 +1,5 @@
 <template>
     <div class="row">
-        <div class="col-1">
-            <Sidebar/>
-        </div>
         <div class="col">
             <Header/>
             <form @submit.prevent enctype="multipart/form-data">
@@ -75,8 +72,7 @@
     </div>
 </template>
 <script setup>
-import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/Header.vue'
+import Header from '@/components/Admin_Header.vue'
 import axios from 'axios';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';

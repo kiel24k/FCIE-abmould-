@@ -20,13 +20,10 @@
 
         </div>
       </nav>
-      <div>
-        <h1>Home</h1>
-      </div>
 </template>
 
 <style scoped>
 .router-link-active,.router-link-exact-active{
-    background: red;
+    background: rgb(0, 119, 255);
 }
 </style>
