@@ -28,7 +28,7 @@
 
 <style scoped>
 .router-link-active,.router-link-exact-active{
-    background: red;
+    background: blue;
 }
 </style>
 

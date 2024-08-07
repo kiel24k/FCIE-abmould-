@@ -3,10 +3,9 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InventoryManagerController;
-<<<<<<< HEAD
-=======
+
+
 use App\Http\Controllers\MemberController;
->>>>>>> 04b4d02bb769db456c776c543d09ad1e9620aa21
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,11 +40,11 @@ Route::controller(InventoryManagerController::class)->group(function () {
     Route::get('/IM_update-item/{id}','getUpdatedItem');
     Route::post('/IM_submit-updated-item/{id}', 'submitUpdatedItem');
 });
-<<<<<<< HEAD
-=======
+
+
 
 Route::controller(MemberController::class)->group(function () {
     Route::get('/member-get-item', 'getItem');
     Route::get('/member-item-search-list', 'itemSearchList');
 });
->>>>>>> 04b4d02bb769db456c776c543d09ad1e9620aa21
+
