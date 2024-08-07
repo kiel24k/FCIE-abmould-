@@ -35,28 +35,16 @@
                         :class="{ inventoryOptionStyle: isInventory }"
                     >
                         <li class="nav-item">
-                            <a class="nav-link text-white">
+                            <router-link :to="{name: 'inventory-manager-item-list'}" class="nav-link text-white">
                                 <div class="item">
                                     <img
                                         src="/public/icon/inventoryIcon.svg"
                                         width="25px"
                                         alt=""
                                     />
-                                    <b>inventory List</b>
+                                    <b>Item List</b>
                                 </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white">
-                                <div class="item">
-                                    <img
-                                        src="/public/icon/inventoryIcon.svg"
-                                        width="25px"
-                                        alt=""
-                                    />
-                                    <b>New Item</b>
-                                </div>
-                            </a>
+                            </router-link>
                         </li>
                     </div>
                     <!--end inventory option animation-->
@@ -74,7 +62,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link">
+                        <router-link :to="{name: 'inventory-manager-scheduling'}" class="nav-link">
                             <div class="item">
                                 <img
                                     src="/public/icon/schedulingIcon.svg"
@@ -83,68 +71,8 @@
                                 />
                                 <b>Scheduling</b>
                             </div>
-                        </a>
+                        </router-link>
                     </li>
-                    <li class="nav-item" @click="showAccount">
-                        <a class="nav-link">
-                            <div class="item">
-                                <img
-                                    src="/public/icon/accountsIcon.svg"
-                                    width="25px"
-                                    alt=""
-                                />
-                                <b>Accounts</b>
-                            </div>
-                            <div class="other">
-                                <p>></p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <!--account option animation  -->
-                    <div
-                        class="account-option"
-                        :class="{ accountStyle: isAccountStyle }"
-                    >
-                        <li class="nav-item">
-                            <a class="nav-link text-white">
-                                <div class="item">
-                                    <img
-                                        src="/public/icon/inventoryIcon.svg"
-                                        width="25px"
-                                        alt=""
-                                    />
-                                    <b>New User</b>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white">
-                                <div class="item">
-                                    <img
-                                        src="/public/icon/inventoryIcon.svg"
-                                        width="25px"
-                                        alt=""
-                                    />
-                                    <b>User List</b>
-                                </div>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="" class="nav-link text-white">
-                                <div class="item">
-                                    <img
-                                        src="/public/icon/inventoryIcon.svg"
-                                        width="25px"
-                                        alt=""
-                                    />
-                                    <b>User Roles</b>
-                                </div>
-                            </a>
-                        </li>
-                    </div>
-                    <!--end account option animation-->
-
                     <li class="nav-item" @click="showSetings">
                         <a class="nav-link">
                             <div class="item">
@@ -212,16 +140,6 @@ const showInventory = () => {
     if (isInventory.value == false) {
         isInventory.value = true;
     } else if (isInventory.value == true) isInventory.value = false;
-};
-
-//account option animation
-const isAccountStyle = ref(false);
-const showAccount = () => {
-    if (isAccountStyle.value == false) {
-        isAccountStyle.value = true;
-    } else if (isAccountStyle.value == true) {
-        isAccountStyle.value = false;
-    }
 };
 
 //setting option animation
@@ -292,7 +210,7 @@ aside .inventory-option {
     background: #90a4df;
 }
 aside .inventoryOptionStyle {
-    height: 120px;
+    height: 60px;
 }
 aside .account-option {
     height: 0;
