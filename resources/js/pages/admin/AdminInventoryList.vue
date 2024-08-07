@@ -1,8 +1,5 @@
 <template>
    <div class="row">
-    <div class="col-1">
-        <Sidebar/>
-    </div>
     <div class="col">
         <Header/>
         <div class="admin-inventory-list">
@@ -72,8 +69,7 @@
 </template>
 
 <script setup>
-import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/Header.vue'
+import Header from '@/components/Admin_Header.vue'
 import { onMounted, ref, watch } from 'vue';
 import {Bootstrap5Pagination} from 'laravel-vue-pagination'
 import Loading from '@/components/Loading.vue'
@@ -150,5 +146,8 @@ onMounted(() => {
     display: flex;
     align-items: center;
     gap:10px;
+}
+.router-link-active,.router-link-exact-active{
+    background: red;
 }
 </style>

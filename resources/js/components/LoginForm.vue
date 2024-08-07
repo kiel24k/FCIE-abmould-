@@ -84,7 +84,7 @@ const token = localStorage.getItem('responseTKN')
     axios.get('api/user').then(response => {
         if(response.data.role == 'admin'){
             localStorage.setItem('administrationPermission', response.data.role)
-            router.push('/admin-dashboard')
+            router.push('/admin-scheduling')
 
         }else if(response.data.role == 'inventory-manager'){
             localStorage.setItem('inventoryManagerPermission', response.data.role)

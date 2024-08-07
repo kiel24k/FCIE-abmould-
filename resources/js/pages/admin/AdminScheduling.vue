@@ -1,10 +1,7 @@
 <template>
+    <Header/>
    <div class="row">
-    <div class="col-1">
-        <Sidebar/>
-    </div>
     <div class="col">
-        <Header/>
         <div class="row scheduling">
             <div class="col" style="width:50rem">
                 <ScheduledItems
@@ -23,18 +20,17 @@
             </div>
         </div>
     </div>
+   </div>
     <transition name="addScheduleTransition">
         <AddSchedule class="addSchedule"
           v-if="addScheduleModal"
          :addScheduleModal="addScheduleModal"
           @data="addScheduleModal = false"/>
     </transition>
-   </div>
 
 </template>
 <script setup>
-import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/Header.vue'
+import Header from '@/components/Admin_Header.vue'
 import ScheduledItems from '@/components/ScheduledMaterials.vue'
 import { onMounted, ref, watch } from 'vue';
 import AddSchedule from '../../components/AddSchedule.vue';
