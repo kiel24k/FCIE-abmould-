@@ -7,7 +7,6 @@
 .ring-body{
     position:absolute;
     width: 100%;
-    background: rgb(230, 241, 230,0.5);
     height: 100%;
     top:0;
     z-index:999;

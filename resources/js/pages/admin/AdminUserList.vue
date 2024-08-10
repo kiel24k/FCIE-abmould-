@@ -1,10 +1,9 @@
 <template>
-    <div class="row">
-        <div class="col-1">
-            <Sidebar/>
-        </div>
+    <header>
+        <Header/>
+    </header>
+    <div class="row m-2">
         <div class="col">
-            <Header/>
             <div class="user-list-table">
                 <div class="filter">
                   <div class="category">
@@ -18,13 +17,23 @@
                     </select>
                   </div>
                   <div class="search col-8">
-                    <input type="text" class="form-control" placeholder="Search for roles" v-model="search">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1">
+                            <img src="/public/icon/search.png" width="25px" alt="">
+                        </span>
+                        <input type="text" class="form-control" placeholder="Search" v-model="search">
+                      </div>
                   </div>
                   <div class="create">
-                    <router-link :to="{name: 'create-user'}" class="btn btn-success">Create</router-link>
+                    <router-link :to="{name: 'create-user'}" class="btn createBtn">
+                        <span>
+                            <img src="/public/icon/add_icon_plus.png" width="15px" alt="">
+                            <b>Add User</b>
+                        </span>
+                    </router-link>
                   </div>
                 </div>
-                <table class="table  table-bordered table-hover mt-3">
+                <table class="table table-striped table-hover mt-3">
                     <thead>
                         <tr>
                             <th>Image</th>
@@ -33,23 +42,27 @@
                             <th>Tel Number</th>
                             <th>Role</th>
                             <th>Date Created</th>
-                            <th>Action</th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="(data,index) in userList.data" :key="index">
                             <td>
-                                <img :src="`http://127.0.0.1:8000/UserImage/${data.image}`" width="100px" height="100px" alt="">
+                                <img style="border-radius: 100%;border:solid 2px black;" :src="`http://127.0.0.1:8000/UserImage/${data.image}`" width="50px" height="50px" alt="">
                             </td>
                             <td>{{ data.first_name }} {{ data.last_name }}</td>
                             <td>{{ data.email }}</td>
                             <td>{{ data.tel_no }}</td>
                             <td>{{ data.role }}</td>
                             <td>{{ data.created_at }}</td>
-                            <td>
+                            <td class="text-center">
                                 <span>
-                                    <router-link :to="{name: 'admin-update-user', params: {id: data.id} }" class="btn btn-info">Update</router-link>
-                                    <button class="btn btn-danger" @click="deleteUser(data.id)">Delete</button>
+                                    <button class="btn btn" @click="deleteUser(data.id)">
+                                        <img src="/public/icon/trash_icon.png" width="30px" alt="">
+                                    </button>
+                                    <router-link :to="{name: 'admin-update-user', params: {id: data.id} }" class="btn btn">
+                                        <img src="/public/icon/edit_icon_pencil.png" width="30px" alt="">
+                                    </router-link>
                                 </span>
                             </td>
                         </tr>
@@ -64,8 +77,8 @@
 </template>
 
 <script setup>
-import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/Header.vue'
+import Sidebar from '@/components/Admin_Sidebar.vue'
+import Header from '@/components/Admin_Header.vue'
 import { onMounted, ref, watch } from 'vue';
 import axios from 'axios';
 import Loading from '@/components/Loading.vue'
@@ -131,5 +144,18 @@ onMounted(() => {
     display: flex;
     align-items: center;
     gap:10px;
+}
+th{
+    background: rgb(94, 93, 93);
+    color:white;
+}
+.createBtn{
+    background: rgb(18, 230, 18);
+}
+.createBtn span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:5px;
 }
 </style>

@@ -15,7 +15,6 @@ const routes = [
         name: '404',
         component: () => import ('../error/404.vue')
     },
-
     {
         path:'/admin-dashboard',
         name:'admin-dashboard',
@@ -40,7 +39,7 @@ const routes = [
         component: () => import ('../pages/admin/AdminCreateUser.vue')
     },
     {
-        path: '/amdin-new-item',
+        path: '/admin-new-item',
         name: 'admin-new-item',
         component: () => import ('../pages/admin/AdminNewItem.vue')
 

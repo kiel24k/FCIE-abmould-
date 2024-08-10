@@ -1,10 +1,9 @@
 <template>
-    <div class="row">
-        <div class="col-1">
-            <Sidebar/>
-        </div>
+    <header>
+        <Header/>
+    </header>
+    <div class="row m-2">
         <div class="col">
-            <Header/>
             <div class="update-user">
                 <form @submit.prevent enctype="multipart/form-data">
                     <h4>Update User | <span style="color:gray;font-size:15px; font-weight:400">Enter User Information</span></h4>
@@ -84,9 +83,7 @@
 </template>
 
 <script setup>
-
-import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/Header.vue'
+import Header from '@/components/Admin_Header.vue'
 import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';

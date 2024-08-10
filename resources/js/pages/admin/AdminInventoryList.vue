@@ -1,7 +1,9 @@
 <template>
-   <div class="row">
-    <div class="col">
+    <header>
         <Header/>
+    </header>
+   <div class="row m-2">
+    <div class="col">
         <div class="admin-inventory-list">
 <!-- Filter -->
 <div class="inventory-filter">
@@ -15,14 +17,23 @@
         </select>
     </div>
     <div class="search col-8">
-        <input type="text" placeholder="Search by item code" class="form-control" v-model="search">
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon1">
+                <img src="/public/icon/search.png" width="25px" alt="">
+            </span>
+            <input type="text" class="form-control" placeholder="Search" v-model="search">
+          </div>
     </div>
     <div class="create">
-        <router-link :to="{name: 'admin-new-item'}" class="btn btn-success">New Item</router-link>
+        <router-link :to="{name: 'admin-new-item'}" class="btn createButton">
+            <span>
+                <img src="/public/icon/add_icon_plus.png" width="15px" alt="">
+                <b>Add Item</b>
+            </span>
+        </router-link>
     </div>
 </div>
-
-            <table class="table  table-bordered table-hover mt-3">
+            <table class="table table-hover table-striped mt-3">
                 <thead>
                     <tr>
                         <th>Category</th>
@@ -33,7 +44,7 @@
                         <th>Quantity</th>
                         <th>Item Type</th>
                         <th>Description</th>
-                        <th>Action</th>
+                        <th class="text-center">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,14 +53,18 @@
                         <td>{{ data.item_code }}</td>
                         <td>{{ data.brand }}</td>
                         <td>{{ data.supplier_name }}</td>
-                        <td>{{ data.unit_cost }}</td>
+                        <td class="text-success">{{ data.unit_cost }}</td>
                         <td>{{ data.quantity }}</td>
                         <td>{{ data.category }}</td>
                         <td>{{ data.description }}</td>
-                        <td>
+                        <td class="text-center">
                             <span>
-                                <router-link class="btn btn-info" :to="{name: 'admin-edit-item', params: {id: data.id} }">edit</router-link>
-                                <button class="btn btn-danger" @click="deleteItem(data.id)">Delete</button>
+                                <button class="btn btn" @click="deleteItem(data.id)">
+                                    <img src="/public/icon/trash_icon.png" width="30px" alt="">
+                                </button>
+                                <router-link class="btn btn" :to="{name: 'admin-edit-item', params: {id: data.id} }">
+                                    <img src="/public/icon/edit_icon_pencil.png" width="30px" alt="">
+                                </router-link>
                             </span>
                         </td>
                     </tr>
@@ -150,4 +165,21 @@ onMounted(() => {
 .router-link-active,.router-link-exact-active{
     background: red;
 }
+.table th{
+    font-weight: 400;
+    color:rgb(255, 255, 255);
+    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: rgb(90, 90, 90);
+}
+.createButton{
+    background: rgb(8, 241, 8);
+}
+.createButton span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+
+}
+
 </style>

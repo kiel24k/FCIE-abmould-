@@ -1,10 +1,38 @@
 <template>
-    <transition name="sidebarTransition">
-        <Sidebar v-if="sidebar" class="ss" @closeSidebar="sidebar = false"/>
-    </transition>
-    <div class="row header">
+
+        <Sidebar v-if="showSidebar" @hideSidebar="hideSidebar" :class="{hideSidebarActive: hideSidebarIsActive}" />
+        <header>
+            <div class="row">
+              <div class="col-2">
+                <ul class="navbar nav">
+                  <li class="nav-item">
+                    <img src="/public/icon/menu.png" width="40px" alt="" @click="menu" style="cursor:pointer">
+                    <img src="/public/background/abMouldLogo.png" width="120px" alt="">
+
+                  </li>
+                </ul>
+              </div>
+              <div class="col">
+                <ul class="navbar nav justify-content-end" style="margin-right:20px;">
+                  <li class="nav-item">
+                    <a href="" class="nav-link">
+                        {{ userInformation.first_name }}
+                    </a>
+                  </li>
+                  <li class="nav-item profile">
+                    <img :src="`/UserImage/${  userInformation.image  }`" width="20px" height="20px" alt="" />
+
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <Loader v-if="loader"/>
+
+          </header>
+
+    <!-- <div class="row header">
       <div class="col-1 menu" @click="menu">
-       <img src="/public/icon/menu.png" alt="">
+       <img src="/public/icon/menu.png" width="40px" alt="">
       </div>
       <div class="col">
         <a>
@@ -22,8 +50,7 @@
                </div>
            </div>
       </div>
-        </div>
-
+        </div> -->
 </template>
 
 <script setup>
@@ -31,7 +58,9 @@ import { onClickOutside } from '@vueuse/core';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from "vue-router";
-import Sidebar from '@/components/AdminSidebar.vue'
+import Sidebar from '@/components/Admin_Sidebar.vue'
+import Loader from '@/components/Loading.vue'
+
 //modal
 const target = ref(null)
 onClickOutside(target, event => showModal.value = false)
@@ -44,11 +73,14 @@ const profileModal = () => {
 const router = useRouter()
 const userInformation = ref({})
 
+const loader = ref(true)
 onMounted(() => {
+  loader.value = true
     const token = localStorage.getItem('responseTKN')
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     axios.get('api/user').then(response => {
        userInformation.value = response.data
+        loader.value = false
     })
     if(!token){
         router.push('/')
@@ -56,53 +88,39 @@ onMounted(() => {
 })
 
 
-const sidebar = ref(true)
+const showSidebar = ref(true)
 const menu = () => {
-   sidebar.value = true
+    hideSidebarIsActive.value = false
 }
+
+const hideSidebarIsActive = ref(false)
+const hideSidebar = () => {
+    hideSidebarIsActive.value = true
+
+
+}
+
 </script>
 
 <style scoped>
-.header{
-    background: white;
+.hideSidebarActive{
+    transform: translate(-100%);
 }
+header {
+    background-color: #f8f7f7;
+    box-shadow:1px 1px 10px 0px gray;
+  }
+  .nav-link {
+    color: rgb(170, 170, 170);
+    font-weight: 600;
+  }
+  .profile {
+    border: solid 2px rgb(8, 8, 8);
+    border-radius: 100%;
+    padding:4px;
 
-img{
-    cursor: pointer;
-}
-.profile-modal{
-    max-width: 15rem;
-    margin-right:10px;
-    border-radius: 10px;
-    height:10rem;
-    display: grid;
-    position:absolute;
-    right:0;
-    top:5rem;
+  }
 
-}
-.profile-modal > div{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    background: rgb(241, 237, 237);
-    border:solid 1px black;
-    cursor: pointer;
-    transition: all linear 0.1s;
-}
-.profile-modal > div:hover{
-    background: rgb(216, 214, 214);
 
-}
-.ss{
-    transform:translate(0%);
-}
-.sidebarTransition-enter-from,
-.sidebarTransition-leave-to{
-    transition: all linear 2s;
-    transform: translateX(-100%);
-}
 
 </style>
