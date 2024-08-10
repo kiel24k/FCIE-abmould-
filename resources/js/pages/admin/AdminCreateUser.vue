@@ -1,84 +1,88 @@
 <template>
-
-    <div class="row">
-        <div class="col-1">
-            <Sidebar/>
-        </div>
+<header>
+    <Header/>
+</header>
+    <div class="row m-2">
         <div class="col">
-            <Header/>
             <div class="create-user">
                 <form @submit.prevent enctype="multipart/form-data">
-                    <h4>Create User | <span style="color:gray;font-size:15px; font-weight:400">Enter User Information</span></h4>
-                    <div class="row">
-                        <div class="col">
-                            <label for="">First Name: <span class="text-danger" v-if="validation.first_name">
-                                {{ validation.first_name[0]}}
-                           </span>
-                           </label>
+                    <div class="card">
+                        <div class="card-header bg-dark">
+                            <h4 class="text-white">Create User | <span style="color:white;font-size:15px; font-weight:400">Enter User Information</span></h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">First Name: <span class="text-danger" v-if="validation.first_name">
+                                        {{ validation.first_name[0]}}
+                                   </span>
+                                   </label>
 
-                            <input type="text" class="form-control" placeholder="" v-model="input.firstName">
+                                    <input type="text" class="form-control" placeholder="" v-model="input.firstName">
+                                </div>
+                                <div class="col">
+                                    <label for="">Middle Name: <span class="text-danger" v-if="validation.middle_name">
+                                        {{ validation.middle_name[0]}}
+                                   </span>
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="" v-model="input.middleName">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Last Name: <span class="text-danger" v-if="validation.last_name">
+                                        {{ validation.last_name[0]}}
+                                   </span></label>
+                                    <input type="text" class="form-control" placeholder="" v-model="input.lastName">
+                                </div>
+                                <div class="col">
+                                    <label for="">Telephone Number: <span class="text-danger" v-if="validation.tel_no">
+                                        {{ validation.tel_no[0]}}
+                                   </span></label>
+                                    <input type="text" class="form-control" placeholder="" v-model="input.telNo">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Email <span class="text-danger" v-if="validation.email">
+                                        {{ validation.email[0]}}
+                                   </span></label>
+                                    <input type="text" class="form-control" placeholder="" v-model="input.email">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="">Password <span class="text-danger" v-if="validation.password">
+                                        {{ validation.password[0]}}
+                                   </span></label>
+                                    <input type="text" class="form-control" placeholder="" v-model="input.password">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <label for="">Role <span class="text-danger" v-if="validation.role">
+                                        {{ validation.role[0]}}
+                                   </span></label>
+                                    <select id="inputState" class="form-select" v-model="input.role">
+                                        <option value="admin">admin</option>
+                                        <option value="inventory-manager">inventory manager</option>
+                                        <option value="member">member</option>
+                                      </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <img  width="250px" height="250px" alt="" :src="imageUrl" class="p-4">
+                                    <input type="File" accept="image/*" @change="image">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn btn-success" @click.enter="addUser">Submit</button>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col">
-                            <label for="">Middle Name: <span class="text-danger" v-if="validation.middle_name">
-                                {{ validation.middle_name[0]}}
-                           </span>
-                            </label>
-                            <input type="text" class="form-control" placeholder="" v-model="input.middleName">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="">Last Name: <span class="text-danger" v-if="validation.last_name">
-                                {{ validation.last_name[0]}}
-                           </span></label>
-                            <input type="text" class="form-control" placeholder="" v-model="input.lastName">
-                        </div>
-                        <div class="col">
-                            <label for="">Telephone Number: <span class="text-danger" v-if="validation.tel_no">
-                                {{ validation.tel_no[0]}}
-                           </span></label>
-                            <input type="text" class="form-control" placeholder="" v-model="input.telNo">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="">Email <span class="text-danger" v-if="validation.email">
-                                {{ validation.email[0]}}
-                           </span></label>
-                            <input type="text" class="form-control" placeholder="" v-model="input.email">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <label for="">Password <span class="text-danger" v-if="validation.password">
-                                {{ validation.password[0]}}
-                           </span></label>
-                            <input type="text" class="form-control" placeholder="" v-model="input.password">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <label for="">Role <span class="text-danger" v-if="validation.role">
-                                {{ validation.role[0]}}
-                           </span></label>
-                            <select id="inputState" class="form-control" v-model="input.role">
-                                <option value="admin">admin</option>
-                                <option value="inventory-manager">inventory manager</option>
-                                <option value="member">member</option>
-                              </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-3">
-                            <img  width="250px" height="250px" alt="" :src="imageUrl" class="p-4">
-                            <input type="File" accept="image/*" @change="image">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn btn-success" @click.enter="addUser">Submit</button>
-                        </div>
-                    </div>
+                      </div>
                   </form>
 
             </div>
@@ -87,8 +91,8 @@
     </div>
 </template>
 <script setup>
-import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/Header.vue'
+
+import Header from '@/components/Admin_Header.vue'
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter} from 'vue-router';
@@ -165,7 +169,6 @@ form{
     margin: auto;
     display:grid;
     gap:25px;
-    background:#ffffff;
     border-radius: 10px;
     padding:10px;
 }

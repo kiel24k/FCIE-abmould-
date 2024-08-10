@@ -1,6 +1,12 @@
 <template>
+    <transition name="addScheduleTransition">
+        <AddSchedule class="addSchedule"
+          v-if="addScheduleModal"
+         :addScheduleModal="addScheduleModal"
+          @data="addScheduleModal = false"/>
+    </transition>
     <Header/>
-   <div class="row">
+   <div class="row m-2">
     <div class="col">
         <div class="row scheduling">
             <div class="col" style="width:50rem">
@@ -21,12 +27,7 @@
         </div>
     </div>
    </div>
-    <transition name="addScheduleTransition">
-        <AddSchedule class="addSchedule"
-          v-if="addScheduleModal"
-         :addScheduleModal="addScheduleModal"
-          @data="addScheduleModal = false"/>
-    </transition>
+
 
 </template>
 <script setup>

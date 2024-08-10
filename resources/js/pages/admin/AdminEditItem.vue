@@ -1,10 +1,9 @@
 <template>
-    <div class="row">
-        <div class="col-1">
-            <Sidebar/>
-        </div>
+    <header>
+        <Header/>
+    </header>
+    <div class="row m-2">
         <div class="col">
-            <Header/>
             <div class="admin-edit-item">
                 <form @submit.prevent enctype="multipart/form-data">
                     <h4>New Item | <span style="color:gray;font-size:15px; font-weight:400">Enter Item Information</span></h4>
@@ -80,8 +79,7 @@
     </div>
 </template>
 <script setup>
-import Sidebar from '@/components/AdminSidebar.vue'
-import Header from '@/components/Header.vue'
+import Header from '@/components/Admin_Header.vue'
 import { onMounted, ref } from 'vue';
 import {useRoute} from 'vue-router'
 import { useRouter } from 'vue-router';
