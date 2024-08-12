@@ -1,9 +1,6 @@
 <template>
      <Header/>
-    <div class="row">
-        <div class="col-1">
-            <Sidebar/>
-        </div>
+    <div class="row m-2">
         <div class="col">
             <div class="row scheduling">
                 <div class="col" style="width:50rem">
@@ -32,8 +29,7 @@
        </div>
 </template>
 <script setup>
-import Sidebar from '@/components/Member_Sidebar.vue'
-import Header from '@/components/Header.vue'
+import Header from '@/components/Member_Header.vue'
 import ScheduledItems from '@/components/ScheduledMaterials.vue'
 import { onMounted, ref, watch } from 'vue';
 import AddSchedule from '../../components/AddSchedule.vue';

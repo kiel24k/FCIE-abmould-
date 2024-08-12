@@ -1,57 +1,86 @@
 <template>
-    <div class="row">
-        <div class="col-1">
-            <Sidebar/>
-        </div>
-        <div class="col">
-            <Header/>
-            <div class="IM-inventory-list">
-    <!-- Filter -->
-    <div class="inventory-filter">
-        <div class="category">
-            <label for="">category: </label>
-            <select class="form-select" v-model="selected">
-                <option value="selected" disabled>Select</option>
-                <option value=""> all </option>
-                <option value="tools">tools</option>
-                <option value="materials">materials</option>
-            </select>
-        </div>
-        <div class="search col-8">
-            <input type="text" placeholder="Search by item code" class="form-control" v-model="search">
-        </div>
-    </div>
+    <header>
+        <Header/>
+    </header>
 
-                <table class="table  table-bordered table-hover mt-3">
-                    <thead>
-                        <tr>
-                            <th>Category</th>
-                            <th>Item Code</th>
-                            <th>Brand</th>
-                            <th>Supplier Name</th>
-                            <th>Unit Cost</th>
-                            <th>Quantity</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(data, index) in responseData.data" :key="index">
-                            <td>{{ data.category }}</td>
-                            <td>{{ data.item_code }}</td>
-                            <td>{{data.brand}}</td>
-                            <td>{{ data.supplier_name }}</td>
-                            <td>{{ data.unit_cost }}</td>
-                            <td>{{ data.quantity }}</td>
-                            <td>{{ data.description }}</td>
-                            <td>
-                                <span>
-                                    <button class="btn btn-info" @click="updateBtn(data.id)">Update</button>
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+    <div class="row m-2">
+        <div class="col">
+          <div class="table-list">
+            <!-- Filter -->
+            <div class="table-filter">
+              <div class="category">
+                <label for="">category: </label>
+                <select class="form-select" v-model="selected">
+                  <option value="selected" disabled>Select</option>
+                  <option value="">all</option>
+                  <option value="tools">tools</option>
+                  <option value="materials">materials</option>
+                </select>
+              </div>
+              <div class="search col-8">
+                <div class="input-group">
+                  <span class="input-group-text" id="basic-addon1">
+                    <img src="/public/icon/search.png" width="25px" alt="" />
+                  </span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search"
+                    v-model="search"
+                  />
+                </div>
+              </div>
+              <div class="create">
+                <a
+                  class="btn createButton"
+                >
+                  <span>
+                    <img src="/public/icon/add_icon_plus.png" width="15px" alt="" />
+                    <b>Add Items</b>
+                  </span>
+                </a>
+              </div>
+            </div>
+            <table class="table table-hover table-striped mt-3">
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Item Code</th>
+                  <th>Brand</th>
+                  <th>Supplier Name</th>
+                  <th>Unit Cost</th>
+                  <th>Quantity</th>
+                  <th>Description</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(data, index) in responseData.data" :key="index">
+                    <td>{{ data.category }}</td>
+                    <td>{{ data.item_code }}</td>
+                    <td>{{data.brand}}</td>
+                    <td>{{ data.supplier_name }}</td>
+                    <td>{{ data.unit_cost }}</td>
+                    <td>{{ data.quantity }}</td>
+                    <td>{{ data.description }}</td>
+                    <td class="text-center">
+                        <span>
+                            <button class="btn btn" @click="updateBtn(data.id)">
+                                <img src="/public/icon/edit_icon_pencil.png" width="25px" alt="">
+                            </button>
+                        </span>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <Loading v-if="loading" />
+      </div>
+
+    <div class="row m-2">
+        <div class="col">
+            <div class="IM-inventory-list">
                 <div class="pagination">
                     <Bootstrap5Pagination :data="responseData" @pagination-change-page="getItem"/>
                 </div>
@@ -63,8 +92,7 @@
 </template>
 
 <script setup>
-import Sidebar from '@/components/IM_Sidebar.vue'
-import Header from '@/components/Header.vue'
+import Header from '@/components/IM_Header.vue'
 import { Bootstrap5Pagination } from 'laravel-vue-pagination'
 import { onMounted, ref, watch } from 'vue';
 import UpdateModal from '../../components/IM_UpdateItemModal.vue'
@@ -132,4 +160,52 @@ onMounted(() => {
     display: grid;
     justify-content: center;
 }
+
+.table-list {
+    max-width: 80%;
+    margin: auto;
+  }
+  .table-filter {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    align-items: center;
+  }
+  .filter {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .category {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .table th {
+    font-weight: 400;
+    color: rgb(255, 255, 255);
+    font-family:
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
+      sans-serif;
+    background: rgb(90, 90, 90);
+  }
+  .createButton {
+    background: rgb(8, 241, 8);
+  }
+  .createButton span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
 </style>
