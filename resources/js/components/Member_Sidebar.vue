@@ -1,179 +1,115 @@
 <template>
-    <div>
-        <aside style="position:absolute; top:0; z-index:999;" >
-            <div class="title">
+    <aside>
+        <ul>
+            <div class="title text-center">
+                <img src="/public/background/abMouldLogo.png" width="130px" height="45px" alt="">
                 <img
-                    src="/public/background/abMouldLogo.png"
-                    width="200px"
+                    src="/public/icon/menu.png"
+                    width="30px"
+                    height="30px"
                     alt=""
+                    class="menu"
+                    @click="menu"
                 />
             </div>
-            <div class="dashboard">
-                <ul class="navbar nav">
-                    <li class="nav-item title-dashboard">
-                        <b>Dashboard</b>
-                    </li>
-                    <li class="nav-item" @click="showInventory">
-                        <a class="nav-link">
-                            <div class="item">
-                                <img
-                                    src="/public/icon/inventoryIcon.svg"
-                                    width="25px"
-                                    alt=""
-                                />
-                                <b>Inventory</b>
-                            </div>
-                            <div class="other">
-                                <p>></p>
-                            </div>
-                        </a>
-                    </li>
-
-                    <!--inventory option animation  -->
-                    <div
-                        class="inventory-option"
-                        :class="{ inventoryOptionStyle: isInventory }"
-                    >
-                        <li class="nav-item">
-                            <router-link :to="{name: 'member-item-list'}" class="nav-link text-white">
-                                <div class="item">
-                                    <img
-                                        src="/public/icon/inventoryIcon.svg"
-                                        width="25px"
-                                        alt=""
-                                    />
-                                    <b>Item List</b>
-                                </div>
-                            </router-link>
-                        </li>
-                    </div>
-                    <!--end inventory option animation-->
-
-                    <li class="nav-item">
-                        <a class="nav-link">
-                            <div class="item">
-                                <img
-                                    src="/public/icon/analyticsIcon.svg"
-                                    width="25px"
-                                    alt=""
-                                />
-                                <b>Analytics</b>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <router-link :to="{name: 'member-scheduling'}" class="nav-link">
-                            <div class="item">
-                                <img
-                                    src="/public/icon/schedulingIcon.svg"
-                                    width="25px"
-                                    alt=""
-                                />
-                                <b>Scheduling</b>
-                            </div>
-                        </router-link>
-                    </li>
-                    <li class="nav-item" @click="logout">
-                        <a href="" class="nav-link text-danger"
-                            ><b>Logout</b></a
-                        >
-                    </li>
-                </ul>
-            </div>
-        </aside>
-    </div>
+            <router-link :to="{ name: 'member-scheduling' }">
+                <li>
+                    <img
+                        src="/public/icon/schedulingIcon.svg"
+                        width="25px"
+                        alt=""
+                    />
+                    <span>Scheduling</span>
+                </li>
+            </router-link>
+            <router-link :to="{ name: 'member-item-list' }">
+                <li>
+                    <img
+                        src="/public/icon/list_icon.png"
+                        width="25px"
+                        alt=""
+                    />
+                    <span>Item List</span>
+                </li>
+            </router-link>
+            <a @click="logout" style="cursor:pointer">
+                <li>
+                    <img src="/public/icon//logout_leave.png" width="25px" alt="">
+                    <span>Logout</span>
+                </li>
+            </a>
+        </ul>
+    </aside>
 </template>
 
 <script setup>
 import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-//inventory option animation
-const isInventory = ref(false);
-const showInventory = () => {
-    if (isInventory.value == false) {
-        isInventory.value = true;
-    } else if (isInventory.value == true) isInventory.value = false;
+const router = useRouter()
+
+const emit = defineEmits(["hideSidebar"]);
+
+const menu = () => {
+    emit("hideSidebar");
 };
 
-//setting option animation
-
-
-//logout method
 const logout = () => {
-    localStorage.removeItem("responseTKN");
-    localStorage.removeItem("administrationPermission");
-};
+   localStorage.removeItem("responseTKN")
+   localStorage.removeItem("memberPermission")
+   router.push("/")
+}
 </script>
 <style scoped>
 aside {
-    left: 0;
-    position: relative;
-    height: 100vh;
-    background: rgb(241, 237, 237);
     width: 15rem;
+    position: fixed;
+    height: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+    z-index: 999;
+    background: rgb(255, 255, 255);
+    box-shadow: 0px 0px 15px 0px gray;
+    transition: all linear 0.3s;
 }
-aside .navbar {
+ul {
+    list-style: none;
     display: grid;
+    gap: px;
+    padding: 0;
 }
-aside .nav-item {
-    width: 15rem;
+
+a {
+    text-decoration: none;
+    font-weight: 600;
+    color: black;
+    transition: all linear 2s;
+}
+a li {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 50px;
     padding: 10px;
-    cursor: pointer;
+    border-radius: 20px;
 }
-aside .nav-item:hover {
-    background: rgb(204, 202, 202);
-}
-aside .title-dashboard {
-    border-radius: 15px;
-    background: white;
-    padding: 10px;
-    text-align: center;
-}
-aside .title-dashboard:hover {
-    background: white;
-}
-aside .nav-item a {
-    color: gray;
+
+.title {
+    border: solid black;
+    margin: 5px;
+    border-width: 0px 0px 2px 0px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    cursor: pointer;
 }
-aside .other {
-    height: 35px;
+span {
+    color: rgb(129, 131, 133);
+    font-weight: 500;
 }
-aside .other p {
-    font-size: 20px;
-    font-weight: 800;
-}
-aside .item {
-    display: flex;
-    gap: 15px;
-}
-aside .inventory-option {
-    height: 0;
-    overflow: hidden;
-    transition: all linear 0.2s;
-    background: #90a4df;
-}
-aside .inventoryOptionStyle {
-    height: 60px;
-}
-aside .account-option {
-    height: 0;
-    overflow: hidden;
-    transition: all linear 0.2s;
-    background: #90a4df;
-}
-aside .accountStyle {
-    height: 180px;
-}
-aside .setting-option {
-    height: 0;
-    overflow: hidden;
-    transition: all linear 0.2s;
-    background: #90a4df;
-}
-aside .settingStyle {
-    height: 120px;
+
+.router-link-active, .router-link-exact-active{
+    background: rgb(232, 248, 248);
+    border-radius: 20px;
 }
 </style>

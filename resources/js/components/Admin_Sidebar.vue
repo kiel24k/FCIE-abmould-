@@ -97,7 +97,7 @@ const menu = () => {
 const logout = () => {
    localStorage.removeItem("responseTKN")
    localStorage.removeItem("administrationPermission")
-   router.push("/login")
+   router.push("/")
 }
 </script>
 <style scoped>
