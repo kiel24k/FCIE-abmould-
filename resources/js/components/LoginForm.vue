@@ -158,7 +158,7 @@ onMounted(() => {
             router.push("/inventory-manager-dashboard");
         } else if (response.data.role == "member") {
             localStorage.setItem("memberPermission", response.data.role);
-            router.push("/member-dashboard");
+            router.push("/member-scheduling");
         }
     });
 });

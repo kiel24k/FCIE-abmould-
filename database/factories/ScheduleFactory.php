@@ -21,7 +21,8 @@ class ScheduleFactory extends Factory
             'item_code' => fake()->name(),
             'quantity' => 1,
             'status' => 'pending',
-            'date_schedule' => '111'
+            'date_schedule' => '111',
+            'barcode' => '1234'
         ];
     }
 }
