@@ -52,9 +52,10 @@
                           <b>Supplier Name:</b>
                           <small>{{ data.supplier_name }}</small>
                         </div>
+                        <div class="row">
+                            <barcode :barcodeValue="data.barcode"/>
+                        </div>
                       </div>
-
-
                     </div>
                 <div class="pagination justify-content-center mt-5">
                     <Bootstrap5Pagination
@@ -70,10 +71,12 @@
 import Header from "@/components/Member_Header.vue";
 import { Bootstrap5Pagination } from "laravel-vue-pagination";
 import { onMounted, ref, watch } from "vue";
+import barcode from '@/components/BarcodeView.vue'
 
 const selected = ref("");
 const responseData = ref({});
 const search = ref("");
+
 const getItem = (page) => {
     axios({
         method: "GET",

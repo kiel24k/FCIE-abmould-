@@ -37,6 +37,7 @@
                 <thead>
                     <tr>
                         <th>Category</th>
+                        <th>Barcode</th>
                         <th>Item Code</th>
                         <th>Brand</th>
                         <th>Supplier Name</th>
@@ -50,6 +51,7 @@
                 <tbody>
                     <tr v-for="(data, index) in responseData.data" :key="index">
                         <td>{{ data.category }}</td>
+                        <td>{{ data.barcode }}</td>
                         <td>{{ data.item_code }}</td>
                         <td>{{ data.brand }}</td>
                         <td>{{ data.supplier_name }}</td>
@@ -65,6 +67,9 @@
                                 <router-link class="btn btn" :to="{name: 'admin-edit-item', params: {id: data.id} }">
                                     <img src="/public/icon/edit_icon_pencil.png" width="30px" alt="">
                                 </router-link>
+                                <button class="btn btn" @click="view(data.id)">
+                                    <img src="/public/icon/view_icon_eye.png" width="30px" alt="">
+                                </button>
                             </span>
                         </td>
                     </tr>
@@ -80,6 +85,7 @@
         </div>
     </div>
     <Loading v-if="loading"/>
+    <AdminViewModal v-if="viewModal" :viewModalId="viewModalId" @exit = "viewModal = false" />
    </div>
 </template>
 
@@ -87,6 +93,7 @@
 import Header from '@/components/Admin_Header.vue'
 import { onMounted, ref, watch } from 'vue';
 import {Bootstrap5Pagination} from 'laravel-vue-pagination'
+import AdminViewModal from '@/components/Admin_View_Modal.vue'
 import Loading from '@/components/Loading.vue'
 
 //current database table
@@ -94,6 +101,8 @@ const selected = ref('')
 const loading = ref(false)
 const responseData = ref({})
 const search = ref('')
+const viewModal = ref(false)
+const viewModalId = ref(null)
 
 // data per category
 const category = async(page) => {
@@ -120,6 +129,12 @@ const category = async(page) => {
         category()
      }
 })
+
+const view = (id) => {
+    viewModal.value = true
+    viewModalId.value = id
+
+}
 //delete item
 const deleteItem = (id) => {
     loading.value = true

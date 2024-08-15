@@ -134,6 +134,7 @@ class AdminController extends Controller
         $item->category = $request->category;
         $item->description = $request->description;
         $item->brand = $request->brand;
+        $item->barcode = $request->barcode;
         $item->save();
         return response()->json($item);
     }
@@ -195,6 +196,10 @@ class AdminController extends Controller
         $material->update();
         return response()->json($material);
     }
+
+    public function viewItem ($id){
+        return response()->json(Item::find($id));
+    }
     public function scheduledDate($date)
     {
         $schedule = Schedule::where('date_schedule', $date)->get();
@@ -219,5 +224,20 @@ class AdminController extends Controller
         $schedule->status = 'pending';
         $schedule->save();
         return response()->json($schedule);
+    }
+    public function generateBarcode()
+    {
+        $a = mt_rand(100000, 999999);
+        if ($this->generateBarcodeExist($a)) {
+            return $this->generateBarcode();
+        }else{
+            return response()->json($a);
+        }
+
+    }
+    public function generateBarcodeExist($number)
+    {
+        $number = Item::where('barcode', $number)->exists();
+        return $number;
     }
 }

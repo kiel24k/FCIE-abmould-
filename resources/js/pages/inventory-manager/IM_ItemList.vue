@@ -45,6 +45,7 @@
               <thead>
                 <tr>
                   <th>Category</th>
+                  <th>Barcode</th>
                   <th>Item Code</th>
                   <th>Brand</th>
                   <th>Supplier Name</th>
@@ -57,6 +58,7 @@
               <tbody>
                 <tr v-for="(data, index) in responseData.data" :key="index">
                     <td>{{ data.category }}</td>
+                    <td>{{ data.barcode }}</td>
                     <td>{{ data.item_code }}</td>
                     <td>{{data.brand}}</td>
                     <td>{{ data.supplier_name }}</td>
@@ -68,6 +70,9 @@
                             <button class="btn btn" @click="updateBtn(data.id)">
                                 <img src="/public/icon/edit_icon_pencil.png" width="25px" alt="">
                             </button>
+                            <button class="btn btn">
+                                <img src="/public/icon/view_icon_eye.png" width="30px" alt="" @click="viewData(data.id)">
+                            </button>
                         </span>
                     </td>
                 </tr>
@@ -76,6 +81,7 @@
           </div>
         </div>
         <Loading v-if="loading" />
+        <itemModal v-if="viewModal" :viewModalId="itemId" @exit="viewModal = false"/>
       </div>
 
     <div class="row m-2">
@@ -87,8 +93,11 @@
 
             </div>
         </div>
+
        </div>
        <UpdateModal v-if="updateModal" @closeBtn="updateModal = false" :itemId="itemId" :getItem="getItem"/>
+
+
 </template>
 
 <script setup>
@@ -96,13 +105,17 @@ import Header from '@/components/IM_Header.vue'
 import { Bootstrap5Pagination } from 'laravel-vue-pagination'
 import { onMounted, ref, watch } from 'vue';
 import UpdateModal from '../../components/IM_UpdateItemModal.vue'
+import itemModal from '@/components/IM_View_Modal.vue'
+
+
 
 const selected = ref('')
 const search = ref('')
 const responseData = ref({})
-
+const viewModal = ref(false)
 const itemId = ref('')
 const updateModal = ref(false)
+const viewModalId = ref()
 const updateBtn = (id) => {
     updateModal.value = true
     itemId.value = id
@@ -115,6 +128,11 @@ const getItem = (page) => {
     }).then(response => {
         responseData.value = response.data
     })
+}
+
+const viewData = (id) => {
+ viewModal.value = true
+ itemId.value= id
 }
 watch(selected, (oldVal,newVal) => {
     getItem()

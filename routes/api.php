@@ -29,8 +29,10 @@ Route::controller(AdminController::class)->group(function () {
     Route::delete('/delete-item/{id}', 'deleteItem');
     Route::get('/updated-item/{id}', 'updatedItem');
     Route::post('/update-item/{id}', 'updateitem');
+    Route::get('/view-item/{id}', 'viewItem');
     Route::get('/scheduled-date/{date}', 'scheduledDate');
     Route::post('/add-schedule', 'addSchedule');
+    Route::get('/generate-barcode','generateBarcode');
     // route::get('/test/{category}/{search}','test');
 });
 

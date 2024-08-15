@@ -69,14 +69,22 @@
                         </div>
                        </div>
                         <div class="row">
+                            <div class="col-1 generate-barcode">
+                                <label for="">Barcode:</label>
+                                <div>
+                                    <BarcodeComponent :barcodeValue="barcodeValue" />
+                                    <button class="btn btn-dark" @click="selectBarcode">Generate Barcode</button>
+                                  </div>
+                            </div>
+                        </div>
+                        <input type="hidden" v-model="barcodeValue">
+                        <div class="row text-end">
                             <div class="col">
                                 <button class="btn btn-success" @click.enter="submit">Submit</button>
                             </div>
                         </div>
                     </div>
                   </div>
-
-
               </form>
         </div>
     </div>
@@ -84,8 +92,10 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
 import axios from 'axios';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import BarcodeComponent from '@/components/BarcodeGenerator.vue';
+
 const router = useRouter()
 
 
@@ -98,7 +108,6 @@ const input = ref({
     category: '',
     description: '',
     brand: ''
-
 })
 const submit = () => {
     axios({
@@ -111,8 +120,8 @@ const submit = () => {
         quantity: input.value.quantity,
         category: input.value.category,
         description: input.value.description,
-        brand: input.value.brand
-
+        brand: input.value.brand,
+        barcode: barcodeValue.value
         }
     }).then(response => {
         console.log(response);
@@ -126,6 +135,21 @@ const submit = () => {
         }
     })
 }
+
+const barcodeValue = ref(null)
+const selectBarcode = () => {
+    axios({
+        method: 'GET',
+        url: 'api/generate-barcode',
+    }).then(response => {
+      barcodeValue.value = response.data
+    })
+}
+onMounted(() => {
+  selectBarcode()
+})
+
+
 
 </script>
 
@@ -141,5 +165,10 @@ form{
 }
 label{
     font-weight: 500;
+}
+.generate-barcode{
+    display: grid;
+    align-items: center;
+
 }
 </style>

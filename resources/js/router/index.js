@@ -97,6 +97,12 @@ const routes = [
         component: () => import('../pages/test/Post.vue')
     },
     {
+        path:'/test-barcode',
+        name:'test-barcode',
+        component: () => import('../pages/admin/Barcode.vue')
+
+    },
+    {
         path: '/member-item-list',
         name: 'member-item-list',
         component: () => import('../pages/member/Member_ItemList.vue')
