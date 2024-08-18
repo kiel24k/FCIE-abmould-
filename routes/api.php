@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InventoryManagerController;
 
@@ -49,4 +50,6 @@ Route::controller(MemberController::class)->group(function () {
     Route::get('/member-get-item', 'getItem');
     Route::get('/member-item-search-list', 'itemSearchList');
 });
+
+Route::post('/announcements', [AnnouncementController::class, 'store']);
 
