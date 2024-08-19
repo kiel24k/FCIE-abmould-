@@ -44,6 +44,7 @@ const routes = [
         component: () => import ('../pages/admin/AdminNewItem.vue')
 
     },
+
     {
         path: '/admin-inventory-list',
         name: 'admin-inventory-list',
@@ -61,6 +62,25 @@ const routes = [
         name: 'admin-scheduling',
         component: () => import('../pages/admin/AdminScheduling.vue')
     },
+    {
+        path: '/admin-in-barcode',
+        name: 'admin-in-barcode',
+        component: () => import('../pages/admin/Admin_In_Barcode.vue')
+
+    },
+    {
+        path: '/admin-out-barcode',
+        name: 'admin-out-barcode',
+        component: () => import('../pages/admin/Admin_Out_Barcode.vue')
+
+    },
+    {
+        path: '/admin-view-barcode',
+        name: 'admin-view-barcode',
+        component: () => import('../pages/admin/Admin_View_Barcode.vue')
+
+    },
+
     {
         path:'/inventory-manager-dashboard',
         name:'inventory-manager-dashboard',

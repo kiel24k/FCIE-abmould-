@@ -22,6 +22,40 @@
                     <span>Dashboard</span>
                 </li>
             </router-link>
+            <hr>
+            <h5 class="text-center">Barcode</h5>
+                <router-link :to="{ name: 'admin-in-barcode' }">
+                    <li>
+                        <img
+                            src="/public/icon/barcode_icon.png"
+                            width="25px"
+                            alt=""
+                        />
+                        <span>In</span>
+                    </li>
+                </router-link>
+                <router-link :to="{ name: 'admin-out-barcode' }">
+                    <li>
+                        <img
+                            src="/public/icon/barcode_icon.png"
+                            width="25px"
+                            alt=""
+                        />
+                        <span>Out</span>
+                    </li>
+                </router-link>
+                <router-link :to="{ name: 'admin-view-barcode' }">
+                    <li>
+                        <img
+                            src="/public/icon/barcode_icon.png"
+                            width="25px"
+                            alt=""
+                        />
+                        <span>View</span>
+                    </li>
+                </router-link>
+                <hr>
+
             <router-link :to="{ name: 'admin-inventory-list' }">
                 <li>
                     <img

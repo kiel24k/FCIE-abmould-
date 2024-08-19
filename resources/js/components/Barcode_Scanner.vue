@@ -1,23 +1,25 @@
 <template>
-    <div>
+    <div class="mt-4">
       <div ref="scanner" class="scanner"></div>
       <div v-if="scanning" class="status">Scanning...</div>
       <div v-else class="status">Not Scanning</div>
-      <div v-if="barcode" class="result">
-        Detected Barcode: {{ barcode }}
-      </div>
-      <button @click="startScanning">Start Scanning</button>
-      <button @click="stopScanning">Stop Scanning</button>
+ <div class="action text-center">
+    <button @click="startScanning" class="btn btn-dark">Start Scanning</button>
+    <button @click="stopScanning" class="btn btn-danger">Stop Scanning</button>
+ </div>
     </div>
+
+
   </template>
 
   <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import Quagga from 'quagga';
 
 const scanner = ref(null);
 const scanning = ref(false);
 const barcode = ref(null);
+const emitBarcodeValue = defineEmits(['barcodeValue'])
 
 const startScanning = () => {
   scanning.value = true;
@@ -28,7 +30,7 @@ const startScanning = () => {
         type: 'LiveStream',
         target: scanner.value,
         constraints: {
-          width: 640,
+          width: 500,
           height: 480,
           facingMode: 'environment', // Use rear camera
         },
@@ -56,6 +58,7 @@ const startScanning = () => {
   Quagga.onDetected((result) => {
     const code = result.codeResult.code;
     barcode.value = code;
+    emitBarcodeValue('barcodeValue', barcode.value)
     stopScanning(); // Automatically stop after detecting a barcode
   });
 };
@@ -66,20 +69,23 @@ const stopScanning = () => {
   Quagga.offDetected();
 };
 
+
+
 onMounted(() => {
+
   // Cleanup Quagga when the component is unmounted
-  onUnmounted(() => {
-    stopScanning();
-  });
+//   onUnmounted(() => {
+//     stopScanning();
+//   });
+
 });
 </script>
 
 <style>
 .scanner {
-  width: 100%;
-  max-width: 640px;
+  max-width: 500px;
   height: 480px;
-  border: 1px solid #000;
+  box-shadow: 0px 0px 10px 0px gray;
   margin: auto;
   display: block;
 }
@@ -91,8 +97,11 @@ onMounted(() => {
   text-align: center;
   font-weight: bold;
 }
-button {
-  display: block;
-  margin: 10px auto;
+.action{
+    display: flex;
+    gap:10px;
+    justify-content: center;
 }
+
+
 </style>

@@ -57,8 +57,6 @@ const getItem = () => {
 
     })
 }
-
-
 const exit = () => {
     emitExit('exit')
 }
@@ -74,7 +72,8 @@ onMounted(() => {
     display: grid;
     justify-content: center;
     align-items: center;
-    background-color: rgb(221, 216, 216);
+    background-color: rgb(221, 216, 216,0.5);
+    backdrop-filter: blur(10px);
     height: 100%;
     width: 100%;
   }
