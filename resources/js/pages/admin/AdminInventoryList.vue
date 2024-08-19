@@ -177,9 +177,7 @@ onMounted(() => {
     align-items: center;
     gap:10px;
 }
-.router-link-active,.router-link-exact-active{
-    background: red;
-}
+
 .table th{
     font-weight: 400;
     color:rgb(255, 255, 255);

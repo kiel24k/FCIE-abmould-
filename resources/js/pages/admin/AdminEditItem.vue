@@ -67,8 +67,14 @@
                         <textarea name="" id="" cols="30" rows="10" class="form-control" v-model="input.description" ></textarea>
                     </div>
                    </div>
+                   <div class="row">
+                    <label for="">Barcode:</label>
+                    <BarcodeView :barcodeValue="input.barcode"/>
+
+                   </div>
                     <div class="row">
-                        <div class="col">
+                        <div class="col text-end " style="display:flex;gap:10px;justify-content:end;">
+                            <button class="btn btn-danger" @click="back">Back</button>
                             <button class="btn btn-success" @click.enter="submit">Submit</button>
                         </div>
                     </div>
@@ -83,6 +89,7 @@ import Header from '@/components/Admin_Header.vue'
 import { onMounted, ref } from 'vue';
 import {useRoute} from 'vue-router'
 import { useRouter } from 'vue-router';
+import BarcodeView from '@/components/BarcodeView.vue'
 import Loading from '@/components/Loading.vue'
 
 const route = useRoute()
@@ -127,6 +134,10 @@ const submit = () => {
         }
 
     })
+}
+
+const back = () => {
+    history.back()
 }
 
 

@@ -23,9 +23,7 @@
             </section>
         </div>
     </div>
-    <div class="scanner">
-        <BarcodeScanner/>
-    </div>
+    
 </template>
 
 <script setup>
@@ -33,7 +31,7 @@ import Header from '@/components/Admin_Header.vue'
 import BarGraph from "@/components/BarGraph.vue";
 import Doughnut from '@/components/Pie.vue'
 import LineChart from "@/components/LineChart.vue";
-import BarcodeScanner from '@/components/Barcode_Scanner.vue'
+
 
 
 
