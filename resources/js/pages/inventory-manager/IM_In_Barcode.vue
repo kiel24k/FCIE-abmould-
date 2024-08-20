@@ -30,7 +30,7 @@
                         <td>{{ data.brand }}</td>
                         <td>{{ data.supplier_name }}</td>
                         <td>{{ data.unit_cost }}</td>
-                        <td>{{ data.quantity }}x</td>
+                        <td>x{{ data.quantity }}</td>
                         <td>{{ data.description }}</td>
                         <td>
                             <span>
@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import Header from '@/components/Admin_Header.vue'
+import Header from '@/components/IM_Header.vue'
 import Scanner from '@/components/Barcode_Scanner.vue'
 import InModal from '@/components/Barcode_In_Modal.vue'
 import { onMounted, ref, watch } from 'vue';

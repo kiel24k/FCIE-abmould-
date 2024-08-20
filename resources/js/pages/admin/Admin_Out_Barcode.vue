@@ -2,7 +2,7 @@
     <header>
         <Header/>
     </header>
-    <AdminOutModal v-if="adminOutModal" :reduceItemId="reduceItemId" @exit="exit"/>
+    <AdminOutModal v-if="OutModal" :reduceItemId="reduceItemId" @exit="exit"/>
     <div>
         <div id="scanner">
             <Scanner @barcodeValue="barcodeValue"/>
@@ -48,9 +48,9 @@
 import Header from '@/components/Admin_Header.vue'
 import Scanner from '@/components/Barcode_Scanner.vue'
 import { onMounted, ref, watch } from 'vue';
-import AdminOutModal from '@/components/Admin_Out_Modal.vue'
+import AdminOutModal from '@/components/Barcode_Out_Modal.vue'
 
-const adminOutModal = ref(false)
+const OutModal = ref(false)
 
 const barcodeData = ref({})
 const barcodeParams = ref('')
@@ -76,14 +76,13 @@ const updatedBarcodeValue = () => {
 
 const reduceItemId = ref()
 const reduceItem = (id) => {
-    adminOutModal.value = true
+    OutModal.value = true
     reduceItemId.value = id
 
 
 }
-
 const exit = () => {
-    adminOutModal.value = false
+    OutModal.value = false
     updatedBarcodeValue()
 }
 

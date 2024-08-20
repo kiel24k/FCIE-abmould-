@@ -2,7 +2,7 @@
     <div class="update-item">
         <div class="form p-5">
             <form @submit.prevent.enter enctype="multipart/form-data">
-                <h4>New Material | <span style="color:gray;font-size:15px; font-weight:400">Enter Material Information</span></h4>
+                <h4>Edit Material | <span style="color:gray;font-size:15px; font-weight:400">Enter Material Information</span></h4>
                 <div class="row">
                     <div class="col">
                         <label for="">Item Code: <span class="text-danger" v-if="validation.item_code" >

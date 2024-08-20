@@ -49,7 +49,7 @@
                             <label for="">Password <span class="text-danger" v-if="validation.password">
                                 {{ validation.password[0] }}
                             </span></label>
-                            <input type="text" class="form-control" placeholder="" v-model="userData.password">
+                            <input type="password" class="form-control" placeholder="" v-model="userData.password">
                         </div>
                     </div>
                     <div class="row">

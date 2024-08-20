@@ -6,7 +6,7 @@
         <div class="col">
             <div class="admin-edit-item">
                 <form @submit.prevent enctype="multipart/form-data">
-                    <h4>New Item | <span style="color:gray;font-size:15px; font-weight:400">Enter Item Information</span></h4>
+                    <h4>Edit Item | <span style="color:gray;font-size:15px; font-weight:400">Enter Item Information</span></h4>
                     <div class="row">
                         <div class="col">
                             <label for="">Item Code: <span class="text-danger" v-if="validation.item_code">
