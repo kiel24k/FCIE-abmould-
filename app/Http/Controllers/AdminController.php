@@ -250,7 +250,13 @@ class AdminController extends Controller
         $item = Item::find($id);
         return response()->json($item);
     }
-    public function editQuantitySubmit (Request $request, $id){
+    public function addQuantitySubmit (Request $request, $id){
+        $item = Item::find($id);
+        $item->quantity = $request->quantity;
+        $item->update();
+        return response()->json($item);
+    }
+    public function reduceQuantity(Request $request, $id){
         $item = Item::find($id);
         $item->quantity = $request->quantity;
         $item->update();
