@@ -73,7 +73,7 @@
                         width="25px"
                         alt=""
                     />
-                    <span>Manual Adding</span>
+                    <span>Add Item</span>
                 </li>
             </router-link>
             <router-link :to="{ name: 'admin-scheduling' }">

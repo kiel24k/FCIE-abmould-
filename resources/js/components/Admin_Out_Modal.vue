@@ -1,5 +1,5 @@
 <template>
-    <div class="in-modal">
+    <div class="out-modal">
         <div class="card">
             <div class="card-header">
                 <h4>Edit Quantity</h4>
@@ -31,18 +31,18 @@
                     </div>
                     <div class="row">
                         <label for=""><b>Current Quantity:</b></label>
-                        <h5>{{ itemsResponseData.quantity }}x</h5>
+                        <h5>x{{ itemsResponseData.quantity }}</h5>
                     </div>
                     <form action="" @submit.prevent>
                         <div class="row">
                             <div class="col">
-                                <label for=""><b>Add Quantity:</b></label>
-                                <input type="number" min="0" class="form-control" v-model="addQuantity">
+                                <label for=""><b>Reduce Quantity: </b></label> <span class="text-danger" v-if="outputValidation"><b>Warning: </b>{{ outputValidation }}</span>
+                                <input type="number" min="0" class="form-control mt-2" v-model="reduceQuantity">
                             </div>
                         </div>
                         <div class="row" v-if="finalOutput">
-                            <label for=""><b>Quantity Output:</b></label>
-                            <h5>{{ finalOutput }}x</h5>
+                            <label for=""><b>Quantity Output: </b></label>
+                            <h5>x{{ finalOutput }}</h5>
                         </div>
                         <div class="row mt-4">
                             <div class="col text-end" style="display:flex; justify-content:end;gap:10px;">
@@ -58,62 +58,63 @@
 
 <script setup>
 import { onMounted, ref, watch } from 'vue';
-import { useRouter } from 'vue-router';
 
 
-
-const props = defineProps(['inModalId', 'barcodeValue'])
-const emit = defineEmits(['exit', 'scanAgain'])
-
+const props = defineProps(['reduceItemId'])
 const itemsResponseData = ref({})
-const addQuantity = ref('')
 const items = () => {
     axios({
         method: 'GET',
-        url: `/api/edit-quantity/${props.inModalId}`
+        url: `/api/edit-quantity/${props.reduceItemId}`
     }).then(response => {
         itemsResponseData.value = response.data
+
     })
 }
 
-
+const reduceQuantity = ref()
 const finalOutput = ref()
-watch(addQuantity, (oldVal, newVal) => {
-    const output = ref(addQuantity.value + itemsResponseData.value.quantity)
-    finalOutput.value = output.value
+const outputValidation = ref('')
+watch(reduceQuantity, (oldVal, newVal) => {
+    finalOutput.value = itemsResponseData.value.quantity - reduceQuantity.value
+    if (finalOutput.value < 0) {
+        outputValidation.value = "You've got a lot of reduced"
+        finalOutput.value = 1
+    } else if (finalOutput.value > 0) {
+        outputValidation.value = ''
+    }
 })
+
 const submit = (id) => {
     axios({
         method: 'POST',
-        url: `/api/add-quantity-submit/${id}`,
+        url: `/api/reduce-quantity-submit/${id}`,
         data: {
             quantity: finalOutput.value
         }
     }).then(response => {
-        if (response.status == 200) {
-            emit('exit')
-        }
+        emit('exit')
     })
 }
 
-
-
+const emit = defineEmits(['exit'])
 const exit = () => {
     emit('exit')
 }
+
 onMounted(() => {
     items()
 })
 </script>
 
 <style scoped>
-.in-modal {
+.out-modal {
     position: absolute;
     display: grid;
     justify-content: center;
     align-items: center;
     background-color: rgb(221, 216, 216, 0.5);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(15px);
     height: 100%;
     width: 100%;
 }

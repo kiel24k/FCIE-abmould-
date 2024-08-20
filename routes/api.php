@@ -36,7 +36,8 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/generate-barcode','generateBarcode');
     Route::get('/view-scan-barcode/{barcode}', 'viewScanBarcode');
     Route::get('/edit-quantity/{id}', 'editQuantity');
-    Route::post('/edit-quantity-submit/{id}', 'editQuantitySubmit');
+    Route::post('/add-quantity-submit/{id}', 'addQuantitySubmit');
+    Route::post('/reduce-quantity-submit/{id}', 'reduceQuantity');
     Route::get('/test','test');
     // route::get('/test/{category}/{search}','test');
 });
