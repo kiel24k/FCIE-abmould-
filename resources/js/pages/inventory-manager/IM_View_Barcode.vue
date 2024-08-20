@@ -2,7 +2,6 @@
     <header>
         <Header/>
     </header>
-    <InModal v-if="inModal" :barcodeValue="barcodeValue" :inModalId="inModalId" @exit="exit"/>
     <div>
         <div id="scanner">
             <Scanner @barcodeValue="barcodeValue"/>
@@ -19,7 +18,6 @@
                         <th>Unit Cost</th>
                         <th>Quantity</th>
                         <th>Description</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -30,15 +28,9 @@
                         <td>{{ data.brand }}</td>
                         <td>{{ data.supplier_name }}</td>
                         <td>{{ data.unit_cost }}</td>
-                        <td>{{ data.quantity }}x</td>
+                        <td>x{{ data.quantity }}</td>
                         <td>{{ data.description }}</td>
-                        <td>
-                            <span>
-                                <button class="btn btn-dark" @click="addQuantityModal(data.id)">Add Quantity</button>
-                            </span>
-                        </td>
                     </tr>
-
                 </tbody>
             </table>
             <div class="text-center" v-if="notFound">
@@ -49,22 +41,17 @@
 </template>
 
 <script setup>
-import Header from '@/components/Admin_Header.vue'
+import Header from '@/components/IM_Header.vue'
 import Scanner from '@/components/Barcode_Scanner.vue'
-import InModal from '@/components/Barcode_In_Modal.vue'
 import { onMounted, ref, watch } from 'vue';
 
-const inModal = ref(false)
-const inModalId = ref()
 const notFound = ref(false)
 const barcodeResponse = ref(null)
-const barcodeParams = ref('')
 const barcodeValue = (data) => {
    axios({
     method: 'GET',
     url: `/api/view-scan-barcode/${data}`
    }).then(response => {
-    barcodeParams.value = data
         barcodeResponse.value = response.data
         if(barcodeResponse.value == ''){
             notFound.value = true
@@ -73,28 +60,9 @@ const barcodeValue = (data) => {
         }
    })
 }
+onMounted(() => {
 
-const updatedBarcodeValue = () => {
-    axios({
-    method: 'GET',
-    url: `/api/view-scan-barcode/${barcodeParams.value}`
-   }).then(response => {
-    barcodeResponse.value = response.data
-   })
-}
-
-const addQuantityModal = (id) =>{
-    inModal.value = true
-    inModalId.value = id
-
-}
-
-const exit = () => {
-    inModal.value = false
-    updatedBarcodeValue()
-
-}
-
+})
 </script>
 
 <style scoped>
@@ -106,11 +74,11 @@ const exit = () => {
 table{
     width: 75rem;
 }
-.table th{
-    font-weight: 400;
-    color:rgb(255, 255, 255);
-    font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background: rgb(90, 90, 90);
-}
+    .table th{
+        font-weight: 400;
+        color:rgb(255, 255, 255);
+        font-family:system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        background: rgb(90, 90, 90);
+    }
 
-</style>
+    </style>
