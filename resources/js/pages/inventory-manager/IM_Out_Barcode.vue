@@ -2,7 +2,7 @@
     <header>
         <Header/>
     </header>
-    <AdminOutModal v-if="OutModal" :reduceItemId="reduceItemId" @exit="exit"/>
+    <AdminOutModal v-if="adminOutModal" :reduceItemId="reduceItemId" @exit="exit"/>
     <div>
         <div id="scanner">
             <Scanner @barcodeValue="barcodeValue"/>
@@ -30,7 +30,7 @@
                         <td>{{ data.brand }}</td>
                         <td>{{ data.supplier_name }}</td>
                         <td>{{ data.unit_cost }}</td>
-                        <td>{{ data.quantity }}</td>
+                        <td>x{{ data.quantity }}</td>
                         <td>{{ data.description }}</td>
                         <td>
                             <span>
@@ -45,12 +45,12 @@
 </template>
 
 <script setup>
-import Header from '@/components/Admin_Header.vue'
+import Header from '@/components/IM_Header.vue'
 import Scanner from '@/components/Barcode_Scanner.vue'
 import { onMounted, ref, watch } from 'vue';
 import AdminOutModal from '@/components/Barcode_Out_Modal.vue'
 
-const OutModal = ref(false)
+const adminOutModal = ref(false)
 
 const barcodeData = ref({})
 const barcodeParams = ref('')
@@ -76,22 +76,17 @@ const updatedBarcodeValue = () => {
 
 const reduceItemId = ref()
 const reduceItem = (id) => {
-    OutModal.value = true
+    adminOutModal.value = true
     reduceItemId.value = id
 
 
 }
+
 const exit = () => {
-    OutModal.value = false
+    adminOutModal.value = false
     updatedBarcodeValue()
 }
 
-// const barcodeValue = () => {
-//     axios({
-//         method: 'GET',
-//         url: `/api/view-scan-barcode/{barcode}`
-//     })
-// }
 
 onMounted(() => {
 

@@ -12,6 +12,16 @@
                     @click="menu"
                 />
             </div>
+            <router-link :to="{ name: 'member-view-barcode' }">
+                <li>
+                    <img
+                        src="/public/icon/barcode_icon.png"
+                        width="25px"
+                        alt=""
+                    />
+                    <span>Scan Items</span>
+                </li>
+            </router-link>
             <router-link :to="{ name: 'member-scheduling' }">
                 <li>
                     <img

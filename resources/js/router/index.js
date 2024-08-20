@@ -97,6 +97,21 @@ const routes = [
         component: () => import('../pages/inventory-manager/IM_ItemList.vue')
     },
     {
+        path: '/inventory-manager-in-barcode',
+        name: 'inventory-manager-in-barcode',
+        component: () => import ('../pages/inventory-manager/IM_In_Barcode.vue')
+    },
+    {
+        path: '/inventory-manager-Out-barcode',
+        name: 'inventory-manager-out-barcode',
+        component: () => import ('../pages/inventory-manager/IM_Out_Barcode.vue')
+    },
+    {
+        path: '/inventory-manager-view-barcode',
+        name: 'inventory-manager-view-barcode',
+        component: () => import ('../pages/inventory-manager/IM_View_Barcode.vue')
+    },
+    {
         path:'/member-dashboard',
         name:'member-dashboard',
         component: ()=>import('../pages/member/MemberDashboard.vue')
@@ -131,7 +146,11 @@ const routes = [
         path: '/member-scheduling',
         name: 'member-scheduling',
         component: () => import('../pages/member/Member_Scheduling.vue')
-
+    },
+    {
+        path: '/member-view-barcode',
+        name: 'member-view-barcode',
+        component: () => import ('../pages/member/Member_View_Barcode.vue')
     }
 
 ]
