@@ -85,7 +85,7 @@
         </div>
     </div>
     <Loading v-if="loading"/>
-    <!-- <AdminViewModal v-if="viewModal" :viewModalId="viewModalId" @exit = "viewModal = false" /> -->
+    <AdminViewModal v-if="viewModal" :viewModalId="viewModalId" @exit = "viewModal = false" />
    </div>
 </template>
 
@@ -93,7 +93,7 @@
 import Header from '@/components/Admin_Header.vue'
 import { onMounted, ref, watch } from 'vue';
 import {Bootstrap5Pagination} from 'laravel-vue-pagination'
-// import AdminViewModal from '@/components/Admin_View_Modal.vue'
+import AdminViewModal from '@/components/Admin_View_Modal.vue'
 import Loading from '@/components/Loading.vue'
 
 //current database table
