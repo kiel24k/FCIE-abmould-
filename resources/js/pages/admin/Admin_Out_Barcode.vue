@@ -30,7 +30,7 @@
                         <td>{{ data.brand }}</td>
                         <td>{{ data.supplier_name }}</td>
                         <td>{{ data.unit_cost }}</td>
-                        <td>{{ data.quantity }}</td>
+                        <td>x{{ data.quantity }}</td>
                         <td>{{ data.description }}</td>
                         <td>
                             <span>
