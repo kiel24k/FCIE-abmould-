@@ -71,6 +71,7 @@
 import Header from "@/components/Member_Header.vue";
 import { Bootstrap5Pagination } from "laravel-vue-pagination";
 import { onMounted, ref, watch } from "vue";
+import barcode from '@/components/BarcodeView.vue'
 
 
 
