@@ -73,6 +73,7 @@ import { Bootstrap5Pagination } from "laravel-vue-pagination";
 import { onMounted, ref, watch } from "vue";
 import barcode from '@/components/BarcodeView.vue'
 
+
 const selected = ref("");
 const responseData = ref({});
 const search = ref("");
