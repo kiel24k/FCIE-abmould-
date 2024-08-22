@@ -31,7 +31,7 @@
                     </div>
                     <div class="row">
                         <label for=""><b>Current Quantity:</b></label>
-                        <h5>{{ itemsResponseData.quantity }}x</h5>
+                        <h5>x{{ itemsResponseData.quantity }}</h5>
                     </div>
                     <form action="" @submit.prevent>
                         <div class="row">
@@ -42,7 +42,7 @@
                         </div>
                         <div class="row" v-if="finalOutput">
                             <label for=""><b>Quantity Output:</b></label>
-                            <h5>{{ finalOutput }}x</h5>
+                            <h5>x{{ finalOutput }}</h5>
                         </div>
                         <div class="row mt-4">
                             <div class="col text-end" style="display:flex; justify-content:end;gap:10px;">
