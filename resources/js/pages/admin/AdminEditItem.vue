@@ -54,8 +54,8 @@
                                {{  validation.category[0] }}
                             </span></label>
                             <select class="form-select" v-model="input.category">
-                                <option value="new">new</option>
-                                <option value="old">old</option>
+                                <option value="tools">tools</option>
+                                <option value="materials">materials</option>
                             </select>
                         </div>
                     </div>
