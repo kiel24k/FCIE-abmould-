@@ -18,14 +18,17 @@ class AdminController extends Controller
 {
     public function userList(Request $request)
     {
+        $sortName = $request->query('sort', 'first_name');
+        $sortOrder = $request->query('order', 'asc');
         if ($request->role) {
             $table = User::where('role', '=', $request->role)
-                ->latest()->paginate(5);
+                ->orderBy($sortName, $sortOrder)
+                ->paginate(5);
             return response()->json($table);
         } else if (!$request->category) {
-            return response()->json(User::latest()->paginate(10));
+            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(2));
         } else if ($request->category) {
-            return response()->json(User::latest()->paginate(10));
+            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(2));
         }
     }
     public function userListSearch(Request $request)
@@ -143,42 +146,22 @@ class AdminController extends Controller
     public function itemCategory(Request $request)
     {
 
-        $sortBy = $request->query('sort_by', 'category'); // Default sorting field
-        $sortOrder = $request->query('sort_order', 'asc'); // Default sorting order haha
-
-        $data = Item::orderBy($sortBy, $sortOrder)->paginate(3);
-        return response()->json($data);
-
-        // if ($data) {
-        //     if ($request->category) {
-        //         $item = Item::where('category', '=', $request->category)
-        //             ->paginate(10);
-        //         return response()->json($item);
-        //     } else if ($data) {
-        //         if (!$request->category) {
-        //             return response()->json(Item::latest()->paginate(10));
-        //         }
-        //     } else if ($data) {
-        //         if ($request->category) {
-        //             return response()->json(Item::latest()->paginate(10));
-        //         }
-        //     }
-        // }
-
-        switch ($data) {
-            case $request->category:
-                $item = Item::where('category', '=', $request->category)
-                    ->paginate(10);
-                return response()->json($item);
-                break;
-            case !$request->category:
-                return response()->json(Item::latest()->paginate(10));
-                break;
-            case $request->category:
-                return response()->json(Item::latest()->paginate(10));
-            default:
-                $data;
-                break;
+        $sortBy = $request->query('sort_by', 'brand'); // default brand request 
+        $sortOrder = $request->query('sort_order', 'asc');
+        if ($request->category) {
+            $item = Item::where('category', '=', $request->category)
+                ->orderBy($sortBy, $sortOrder)
+                ->paginate(2);
+            return response()->json($item);
+        }
+        if (!$request->category) {
+            return response()->json(
+                Item::orderBy($sortBy, $sortOrder)
+                    ->paginate(10)
+            );
+        }
+        if ($request->category) {
+            return response()->json(Item::orderBy($sortBy, $sortOrder)->paginate(2));
         }
     }
     public function itemsSearch(Request $request)

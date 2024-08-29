@@ -43,7 +43,7 @@
                                         <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                                     </div>
                                 </th>
-                                <th @click="sort('barcode')"> 
+                                <th @click="sort('barcode')">
                                     <div class="head-title">
                                         Barcode
                                         <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
@@ -121,91 +121,28 @@
                             </tr>
                         </tbody>
                     </table>
-                    <!-- <div class="pagination text-center">
-                        <span>1 of 5</span>
-                        <div class="pagination-action">
-                            <button>Prev</button>
-                            <button>Next</button>
-                        </div>
-                    </div> -->
                     <div class="paginator text-center">
-          <span>Page {{ pagination.current_page }} of {{ pagination.last_page }}</span>
-          <nav>
-            <button class="btn btn-dark" @click="previousPage" :disabled="!pagination.prev_page_url">
-          Previous
-        </button>
-            <button class="btn btn-success" @click="nextPage" :disabled="!pagination.next_page_url">
-          Next
-        </button>
-            
-        </nav>
-        
-        </div>
-                    
+                        <span>Page {{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                        <nav class="btnPaginate">
+                            <button class="btn btn-dark" @click="previousPage" :disabled="!pagination.prev_page_url">
+                                Previous
+                            </button>
+                            <button class="btn btn-success" @click="nextPage" :disabled="!pagination.next_page_url">
+                                Next
+                            </button>
+                        </nav>
+                    </div>
                 </div>
-                
-                <!-- <div class="table">
-            <table class="table table-hover table-striped mt-3 table-responsive">
-                <thead>
-                    <tr>
-                        <th>Category</th>
-                        <th>Barcode</th>
-                        <th>Item Code</th>
-                        <th>Brand</th>
-                        <th>Supplier Name</th>
-                        <th>Unit Cost</th>
-                        <th>Quantity</th>
-                        <th>Item Type</th>
-                        <th>Description</th>
-                        <th class="text-center">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(data, index) in responseData.data" :key="index">
-                        <td>{{ data.category }}</td>
-                        <td>{{ data.barcode }}</td>
-                        <td>{{ data.item_code }}</td>
-                        <td>{{ data.brand }}</td>
-                        <td>{{ data.supplier_name }}</td>
-                        <td class="text-success">{{ data.unit_cost }}</td>
-                        <td>{{ data.quantity }}</td>
-                        <td>{{ data.category }}</td>
-                        <td>{{ data.description }}</td>
-                        <td class="text-center">
-                            <span>
-                                <button class="btn btn" @click="deleteItem(data.id)">
-                                    <img src="/public/icon/trash_icon.png" width="30px" alt="">
-                                </button>
-                                <router-link class="btn btn" :to="{name: 'admin-edit-item', params: {id: data.id} }">
-                                    <img src="/public/icon/edit_icon_pencil.png" width="30px" alt="">
-                                </router-link>
-                                <button class="btn btn" @click="view(data.id)">
-                                    <img src="/public/icon/view_icon_eye.png" width="30px" alt="">
-                                </button>
-                            </span>
-                        </td>
-                    </tr>
-
-                </tbody>
-            </table>
-           </div> -->
-                <!-- <div class="pagination justify-content-center">
-                <Bootstrap5Pagination
-                :data="responseData"
-                @pagination-change-page="category"
-                />
-            </div> -->
             </div>
         </div>
-        <Loading v-if="loading"/>
-    <AdminViewModal v-if="viewModal" :viewModalId="viewModalId" @exit = "viewModal = false" />
+        <Loading v-if="loading" />
+        <AdminViewModal v-if="viewModal" :viewModalId="viewModalId" @exit="viewModal = false" />
     </div>
 </template>
 
 <script setup>
 import Header from '@/components/Admin_Header.vue'
 import { onMounted, ref, watch } from 'vue';
-import { Bootstrap5Pagination } from 'laravel-vue-pagination'
 import AdminViewModal from '@/components/Admin_View_Modal.vue'
 import Loading from '@/components/Loading.vue'
 
@@ -216,10 +153,9 @@ const responseData = ref({})
 const search = ref('')
 const viewModal = ref(false)
 const viewModalId = ref(null)
-
-
-const sortColumn = ref('category'); // Default sorting column
+const sortColumn = ref('brand'); // Default sorting column
 const sortOrder = ref('asc'); // Default sorting order
+
 const pagination = ref({
     current_page: 1,
     last_page: 1,
@@ -229,14 +165,14 @@ const pagination = ref({
 
 // data per category
 const category = async (page) => {
-if(page < 1 || page > pagination.value.last_page) return;
+    if (page < 1 || page > pagination.value.last_page) return;
     axios({
         method: 'GET',
         url: `/api/item-category?category=${selected.value}&page=${page}`,
         params: {
-                sort_by: sortColumn.value,
-                sort_order: sortOrder.value
-            }
+            sort_by: sortColumn.value,
+            sort_order: sortOrder.value
+        }
     }).then(response => {
         loading.value = false
         pagination.value = {
@@ -247,9 +183,20 @@ if(page < 1 || page > pagination.value.last_page) return;
         };
         responseData.value = response.data
 
-       
+
     })
 }
+
+
+const sort = (column) => {
+    if (sortColumn.value === column) {
+        sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
+    } else {
+        sortColumn.value = column;
+        sortOrder.value = 'asc';
+    }
+    category()
+};
 watch(selected, (oldVal, newVal) => {
     category()
 })
@@ -289,24 +236,13 @@ const previousPage = () => {
     if (pagination.value.prev_page_url) {
         category(pagination.value.current_page - 1);
     }
-};  
+};
 
 const nextPage = () => {
     if (pagination.value.next_page_url) {
         category(pagination.value.current_page + 1);
     }
 };
-
-const sort = (column) => {
-    if (sortColumn.value === column) {
-        sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
-    } else {
-        sortColumn.value = column;
-        sortOrder.value = 'asc';
-    }
-   category()   
-};
-
 onMounted(() => {
     category()
 })
@@ -340,26 +276,28 @@ onMounted(() => {
         align-items: center;
         gap: 10px;
     }
-    .createButton{
+
+    .createButton {
         background-color: rgb(24, 180, 24);
-        color:white;
+        color: white;
     }
-    .createButton span{
+
+    .createButton span {
         display: flex;
-      align-items: center;
-     
-       
+        align-items: center;
+
+
     }
 
     #table {
-       margin-top:10px;
+        margin-top: 10px;
         display: grid;
         justify-content: center
     }
 
     table {
         height: 30rem;
-        width: 70rem;
+        width: 75.5rem;
         overflow-y: scroll;
         display: block;
 
@@ -418,6 +356,15 @@ onMounted(() => {
         width: 4rem;
         text-align: center;
     }
+    .btnPaginate{
+        display: flex;
+        gap:10px;
+        justify-content: center;
+    }
+    .btnPaginate button{
+        width: 6rem;
+        text-align: center;
+    }
 }
 
 /* for small phones */
@@ -425,54 +372,59 @@ onMounted(() => {
     .admin-inventory-list {
         width: 50rem;
         margin: auto;
-     
-       
+
+
     }
 
     .inventory-filter {
         display: flex;
-        justify-content:start ;
+        justify-content: start;
         align-content: start;
         align-items: center;
-      
-        
+
+
     }
 
     .filter {
         display: flex;
         align-items: center;
         gap: 10px;
-        
+
     }
 
     .category {
         display: flex;
         align-items: center;
         gap: 10px;
-        
+
     }
-    .createButton{
+
+    .createButton {
         background-color: rgb(24, 180, 24);
-        color:white;
+        color: white;
     }
-    .createButton span{
+
+    .createButton span {
         display: flex;
-      align-items: center;
-     
-       
+        align-items: center;
+
+
     }
-    .search{
+
+    .search {
         width: 20rem;
     }
-    .search input{
+
+    .search input {
         max-width: 80%;
-        
+
     }
+
     #table {
         margin: auto;
         max-width: 80rem;
-        
-      
+
+
     }
 
     table {
@@ -537,7 +489,7 @@ onMounted(() => {
         width: 4rem;
         text-align: center;
     }
-}
+    }
 
 /* screen and tablets */
 @media screen and (min-width: 601px) {}
