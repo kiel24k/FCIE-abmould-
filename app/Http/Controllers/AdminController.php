@@ -142,14 +142,43 @@ class AdminController extends Controller
 
     public function itemCategory(Request $request)
     {
-        if ($request->category) {
-            $item = Item::where('category', '=', $request->category)
-                ->paginate(10);
-            return response()->json($item);
-        } else if (!$request->category) {
-            return response()->json(Item::latest()->paginate(10));
-        } else if ($request->category) {
-            return response()->json(Item::latest()->paginate(10));
+
+        $sortBy = $request->query('sort_by', 'category'); // Default sorting field
+        $sortOrder = $request->query('sort_order', 'asc'); // Default sorting order haha
+
+        $data = Item::orderBy($sortBy, $sortOrder)->paginate(3);
+        return response()->json($data);
+
+        // if ($data) {
+        //     if ($request->category) {
+        //         $item = Item::where('category', '=', $request->category)
+        //             ->paginate(10);
+        //         return response()->json($item);
+        //     } else if ($data) {
+        //         if (!$request->category) {
+        //             return response()->json(Item::latest()->paginate(10));
+        //         }
+        //     } else if ($data) {
+        //         if ($request->category) {
+        //             return response()->json(Item::latest()->paginate(10));
+        //         }
+        //     }
+        // }
+
+        switch ($data) {
+            case $request->category:
+                $item = Item::where('category', '=', $request->category)
+                    ->paginate(10);
+                return response()->json($item);
+                break;
+            case !$request->category:
+                return response()->json(Item::latest()->paginate(10));
+                break;
+            case $request->category:
+                return response()->json(Item::latest()->paginate(10));
+            default:
+                $data;
+                break;
         }
     }
     public function itemsSearch(Request $request)
@@ -246,17 +275,20 @@ class AdminController extends Controller
         $item = Item::where('barcode', '=', $barcode)->get();
         return response()->json($item);
     }
-    public function editQuantity($id){
+    public function editQuantity($id)
+    {
         $item = Item::find($id);
         return response()->json($item);
     }
-    public function addQuantitySubmit (Request $request, $id){
+    public function addQuantitySubmit(Request $request, $id)
+    {
         $item = Item::find($id);
         $item->quantity = $request->quantity;
         $item->update();
         return response()->json($item);
     }
-    public function reduceQuantity(Request $request, $id){
+    public function reduceQuantity(Request $request, $id)
+    {
         $item = Item::find($id);
         $item->quantity = $request->quantity;
         $item->update();
