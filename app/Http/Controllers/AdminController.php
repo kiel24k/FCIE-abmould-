@@ -23,12 +23,12 @@ class AdminController extends Controller
         if ($request->role) {
             $table = User::where('role', '=', $request->role)
                 ->orderBy($sortName, $sortOrder)
-                ->paginate(5);
+                ->paginate(3);
             return response()->json($table);
         } else if (!$request->category) {
-            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(2));
+            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(3));
         } else if ($request->category) {
-            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(2));
+            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(3));
         }
     }
     public function userListSearch(Request $request)
@@ -145,7 +145,6 @@ class AdminController extends Controller
 
     public function itemCategory(Request $request)
     {
-
         $sortBy = $request->query('sort_by', 'brand'); // default brand request 
         $sortOrder = $request->query('sort_order', 'asc');
         if ($request->category) {
