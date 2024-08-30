@@ -33,7 +33,7 @@
                         </router-link>
                     </div>
                 </div>
-                <table class="table table-striped table-hover mt-3">
+                <table class="table table-striped table-hover table-responsive mt-3">
                     <thead>
                         <tr>
                             <th>
@@ -85,10 +85,10 @@
                     </tbody>
                 </table>
                 <div class="paginator text-center">
-                    <span>1 of 2</span>
+                    <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
                     <span class="paginateBtn">
-                        <button class="btn btn-success">Prev</button>
-                        <button class="btn btn-dark">Next</button>
+                        <button class="btn btn-success" @click="prevBtn">Prev</button>
+                        <button class="btn btn-dark" @click="nextBtn">Next</button>
                     </span>
                 </div>
             </div>
@@ -114,6 +114,12 @@ const selected = ref('')
 const userList = ref({})
 const sortDefault = ref('first_name')
 const sortOrder = ref('asc')
+const pagination = ref({
+    current_page: 1,
+    last_page: 1,
+    next_page_url: null,
+    prev_page_url: null,
+})
 
 const page = (page) => {
     axios.get(`api/user-list?role=${selected.value}&page=${page}`, {
@@ -122,22 +128,29 @@ const page = (page) => {
             sort: sortDefault.value
         }
     }).then(response => {
+        pagination.value = {
+            current_page: response.data.current_page,
+            last_page: response.data.last_page,
+            next_page_url: response.data.next_page_url,
+            prev_page_url: response.data.prev_page_url
+        }
         userList.value = response.data
+        console.log(pagination.value);
     })
 }
 
 const sort = (sortValue) => {
-   console.log(sortValue);
-    if(sortDefault.value === sortValue){
+    console.log(sortValue);
+    if (sortDefault.value === sortValue) {
         sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
-    }else{
+    } else {
         sortDefault.value = sortValue
         sortOrder.value = 'asc'
     }
     page()
-
-
 }
+
+
 
 watch(selected, (oldVal, newVal) => {
     page()
@@ -156,9 +169,7 @@ watch(search, (oldVal, newVal) => {
         page()
     }
 })
-onMounted(() => {
-    page()
-})
+
 //delete user
 const deleteUser = async (id) => {
     loading.value = true
@@ -166,6 +177,18 @@ const deleteUser = async (id) => {
         page()
         loading.value = false
     })
+}
+const prevBtn = () => {
+    if (pagination.value.prev_page_url) {
+        page(pagination.value.current_page - 1)
+        
+    }
+}
+const nextBtn = () => {
+    if (pagination.value.next_page_url) {
+        page(pagination.value.current_page + 1) 
+    }
+
 }
 
 
@@ -193,7 +216,7 @@ onMounted(() => {
 }
 
 th {
-    
+
     color: rgb(37, 36, 36);
     cursor: pointer;
 }
@@ -208,15 +231,18 @@ th {
     align-items: center;
     gap: 5px;
 }
-.paginator{
+
+.paginator {
     display: grid;
     justify-content: center;
 }
-.paginateBtn{
-    display:flex ;
-    gap:10px;
+
+.paginateBtn {
+    display: flex;
+    gap: 10px;
 }
-.paginateBtn button{
+
+.paginateBtn button {
     width: 6rem;
 }
 </style>
