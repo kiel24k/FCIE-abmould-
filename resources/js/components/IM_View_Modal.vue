@@ -73,8 +73,9 @@ onMounted(() => {
     display: grid;
     justify-content: center;
     align-items: center;
-    background-color: rgb(221, 216, 216);
+    background-color: rgb(221, 216, 216,0.5);
     height: 100%;
+    backdrop-filter: blur(5px);
     width: 100%;
   }
   .card-header{

@@ -135,7 +135,6 @@ const page = (page) => {
             prev_page_url: response.data.prev_page_url
         }
         userList.value = response.data
-        console.log(pagination.value);
     })
 }
 
