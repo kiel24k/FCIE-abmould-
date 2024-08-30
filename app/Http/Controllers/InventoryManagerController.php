@@ -9,12 +9,15 @@ class InventoryManagerController extends Controller
 {
     public function getItemList(Request $request)
     {
+
+        $sort_column_name = $request->query('sort_column_name', 'item_code');
+        $sort_order = $request->query('sort_order', 'asc');
         if (!$request->category) {
-            $allitem = Item::latest()->paginate(10);
+            $allitem = Item::orderBy($sort_column_name, $sort_order)->paginate(5);
             return response()->json($allitem);
         } else if ($request->category) {
             $item = Item::where('category', '=', $request->category)
-                ->latest()->paginate(10);
+                ->orderBy($sort_column_name, $sort_order)->paginate(5);
             return response()->json($item);
         }
     }

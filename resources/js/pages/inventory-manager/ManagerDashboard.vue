@@ -25,7 +25,7 @@
 
 <script setup>
 import Header from '@/components/IM_Header.vue'
-import BarGraph from "@/components/BarGraph.vue";
+import BarGraph from "@/components/BarChart.vue";
 import Doughnut from '@/components/Pie.vue'
 import LineChart from "@/components/LineChart.vue";
 
