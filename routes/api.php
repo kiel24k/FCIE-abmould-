@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChartController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\InventoryManagerController;
 
 
@@ -59,6 +60,12 @@ Route::controller(MemberController::class)->group(function () {
 Route::controller(ChartController::class)->group(function () {
     route::get('/bargraph', 'bargraph');
 });
+
+route::controller(HistoryController::class)->group(function () {
+    Route::post('/create-in-history','createInHistory');
+    route::get('/get-in-history', 'getInHistory');
+});
+
 
 Route::post('/announcements', [AnnouncementController::class, 'store']);
 
