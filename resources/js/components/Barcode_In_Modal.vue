@@ -22,7 +22,7 @@
                     <div class="row">
                         <b>Description:</b>
                         <p>
-                            {{itemsResponseData.description}}
+                            {{ itemsResponseData.description }}
                         </p>
                     </div>
                     <div class="row">
@@ -36,7 +36,7 @@
                     <form action="" @submit.prevent>
                         <div class="row">
                             <div class="col">
-                                <label for=""><b>Add Quantity:</b></label>
+                                <label for=""><b>Add</b></label>
                                 <input type="number" min="0" class="form-control" v-model="addQuantity">
                             </div>
                         </div>
@@ -67,14 +67,40 @@ const emit = defineEmits(['exit', 'scanAgain'])
 
 const itemsResponseData = ref({})
 const addQuantity = ref('')
-const items = () => {
-    axios({
+
+const dateValue = ref()
+const items = async () => {
+    await axios({
         method: 'GET',
         url: `/api/edit-quantity/${props.inModalId}`
     }).then(response => {
         itemsResponseData.value = response.data
+        let isoDate = itemsResponseData.value.created_at;
+        let dateData = new Date(isoDate);
+        const month = dateData.getUTCMonth() + 1
+        const day = dateData.getUTCDate()
+        const year = dateData.getUTCFullYear()
+        const formatYear = year.toString().slice(-2);
+        const formatDay = day.toString().padStart(2, '0')
+        const formatMonth = month.toString().padStart(2, '0')
+        dateValue.value = `${formatYear}/${formatMonth}/${formatDay}`
+    })
+        .then(response => {
+            console.log(response);
+
+        })
+}
+
+const userInformation = ref({})
+const userInfo = () => {
+    const token = localStorage.getItem('responseTKN')
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+    axios.get('api/user').then(response => {
+        userInformation.value = response.data
+
     })
 }
+
 
 
 const finalOutput = ref()
@@ -82,8 +108,8 @@ watch(addQuantity, (oldVal, newVal) => {
     const output = ref(addQuantity.value + itemsResponseData.value.quantity)
     finalOutput.value = output.value
 })
-const submit = (id) => {
-    axios({
+const submit = async (id) => {
+    await axios({
         method: 'POST',
         url: `/api/add-quantity-submit/${id}`,
         data: {
@@ -94,7 +120,25 @@ const submit = (id) => {
             emit('exit')
         }
     })
+    await axios({
+        method: 'POST',
+        url: 'api/create-in-history',
+        data: {
+            date: dateValue.value,
+            category: itemsResponseData.value.category,
+            item_code: itemsResponseData.value.item_code,
+            barcode: itemsResponseData.value.barcode,
+            change_by_name: userInformation.value.first_name,
+            made: 'Updated'
+        }
+    }).then(response => {
+        console.log(response);
+        
+    })
+
+
 }
+
 
 
 
@@ -103,6 +147,7 @@ const exit = () => {
 }
 onMounted(() => {
     items()
+    userInfo()
 })
 </script>
 

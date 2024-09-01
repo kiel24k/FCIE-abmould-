@@ -27,64 +27,60 @@
             </section>
         </div>
     </div>
-<div class="text-center mt-5">
-    <b>History</b>
-</div>
+    <div class="text-center mt-5">
+        <b>History</b>
+    </div>
     <div id="table" class="table-responsive-sm-2">
-      
+
         <table class="table table-hover table mt-4">
             <thead>
                 <tr>
                     <th class="">
                         <div class="head-title">
                             Date
-                            <span>▲</span>
+
                         </div>
                     </th>
                     <th>
                         <div class="head-title">
                             Category
-                            <span>▲</span>
+
                         </div>
                     </th>
                     <th>
                         <div class="head-title">
                             Item Code
-                            <span>▲</span>
+
                         </div>
                     </th>
                     <th>
                         <div class="head-title">
                             Barcode
-                            <span>▲</span>
+
                         </div>
                     </th>
                     <th>
                         <div class="head-title">
                             Changed by
-                            <span>▲</span>
+
                         </div>
                     </th>
                     <th>
                         <div class="head-title">
                             Was
-                            <span>▲</span>
+
                         </div>
                     </th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>data2</td>
-                    <td>data2</td>
-                    <td>data2</td>
-                    <td>data2</td>
-                    <td>
-                        Kiel
-                    </td>
-                    <td>
-                        Deleted
-                    </td>
+                <tr v-for="(data, index) in responseData.data" :index="index">
+                    <td>{{ data.date }}</td>
+                    <td>{{ data.category }}</td>
+                    <td>{{ data.item_code }}</td>
+                    <td>{{ data.barcode }}</td>
+                    <td>{{ data.change_by_name }} </td>
+                    <td>{{ data.made }}</td>
                 </tr>
             </tbody>
         </table>
@@ -103,9 +99,27 @@ import Header from '@/components/Admin_Header.vue'
 import Doughnut from '@/components/Pie.vue'
 import LineChart from "@/components/LineChart.vue";
 import BarChart from '@/components/BarChart.vue';
+import { onMounted, ref } from 'vue';
 
 
+const responseData = ref({})
+const getInHistory = () => {
+    axios({
+        method: 'GET',
+        url: ' api/get-in-history'
+    }).then(response => {
+        responseData.value = response.data
+        console.log(response);
+    })
+}
 
+// setInterval(() => {
+//     getInHistory()
+// }, 2000)
+
+onMounted(() => {
+    getInHistory()
+})
 </script>
 
 <style scoped>
@@ -147,12 +161,12 @@ import BarChart from '@/components/BarChart.vue';
         margin: auto;
         display: grid;
         justify-content: center;
-       
+
     }
 
     table {
         margin: auto;
-        height: 30rem;
+        height: auto;
         display: block;
     }
 
@@ -164,7 +178,7 @@ import BarChart from '@/components/BarChart.vue';
     }
 
     table td {
-        
+
         border-bottom: 2px solid white;
     }
 
