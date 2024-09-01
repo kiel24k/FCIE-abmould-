@@ -1,29 +1,101 @@
 <template>
-     <header>
-      <Header/>
-     </header>
+    <header>
+        <Header />
+    </header>
     <div class="analytics">
         <div class="content">
             <section>
                 <div class="title">
-                    <h1>Inventory Reports & Analytics</h1>
+                    <h1>Dashboard</h1>
                 </div>
 
 
                 <div class="chart">
                     <div class="">
-                        <BarChart/>
+                        <BarChart />
                     </div>
                     <div class="pie">
-                        <Doughnut/>
+                        <Doughnut />
                     </div>
-                    <div class=""><LineChart/></div>
-                    <div class=""><h1>no data pa</h1></div>
+                    <div class="">
+                        <LineChart />
+                    </div>
+                    <div class="">
+                        <h1>no data pa</h1>
+                    </div>
                 </div>
             </section>
         </div>
     </div>
-
+<div class="text-center mt-5">
+    <b>History</b>
+</div>
+    <div id="table" class="table-responsive-sm-2">
+      
+        <table class="table table-hover table mt-4">
+            <thead>
+                <tr>
+                    <th class="">
+                        <div class="head-title">
+                            Date
+                            <span>▲</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="head-title">
+                            Category
+                            <span>▲</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="head-title">
+                            Item Code
+                            <span>▲</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="head-title">
+                            Barcode
+                            <span>▲</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="head-title">
+                            Changed by
+                            <span>▲</span>
+                        </div>
+                    </th>
+                    <th>
+                        <div class="head-title">
+                            Was
+                            <span>▲</span>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>data2</td>
+                    <td>data2</td>
+                    <td>data2</td>
+                    <td>data2</td>
+                    <td>
+                        Kiel
+                    </td>
+                    <td>
+                        Deleted
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="pagination text-center">
+            <span>1 of 5</span>
+            <div class="pagination-action">
+                <button>Prev</button>
+                <button>Next</button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup>
@@ -37,30 +109,184 @@ import BarChart from '@/components/BarChart.vue';
 </script>
 
 <style scoped>
-.analytics {
-    display: flex;
-}
-.analytics .content {
-    width: 100%;
-}
-.analytics .chart {
-    display: grid;
-    grid-template-columns: 50rem 30rem;
+/* laptop or pc */
+@media screen and (min-width: 769px) {
+    .analytics {
+        display: flex;
+    }
 
-    gap: 25px;
+    .analytics .content {
+        width: 100%;
+    }
+
+    .analytics .chart {
+        display: grid;
+        grid-template-columns: 50rem 30rem;
+
+        gap: 25px;
+    }
+
+    .analytics .chart>div {
+        box-shadow: 0px 0px 2px 0px gray;
+
+        height: 25rem;
+    }
+
+    .analytics section {
+        width: fit-content;
+        margin: auto;
+    }
+
+    .analytics .pie {
+        display: grid;
+        justify-content: center;
+        align-content: center;
+    }
+
+    #table {
+        margin: auto;
+        display: grid;
+        justify-content: center;
+       
+    }
+
+    table {
+        margin: auto;
+        height: 30rem;
+        display: block;
+    }
+
+    table th {
+        color: rgb(94, 93, 93);
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+    }
+
+    table td {
+        
+        border-bottom: 2px solid white;
+    }
+
+    table .head-title {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .action {
+        display: flex;
+    }
+
+    table tbody button {
+        border-radius: 5px;
+        color: white;
+        border: 0px;
+        font-weight: 600;
+    }
+
+    .btnView {
+        background: none;
+    }
+
+    .btnUpdate {
+        background: none;
+    }
+
+    .btnDelete {
+        background: none;
+    }
+
+    .pagination {
+        display: grid;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pagination-action button {
+        border-radius: 4px;
+        background-color: black;
+        color: white;
+        font-weight: 550;
+        width: 4rem;
+        text-align: center;
+    }
 }
-.analytics .chart > div {
-    box-shadow: 0px 0px 10px 0px gray;
-    border-radius: 15px;
-    height: 25rem;
+
+/* for small phones */
+@media screen and (max-width: 1116px) {
+    #table {
+        margin: auto;
+        max-width: 80rem;
+    }
+
+    table {
+        border: solid 1px rgb(211, 208, 208);
+        margin: auto;
+        height: 30rem;
+        overflow-x: scroll;
+        overflow-y: scroll;
+        display: block;
+    }
+
+    table th {
+        color: rgb(94, 93, 93);
+        font-weight: 600;
+        border: solid 2px black;
+        border-bottom: 2px solid white;
+        position: sticky;
+        top: 0;
+    }
+
+    table td {
+        background-color: rgb(247, 243, 243);
+        border: solid 2px black;
+        border-bottom: 2px solid white;
+    }
+
+    table .head-title {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .action {
+        display: flex;
+    }
+
+    table tbody button {
+        border-radius: 5px;
+        color: white;
+        border: 0px;
+        font-weight: 600;
+    }
+
+    .btnView {
+        background: none;
+    }
+
+    .btnUpdate {
+        background: none;
+    }
+
+    .btnDelete {
+        background: none;
+    }
+
+    .pagination {
+        display: grid;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .pagination-action button {
+        border-radius: 4px;
+        background-color: black;
+        color: white;
+        font-weight: 550;
+        width: 4rem;
+        text-align: center;
+    }
 }
-.analytics section {
-    width: fit-content;
-    margin: auto;
-}
-.analytics .pie{
-    display: grid;
-    justify-content: center;
-    align-content: center;
-}
+
+/* screen and tablets */
+@media screen and (min-width: 601px) {}
 </style>

@@ -297,7 +297,7 @@ onMounted(() => {
 
     table {
         height: 30rem;
-        width: 75.5rem;
+        max-width: 71rem;
         overflow-y: scroll;
         display: block;
 
