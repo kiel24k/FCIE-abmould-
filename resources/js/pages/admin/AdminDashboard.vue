@@ -62,13 +62,11 @@
                     <th>
                         <div class="head-title">
                             Changed by
-
                         </div>
                     </th>
                     <th>
                         <div class="head-title">
-                            Was
-
+                            status
                         </div>
                     </th>
                 </tr>
