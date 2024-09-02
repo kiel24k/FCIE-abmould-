@@ -85,10 +85,6 @@ const items = async () => {
         const formatMonth = month.toString().padStart(2, '0')
         dateValue.value = `${formatYear}/${formatMonth}/${formatDay}`
     })
-        .then(response => {
-            console.log(response);
-
-        })
 }
 
 const userInformation = ref({})

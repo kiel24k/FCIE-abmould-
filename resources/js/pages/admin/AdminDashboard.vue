@@ -84,13 +84,6 @@
                 </tr>
             </tbody>
         </table>
-        <div class="pagination text-center">
-            <span>1 of 5</span>
-            <div class="pagination-action">
-                <button>Prev</button>
-                <button>Next</button>
-            </div>
-        </div>
     </div>
 </template>
 

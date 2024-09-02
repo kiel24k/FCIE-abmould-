@@ -16,38 +16,38 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::post('/login',[AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::controller(AdminController::class)->group(function () {
     Route::get('/user-list', 'userList');
     Route::get('/user-list-search', 'userListSearch');
     Route::post('/add-user', 'addUser');
     Route::delete('/delete-user/{id}', 'deleteUser');
-    Route::get('/updated-user-data/{id}','userUpdatedData');
+    Route::get('/updated-user-data/{id}', 'userUpdatedData');
     Route::post('/update-user-data/{id}', 'userUpdateData');
     Route::post('/new-item', 'newItem');
     Route::get('/get-items', 'getItems');
-    Route::get('/item-category','itemCategory');
-    Route::get('/items-search','itemsSearch');
+    Route::get('/item-category', 'itemCategory');
+    Route::get('/items-search', 'itemsSearch');
     Route::delete('/delete-item/{id}', 'deleteItem');
     Route::get('/updated-item/{id}', 'updatedItem');
     Route::post('/update-item/{id}', 'updateitem');
     Route::get('/view-item/{id}', 'viewItem');
     Route::get('/scheduled-date/{date}', 'scheduledDate');
     Route::post('/add-schedule', 'addSchedule');
-    Route::get('/generate-barcode','generateBarcode');
+    Route::get('/generate-barcode', 'generateBarcode');
     Route::get('/view-scan-barcode/{barcode}', 'viewScanBarcode');
     Route::get('/edit-quantity/{id}', 'editQuantity');
     Route::post('/add-quantity-submit/{id}', 'addQuantitySubmit');
     Route::post('/reduce-quantity-submit/{id}', 'reduceQuantity');
-    Route::get('/test','test');
+    Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');
 });
 
 Route::controller(InventoryManagerController::class)->group(function () {
     Route::get('/IM_get_item_list', 'getItemList');
     Route::get('/IM_item-search-list', 'itemSearchList');
-    Route::get('/IM_update-item/{id}','getUpdatedItem');
+    Route::get('/IM_update-item/{id}', 'getUpdatedItem');
     Route::post('/IM_submit-updated-item/{id}', 'submitUpdatedItem');
 });
 
@@ -62,10 +62,11 @@ Route::controller(ChartController::class)->group(function () {
 });
 
 route::controller(HistoryController::class)->group(function () {
-    Route::post('/create-in-history','createInHistory');
+    Route::post('/create-in-history', 'createInHistory');
+    route::post('/create-out-history', 'createOutHistory');
     route::get('/get-in-history', 'getInHistory');
+
 });
 
 
 Route::post('/announcements', [AnnouncementController::class, 'store']);
-
