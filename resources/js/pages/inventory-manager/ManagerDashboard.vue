@@ -21,6 +21,62 @@
            </section>
        </div>
    </div>
+   <div class="text-center mt-5">
+    <b>History</b>
+</div>
+<div id="table" class="table-responsive-sm-2">
+
+    <table class="table table-hover table mt-4">
+        <thead>
+            <tr>
+                <th class="">
+                    <div class="head-title">
+                        Date
+
+                    </div>
+                </th>
+                <th>
+                    <div class="head-title">
+                        Category
+
+                    </div>
+                </th>
+                <th>
+                    <div class="head-title">
+                        Item Code
+
+                    </div>
+                </th>
+                <th>
+                    <div class="head-title">
+                        Barcode
+
+                    </div>
+                </th>
+                <th>
+                    <div class="head-title">
+                        Changed by
+                    </div>
+                </th>
+                <th>
+                    <div class="head-title">
+                        status
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(data, index) in responseData.data" :index="index">
+                <td>{{ data.date }}</td>
+                <td>{{ data.category }}</td>
+                <td>{{ data.item_code }}</td>
+                <td>{{ data.barcode }}</td>
+                <td>{{ data.change_by_name }} </td>
+                <td>{{ data.made }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 </template>
 
 <script setup>
@@ -28,8 +84,29 @@ import Header from '@/components/IM_Header.vue'
 import BarGraph from "@/components/BarChart.vue";
 import Doughnut from '@/components/Pie.vue'
 import LineChart from "@/components/LineChart.vue";
+import { onMounted, ref } from 'vue';
 
 
+
+
+const responseData = ref({})
+const getInHistory = () => {
+    axios({
+        method: 'GET',
+        url: ' api/get-in-history'
+    }).then(response => {
+        responseData.value = response.data
+        console.log(response);
+    })
+}
+
+// setInterval(() => {
+//     getInHistory()
+// }, 2000)
+
+onMounted(() => {
+    getInHistory()
+})
 
 </script>
 

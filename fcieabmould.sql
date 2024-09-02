@@ -2,8 +2,8 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 31, 2024 at 04:20 PM
+-- Host: localhost
+-- Generation Time: Sep 02, 2024 at 04:01 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,20 @@ SET time_zone = "+00:00";
 --
 -- Database: `fcieabmould`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcements`
+--
+
+CREATE TABLE `announcements` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -64,6 +78,35 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `histories`
+--
+
+CREATE TABLE `histories` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `date` varchar(255) NOT NULL,
+  `category` varchar(255) NOT NULL,
+  `item_code` varchar(255) NOT NULL,
+  `barcode` varchar(255) NOT NULL,
+  `change_by_name` varchar(255) NOT NULL,
+  `made` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `histories`
+--
+
+INSERT INTO `histories` (`id`, `date`, `category`, `item_code`, `barcode`, `change_by_name`, `made`, `created_at`, `updated_at`) VALUES
+(1, '24/09/01', 'materials', 'dsad', '263856', '1', 'Updated', '2024-09-01 00:14:57', '2024-09-01 00:14:57'),
+(2, '24/09/01', 'materials', 'dsad', '263856', 'Admin111111', 'Updated', '2024-09-01 00:15:59', '2024-09-01 00:15:59'),
+(3, '24/09/01', 'materials', 'dsad', '263856', 'Admin111111', 'Updated', '2024-09-01 00:36:06', '2024-09-01 00:36:06'),
+(4, '24/09/01', 'materials', 'dsad', '263856', 'Admin111111', 'Updated', '2024-09-01 17:28:09', '2024-09-01 17:28:09'),
+(5, '24/09/01', 'materials', 'dsad', '263856', 'Admin111111', 'Deleted', '2024-09-01 17:31:04', '2024-09-01 17:31:04');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `items`
 --
 
@@ -77,25 +120,16 @@ CREATE TABLE `items` (
   `description` varchar(255) NOT NULL,
   `brand` varchar(255) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `barcode` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `items`
 --
 
-INSERT INTO `items` (`id`, `item_code`, `supplier_name`, `unit_cost`, `quantity`, `category`, `description`, `brand`, `created_at`, `updated_at`) VALUES
-(3, 'bobo', 'battosai', 232.00, 232, 'tools', 'dsd', 'bobo', '2024-07-27 23:16:09', '2024-07-27 23:16:09'),
-(4, 'd', 'dasd', 23.00, 232, 'tools', 'dasdasd', 'sadasd', '2024-07-28 00:08:34', '2024-07-28 00:08:34'),
-(6, 'Bomba na', 'KielPoga', 12.00, 12, 'materials', 'dasdasd', 'toshiba', '2024-07-28 21:04:23', '2024-07-28 21:04:23'),
-(7, 'dsada', 'dsad', 23.00, 23, 'tools', 'dsadasbdashkiel kiel ie', 's23', '2024-07-28 21:04:40', '2024-07-28 21:04:40'),
-(10, 'dsadas', '231', 232.00, 23, 'materials', 'sdasdas', 'dasd', '2024-07-28 21:05:05', '2024-07-28 21:05:05'),
-(11, 'dasdas', 'dasdsa', 232.00, 232, 'tools', 'sadas', '23', '2024-07-28 21:05:14', '2024-07-28 21:05:14'),
-(13, 'ys', 'fs', 23.00, 23, 'materials', 'ds', 's', '2024-07-29 21:28:45', '2024-07-29 21:28:45'),
-(14, 'dsad', 'dsad', 23.00, 23, 'materials', 'dsd', 'ad', '2024-07-29 21:31:25', '2024-07-29 21:31:25'),
-(15, 'kielel', 'd23', 23.00, 23, 'tools', 'dsadas', 'das', '2024-07-29 21:31:46', '2024-07-29 21:31:46'),
-(16, 'sda', 'sda', 23.00, 23, 'materials', 'sda', 'd', '2024-07-29 21:46:53', '2024-07-29 21:46:53'),
-(17, 'sigeee', 'wt', 2.00, 22, 'materials', 'one two', 'ano yan', '2024-07-30 18:49:30', '2024-07-30 18:49:30');
+INSERT INTO `items` (`id`, `item_code`, `supplier_name`, `unit_cost`, `quantity`, `category`, `description`, `brand`, `created_at`, `updated_at`, `barcode`) VALUES
+(1, 'dsad', '232', 323.00, 197, 'materials', 'dsadasd', 'asdsa', '2024-08-31 23:49:20', '2024-09-01 17:31:03', '263856');
 
 -- --------------------------------------------------------
 
@@ -155,8 +189,11 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (37, '2024_07_23_183742_add_tel_no_to_users_table', 1),
 (38, '2024_07_24_054654_add_image_to_users_table', 1),
 (42, '2024_07_25_011501_create_tools__inventories_table', 2),
-(57, '2024_07_25_073535_create_schedules_table', 3),
-(58, '2024_07_28_045324_create_items_table', 3);
+(63, '2024_07_25_073535_create_schedules_table', 3),
+(64, '2024_07_28_045324_create_items_table', 3),
+(65, '2024_08_14_040614_add_barcode_to_items_table', 3),
+(66, '2024_08_15_122928_create_announcements_table', 3),
+(69, '2024_09_01_033255_history', 4);
 
 -- --------------------------------------------------------
 
@@ -202,7 +239,11 @@ INSERT INTO `personal_access_tokens` (`id`, `tokenable_type`, `tokenable_id`, `n
 (6, 'App\\Models\\User', 2, 'yusername0123@gmail.com', 'bbebb9af09daddd0293b7d9569c802c4a1a064dd45eb9031228369fe7863d0eb', '[\"*\"]', '2024-07-27 19:48:08', NULL, '2024-07-24 17:44:15', '2024-07-27 19:48:08'),
 (7, 'App\\Models\\User', 1, 'admin@example.com', 'd313f647fb572764554c855da3693c6ac5b3480194240ab650841f990effeb3d', '[\"*\"]', '2024-07-30 22:51:52', NULL, '2024-07-27 19:48:25', '2024-07-30 22:51:52'),
 (8, 'App\\Models\\User', 2, 'yusername0123@gmail.com', '76be4e126a18108ad8e51d423ee5dc36f97edd70e6d5f5dffdaad7f5c9ce83e9', '[\"*\"]', '2024-07-30 22:54:47', NULL, '2024-07-30 22:53:12', '2024-07-30 22:54:47'),
-(9, 'App\\Models\\User', 2, 'user@gmail.com', 'ad75f6acc06457eed2d52ccf5f3963429dfe8d4a4e50c9762a0ccd23a4a324bc', '[\"*\"]', '2024-07-30 23:03:45', NULL, '2024-07-30 22:54:57', '2024-07-30 23:03:45');
+(9, 'App\\Models\\User', 2, 'user@gmail.com', 'ad75f6acc06457eed2d52ccf5f3963429dfe8d4a4e50c9762a0ccd23a4a324bc', '[\"*\"]', '2024-07-30 23:03:45', NULL, '2024-07-30 22:54:57', '2024-07-30 23:03:45'),
+(10, 'App\\Models\\User', 1, 'admin@example.com', 'a0b702ee3bf9eb01d7cce821c4a8bde94301cd4e61a9b51e0aa7172e7c3b9c2c', '[\"*\"]', '2024-08-31 09:18:34', NULL, '2024-08-31 09:05:12', '2024-08-31 09:18:34'),
+(11, 'App\\Models\\User', 1, 'admin@example.com', '47b9ac85a240d783594d961661c8be9c25c37cf06ad72df5eb3d39ffb6182f9c', '[\"*\"]', '2024-09-01 17:22:09', NULL, '2024-08-31 18:47:08', '2024-09-01 17:22:09'),
+(12, 'App\\Models\\User', 1, 'admin@example.com', '7ad64c40403d1faa241f94dc77ac652b5772d6c87bea31f1f753e447f76c8283', '[\"*\"]', '2024-09-01 17:55:15', NULL, '2024-09-01 17:23:18', '2024-09-01 17:55:15'),
+(13, 'App\\Models\\User', 3, 'IM@gmail.com', '59627fca311c62e26464a94eee52b194d654d60ceb68c662efe361b4222c186c', '[\"*\"]', '2024-09-01 18:00:05', NULL, '2024-09-01 17:58:04', '2024-09-01 18:00:05');
 
 -- --------------------------------------------------------
 
@@ -220,19 +261,6 @@ CREATE TABLE `schedules` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `schedules`
---
-
-INSERT INTO `schedules` (`id`, `supplier_name`, `item_code`, `quantity`, `status`, `date_schedule`, `created_at`, `updated_at`) VALUES
-(1, 'Kiel', 'dasdasd', 2, 'pending', '2024-07-06', '2024-07-27 23:40:00', '2024-07-27 23:40:00'),
-(2, 'kiel', 'kiel', 1, 'pending', '2024-07-28', '2024-07-27 23:40:20', '2024-07-27 23:40:20'),
-(3, 'kiel', 'kiel', 23, 'pending', '2024-07-27', '2024-07-27 23:40:50', '2024-07-27 23:40:50'),
-(4, 'dsad', 'ad', 2, 'pending', '2024-07-28', '2024-07-27 23:41:10', '2024-07-27 23:41:10'),
-(5, 'fsdsd', 'fsdf', 232, 'pending', '2024-07-28', '2024-07-27 23:41:28', '2024-07-27 23:41:28'),
-(6, 'faf', 'battusai', 232, 'pending', '2024-07-06', '2024-07-27 23:41:43', '2024-07-27 23:41:43'),
-(7, 'Kiel', 'hahaha', 232, 'pending', '2024-07-29', '2024-07-28 00:06:51', '2024-07-28 00:06:51');
 
 -- --------------------------------------------------------
 
@@ -302,12 +330,19 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `middle_name`, `last_name`, `role`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `tel_no`, `image`) VALUES
-(1, 'Admin111111', 'Kiel', 'olok', 'admin', 'admin@example.com', '2024-07-24 02:19:07', '$2y$12$MLdCeguvhgC2jWGRS2wtLunlRLwVlXvaPXVF8SXBEBVEPFMQFDm.2', 'CfPxM8h6v6', '2024-07-24 02:19:07', '2024-07-30 22:53:56', '09193471522', 'kTswGn7u9LR6EfIA8COcxgPMIPCROT7w4RiMWYlZ.png'),
-(2, 'Kiel', 'si kiel', 'Bermudez', 'inventory-manager', 'user@gmail.com', NULL, '$2y$12$kzqciqi6.8bTh1oXsaSqKeuLwMPoHRcqPywl6GnJGWZHd6g/rCr6O', NULL, '2024-07-24 17:42:40', '2024-07-30 22:54:46', '09193471522', 'SFwBwcVZwEoRterYYKEW2r044ns2QHfAh6ZFolS3.png');
+(1, 'Admin111111', 'Kiel', 'olok', 'admin', 'admin@gmail.com', '2024-07-24 02:19:07', '$2y$12$4wtE1hCOL7NmXFpWiB1tA.u5jEHX6xokSradY2nEQCzT2/NoFmB/C', 'CfPxM8h6v6', '2024-07-24 02:19:07', '2024-08-31 18:47:17', '09193471522', 'kTswGn7u9LR6EfIA8COcxgPMIPCROT7w4RiMWYlZ.png'),
+(2, 'Kiel', 'si kiel', 'Bermudez', 'member', 'member@gmail.com', NULL, '$2y$12$Fy9M0e8.difntXqFsT9OceLyco2fOES8Oacoq5jX8BH/p9jjFv2Nq', NULL, '2024-07-24 17:42:40', '2024-08-31 09:17:53', '09193471522', 'SFwBwcVZwEoRterYYKEW2r044ns2QHfAh6ZFolS3.png'),
+(3, 'Im_Manager', 'Inventory_manager', 'Im_Manager', 'inventory-manager', 'IM@gmail.com', NULL, '$2y$12$3PQWp5U5U1F0an/g/HuXvu00rHQyEsc3MC3jIUAGT9yqmz7lARmYO', NULL, '2024-08-31 09:07:14', '2024-08-31 09:07:14', '09193471522', NULL);
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `announcements`
+--
+ALTER TABLE `announcements`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `cache`
@@ -327,6 +362,12 @@ ALTER TABLE `cache_locks`
 ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
+
+--
+-- Indexes for table `histories`
+--
+ALTER TABLE `histories`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `items`
@@ -398,16 +439,28 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `announcements`
+--
+ALTER TABLE `announcements`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `histories`
+--
+ALTER TABLE `histories`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `jobs`
@@ -419,19 +472,19 @@ ALTER TABLE `jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
 --
 ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tool_inventories`
@@ -443,7 +496,7 @@ ALTER TABLE `tool_inventories`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
