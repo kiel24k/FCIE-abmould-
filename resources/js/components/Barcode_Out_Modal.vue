@@ -59,15 +59,26 @@
 <script setup>
 import { onMounted, ref, watch } from 'vue';
 
-
+const dateValue = ref()
 const props = defineProps(['reduceItemId'])
 const itemsResponseData = ref({})
+const userData = ref()
 const items = () => {
     axios({
         method: 'GET',
         url: `/api/edit-quantity/${props.reduceItemId}`
     }).then(response => {
         itemsResponseData.value = response.data
+
+        let isoDate = itemsResponseData.value.created_at;
+        let dateData = new Date(isoDate);
+        const month = dateData.getUTCMonth() + 1
+        const day = dateData.getUTCDate()
+        const year = dateData.getUTCFullYear()
+        const formatYear = year.toString().slice(-2);
+        const formatDay = day.toString().padStart(2, '0')
+        const formatMonth = month.toString().padStart(2, '0')
+        dateValue.value = `${formatYear}/${formatMonth}/${formatDay}`
 
     })
 }
@@ -85,8 +96,8 @@ watch(reduceQuantity, (oldVal, newVal) => {
     }
 })
 
-const submit = (id) => {
-    axios({
+const submit = async (id) => {
+    await axios({
         method: 'POST',
         url: `/api/reduce-quantity-submit/${id}`,
         data: {
@@ -94,6 +105,31 @@ const submit = (id) => {
         }
     }).then(response => {
         emit('exit')
+    })
+    await axios({
+        method: 'POST',
+        url: 'api/create-out-history',
+        data: {
+            date: dateValue.value,
+            category: itemsResponseData.value.category,
+            item_code: itemsResponseData.value.item_code,
+            barcode: itemsResponseData.value.barcode,
+            change_by_name: userData.value.first_name,
+            made: 'Deleted'
+        }
+    }).then(response => {
+        console.log(response);
+        
+    })
+}
+
+const getUser = () => {
+    axios({
+        method: 'GET',
+        url: 'api/user'
+    }).then(response => {
+        userData.value = response.data
+        
     })
 }
 
@@ -104,6 +140,7 @@ const exit = () => {
 
 onMounted(() => {
     items()
+    getUser()
 })
 </script>
 
