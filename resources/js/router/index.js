@@ -80,6 +80,11 @@ const routes = [
         component: () => import('../pages/admin/Admin_View_Barcode.vue')
 
     },
+    {
+path: '/admin-profile',
+name: 'admin-profile',
+component: () => import('../pages/admin/Admin_Profile.vue')
+    },
 
     {
         path:'/inventory-manager-dashboard',

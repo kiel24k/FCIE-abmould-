@@ -1,6 +1,7 @@
 <template>
-
+ 
   <Sidebar v-if="showSidebar" @hideSidebar="hideSidebar" :class="{ hideSidebarActive: hideSidebarIsActive }" />
+  
   <header>
     <div class="row">
       <div class="col-2">
@@ -28,16 +29,16 @@
 
       <div class="profile-modal" v-if="showModal" ref="target">
         <section>
-          <button class="btn btn-success">Profile</button>
+          <router-link class="btn btn-success" :to="{name: 'admin-profile'}">Profile</router-link>
           <button class="btn btn-danger" @click="logout">Logout</button>
         </section>
       </div>
 
     </div>
+ 
     <Loader v-if="loader" />
-
-
   </header>
+  
 
   <!-- <div class="row header">
       <div class="col-1 menu" @click="menu">
@@ -69,6 +70,7 @@ import axios from 'axios';
 import { useRouter } from "vue-router";
 import Sidebar from '@/components/Admin_Sidebar.vue'
 import Loader from '@/components/Loading.vue'
+
 
 //modal
 const target = ref(null)
