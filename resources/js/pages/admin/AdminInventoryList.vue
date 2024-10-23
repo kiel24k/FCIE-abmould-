@@ -1,136 +1,142 @@
 <template>
     <header>
-        <Header />
+        <Header @toggle-sidebar="toggleSidebar" />
     </header>
-    <div class="row m-2">
-        <div class="col">
-            <div class="admin-inventory-list">
-                <!-- Filter -->
-                <div class="inventory-filter">
-                    <div class="category">
-                        <label for="">category: </label>
-                        <select class="form-select" v-model="selected">
-                            <option value="selected" disabled>Select</option>
-                            <option value=""> all </option>
-                            <option value="tools">tools</option>
-                            <option value="materials">materials</option>
-                        </select>
-                    </div>
-                    <div class="search col-8">
-                        <div class="input-group">
-                            <span class="input-group-text" id="basic-addon1">
-                                <img src="/public/icon/search.png" width="25px" alt="">
-                            </span>
-                            <input type="text" class="form-control" placeholder="Search" v-model="search">
+    <div class="row">
+        <div :class="isSidebarHidden ? 'col-0' : 'col-2'" :key="sidebar">
+            <Sidebar :class="{ hideSidebar: isSidebarHidden }" />
+        </div>
+        <div :class="isSidebarHidden ? 'col-12' : 'col-9'" key="content" class="row my-3 mx-1">
+            <div class="col">
+                <div class="admin-inventory-list">
+                    <!-- Filter -->
+                    <div class="inventory-filter">
+                        <div class="category">
+                            <label for="">category: </label>
+                            <select class="form-select" v-model="selected">
+                                <option value="selected" disabled>Select</option>
+                                <option value=""> all </option>
+                                <option value="tools">tools</option>
+                                <option value="materials">materials</option>
+                            </select>
+                        </div>
+                        <div class="search col-8">
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1">
+                                    <img src="/public/icon/search.png" width="25px" alt="">
+                                </span>
+                                <input type="text" class="form-control" placeholder="Search" v-model="search">
+                            </div>
+                        </div>
+                        <div class="create">
+                            <router-link :to="{ name: 'admin-new-item' }" class="btn createButton">
+                                <span>
+                                    <img src="/public/icon/add_icon_plus.png" width="15px" alt="">
+                                    <b>Add Item</b>
+                                </span>
+                            </router-link>
                         </div>
                     </div>
-                    <div class="create">
-                        <router-link :to="{ name: 'admin-new-item' }" class="btn createButton">
-                            <span>
-                                <img src="/public/icon/add_icon_plus.png" width="15px" alt="">
-                                <b>Add Item</b>
-                            </span>
-                        </router-link>
-                    </div>
-                </div>
-                <div id="table" class="table-responsive-sm-2">
-                    <table class="table table-bordered table-hover table align-middle">
-                        <thead>
-                            <tr>
-                                <th class="" @click="sort('category')">
-                                    <div class="head-title">
-                                        Category
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </div>
-                                </th>
-                                <th @click="sort('barcode')">
-                                    <div class="head-title">
-                                        Barcode
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </div>
-                                </th>
-                                <th @click="sort('brand')">
-                                    <div class="head-title">
-                                        Brand
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </div>
-                                </th>
-                                <th @click="sort('supplier_name')">
-                                    <div class="head-title">
-                                        Supplier Name
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </div>
-                                </th>
-                                <th @click="sort('supplier_name')">
-                                    <div class="head-title">
-                                        Supplier Name
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </div>
-                                </th>
-                                <th @click="sort('unit_cost')">
-                                    <div class="head-title">
-                                        Unit_Cost
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </div>
-                                </th>
-                                <th @click="sort('quantity')">
-                                    <div class="head-title">
-                                        Quantity
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </div>
-                                </th>
-                                <th @click="sort('description')">
-                                    <div class="head-title">
-                                        Description
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </div>
-                                </th>
-                                <th>
-                                    <div class="head-title">
-                                        Action
-                                    </div>
-                                </th>
+                    <div id="table" class="table-responsive-sm-2">
+                        <table class="table table-bordered table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th class="" @click="sort('category')">
+                                        <div class="head-title">
+                                            Category
+                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                        </div>
+                                    </th>
+                                    <th @click="sort('barcode')">
+                                        <div class="head-title">
+                                            Barcode
+                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                        </div>
+                                    </th>
+                                    <th @click="sort('brand')">
+                                        <div class="head-title">
+                                            Brand
+                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                        </div>
+                                    </th>
+                                    <th @click="sort('supplier_name')">
+                                        <div class="head-title">
+                                            Supplier Name
+                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                        </div>
+                                    </th>
+                                    <th @click="sort('supplier_name')">
+                                        <div class="head-title">
+                                            Supplier Name
+                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                        </div>
+                                    </th>
+                                    <th @click="sort('unit_cost')">
+                                        <div class="head-title">
+                                            Unit_Cost
+                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                        </div>
+                                    </th>
+                                    <th @click="sort('quantity')">
+                                        <div class="head-title">
+                                            Quantity
+                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                        </div>
+                                    </th>
+                                    <th @click="sort('description')">
+                                        <div class="head-title">
+                                            Description
+                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                        </div>
+                                    </th>
+                                    <th>
+                                        <div class="head-title">
+                                            Action
+                                        </div>
+                                    </th>
 
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(data, index) in responseData.data" :key="index">
-                                <td>{{ data.category }}</td>
-                                <td>{{ data.barcode }}</td>
-                                <td>{{ data.item_code }}</td>
-                                <td>{{ data.brand }}</td>
-                                <td>{{ data.supplier_name }}</td>
-                                <td class="text-success">{{ data.unit_cost }}</td>
-                                <td>x{{ data.quantity }}</td>
-                                <td>{{ data.description }}</td>
-                                <td>
-                                    <span class="action">
-                                        <button class="btnView" @click="view(data.id)">
-                                            <img src="/public/icon/view_icon_eye.png" width="30px" alt="">
-                                        </button>
-                                        <router-link class="btnUpdate"
-                                            :to="{ name: 'admin-edit-item', params: { id: data.id } }">
-                                            <img src="/public/icon/edit_icon_pencil.png" width="30px" alt="">
-                                        </router-link>
-                                        <button class="btnDelete">
-                                            <img src="/public/icon/trash_icon.png" width="30px" alt=""
-                                                @click="deleteItem(data.id)">
-                                        </button>
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="paginator text-center">
-                        <span>Page {{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                        <nav class="btnPaginate">
-                            <button class="btn btn-dark" @click="previousPage" :disabled="!pagination.prev_page_url">
-                                Previous
-                            </button>
-                            <button class="btn btn-success" @click="nextPage" :disabled="!pagination.next_page_url">
-                                Next
-                            </button>
-                        </nav>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(data, index) in responseData.data" :key="index">
+                                    <td>{{ data.category }}</td>
+                                    <td>{{ data.barcode }}</td>
+                                    <td>{{ data.item_code }}</td>
+                                    <td>{{ data.brand }}</td>
+                                    <td>{{ data.supplier_name }}</td>
+                                    <td class="text-success">{{ data.unit_cost }}</td>
+                                    <td>x{{ data.quantity }}</td>
+                                    <td>{{ data.description }}</td>
+                                    <td>
+                                        <span class="action">
+                                            <button class="btnView" @click="view(data.id)">
+                                                <img src="/public/icon/view_icon_eye.png" width="30px" alt="">
+                                            </button>
+                                            <router-link class="btnUpdate"
+                                                :to="{ name: 'admin-edit-item', params: { id: data.id } }">
+                                                <img src="/public/icon/edit_icon_pencil.png" width="30px" alt="">
+                                            </router-link>
+                                            <button class="btnDelete">
+                                                <img src="/public/icon/trash_icon.png" width="30px" alt=""
+                                                    @click="deleteItem(data.id)">
+                                            </button>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="paginator text-center">
+                            <span>Page {{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                            <nav class="btnPaginate">
+                                <button class="btn btn-dark" @click="previousPage"
+                                    :disabled="!pagination.prev_page_url">
+                                    Previous
+                                </button>
+                                <button class="btn btn-success" @click="nextPage" :disabled="!pagination.next_page_url">
+                                    Next
+                                </button>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -142,10 +148,14 @@
 
 <script setup>
 import Header from '@/components/Admin_Header.vue'
+import Sidebar from '@/components/Admin_Sidebar.vue';
 import { onMounted, ref, watch } from 'vue';
 import AdminViewModal from '@/components/Admin_View_Modal.vue'
 import Loading from '@/components/Loading.vue'
-
+const isSidebarHidden = ref(false);
+const toggleSidebar = () => {
+    isSidebarHidden.value = !isSidebarHidden.value;
+};
 //current database table
 const selected = ref('')
 const loading = ref(false)
@@ -251,6 +261,11 @@ onMounted(() => {
 
 
 <style scoped>
+.hideSidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
 /* laptop or pc */
 @media screen and (min-width: 769px) {
     .admin-inventory-list {
@@ -296,11 +311,10 @@ onMounted(() => {
     }
 
     table {
-        height: 30rem;
+        height: 24rem;
         max-width: 71rem;
         overflow-y: scroll;
         display: block;
-
     }
 
     table th {
@@ -310,7 +324,6 @@ onMounted(() => {
     }
 
     table td {
-        /* background-color: rgb(247, 243, 243); */
         border-bottom: 2px solid white;
     }
 
@@ -356,12 +369,14 @@ onMounted(() => {
         width: 4rem;
         text-align: center;
     }
-    .btnPaginate{
+
+    .btnPaginate {
         display: flex;
-        gap:10px;
+        gap: 10px;
         justify-content: center;
     }
-    .btnPaginate button{
+
+    .btnPaginate button {
         width: 6rem;
         text-align: center;
     }
@@ -489,7 +504,7 @@ onMounted(() => {
         width: 4rem;
         text-align: center;
     }
-    }
+}
 
 /* screen and tablets */
 @media screen and (min-width: 601px) {}
