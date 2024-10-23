@@ -1,104 +1,130 @@
 <template>
-<header>
-    <Header/>
-</header>
-    <div class="row m-2">
-        <div class="col">
-            <div class="create-user">
-                <form @submit.prevent enctype="multipart/form-data">
-                    <div class="card">
-                        <div class="card-header bg-dark">
-                            <h4 class="text-white">Create User | <span style="color:white;font-size:15px; font-weight:400">Enter User Information</span></h4>
+    <header class="header">
+        <Header @toggle-sidebar="toggleSidebar" />
+    </header>
+    <div class="row" :style="{ marginTop: headerHeight + 'px' }">
+        <div :class="isSidebarHidden ? 'col-0' : 'col-2'" :key="sidebar" style="z-index: 1001;">
+            <Sidebar :class="{ hideSidebar: isSidebarHidden, sidebarVisible: !isSidebarHidden }" />
+        </div>
+        <div :class="isSidebarHidden ? 'col-12' : 'col-9'" key="content">
+            <div class="col">
+                <div class="create-user">
+                    <form @submit.prevent enctype="multipart/form-data">
+                        <div class="card">
+                            <div class="card-header bg-dark">
+                                <h4 class="text-white">
+                                    Create User |
+                                    <span style="color:white; font-size:15px; font-weight:400">
+                                        Enter User Information
+                                    </span>
+                                </h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="">First Name:
+                                            <span class="text-danger" v-if="validation.first_name">
+                                                {{ validation.first_name[0] }}
+                                            </span>
+                                        </label>
+                                        <input type="text" class="form-control" v-model="input.firstName">
+                                    </div>
+                                    <div class="col">
+                                        <label for="">Middle Name:
+                                            <span class="text-danger" v-if="validation.middle_name">
+                                                {{ validation.middle_name[0] }}
+                                            </span>
+                                        </label>
+                                        <input type="text" class="form-control" v-model="input.middleName">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="">Last Name:
+                                            <span class="text-danger" v-if="validation.last_name">
+                                                {{ validation.last_name[0] }}
+                                            </span>
+                                        </label>
+                                        <input type="text" class="form-control" v-model="input.lastName">
+                                    </div>
+                                    <div class="col">
+                                        <label for="">Telephone Number:
+                                            <span class="text-danger" v-if="validation.tel_no">
+                                                {{ validation.tel_no[0] }}
+                                            </span>
+                                        </label>
+                                        <input type="text" class="form-control" v-model="input.telNo">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="">Email:
+                                            <span class="text-danger" v-if="validation.email">
+                                                {{ validation.email[0] }}
+                                            </span>
+                                        </label>
+                                        <input type="text" class="form-control" v-model="input.email">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <label for="">Password:
+                                            <span class="text-danger" v-if="validation.password">
+                                                {{ validation.password[0] }}
+                                            </span>
+                                        </label>
+                                        <input type="password" class="form-control" v-model="input.password">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <label for="">Role:
+                                            <span class="text-danger" v-if="validation.role">
+                                                {{ validation.role[0] }}
+                                            </span>
+                                        </label>
+                                        <select id="inputState" class="form-select" v-model="input.role">
+                                            <option value="admin">admin</option>
+                                            <option value="inventory-manager">inventory manager</option>
+                                            <option value="member">member</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <img width="250px" height="250px" alt="" :src="imageUrl" class="p-4">
+                                        <input type="File" accept="image/*" @change="image">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <button class="btn btn-success" @click.enter="addUser">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col">
-                                    <label for="">First Name: <span class="text-danger" v-if="validation.first_name">
-                                        {{ validation.first_name[0]}}
-                                   </span>
-                                   </label>
-
-                                    <input type="text" class="form-control" placeholder="" v-model="input.firstName">
-                                </div>
-                                <div class="col">
-                                    <label for="">Middle Name: <span class="text-danger" v-if="validation.middle_name">
-                                        {{ validation.middle_name[0]}}
-                                   </span>
-                                    </label>
-                                    <input type="text" class="form-control" placeholder="" v-model="input.middleName">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <label for="">Last Name: <span class="text-danger" v-if="validation.last_name">
-                                        {{ validation.last_name[0]}}
-                                   </span></label>
-                                    <input type="text" class="form-control" placeholder="" v-model="input.lastName">
-                                </div>
-                                <div class="col">
-                                    <label for="">Telephone Number: <span class="text-danger" v-if="validation.tel_no">
-                                        {{ validation.tel_no[0]}}
-                                   </span></label>
-                                    <input type="text" class="form-control" placeholder="" v-model="input.telNo">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <label for="">Email <span class="text-danger" v-if="validation.email">
-                                        {{ validation.email[0]}}
-                                   </span></label>
-                                    <input type="text" class="form-control" placeholder="" v-model="input.email">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <label for="">Password <span class="text-danger" v-if="validation.password">
-                                        {{ validation.password[0]}}
-                                   </span></label>
-                                    <input type="password" class="form-control" placeholder="" v-model="input.password">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3">
-                                    <label for="">Role <span class="text-danger" v-if="validation.role">
-                                        {{ validation.role[0]}}
-                                   </span></label>
-                                    <select id="inputState" class="form-select" v-model="input.role">
-                                        <option value="admin">admin</option>
-                                        <option value="inventory-manager">inventory manager</option>
-                                        <option value="member">member</option>
-                                      </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-3">
-                                    <img  width="250px" height="250px" alt="" :src="imageUrl" class="p-4">
-                                    <input type="File" accept="image/*" @change="image">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn btn-success" @click.enter="addUser">Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                      </div>
-                  </form>
-
+                    </form>
+                </div>
             </div>
         </div>
-
     </div>
 </template>
+
 <script setup>
-
-import Header from '@/components/Admin_Header.vue'
-import { ref } from 'vue';
+import Header from '@/components/Admin_Header.vue';
+import Sidebar from '@/components/Admin_Sidebar.vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
-import { useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 
-const route = useRouter()
+const isSidebarHidden = ref(false);
+const headerHeight = ref(0);
 
+const toggleSidebar = () => {
+    isSidebarHidden.value = !isSidebarHidden.value;
+};
+
+const route = useRouter();
 const input = ref({
     firstName: '',
     middleName: '',
@@ -106,30 +132,28 @@ const input = ref({
     telNo: '',
     email: '',
     password: '',
-    role:'',
+    role: '',
     file: ''
-})
-const fileName = ref('')
-const imageUrl = ref('')
+});
+const fileName = ref('');
+const imageUrl = ref('');
+
 const image = (event) => {
-    const selectedFile = event.target.files[0]
-    if(selectedFile){
-        input.value.file = selectedFile
-        fileName.value = selectedFile.name
-        imageUrl.value = URL.createObjectURL(selectedFile)
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+        input.value.file = selectedFile;
+        fileName.value = selectedFile.name;
+        imageUrl.value = URL.createObjectURL(selectedFile);
     }
-}
+};
 
-//formValidation
-const validation = ref({})
+const validation = ref({});
 
-
-// form submition / add user
 const addUser = () => {
-    axios.get('/sanctum/csrf-cookie')
+    axios.get('/sanctum/csrf-cookie');
     axios({
         method: 'POST',
-        url:'api/add-user',
+        url: 'api/add-user',
         data: {
             first_name: input.value.firstName,
             middle_name: input.value.middleName,
@@ -144,33 +168,56 @@ const addUser = () => {
             'content-type': 'multipart/form-data'
         }
     }).then(response => {
-        if(response.status == 200){
-            route.push('/admin-user-list')
+        if (response.status === 200) {
+            route.push('/admin-user-list');
         }
     }).catch(err => {
-        if(err.response.status == 422){
-            validation.value = err.response.data.errors
+        if (err.response.status === 422) {
+            validation.value = err.response.data.errors;
         }
-    })
-}
+    });
+};
 
-
-
-
+onMounted(() => {
+    const headerElement = document.querySelector('.header');
+    if (headerElement) {
+        headerHeight.value = headerElement.offsetHeight;
+    }
+});
 </script>
 
 <style scoped>
-.create-user{
-
-
+.header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-form{
-    width: 70rem;
+
+.hideSidebar {
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+}
+
+.sidebarVisible {
+    transform: translateX(0);
+}
+
+.col-0 {
+    width: 0;
+    overflow: hidden;
+    transition: width 0.5s ease;
+}
+
+form {
+    width: 67rem;
     margin: auto;
-    display:grid;
-    gap:25px;
+    display: grid;
+    gap: 25px;
     border-radius: 10px;
-    padding:10px;
+    padding: 10px;
 }
 
 </style>

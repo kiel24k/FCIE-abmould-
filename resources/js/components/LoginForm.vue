@@ -1,10 +1,11 @@
 <template>
+<div class="cover">
     <div class="body">
         <div class="content">
             <div class="">
                 <div id="login" class="">
                     <div class="text-center">
-                        <img src="/public/background/abMouldLogo.png" width="150px" height="50px" alt="">
+                        <img src="/public/background/abMouldLogo.png" width="200px" height="70px" alt="">
                         <hr>
                     </div>
                     <div class="row">
@@ -105,6 +106,7 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
 </template>
 
@@ -171,24 +173,31 @@ onMounted(() => {
     display: grid;
     align-items: center;
     justify-content: center;
-    background-image: url("/public/background/AI-Capabilities.png")
+    background: url("/background/loginbackground.png") no-repeat center center/cover fixed;
+    z-index: 1;
 }
-
 #login {
     width: 25rem;
     margin: auto;
     background: rgb(255, 255, 255);
-    padding: 20px;
+    padding: 40px;
     box-shadow: 0px 0px 15px 0px gray;
     border-width: 1px 0px 1px 1px;
+    border-radius: 20px;
 }
+
 .submit {
     width: 100%;
     background-color: rgb(104, 77, 224);
     color: white;
 }
+.submit:hover {
+    border: 1px solid rgb(104, 77, 224);
+}
+
 a {
     text-decoration: none;
     font-weight: 500;
 }
+
 </style>

@@ -1,37 +1,37 @@
 <template>
     <transition name="addScheduleTransition">
-        <AddSchedule class="addSchedule"
-          v-if="addScheduleModal"
-         :addScheduleModal="addScheduleModal"
-          @data="addScheduleModal = false"/>
+        <AddSchedule class="addSchedule" v-if="addScheduleModal" :addScheduleModal="addScheduleModal"
+            @data="addScheduleModal = false" />
     </transition>
-    <Header/>
-   <div class="row m-2">
-    <div class="col">
-        <div class="row scheduling">
-            <div class="col" style="width:50rem">
-                <ScheduledItems
-                 :selectedDate="selectedDate"
-                 />
-            </div>
-            <div class="col-4 side-action">
-                <div class="add-schedule">
-                    <button class="btn" @click="addSchedule">
-                        Add schedule
-                    </button>
-                </div>
-                <div class="calendar">
-                    <VDatePicker v-model.string='selectedDate' mode="date" :masks="masks" expanded />
+    <Header @toggle-sidebar="toggleSidebar" />
+    <div class="row">
+        <div :class="isSidebarHidden ? 'col-0' : 'col-2'" :key="sidebar">
+            <Sidebar :class="{ hideSidebar: isSidebarHidden }" />
+        </div>
+        <div :class="isSidebarHidden ? 'col-11' : 'col-9'" key="content" class="row m-2">
+            <div class="col">
+                <div class="row scheduling">
+                    <div class="col" style="width:50rem">
+                        <ScheduledItems :selectedDate="selectedDate" />
+                    </div>
+                    <div class="col-3">
+                        <div class="add-sched">
+                            <button class="btn" @click="addSchedule">
+                                Add schedule
+                            </button>
+                        </div>
+                        <div class="calendar">
+                            <VDatePicker v-model.string='selectedDate' mode="date" :masks="masks" expanded />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-   </div>
-
-
 </template>
 <script setup>
 import Header from '@/components/Admin_Header.vue'
+import Sidebar from '@/components/Admin_Sidebar.vue';
 import ScheduledItems from '@/components/ScheduledMaterials.vue'
 import { onMounted, ref, watch } from 'vue';
 import AddSchedule from '../../components/AddSchedule.vue';
@@ -40,7 +40,10 @@ const selectedDate = ref({})
 const masks = ref({
     modelValue: 'YYYY-MM-DD'
 })
-
+const isSidebarHidden = ref(false);
+const toggleSidebar = () => {
+    isSidebarHidden.value = !isSidebarHidden.value;
+};
 
 const addScheduleModal = ref(false)
 const addSchedule = () => {
@@ -50,40 +53,69 @@ const addSchedule = () => {
 </script>
 
 <style scoped>
-.scheduling{
-width: 90%;
-margin:auto;
-border-radius: 15px;
+.hideSidebar {
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
 }
-.calendar{
-    width: 30rem;
 
+.sidebarVisible {
+    transform: translateX(0);
 }
-.add-schedule button{
+
+.col-0 {
+    width: 0;
+    overflow: hidden;
+    transition: width 0.5s ease;
+}
+
+.scheduling {
     width: 100%;
-    margin:auto;
-    height:8rem
+    margin: auto;
+    border-radius: 15px;
 }
-.side-action{
+
+.calendar {
+    width: 100%;
+    margin: auto;
+    height: 20px;
+}
+
+.add-sched {
+    margin-top: 20px;
+    height: 10rem;
+}
+
+.add-sched button {
+    width: 100%;
+    max-width: 25rem;
+    height: 3.8rem
+}
+
+.add-sched button:hover {
+    background-color: rgb(10, 135, 218);
+    color: #fff;
+}
+
+.side-action {
     display: grid;
     justify-content: center;
-    gap:15px;
+    gap: 15px;
 }
-.calendar, .add-schedule button{
-    border-radius:15px;
+
+.calendar,
+.add-sched button {
+    border-radius: 15px;
     box-shadow: 5px 5px 15px 0px gray;
 }
 
-.addSchedule{
+.addSchedule {
     transition: all linear 0.2s;
-    transform:translate(0);
-
+    transform: translate(0);
 }
 
 .addScheduleTransition-enter-from,
-.addScheduleTransition-leave-to{
+.addScheduleTransition-leave-to {
     transform: translateY(-100%);
     opacity: 0;
 }
-
 </style>

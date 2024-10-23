@@ -55,7 +55,12 @@ watch(props, (oldVal, newVal) => {
 .container-fluid{
     box-shadow: 5px 5px 15px 0px rgb(83, 81, 81);
     border-radius: 15px;
-    height: 40rem;
-    width: 100%;
+    height: 34rem;
+    width: 90%;
+    padding: 30px 20px;
+    background-color: rgb(255, 255, 255);
+}
+th,tbody{
+    text-align: center;
 }
 </style>
