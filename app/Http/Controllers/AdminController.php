@@ -254,7 +254,7 @@ class AdminController extends Controller
     }
     public function viewScanBarcode($barcode)
     {
-        $item = Item::where('barcode', '=', $barcode)->get();
+        $item = Item::where('item_code', '=', $barcode)->get();
         return response()->json($item);
     }
     public function editQuantity($id)

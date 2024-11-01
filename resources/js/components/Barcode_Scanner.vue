@@ -58,8 +58,10 @@ const startScanning = () => {
   Quagga.onDetected((result) => {
     const code = result.codeResult.code;
     barcode.value = code;
-    emitBarcodeValue('barcodeValue', barcode.value)
-    stopScanning(); // Automatically stop after detecting a barcode
+    console.log(code);
+    
+    emitBarcodeValue('barcodeValue', barcode.value) //abrcode value
+    // stopScanning(); // Automatically stop after detecting a barcode
   });
 };
 
