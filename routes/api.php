@@ -35,7 +35,7 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/view-item/{id}', 'viewItem');
     Route::get('/scheduled-date/{date}', 'scheduledDate');
     Route::post('/add-schedule', 'addSchedule');
-    Route::get('/generate-barcode', 'generateBarcode');
+    // Route::get('/generate-barcode', 'generateBarcode');
     Route::get('/view-scan-barcode/{barcode}', 'viewScanBarcode');
     Route::get('/edit-quantity/{id}', 'editQuantity');
     Route::post('/add-quantity-submit/{id}', 'addQuantitySubmit');

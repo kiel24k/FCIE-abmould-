@@ -68,7 +68,7 @@
                                 <textarea name="" id="" cols="30" rows="10" class="form-control" v-model="input.description"></textarea>
                             </div>
                         </div>
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-1 generate-barcode">
                                 <label for="">Barcode:</label>
                                 <div>
@@ -76,7 +76,7 @@
                                     <button class="btn btn-dark" @click="selectBarcode">Generate Barcode</button>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <input type="hidden" v-model="barcodeValue">
                         <div class="row text-end">
                             <div class="col action">
@@ -123,7 +123,7 @@ const submit = () => {
             category: input.value.category,
             description: input.value.description,
             brand: input.value.brand,
-            barcode: barcodeValue.value
+            // barcode: barcodeValue.value
         }
     }).then(response => {
         console.log(response);

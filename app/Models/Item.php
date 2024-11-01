@@ -17,6 +17,6 @@ class Item extends Model
         'description',
         'category',
         'brand',
-        'barcode'
+        // 'barcode'
     ];
 }
