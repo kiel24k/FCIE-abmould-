@@ -16,7 +16,6 @@
                     <thead>
                         <tr>
                             <th>Category</th>
-                            <th>Barcode</th>
                             <th>Item Code</th>
                             <th>Brand</th>
                             <th>Supplier Name</th>
@@ -29,7 +28,6 @@
                     <tbody>
                         <tr v-for="(data, index) in barcodeResponse" :key="index">
                             <td>{{ data.category }}</td>
-                            <td>{{ data.barcode }}</td>
                             <td>{{ data.item_code }}</td>
                             <td>{{ data.brand }}</td>
                             <td>{{ data.supplier_name }}</td>

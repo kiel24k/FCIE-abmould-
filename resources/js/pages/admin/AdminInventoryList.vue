@@ -2,6 +2,7 @@
     <header>
         <Header @toggle-sidebar="toggleSidebar" />
     </header>
+    <DeleteItemModal v-if="deleteItemModal" @cancelItem="cancelItem" :deleteId="deleteId"/>
     <div class="row">
         <div :class="isSidebarHidden ? 'col-0' : 'col-2'" :key="sidebar">
             <Sidebar :class="{ hideSidebar: isSidebarHidden }" />
@@ -49,19 +50,13 @@
                                     </th>
                                     <th @click="sort('barcode')">
                                         <div class="head-title">
-                                            Barcode
+                                            item_code
                                             <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                                         </div>
                                     </th>
                                     <th @click="sort('brand')">
                                         <div class="head-title">
                                             Brand
-                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                        </div>
-                                    </th>
-                                    <th @click="sort('supplier_name')">
-                                        <div class="head-title">
-                                            Supplier Name
                                             <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                                         </div>
                                     </th>
@@ -100,7 +95,6 @@
                             <tbody>
                                 <tr v-for="(data, index) in responseData.data" :key="index">
                                     <td>{{ data.category }}</td>
-                                    <td>{{ data.barcode }}</td>
                                     <td>{{ data.item_code }}</td>
                                     <td>{{ data.brand }}</td>
                                     <td>{{ data.supplier_name }}</td>
@@ -151,11 +145,15 @@ import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue';
 import { onMounted, ref, watch } from 'vue';
 import AdminViewModal from '@/components/Admin_View_Modal.vue'
+import DeleteItemModal from '@/components/Admin_Delete_Inventory_Modal_Logout.vue'
 import Loading from '@/components/Loading.vue'
 const isSidebarHidden = ref(false);
 const toggleSidebar = () => {
     isSidebarHidden.value = !isSidebarHidden.value;
 };
+
+const deleteItemModal = ref(false)
+const deleteId = ref()
 //current database table
 const selected = ref('')
 const loading = ref(false)
@@ -230,16 +228,13 @@ const view = (id) => {
 }
 //delete item
 const deleteItem = (id) => {
-    loading.value = true
-    axios({
-        method: 'DELETE',
-        url: `api/delete-item/${id}`
-    }).then(response => {
-        if (response.status == 200) {
-            loading.value = false
-            category()
-        }
-    })
+    deleteItemModal.value = true
+    deleteId.value = id
+}
+
+const cancelItem = () => {
+    deleteItemModal.value = false
+    category()
 }
 
 const previousPage = () => {
@@ -253,6 +248,8 @@ const nextPage = () => {
         category(pagination.value.current_page + 1);
     }
 };
+
+
 onMounted(() => {
     category()
 })

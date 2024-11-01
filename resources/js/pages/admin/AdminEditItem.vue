@@ -69,7 +69,7 @@
                    </div>
                    <div class="row">
                     <label for="">Barcode:</label>
-                    <BarcodeView :barcodeValue="input.barcode"/>
+                    <BarcodeView :barcodeValue="input.item_code"/>
 
                    </div>
                     <div class="row">
