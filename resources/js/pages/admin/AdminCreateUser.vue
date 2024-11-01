@@ -168,10 +168,13 @@ const addUser = () => {
             'content-type': 'multipart/form-data'
         }
     }).then(response => {
-        if (response.status === 200) {
-            route.push('/admin-user-list');
-        }
-    }).catch(err => {
+
+        console.log(input.value.file);
+        
+        if(response.status == 200){
+            route.push('/admin-user-list')
+
+       (err => {
         if (err.response.status === 422) {
             validation.value = err.response.data.errors;
         }
