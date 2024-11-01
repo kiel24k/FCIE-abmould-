@@ -1,17 +1,6 @@
 <template>
     <aside>
         <ul>
-            <div class="title text-center">
-                <img src="/public/background/abMouldLogo.png" width="130px" height="45px" alt="">
-                <img
-                    src="/public/icon/menu.png"
-                    width="30px"
-                    height="30px"
-                    alt=""
-                    class="menu"
-                    @click="menu"
-                />
-            </div>
             <router-link :to="{ name: 'admin-dashboard' }">
                 <li>
                     <img
@@ -66,16 +55,6 @@
                     <span>Item List</span>
                 </li>
             </router-link>
-            <router-link :to="{ name: 'admin-new-item' }">
-                <li>
-                    <img
-                        src="/public/icon/add_icon_note.png"
-                        width="25px"
-                        alt=""
-                    />
-                    <span>Add Item</span>
-                </li>
-            </router-link>
             <router-link :to="{ name: 'admin-scheduling' }">
                 <li>
                     <img
@@ -86,16 +65,7 @@
                     <span>Scheduling</span>
                 </li>
             </router-link>
-            <router-link :to="{ name: 'create-user' }">
-                <li>
-                    <img
-                        src="/public/icon/add_user_icon.png"
-                        width="25px"
-                        alt=""
-                    />
-                    <span>Add User</span>
-                </li>
-            </router-link>
+
             <router-link :to="{ name: 'admin-user-list' }">
                 <li>
                     <img
@@ -122,12 +92,6 @@ import { useRouter } from "vue-router";
 
 const router = useRouter()
 
-const emit = defineEmits(["hideSidebar"]);
-
-const menu = () => {
-    emit("hideSidebar");
-};
-
 const logout = () => {
    localStorage.removeItem("responseTKN")
    localStorage.removeItem("administrationPermission")
@@ -136,14 +100,12 @@ const logout = () => {
 </script>
 <style scoped>
 aside {
-    width: 15rem;
-    position: fixed;
+    width: 13.5rem;
+    position:fixed;
     height: 100%;
-    overflow: scroll;
     overflow-x: hidden;
-    z-index: 999;
     background: rgb(255, 255, 255);
-    box-shadow: 0px 0px 15px 0px gray;
+    box-shadow: 0px 15px 15px 0px gray;
     transition: all linear 0.3s;
 }
 ul {
@@ -151,6 +113,7 @@ ul {
     display: grid;
     gap: px;
     padding: 0;
+    padding-top: 10px;
 }
 
 a {
@@ -187,3 +150,4 @@ span {
     border-radius: 20px;
 }
 </style>
+

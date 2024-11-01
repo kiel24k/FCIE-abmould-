@@ -30,8 +30,8 @@ const startScanning = () => {
         type: 'LiveStream',
         target: scanner.value,
         constraints: {
-          width: 500,
-          height: 480,
+          width: 350,
+          height: 200,
           facingMode: 'environment', // Use rear camera
         },
         area: { // defines rectangle of the detection/localization area
@@ -83,8 +83,8 @@ onMounted(() => {
 
 <style>
 .scanner {
-  max-width: 500px;
-  height: 480px;
+  max-width: 350px;
+  height: 200px;
   box-shadow: 0px 0px 10px 0px gray;
   margin: auto;
   display: block;

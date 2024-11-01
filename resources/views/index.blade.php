@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>FCIE (abMould)</title>
+	<title>AB Mould PH Corp. Inventory Mangement System</title>
 
 	@vite('resources/css/app.css')
 </head>
@@ -12,6 +12,6 @@
 
 	@vite('resources/js/app.js')
      <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-      
+
 </body>
 </html>

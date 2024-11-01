@@ -91,5 +91,5 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Add any styles specific to your chart here */
+
 </style>
