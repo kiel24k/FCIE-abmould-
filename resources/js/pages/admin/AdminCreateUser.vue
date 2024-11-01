@@ -144,6 +144,8 @@ const addUser = () => {
             'content-type': 'multipart/form-data'
         }
     }).then(response => {
+        console.log(input.value.file);
+        
         if(response.status == 200){
             route.push('/admin-user-list')
         }
