@@ -46,14 +46,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(data, index) in responseData.data" :key="index">
+                        <!-- <tr v-for="(data, index) in responseData.data" :key="index">
                             <td>{{ data.date }}</td>
                             <td>{{ data.category }}</td>
                             <td>{{ data.item_code }}</td>
                             <td>{{ data.barcode }}</td>
                             <td>{{ data.change_by_name }}</td>
                             <td>{{ data.made }}</td>
-                        </tr>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
@@ -73,23 +73,23 @@ import BarChart from '@/components/BarChart.vue';
 const responseData = ref({});
 const isSidebarHidden = ref(false);
 
-const getInHistory = () => {
-    axios({
-        method: 'GET',
-        url: 'api/get-in-history'
-    }).then(response => {
-        responseData.value = response.data;
-        console.log(response);
-    });
-};
+// const getInHistory = () => {
+//     axios({
+//         method: 'GET',
+//         url: 'api/get-in-history'
+//     }).then(response => {
+//         responseData.value = response.data;
+//         console.log(response);
+//     });
+// };
 
-const toggleSidebar = () => {
-    isSidebarHidden.value = !isSidebarHidden.value;
-};
+// const toggleSidebar = () => {
+//     isSidebarHidden.value = !isSidebarHidden.value;
+// };
 
-onMounted(() => {
-    getInHistory();
-});
+// onMounted(() => {
+//     getInHistory();
+// });
 </script>
 
 

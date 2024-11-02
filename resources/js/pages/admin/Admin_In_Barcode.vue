@@ -1,6 +1,6 @@
 <template>
     <header>
-        <Header @toggle-sidebar="toggleSidebar" />
+        <Header @toggle-sidebar="toggleSidebar" @user="user" />
     </header>
     <div class="row">
         <div :class="isSidebarHidden ? 'col-0' : 'col-2'" :key="sidebar">
@@ -26,8 +26,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(data, index) in barcodeResponse" :key="index">
-                            <td>{{ data.category }}</td>
+
+                        <tr v-for="(data, index) in getScannedItems" :key="index">
+                            <td>{{ data.category}}</td>
                             <td>{{ data.item_code }}</td>
                             <td>{{ data.brand }}</td>
                             <td>{{ data.supplier_name }}</td>
@@ -62,8 +63,10 @@ import { onMounted, ref, watch } from 'vue';
 const inModal = ref(false)
 const inModalId = ref()
 const notFound = ref(false)
-const barcodeResponse = ref(null)
+const barcodeResponse = ref([])
 const barcodeParams = ref('')
+const userInformation = ref()
+const getScannedItems = ref()
 
 const isSidebarHidden = ref(false);
 const toggleSidebar = () => {
@@ -76,7 +79,10 @@ const barcodeValue = (data) => {
         url: `/api/view-scan-barcode/${data}`
     }).then(response => {
         barcodeParams.value = data
-        barcodeResponse.value = response.data
+        barcodeResponse.value.push(response.data[0])
+        if (response.data[0] == null) {
+            barcodeResponse.value.pop()
+        }
         if (barcodeResponse.value == '') {
             notFound.value = true
         } else {
@@ -84,15 +90,32 @@ const barcodeValue = (data) => {
         }
     })
 }
-
-const updatedBarcodeValue = () => {
-    axios({
-        method: 'GET',
-        url: `/api/view-scan-barcode/${barcodeParams.value}`
-    }).then(response => {
-        barcodeResponse.value = response.data
-    })
+const user = (d) => {
+    userInformation.value = d
+    GET_SCANNED_ITEMS_API()
 }
+
+const GET_SCANNED_ITEMS_API = async () => {
+    const response = await axios.get(`/api/get-scanned-items/${userInformation.value.id}`)
+    console.log(response.data);
+    getScannedItems.value = response.data
+}
+
+
+watch(barcodeResponse.value, async (oldVal, newVal) => {
+    if (barcodeResponse.value !== null) {
+        try {
+            const response = await axios.post('api/save-scanned-items', {
+                id: userInformation.value.id,
+                data: barcodeResponse.value
+            })
+
+        } catch (error) {
+
+        }
+        GET_SCANNED_ITEMS_API()
+    }
+})
 
 const addQuantityModal = (id) => {
     inModal.value = true
@@ -102,9 +125,14 @@ const addQuantityModal = (id) => {
 
 const exit = () => {
     inModal.value = false
-    updatedBarcodeValue()
+    GET_SCANNED_ITEMS_API()
 
 }
+
+onMounted(async() => {
+
+
+})
 
 </script>
 

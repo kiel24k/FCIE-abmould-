@@ -155,5 +155,6 @@ form{
     background:#ffffff;
     border-radius: 10px;
     padding:10px;
+    box-shadow: 0px 0px 4px 0px gray;
 }
 </style>

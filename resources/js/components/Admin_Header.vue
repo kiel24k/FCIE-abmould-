@@ -43,6 +43,7 @@ import Loader from '@/components/Loading.vue';
 
 // Modal logic
 const showModal = ref(false);
+const emit = defineEmits(['user'])
 const profileModal = () => {
     showModal.value = true;
 };
@@ -57,6 +58,7 @@ onMounted(() => {
     axios.get('api/user').then(response => {
         userInformation.value = response.data;
         loader.value = false;
+        emit('user',userInformation.value)
     });
     if (!token) {
         router.push('/');

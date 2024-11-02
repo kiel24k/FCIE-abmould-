@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Material;
+use App\Models\Scanned_Items;
 use App\Models\Schedule;
 use App\Models\Tool_Inventory;
 use App\Models\User;
@@ -165,13 +166,30 @@ class AdminController extends Controller
     }
     public function itemsSearch(Request $request)
     {
-        if (!$request->category) {
-            $allItem = Item::where('item_code', 'LIKE', '%' . $request->search . '%')
-                ->paginate(10);
+        $searchTerm = $request->search;
+        if (empty($request->category)) {
+            $allItem = Item::where(function ($query) use ($searchTerm) {
+                $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%') 
+                    ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+            })
+            ->paginate(10);
             return response()->json($allItem);
-        } else if ($request->search) {
+        } else if ($searchTerm) {
             $item = Item::where('category', '=', $request->category)
-                ->where('item_code', 'LIKE', '%' . $request->search . '%')
+                ->where(function ($query) use ($searchTerm) {
+                    $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%') 
+                    ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+                })
                 ->paginate(10);
             return response()->json($item);
         }
@@ -276,9 +294,32 @@ class AdminController extends Controller
         $item->update();
         return response()->json($item);
     }
-    // public function test(){
+   public function saveScannedItems (Request $request){
+    $userId = $request->id;
+    $items = $request->data;
+    $scan = new Scanned_Items;
+    for ($i=0; $i < count($items) ; $i++) { 
+       $scan->user_id = $userId;
+       $scan->category = $items[$i]['category'];
+       $scan->item_code = $items[$i]['item_code'];
+       $scan->brand = $items[$i]['brand'];
+       $scan->supplier_name = $items[$i]['supplier_name'];
+       $scan->unit_cost = $items[$i]['unit_cost'];
+       $scan->quantity = $items[$i]['quantity'];
+       $scan->description = $items[$i]['description'];
+       $scan->save();
+    }
+    return response()->json($scan);
+   } 
 
-    //     return response()->json(Schema::getColumnListing('items'));
+   public function getScannedItems ($id) {
+    
+    $scannedItems = DB::table('scanned__items')
+    ->select('*')
+    ->where('user_id', $id)
+    ->orderBy('created_at', 'desc')
+    ->get();
+    return response()->json($scannedItems);
 
-    // }
+   }
 }

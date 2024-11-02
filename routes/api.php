@@ -40,6 +40,8 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/edit-quantity/{id}', 'editQuantity');
     Route::post('/add-quantity-submit/{id}', 'addQuantitySubmit');
     Route::post('/reduce-quantity-submit/{id}', 'reduceQuantity');
+    route::post('/save-scanned-items','saveScannedItems');
+    route::get('/get-scanned-items/{id}', 'getScannedItems');
     Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');
 });
