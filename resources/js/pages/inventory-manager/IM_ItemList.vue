@@ -23,12 +23,14 @@
                 <img src="/public/icon/search.png" width="25px" alt="" />
               </span>
               <input type="text" class="form-control" placeholder="Search" v-model="search" />
+              <button class="btn btn-danger" @click="generatePdf">Print</button>
             </div>
           </div>
         </div>
-        <table class="table table-hover table-striped mt-3">
+        <table class="table table-hover  mt-3" ref="printContent">
           <thead>
             <tr>
+              <th>#</th>
               <th @click="sort('category')">
                 Category
                 <span>{{ sorting === 'asc' ? '▲' : '▼' }}</span>
@@ -66,6 +68,7 @@
           </thead>
           <tbody>
             <tr v-for="(data, index) in responseData.data" :key="index">
+              <td>{{ index + 1 }}</td>
               <td>{{ data.category }}</td>
               <td>{{ data.barcode }}</td>
               <td>{{ data.item_code }}</td>
@@ -115,9 +118,10 @@ import { Bootstrap5Pagination } from 'laravel-vue-pagination'
 import { onMounted, ref, watch } from 'vue';
 import UpdateModal from '../../components/IM_UpdateItemModal.vue'
 import itemModal from '@/components/IM_View_Modal.vue'
+import html2pdf from 'html2pdf.js';
 
 
-
+const printContent = ref(null)
 const selected = ref('')
 const search = ref('')
 const responseData = ref({})
@@ -167,12 +171,28 @@ watch(search, (oldVal, newVal) => {
 const sort = (sortValue) => {
   if (sort_column_name.value === sortValue) {
     sort_order.value = sort_order.value === 'asc' ? 'desc' : 'asc'
-  }else{
+  } else {
     sort_column_name.value = sortValue
     sort_order.value = 'asc'
   }
   getItem()
 }
+
+const generatePdf = () => {
+    const elem = printContent.value
+
+    const options = {
+    margin: 1,
+    filename: 'document.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+  };
+  html2pdf()
+    .from(elem)
+    .set(options)
+    .save();
+};
 
 
 
@@ -187,6 +207,7 @@ onMounted(() => {
 .IM-inventory-list {
   max-width: 80%;
   margin: auto;
+  background: #000;
 }
 
 .inventory-filter {
@@ -216,7 +237,14 @@ onMounted(() => {
 .table-list {
   max-width: 80%;
   margin: auto;
+  background: rgb(248, 248, 240);
+  padding: 5px;
+  box-shadow: 0px 0px 5px 0px gray;
+  border-radius: 10px;
+  margin-top: 10px;
+
 }
+
 
 .table-filter {
   display: flex;
@@ -238,7 +266,7 @@ onMounted(() => {
 }
 
 .table th {
- 
+
   cursor: pointer;
   font-weight: 400;
   color: rgb(255, 255, 255);

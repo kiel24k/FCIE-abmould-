@@ -27,6 +27,7 @@
                                     <img src="/public/icon/search.png" width="25px" alt="">
                                 </span>
                                 <input type="text" class="form-control" placeholder="Search" v-model="search">
+                            
                               <button class="btn btn-danger" @click="generatePdf">Print</button>
                             </div>
                         </div>
