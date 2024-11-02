@@ -103,10 +103,8 @@ table {
 }
 
 .table th {
-    font-weight: 400;
     color: rgb(255, 255, 255);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background: rgb(90, 90, 90);
-    padding-left: 20px
 }
 </style>

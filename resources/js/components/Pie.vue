@@ -36,5 +36,6 @@ onMounted(() => {
 <style scoped>
 .pie{
     height: rem;
+    
 }
 </style>

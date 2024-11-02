@@ -37,7 +37,7 @@
                             </router-link>
                         </div>
                     </div>
-                    <table class="table table-striped table-hover table-responsive mt-3">
+                    <table class="table table-striped  table-hover table-responsive mt-3">
                         <thead>
                             <tr>
                                 <th>
@@ -99,9 +99,7 @@
             </div>
         </div>
     </div>
-
     <Loading v-if="loading" />
-
 </template>
 
 <script setup>
@@ -216,16 +214,23 @@ onMounted(() => {
 .sidebarVisible {
     transform: translateX(0);
 }
-
+.table{
+    box-shadow: 0px 0px 5px 0px gray;
+  border-radius: 10px;
+}
 .col-0 {
     width: 0;
     overflow: hidden;
     transition: width 0.5s ease;
+    
 }
 
 .user-list-table {
     max-width: 100%;
-    margin: auto
+    margin: auto;
+    
+  
+   
 }
 
 .filter {

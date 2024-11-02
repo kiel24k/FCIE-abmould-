@@ -177,8 +177,6 @@ const generatePdf = () => {
     html2canvas: { scale: 2 },
     jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
   };
-
-  // Generate the PDF
   html2pdf()
     .from(elem)
     .set(options)
@@ -292,12 +290,14 @@ onMounted(() => {
     .admin-inventory-list {
         width: 67rem;
         margin: auto;
+       
     }
 
     .inventory-filter {
         display: flex;
         justify-content: space-between;
         align-content: center;
+        
         align-items: center;
     }
 
@@ -305,6 +305,7 @@ onMounted(() => {
         display: flex;
         align-items: center;
         gap: 10px;
+        
     }
 
     .category {
@@ -332,9 +333,12 @@ onMounted(() => {
     }
 
     table {
-        height: 24rem;
+        height: 50rem;
+        border-radius: 5px;
         max-width: 71rem;
         overflow-y: scroll;
+        box-shadow: 0px 0px 5px 0px gray;
+        padding:10px;
         display: block;
     }
 

@@ -97,7 +97,8 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col">
+                                    <div class="col text-end">
+                                        <button class="btn btn-danger m-2">Back</button>
                                         <button class="btn btn-success" @click.enter="addUser">Submit</button>
                                     </div>
                                 </div>
@@ -179,6 +180,7 @@ const addUser = () => {
             validation.value = err.response.data.errors;
         }
     });
+}})
 };
 
 onMounted(() => {
@@ -220,7 +222,12 @@ form {
     display: grid;
     gap: 25px;
     border-radius: 10px;
-    padding: 10px;
+    margin-top: 10px;
+   
+}
+.card{
+    box-shadow: 0px 0px 5px 0px gray;
+    padding:20px;
 }
 
 </style>

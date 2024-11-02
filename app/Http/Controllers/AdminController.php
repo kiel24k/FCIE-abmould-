@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Material;
 use App\Models\Scanned_Items;
+use App\Models\ScannedItemsOut;
 use App\Models\Schedule;
 use App\Models\Tool_Inventory;
 use App\Models\User;
@@ -132,6 +133,7 @@ class AdminController extends Controller
         ]);
 
         $item = new Item();
+        $item->user_id       = $request->user_id;
         $item->item_code     = $request->item_code;
         $item->supplier_name = $request->supplier_name;
         $item->unit_cost     = $request->unit_cost;
@@ -171,24 +173,24 @@ class AdminController extends Controller
             $allItem = Item::where(function ($query) use ($searchTerm) {
                 $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%') 
+                    ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
             })
-            ->paginate(10);
+                ->paginate(10);
             return response()->json($allItem);
         } else if ($searchTerm) {
             $item = Item::where('category', '=', $request->category)
                 ->where(function ($query) use ($searchTerm) {
                     $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%') 
-                    ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+                        ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
                 })
                 ->paginate(10);
             return response()->json($item);
@@ -286,6 +288,8 @@ class AdminController extends Controller
         $item->quantity = $request->quantity;
         $item->update();
         return response()->json($item);
+
+        
     }
     public function reduceQuantity(Request $request, $id)
     {
@@ -294,32 +298,64 @@ class AdminController extends Controller
         $item->update();
         return response()->json($item);
     }
-   public function saveScannedItems (Request $request){
-    $userId = $request->id;
-    $items = $request->data;
-    $scan = new Scanned_Items;
-    for ($i=0; $i < count($items) ; $i++) { 
-       $scan->user_id = $userId;
-       $scan->category = $items[$i]['category'];
-       $scan->item_code = $items[$i]['item_code'];
-       $scan->brand = $items[$i]['brand'];
-       $scan->supplier_name = $items[$i]['supplier_name'];
-       $scan->unit_cost = $items[$i]['unit_cost'];
-       $scan->quantity = $items[$i]['quantity'];
-       $scan->description = $items[$i]['description'];
-       $scan->save();
+    public function saveScannedItems(Request $request)
+    {
+        $userId = $request->id;
+        $items = $request->data;
+       
+        $scan = new Scanned_Items;
+        for ($i = 0; $i < count($items); $i++) {
+            $scan->user_id = $userId;
+            $scan->item_id = $items[$i]['id'];
+            $scan->category = $items[$i]['category'];
+            $scan->item_code = $items[$i]['item_code'];
+            $scan->brand = $items[$i]['brand'];
+            $scan->supplier_name = $items[$i]['supplier_name'];
+            $scan->unit_cost = $items[$i]['unit_cost'];
+            $scan->quantity = $items[$i]['quantity'];
+            $scan->description = $items[$i]['description'];
+            $scan->save();
+        }
+        return response()->json($scan);
     }
-    return response()->json($scan);
-   } 
 
-   public function getScannedItems ($id) {
-    
-    $scannedItems = DB::table('scanned__items')
-    ->select('*')
-    ->where('user_id', $id)
-    ->orderBy('created_at', 'desc')
-    ->get();
-    return response()->json($scannedItems);
+    public function getScannedItems($id)
+    {
+        $scannedItems = DB::table('scanned__items')
+            ->select('*')
+            ->where('user_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json($scannedItems);
+    }
 
-   }
+    public function saveScannedItemsOut(Request $request)
+    {
+        $userId = $request->id;
+        $items = $request->data;
+       
+        $scan = new ScannedItemsOut();
+        for ($i = 0; $i < count($items); $i++) {
+            $scan->user_id = $userId;
+            $scan->item_id = $items[$i]['id'];
+            $scan->category = $items[$i]['category'];
+            $scan->item_code = $items[$i]['item_code'];
+            $scan->brand = $items[$i]['brand'];
+            $scan->supplier_name = $items[$i]['supplier_name'];
+            $scan->unit_cost = $items[$i]['unit_cost'];
+            $scan->quantity = $items[$i]['quantity'];
+            $scan->description = $items[$i]['description'];
+            $scan->save();
+        }
+        return response()->json($scan);
+    }
+    public function getScannedItemsOut($id)
+    {
+        $scannedItems = DB::table('scanned_items_outs')
+            ->select('*')
+            ->where('user_id', $id)
+            ->orderBy('created_at', 'desc')
+            ->get();
+        return response()->json($scannedItems);
+    }
 }

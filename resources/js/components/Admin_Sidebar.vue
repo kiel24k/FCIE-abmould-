@@ -83,7 +83,7 @@ aside {
     overflow-x: hidden;
     background: rgb(255, 255, 255);
     box-shadow: 0px 15px 15px 0px gray;
-    transition: all linear 0.3s;
+   
 }
 
 ul {
@@ -98,7 +98,7 @@ a {
     text-decoration: none;
     font-weight: 600;
     color: black;
-    transition: all linear 2s;
+    transition: all linear 0.2s;
 }
 
 a li {
@@ -108,6 +108,10 @@ a li {
     height: 50px;
     padding: 10px;
     border-radius: 20px;
+}
+a:hover{
+    background: rgb(231, 231, 231);
+   
 }
 
 .title {
