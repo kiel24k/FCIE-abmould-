@@ -1,5 +1,7 @@
 <template>
+   
     <aside>
+        <Logout v-if="logoutModal" @cancel="cancel"/>
         <ul>
             <div class="title text-center">
                 <img src="/public/background/abMouldLogo.png" width="130px" height="45px" alt="">
@@ -88,19 +90,21 @@
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import Logout from '@/components/IM_Logout_Modal.vue'
 
 const router = useRouter()
-
+const logoutModal = ref(false)
 const emit = defineEmits(["hideSidebar"]);
 
 const menu = () => {
     emit("hideSidebar");
 };
 
+const cancel = () => {
+    logoutModal.value = false
+}
 const logout = () => {
-   localStorage.removeItem("responseTKN")
-   localStorage.removeItem("inventoryManagerPermission")
-   router.push("/")
+    logoutModal.value = true 
 }
 </script>
 <style scoped>
