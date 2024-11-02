@@ -13,5 +13,11 @@
 	@vite('resources/js/app.js')
      <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
 
+	 <style>
+		*{
+			font-size: 14px;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+		}
+	 </style>
 </body>
 </html>

@@ -3,7 +3,6 @@
         <div class="card">
             <div class="card-header">
                 <h4>Edit Quantity</h4>
-                <img src="/public/icon/exit.png" width="20" alt="" style="cursor: pointer" @click="exit">
             </div>
             <div class="card-body">
                 <div class="item">
@@ -46,6 +45,7 @@
                         </div>
                         <div class="row mt-4">
                             <div class="col text-end" style="display:flex; justify-content:end;gap:10px;">
+                                <button class="btn btn-danger" @click="closeModal">Close</button>
                                 <button class="btn btn-dark" @click="submit(itemsResponseData.id)">Submit</button>
                             </div>
                         </div>
@@ -85,6 +85,7 @@ const items = async () => {
         const formatMonth = month.toString().padStart(2, '0')
         dateValue.value = `${formatYear}/${formatMonth}/${formatDay}`
     })
+   
 }
 
 const userInformation = ref({})
@@ -93,11 +94,13 @@ const userInfo = () => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
     axios.get('api/user').then(response => {
         userInformation.value = response.data
-
     })
 }
 
-
+const closeModal = () => {
+ emit('exit')
+  
+}
 
 const finalOutput = ref()
 watch(addQuantity, (oldVal, newVal) => {
@@ -138,9 +141,8 @@ const submit = async (id) => {
 
 
 
-const exit = () => {
-    emit('exit')
-}
+
+
 onMounted(() => {
     items()
     userInfo()

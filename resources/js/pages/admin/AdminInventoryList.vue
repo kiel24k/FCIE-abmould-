@@ -27,6 +27,7 @@
                                     <img src="/public/icon/search.png" width="25px" alt="">
                                 </span>
                                 <input type="text" class="form-control" placeholder="Search" v-model="search">
+                              <button class="btn btn-danger" @click="generatePdf">Print</button>
                             </div>
                         </div>
                         <div class="create">
@@ -38,7 +39,7 @@
                             </router-link>
                         </div>
                     </div>
-                    <div id="table" class="table-responsive-sm-2">
+                    <div id="table" class="table-responsive-sm-2" ref="printContent">
                         <table class="table table-bordered table-hover align-middle">
                             <thead>
                                 <tr>
@@ -147,11 +148,13 @@ import { onMounted, ref, watch } from 'vue';
 import AdminViewModal from '@/components/Admin_View_Modal.vue'
 import DeleteItemModal from '@/components/Admin_Delete_Inventory_Modal_Logout.vue'
 import Loading from '@/components/Loading.vue'
+import html2pdf from 'html2pdf.js';
 const isSidebarHidden = ref(false);
 const toggleSidebar = () => {
     isSidebarHidden.value = !isSidebarHidden.value;
 };
 
+const printContent = ref(null)
 const deleteItemModal = ref(false)
 const deleteId = ref()
 //current database table
@@ -163,6 +166,25 @@ const viewModal = ref(false)
 const viewModalId = ref(null)
 const sortColumn = ref('brand'); // Default sorting column
 const sortOrder = ref('asc'); // Default sorting order
+
+const generatePdf = () => {
+    const elem = printContent.value
+
+    const options = {
+    margin: 1,
+    filename: 'document.pdf',
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+  };
+
+  // Generate the PDF
+  html2pdf()
+    .from(elem)
+    .set(options)
+    .save();
+};
+
 
 const pagination = ref({
     current_page: 1,
@@ -210,6 +232,8 @@ watch(selected, (oldVal, newVal) => {
 })
 
 watch(search, (oldVal, newVal) => {
+    console.log(search.value);
+    
     axios({
         method: 'GET',
         url: `/api/items-search?category=${selected.value}&search=${search.value}`
