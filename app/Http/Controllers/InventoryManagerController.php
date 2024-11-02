@@ -24,17 +24,32 @@ class InventoryManagerController extends Controller
 
     public function itemSearchList(Request $request)
     {
-        if (!$request->category) {
-            $item = Item::where('item_code', 'LIKE', '%' . $request->search . '%')
-                ->latest()
+        $searchTerm = $request->search;
+        if (empty($request->category)) {
+            $allItem = Item::where(function ($query) use ($searchTerm) {
+                $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+            })
+                ->paginate(10);
+            return response()->json($allItem);
+        } else if ($searchTerm) {
+            $item = Item::where('category', '=', $request->category)
+                ->where(function ($query) use ($searchTerm) {
+                    $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+                })
                 ->paginate(10);
             return response()->json($item);
-        } else if ($request->category) {
-            $categoryItem = Item::where('category', '=', $request->category)
-                ->where('item_code', 'LIKE', '%' . $request->search . '%')
-                ->latest()
-                ->paginate(10);
-            return response()->json($categoryItem);
         }
     }
     public function getUpdatedItem($id)
