@@ -1,6 +1,6 @@
 <template>
     <header>
-        <Header/>
+        <Header @user="user"/>
     </header>
     <div class="row m-2">
         <div class="col">
@@ -99,6 +99,7 @@ import { useRouter } from 'vue-router';
 import BarcodeComponent from '@/components/BarcodeGenerator.vue';
 
 const router = useRouter()
+const userInformation = ref()
 
 
 const validation = ref({})
@@ -111,11 +112,16 @@ const input = ref({
     description: '',
     brand: ''
 })
+
+const user = (id) => {
+    userInformation.value = id
+}
 const submit = () => {
     axios({
         method: 'POST',
         url: 'api/new-item',
         data: {
+            user_id: userInformation.value.id,
             item_code: input.value.item_code,
             supplier_name: input.value.supplier_name,
             unit_cost: input.value.unit_cost,

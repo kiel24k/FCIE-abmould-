@@ -37,12 +37,24 @@
                 <table class="table table-hover mt-4">
                     <thead>
                         <tr>
-                            <th><div class="head-title">Date</div></th>
-                            <th><div class="head-title">Category</div></th>
-                            <th><div class="head-title">Item Code</div></th>
-                            <th><div class="head-title">Barcode</div></th>
-                            <th><div class="head-title">Changed by</div></th>
-                            <th><div class="head-title">Status</div></th>
+                            <th>
+                                <div class="head-title">Date</div>
+                            </th>
+                            <th>
+                                <div class="head-title">Category</div>
+                            </th>
+                            <th>
+                                <div class="head-title">Item Code</div>
+                            </th>
+                            <th>
+                                <div class="head-title">Barcode</div>
+                            </th>
+                            <th>
+                                <div class="head-title">Changed by</div>
+                            </th>
+                            <th>
+                                <div class="head-title">Status</div>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -126,9 +138,15 @@ const isSidebarHidden = ref(false);
     }
 
     .analytics .chart>div {
-        box-shadow: 0px 0px 2px 0px gray;
-
+        box-shadow: 0px 0px 5px 0px gray;
+        background: rgb(250, 250, 246);
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        border-radius: 10px;
         height: 25rem;
+        align-content: center;
     }
 
     .analytics section {

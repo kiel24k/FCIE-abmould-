@@ -13,6 +13,7 @@
     display: grid;
     justify-content: center;
     align-items: center;
+    
 }
 .lds-ring {
     /* change color here */

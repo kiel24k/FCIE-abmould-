@@ -11,14 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('histories', function (Blueprint $table) {
+        Schema::create('scanned_items_outs', function (Blueprint $table) {
             $table->id();
-            $table->string('date');
+            $table->bigInteger('user_id');
+            $table->bigInteger('item_id');
             $table->string('category');
             $table->string('item_code');
-            $table->string('barcode');
-            $table->string('change_by_name');
-            $table->string('made');
+            $table->string('brand');
+            $table->string('supplier_name');
+            $table->string('unit_cost');
+            $table->string('quantity');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -28,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('scanned_items_outs');
     }
 };

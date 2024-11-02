@@ -12,6 +12,15 @@
                 <Scanner @barcodeValue="barcodeValue" />
             </div>
             <div class="data-table mt-4">
+                <div class="text-start">
+                    <router-link :to="{ name: 'admin-inventory-list' }" class="btn btn-primary mb-2">Item
+                        List</router-link>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <b>Scanned Items</b>
+                    </div>
+                </div>
                 <table class="table table-hover ">
                     <thead>
                         <tr>
@@ -20,24 +29,21 @@
                             <th>Brand</th>
                             <th>Supplier Name</th>
                             <th>Unit Cost</th>
-                            <th>Quantity</th>
                             <th>Description</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-
                         <tr v-for="(data, index) in getScannedItems" :key="index">
-                            <td>{{ data.category}}</td>
+                            <td>{{ data.category }}</td>
                             <td>{{ data.item_code }}</td>
                             <td>{{ data.brand }}</td>
                             <td>{{ data.supplier_name }}</td>
                             <td>{{ data.unit_cost }}</td>
-                            <td>{{ data.quantity }}x</td>
                             <td>{{ data.description }}</td>
                             <td>
                                 <span>
-                                    <button class="btn btn-dark" @click="addQuantityModal(data.id)">Add
+                                    <button class="btn btn-dark" @click="addQuantityModal(data.item_id)">Add
                                         Quantity</button>
                                 </span>
                             </td>
@@ -64,7 +70,6 @@ const inModal = ref(false)
 const inModalId = ref()
 const notFound = ref(false)
 const barcodeResponse = ref([])
-const barcodeParams = ref('')
 const userInformation = ref()
 const getScannedItems = ref()
 
@@ -78,7 +83,6 @@ const barcodeValue = (data) => {
         method: 'GET',
         url: `/api/view-scan-barcode/${data}`
     }).then(response => {
-        barcodeParams.value = data
         barcodeResponse.value.push(response.data[0])
         if (response.data[0] == null) {
             barcodeResponse.value.pop()
@@ -97,7 +101,6 @@ const user = (d) => {
 
 const GET_SCANNED_ITEMS_API = async () => {
     const response = await axios.get(`/api/get-scanned-items/${userInformation.value.id}`)
-    console.log(response.data);
     getScannedItems.value = response.data
 }
 
@@ -129,7 +132,7 @@ const exit = () => {
 
 }
 
-onMounted(async() => {
+onMounted(async () => {
 
 
 })
@@ -163,10 +166,8 @@ table {
 }
 
 .table th {
-    font-weight: 400;
     color: rgb(255, 255, 255);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background: rgb(90, 90, 90);
-    padding-left: 20px
 }
 </style>

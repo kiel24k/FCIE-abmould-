@@ -11,6 +11,8 @@ class Scanned_Items extends Model
 
     protected $table = 'scanned__items';
     protected $fillable = [
+        'user_id',
+        'item_id',
         'category',
         'item_code',
         'brand',

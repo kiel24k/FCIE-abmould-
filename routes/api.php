@@ -42,6 +42,9 @@ Route::controller(AdminController::class)->group(function () {
     Route::post('/reduce-quantity-submit/{id}', 'reduceQuantity');
     route::post('/save-scanned-items','saveScannedItems');
     route::get('/get-scanned-items/{id}', 'getScannedItems');
+    route::post('/save-scanned-items-out','saveScannedItemsOut');
+    route::get('/get-scanned-items-out/{id}', 'getScannedItemsOut');
+
     Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');
 });

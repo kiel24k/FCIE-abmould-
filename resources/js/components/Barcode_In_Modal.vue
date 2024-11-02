@@ -69,7 +69,7 @@ const itemsResponseData = ref({})
 const addQuantity = ref('')
 
 const dateValue = ref()
-const items = async () => {
+const items = async () => { 
     await axios({
         method: 'GET',
         url: `/api/edit-quantity/${props.inModalId}`
@@ -84,6 +84,8 @@ const items = async () => {
         const formatDay = day.toString().padStart(2, '0')
         const formatMonth = month.toString().padStart(2, '0')
         dateValue.value = `${formatYear}/${formatMonth}/${formatDay}`
+        console.log(itemsResponseData.value);
+        
     })
    
 }

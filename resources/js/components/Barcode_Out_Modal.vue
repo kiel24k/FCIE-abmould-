@@ -3,7 +3,7 @@
         <div class="card">
             <div class="card-header">
                 <h4>Edit Quantity</h4>
-                <img src="/public/icon/exit.png" width="20" alt="" style="cursor: pointer" @click="exit">
+               
             </div>
             <div class="card-body">
                 <div class="item">
@@ -46,6 +46,7 @@
                         </div>
                         <div class="row mt-4">
                             <div class="col text-end" style="display:flex; justify-content:end;gap:10px;">
+                                <button class="btn btn-danger" @click="exit">Close</button>
                                 <button class="btn btn-dark" @click="submit(itemsResponseData.id)">Submit</button>
                             </div>
                         </div>
