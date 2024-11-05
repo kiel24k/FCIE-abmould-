@@ -78,47 +78,45 @@ const toggleSidebar = () => {
     isSidebarHidden.value = !isSidebarHidden.value;
 };
 
+// Function to add only unique items to barcodeResponse
 const barcodeValue = (data) => {
     axios({
         method: 'GET',
         url: `/api/view-scan-barcode/${data}`
     }).then(response => {
-        barcodeResponse.value.push(response.data[0])
-        if (response.data[0] == null) {
-            barcodeResponse.value.pop()
+        const newItem = response.data[0];
+
+        if (newItem && !barcodeResponse.value.some(item => item.item_code === newItem.item_code)) {
+            barcodeResponse.value.push(newItem);
         }
-        if (barcodeResponse.value == '') {
-            notFound.value = true
-        } else {
-            notFound.value = false
-        }
-    })
-}
-const user = (d) => {
-    userInformation.value = d
-    GET_SCANNED_ITEMS_API()
-}
+
+        notFound.value = barcodeResponse.value.length === 0;
+    }).catch(error => {
+        console.error("Error fetching barcode data:", error);
+        notFound.value = true;
+    });
+};
 
 const GET_SCANNED_ITEMS_API = async () => {
-    const response = await axios.get(`/api/get-scanned-items/${userInformation.value.id}`)
-    getScannedItems.value = response.data
-}
+    const response = await axios.get(`/api/get-scanned-items/${userInformation.value.id}`);
+    getScannedItems.value = Array.from(new Set(response.data.map(item => item.item_code)))
+        .map(code => response.data.find(item => item.item_code === code));
+};
 
-
-watch(barcodeResponse.value, async (oldVal, newVal) => {
-    if (barcodeResponse.value !== null) {
+watch(barcodeResponse.value, async () => {
+    if (barcodeResponse.value.length > 0) {
         try {
-            const response = await axios.post('api/save-scanned-items', {
+            await axios.post('api/save-scanned-items', {
                 id: userInformation.value.id,
                 data: barcodeResponse.value
-            })
-
+            });
+            GET_SCANNED_ITEMS_API();
         } catch (error) {
-
+            console.error("Error saving scanned items:", error);
         }
-        GET_SCANNED_ITEMS_API()
     }
-})
+});
+
 
 const addQuantityModal = (id) => {
     inModal.value = true

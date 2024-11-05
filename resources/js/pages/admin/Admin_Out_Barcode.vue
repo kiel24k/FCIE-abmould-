@@ -63,83 +63,75 @@ import AdminOutModal from '@/components/Barcode_Out_Modal.vue'
 
 const OutModal = ref(false)
 const isSidebarHidden = ref(false);
-const barcodeResponse = ref([])
+const barcodeResponse = ref([]) // Array to store unique scanned items
 const userInformation = ref()
 const getScannedItems = ref()
+const reduceItemId = ref()
+
 const toggleSidebar = () => {
     isSidebarHidden.value = !isSidebarHidden.value;
 };
-const barcodeData = ref({})
-const barcodeParams = ref('')
 
 const barcodeValue = (data) => {
-    axios({
-        method: 'GET',
-        url: `/api/view-scan-barcode/${data}`
-    }).then(response => {
-        barcodeResponse.value.push(response.data[0])
-        if (response.data[0] == null) {
-            barcodeResponse.value.pop()
-        }
-        // if (barcodeResponse.value == '') {
-        //     notFound.value = true
-        // } else {
-        //     notFound.value = false
-        // }
-    })
-}
+    axios.get(`/api/view-scan-barcode/${data}`)
+        .then(response => {
+            const newItem = response.data[0];
+            if (newItem && !barcodeResponse.value.some(item => item.item_code === newItem.item_code)) {
+                barcodeResponse.value.push(newItem);
+            }
+        })
+        .catch(error => console.error("Error fetching barcode data:", error));
+};
 
 const user = (d) => {
-    userInformation.value = d
-    GET_SCANNED_ITEMS_API()
-}
+    userInformation.value = d;
+    GET_SCANNED_ITEMS_API();
+};
 
-
+// Fetch and remove duplicates from scanned items
 const GET_SCANNED_ITEMS_API = async () => {
-    const response = await axios.get(`/api/get-scanned-items-out/${userInformation.value.id}`)
-    getScannedItems.value = response.data
-}
+    try {
+        const response = await axios.get(`/api/get-scanned-items-out/${userInformation.value.id}`);
+        // Remove duplicates by item code
+        getScannedItems.value = Array.from(new Set(response.data.map(item => item.item_code)))
+            .map(code => response.data.find(item => item.item_code === code));
+    } catch (error) {
+        console.error("Error fetching scanned items:", error);
+    }
+};
 
-watch(barcodeResponse.value, async (oldVal, newVal) => {
-    if (barcodeResponse.value !== null) {
+watch(barcodeResponse.value, async () => {
+    if (barcodeResponse.value.length > 0) {
         try {
-            const response = await axios.post('api/save-scanned-items-out', {
+            await axios.post('api/save-scanned-items-out', {
                 id: userInformation.value.id,
                 data: barcodeResponse.value
-            })
-
+            });
+            GET_SCANNED_ITEMS_API(); // Refresh after saving
         } catch (error) {
-            console.log(error);
+            console.error("Error saving scanned items:", error);
         }
-        GET_SCANNED_ITEMS_API()
     }
-})
+});
 
-
-const reduceItemId = ref()
+// Show reduction modal and pass the item id
 const reduceItem = (id) => {
-    OutModal.value = true
-    reduceItemId.value = id
+    OutModal.value = true;
+    reduceItemId.value = id;
+};
 
-
-}
+// Close modal and refresh scanned items
 const exit = () => {
-    OutModal.value = false
-    updatedBarcodeValue()
-}
-
-// const barcodeValue = () => {
-//     axios({
-//         method: 'GET',
-//         url: `/api/view-scan-barcode/{barcode}`
-//     })
-// }
+    OutModal.value = false;
+    GET_SCANNED_ITEMS_API();
+};
 
 onMounted(() => {
 
-})
+});
 
 </script>
+
 
 <style scoped>
 .hideSidebar {
