@@ -288,8 +288,6 @@ class AdminController extends Controller
         $item->quantity = $request->quantity;
         $item->update();
         return response()->json($item);
-
-        
     }
     public function reduceQuantity(Request $request, $id)
     {
@@ -300,23 +298,23 @@ class AdminController extends Controller
     }
     public function saveScannedItems(Request $request)
     {
-        $userId = $request->id;
-        $items = $request->data;
-       
-        $scan = new Scanned_Items;
-        for ($i = 0; $i < count($items); $i++) {
-            $scan->user_id = $userId;
-            $scan->item_id = $items[$i]['id'];
-            $scan->category = $items[$i]['category'];
-            $scan->item_code = $items[$i]['item_code'];
-            $scan->brand = $items[$i]['brand'];
-            $scan->supplier_name = $items[$i]['supplier_name'];
-            $scan->unit_cost = $items[$i]['unit_cost'];
-            $scan->quantity = $items[$i]['quantity'];
-            $scan->description = $items[$i]['description'];
-            $scan->save();
-        }
-        return response()->json($scan);
+
+        $request->validate([
+            'item_code' => 'unique:scanned__items,item_code'
+        ]);
+        $item = new Scanned_Items();
+        $item->user_id = $request->user_id;
+        $item->item_id =  $request->item_id;
+        $item->category =  $request->category;
+        $item->item_code = $request->item_code;
+        $item->brand =  $request->brand;
+        $item->supplier_name =  $request->supplier_name;
+        $item->unit_cost =  $request->unit_cost;
+        $item->quantity =  $request->quantity;
+        $item->description =  $request->description;
+        $item->save();
+        // Return the response with the validated data
+        return response()->json(['message' => 'success'], 200);
     }
 
     public function getScannedItems($id)
@@ -331,23 +329,21 @@ class AdminController extends Controller
 
     public function saveScannedItemsOut(Request $request)
     {
-        $userId = $request->id;
-        $items = $request->data;
-       
-        $scan = new ScannedItemsOut();
-        for ($i = 0; $i < count($items); $i++) {
-            $scan->user_id = $userId;
-            $scan->item_id = $items[$i]['id'];
-            $scan->category = $items[$i]['category'];
-            $scan->item_code = $items[$i]['item_code'];
-            $scan->brand = $items[$i]['brand'];
-            $scan->supplier_name = $items[$i]['supplier_name'];
-            $scan->unit_cost = $items[$i]['unit_cost'];
-            $scan->quantity = $items[$i]['quantity'];
-            $scan->description = $items[$i]['description'];
-            $scan->save();
-        }
-        return response()->json($scan);
+        $request->validate([
+            'item_code' => 'unique:scanned_items_outs,item_code'
+        ]);
+        $item = new ScannedItemsOut();
+        $item->user_id = $request->user_id;
+        $item->item_id =  $request->item_id;
+        $item->category =  $request->category;
+        $item->item_code = $request->item_code;
+        $item->brand =  $request->brand;
+        $item->supplier_name =  $request->supplier_name;
+        $item->unit_cost =  $request->unit_cost;
+        $item->quantity =  $request->quantity;
+        $item->description =  $request->description;
+        $item->save();
+        return response()->json(['message' => 'success'], 200);
     }
     public function getScannedItemsOut($id)
     {
