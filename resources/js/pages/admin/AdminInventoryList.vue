@@ -18,8 +18,8 @@
                     <div class="row">
                         <div class="col table-category">
                             <div class="card flex justify-center">
-                                <Select v-model="selected" :options="itemOption" showClear optionLabel="name"
-                                    placeholder="Select a City" class="w-full md:w-56" />
+                                <Select v-model="selected" :options="itemOption" :selected="itemOption.default"
+                                    showClear optionLabel="name" placeholder="Select a City" class="w-full md:w-56" />
                             </div>
                         </div>
                         <div class="col table-action">
@@ -281,7 +281,7 @@ const printContent = ref(null)
 const deleteItemModal = ref(false)
 const deleteId = ref()
 //current database table
-const selected = ref('')
+const selected = ref(null)
 const loading = ref(false)
 const responseData = ref({})
 const search = ref('')
@@ -290,9 +290,9 @@ const viewModalId = ref(null)
 const sortColumn = ref('brand'); // Default sorting column
 const sortOrder = ref('asc'); // Default sorting order
 const itemOption = ref([
-    { name: ''},
-    { name: 'tools'},
-    { name: 'materials'},
+    { default: '' },
+    { name: 'tools' },
+    { name: 'materials' },
 ]);
 
 const generatePdf = () => {
@@ -321,29 +321,47 @@ const pagination = ref({
 
 // data per category
 const category = async (page) => {
-    if (page < 1 || page > pagination.value.last_page) return;
-    axios({
-        method: 'GET',
-        url: `/api/item-category?category=${selected.value}&page=${page}`,
-        params: {
-            sort_by: sortColumn.value,
-            sort_order: sortOrder.value
-        }
-    }).then(response => {
-        loading.value = false
-        pagination.value = {
-            current_page: response.data.current_page,
-            last_page: response.data.last_page,
-            next_page_url: response.data.next_page_url,
-            prev_page_url: response.data.prev_page_url,
-        };
-        responseData.value = response.data
+    if (selected.value === null) {
+        if (page < 1 || page > pagination.value.last_page) return;
+        axios({
+            method: 'GET',
+            url: `/api/item-category?&page=${page}`,
+            params: {
+                sort_by: sortColumn.value,
+                sort_order: sortOrder.value
+            }
+        }).then(response => {
+            loading.value = false
+            pagination.value = {
+                current_page: response.data.current_page,
+                last_page: response.data.last_page,
+                next_page_url: response.data.next_page_url,
+                prev_page_url: response.data.prev_page_url,
+            };
+            responseData.value = response.data
+        })
+    }else if(selected){
+        if (page < 1 || page > pagination.value.last_page) return;
+        axios({
+            method: 'GET',
+            url: `/api/item-category?category=${selected.value.name}&page=${page}`,
+            params: {
+                sort_by: sortColumn.value,
+                sort_order: sortOrder.value
+            }
+        }).then(response => {
+            loading.value = false
+            pagination.value = {
+                current_page: response.data.current_page,
+                last_page: response.data.last_page,
+                next_page_url: response.data.next_page_url,
+                prev_page_url: response.data.prev_page_url,
+            };
+            responseData.value = response.data
+        })
 
-
-    })
+    }
 }
-
-
 const sort = (column) => {
     if (sortColumn.value === column) {
         sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
@@ -354,6 +372,9 @@ const sort = (column) => {
     category()
 };
 watch(selected, (oldVal, newVal) => {
+  if(selected.value == null){
+   category()
+  }
     category()
 })
 
