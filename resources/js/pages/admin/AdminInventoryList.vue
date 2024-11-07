@@ -319,7 +319,7 @@ const pagination = ref({
     prev_page_url: null,
 });
 
-// data per categor
+// sddata per categor
 const category = async (page) => {
     if (selected.value === null) {
         if (page < 1 || page > pagination.value.last_page) return;
