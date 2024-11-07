@@ -28,9 +28,9 @@ class AdminController extends Controller
                 ->paginate(3);
             return response()->json($table);
         } else if (!$request->category) {
-            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(3));
+            return response()->json(User::orderBy($sortName, $sortOrder)->get());
         } else if ($request->category) {
-            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(3));
+            return response()->json(User::orderBy($sortName, $sortOrder)->get());
         }
     }
     public function userListSearch(Request $request)
