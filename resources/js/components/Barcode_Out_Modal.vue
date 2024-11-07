@@ -67,10 +67,10 @@ const userData = ref()
 const items = () => {
     axios({
         method: 'GET',
-        url: `/api/edit-quantity/${props.reduceItemId}`
+        url: `/api/edit-quantity/1`
     }).then(response => {
         itemsResponseData.value = response.data
-
+        console.log(response.data);
         let isoDate = itemsResponseData.value.created_at;
         let dateData = new Date(isoDate);
         const month = dateData.getUTCMonth() + 1

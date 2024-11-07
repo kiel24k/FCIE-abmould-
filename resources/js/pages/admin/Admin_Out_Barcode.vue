@@ -43,7 +43,7 @@
                             <td>{{ data.description }}</td>
                             <td>
                                 <span>
-                                    <button class="btn btn-dark" @click="reduceItem(data.id)">Reduce Item</button>
+                                    <button class="btn btn-dark" @click="reduceItem(data.item_id)">Reduce Item</button>
                                 </span>
                             </td>
                         </tr>
@@ -60,6 +60,7 @@ import Sidebar from '@/components/Admin_Sidebar.vue';
 import Scanner from '@/components/Barcode_Scanner.vue'
 import { onMounted, ref, watch } from 'vue';
 import AdminOutModal from '@/components/Barcode_Out_Modal.vue'
+import Swal from 'sweetalert2';
 
 const OutModal = ref(false)
 const isSidebarHidden = ref(false);
@@ -67,6 +68,7 @@ const barcodeResponse = ref([]) // Array to store unique scanned items
 const userInformation = ref()
 const getScannedItems = ref()
 const reduceItemId = ref()
+const newItem = ref([])
 
 const toggleSidebar = () => {
     isSidebarHidden.value = !isSidebarHidden.value;
@@ -75,9 +77,11 @@ const toggleSidebar = () => {
 const barcodeValue = (data) => {
     axios.get(`/api/view-scan-barcode/${data}`)
         .then(response => {
-            const newItem = response.data[0];
-            if (newItem && !barcodeResponse.value.some(item => item.item_code === newItem.item_code)) {
-                barcodeResponse.value.push(newItem);
+            newItem.value = response.data[0];
+            if (newItem.value && !barcodeResponse.value.some(item => item.item_code === newItem.value.item_code)) {
+                barcodeResponse.value.push(newItem.value);
+                console.log("barcodeRespone:", barcodeResponse.value);
+                console.log("newItem: ", newItem.value);
             }
         })
         .catch(error => console.error("Error fetching barcode data:", error));
@@ -90,14 +94,9 @@ const user = (d) => {
 
 // Fetch and remove duplicates from scanned items
 const GET_SCANNED_ITEMS_API = async () => {
-    try {
-        const response = await axios.get(`/api/get-scanned-items-out/${userInformation.value.id}`);
-        // Remove duplicates by item code
-        getScannedItems.value = Array.from(new Set(response.data.map(item => item.item_code)))
-            .map(code => response.data.find(item => item.item_code === code));
-    } catch (error) {
-        console.error("Error fetching scanned items:", error);
-    }
+    const response = await axios.get(`/api/get-scanned-items-out/${userInformation.value.id}`);
+    getScannedItems.value = Array.from(new Set(response.data.map(item => item.item_code)))
+        .map(code => response.data.find(item => item.item_code === code));
 };
 
 watch(barcodeResponse.value, async () => {
@@ -105,18 +104,33 @@ watch(barcodeResponse.value, async () => {
         try {
             await axios.post('api/save-scanned-items-out', {
                 id: userInformation.value.id,
-                data: barcodeResponse.value
+                user_id: userInformation.value.id,
+                item_id: newItem.value.id,
+                category: newItem.value.category,
+                item_code: newItem.value.item_code,
+                brand: newItem.value.brand,
+                supplier_name: newItem.value.supplier_name,
+                unit_cost: newItem.value.unit_cost,
+                quantity: newItem.value.quantity,
+                description: newItem.value.description
             });
             GET_SCANNED_ITEMS_API(); // Refresh after saving
         } catch (error) {
-            console.error("Error saving scanned items:", error);
+            console.log(error.response.status);
+            if (error.response.status === 422) {
+                Swal.fire({
+                    title: "Item Existed",
+                    text: "Please use other Item",
+                    icon: "question"
+                });
+            }
         }
     }
 });
 
 // Show reduction modal and pass the item id
 const reduceItem = (id) => {
-    OutModal.value = true;
+    OutModal.value = true;   
     reduceItemId.value = id;
 };
 

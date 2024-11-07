@@ -64,14 +64,16 @@ import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue';
 import Scanner from '@/components/Barcode_Scanner.vue'
 import InModal from '@/components/Barcode_In_Modal.vue'
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
+import Swal from 'sweetalert2';
 
 const inModal = ref(false)
 const inModalId = ref()
 const notFound = ref(false)
 const barcodeResponse = ref([])
-const userInformation = ref()
+const userInformation = ref({})
 const getScannedItems = ref()
+const newItem = ref([])
 
 const isSidebarHidden = ref(false);
 const toggleSidebar = () => {
@@ -84,12 +86,14 @@ const barcodeValue = (data) => {
         method: 'GET',
         url: `/api/view-scan-barcode/${data}`
     }).then(response => {
-        const newItem = response.data[0];
+        console.log("data:", data);
 
-        if (newItem && !barcodeResponse.value.some(item => item.item_code === newItem.item_code)) {
-            barcodeResponse.value.push(newItem);
+        newItem.value = response.data[0];
+        if (newItem.value && !barcodeResponse.value.some(item => item.item_code === newItem.value.item_code)) {
+            barcodeResponse.value.push(newItem.value);
+            console.log("barcodeRespone:", barcodeResponse.value);
+            console.log("newItem: ", newItem.value);
         }
-
         notFound.value = barcodeResponse.value.length === 0;
     }).catch(error => {
         console.error("Error fetching barcode data:", error);
@@ -97,24 +101,42 @@ const barcodeValue = (data) => {
     });
 };
 
+const user = (data) => {
+    userInformation.value = data
+    GET_SCANNED_ITEMS_API()
+}
+
 const GET_SCANNED_ITEMS_API = async () => {
     const response = await axios.get(`/api/get-scanned-items/${userInformation.value.id}`);
     getScannedItems.value = Array.from(new Set(response.data.map(item => item.item_code)))
         .map(code => response.data.find(item => item.item_code === code));
+    // console.log("getScannedItems", getScannedItems.value);     
 };
+watch(newItem, async () => {
+    try {
+        const response = await axios.post('api/save-scanned-items', {
+            user_id: userInformation.value.id,
+            item_id: newItem.value.id,
+            category: newItem.value.category,
+            item_code: newItem.value.item_code,
+            brand: newItem.value.brand,
+            supplier_name: newItem.value.supplier_name,
+            unit_cost: newItem.value.unit_cost,
+            quantity: newItem.value.quantity,
+            description: newItem.value.description
+        });
 
-watch(barcodeResponse.value, async () => {
-    if (barcodeResponse.value.length > 0) {
-        try {
-            await axios.post('api/save-scanned-items', {
-                id: userInformation.value.id,
-                data: barcodeResponse.value
+        GET_SCANNED_ITEMS_API();
+    } catch (error) {
+        if (error.response.status === 422) {
+            Swal.fire({
+                title: "Item Existed",
+                text: "Please use other Item",
+                icon: "question"
             });
-            GET_SCANNED_ITEMS_API();
-        } catch (error) {
-            console.error("Error saving scanned items:", error);
         }
     }
+
 });
 
 
@@ -131,7 +153,7 @@ const exit = () => {
 }
 
 onMounted(async () => {
-
+    GET_SCANNED_ITEMS_API()
 
 })
 
