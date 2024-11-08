@@ -51,6 +51,7 @@ import Sidebar from '@/components/Admin_Sidebar.vue';
 import Scanner from '@/components/Barcode_Scanner.vue'
 import { onMounted, ref, watch } from 'vue';
 
+
 const isSidebarHidden = ref(false);
 const toggleSidebar = () => {
     isSidebarHidden.value = !isSidebarHidden.value;

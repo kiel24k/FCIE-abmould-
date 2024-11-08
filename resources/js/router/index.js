@@ -1,176 +1,171 @@
-import { createWebHistory, createRouter } from 'vue-router'
-import Login from '../pages/auth/Login.vue'
-
-
+import { createWebHistory, createRouter } from "vue-router";
+import Login from "../pages/auth/Login.vue";
 
 const routes = [
     {
-        path: '/',
-        name: 'login',
-        component: Login
+        path: "/",
+        name: "login",
+        component: Login,
     },
 
     {
-        path: '/:unauthorized(.*)*',
-        name: '404',
-        component: () => import ('../error/404.vue')
+        path: "/:unauthorized(.*)*",
+        name: "404",
+        component: () => import("../error/404.vue"),
     },
     {
-        path:'/admin-dashboard',
-        name:'admin-dashboard',
-        component: ()=>import('../pages/admin/AdminDashboard.vue'),
+        path: "/admin-dashboard",
+        name: "admin-dashboard",
+        component: () => import("../pages/admin/AdminDashboard.vue"),
         meta: {
-            requireToken: true
-        }
+            requireToken: true,
+        },
     },
     {
-        path:'/admin-user-list',
-        name: 'admin-user-list',
-        component: () => import ('../pages/admin/AdminUserList.vue')
+        path: "/admin-user-list",
+        name: "admin-user-list",
+        component: () => import("../pages/admin/AdminUserList.vue"),
     },
     {
-        path:'/admin-update-user/:id',
-        name: 'admin-update-user',
-        component: () => import('../pages/admin/AdminUpdateUser.vue')
+        path: "/admin-update-user/:id",
+        name: "admin-update-user",
+        component: () => import("../pages/admin/AdminUpdateUser.vue"),
     },
     {
-        path:'/create-user',
-        name: 'create-user',
-        component: () => import ('../pages/admin/AdminCreateUser.vue')
+        path: "/create-user",
+        name: "create-user",
+        component: () => import("../pages/admin/AdminCreateUser.vue"),
     },
     {
-        path: '/admin-new-item',
-        name: 'admin-new-item',
-        component: () => import ('../pages/admin/AdminNewItem.vue')
-
-    },
-
-    {
-        path: '/admin-inventory-list',
-        name: 'admin-inventory-list',
-        component: () => import ('../pages/admin/AdminInventoryList.vue')
-
-    },
-    {
-        path:'/admin-edit-item/:id',
-        name:'admin-edit-item',
-        component: () => import('../pages/admin/AdminEditItem.vue')
-
-    },
-    {
-        path: '/admin-scheduling',
-        name: 'admin-scheduling',
-        component: () => import('../pages/admin/AdminScheduling.vue')
-    },
-    {
-        path: '/admin-in-barcode',
-        name: 'admin-in-barcode',
-        component: () => import('../pages/admin/Admin_In_Barcode.vue')
-
-    },
-    {
-        path: '/admin-out-barcode',
-        name: 'admin-out-barcode',
-        component: () => import('../pages/admin/Admin_Out_Barcode.vue')
-
-    },
-    {
-        path: '/admin-view-barcode',
-        name: 'admin-view-barcode',
-        component: () => import('../pages/admin/Admin_View_Barcode.vue')
-
-    },
-    {
-path: '/admin-profile',
-name: 'admin-profile',
-component: () => import('../pages/admin/Admin_Profile.vue')
+        path: "/admin-new-item",
+        name: "admin-new-item",
+        component: () => import("../pages/admin/AdminNewItem.vue"),
     },
 
     {
-        path:'/inventory-manager-dashboard',
-        name:'inventory-manager-dashboard',
-        component: ()=>import('../pages/inventory-manager/ManagerDashboard.vue')
+        path: "/admin-inventory-list",
+        name: "admin-inventory-list",
+        component: () => import("../pages/admin/AdminInventoryList.vue"),
     },
     {
-        path: '/inventory-manager-scheduling',
-        name: 'inventory-manager-scheduling',
-        component: () => import('../pages/inventory-manager/IM_Scheduling.vue')
+        path: "/admin-edit-item/:id",
+        name: "admin-edit-item",
+        component: () => import("../pages/admin/AdminEditItem.vue"),
     },
     {
-        path:'/inventory-manager-item-list',
-        name: 'inventory-manager-item-list',
-        component: () => import('../pages/inventory-manager/IM_ItemList.vue')
+        path: "/admin-scheduling",
+        name: "admin-scheduling",
+        component: () => import("../pages/admin/AdminScheduling.vue"),
     },
     {
-        path: '/inventory-manager-in-barcode',
-        name: 'inventory-manager-in-barcode',
-        component: () => import ('../pages/inventory-manager/IM_In_Barcode.vue')
+        path: "/admin-in-barcode",
+        name: "admin-in-barcode",
+        component: () => import("../pages/admin/Admin_In_Barcode.vue"),
     },
     {
-        path: '/inventory-manager-Out-barcode',
-        name: 'inventory-manager-out-barcode',
-        component: () => import ('../pages/inventory-manager/IM_Out_Barcode.vue')
+        path: "/admin-out-barcode",
+        name: "admin-out-barcode",
+        component: () => import("../pages/admin/Admin_Out_Barcode.vue"),
     },
     {
-        path: '/inventory-manager-view-barcode',
-        name: 'inventory-manager-view-barcode',
-        component: () => import ('../pages/inventory-manager/IM_View_Barcode.vue')
+        path: "/admin-view-barcode",
+        name: "admin-view-barcode",
+        component: () => import("../pages/admin/Admin_View_Barcode.vue"),
     },
     {
-        path:'/member-dashboard',
-        name:'member-dashboard',
-        component: ()=>import('../pages/member/MemberDashboard.vue')
+        path: "/admin-profile",
+        name: "admin-profile",
+        component: () => import("../pages/admin/Admin_Profile.vue"),
     },
-    {
-        path:'/nav',
-        name: 'nav',
-        component: () => import('../pages/test/Nav.vue')
-    },
-    {
-        path:'/test-login',
-        name: 'test-login',
-        component: () => import('../pages/test/Login.vue')
-    },
-    {
-        path:'/test-post',
-        name: 'test-post',
-        component: () => import('../pages/test/Post.vue')
-    },
-    {
-        path:'/test-barcode',
-        name:'test-barcode',
-        component: () => import('../pages/admin/Barcode.vue')
 
+    {
+        path: "/inventory-manager-dashboard",
+        name: "inventory-manager-dashboard",
+        component: () =>
+            import("../pages/inventory-manager/ManagerDashboard.vue"),
     },
     {
-        path: '/member-item-list',
-        name: 'member-item-list',
-        component: () => import('../pages/member/Member_ItemList.vue')
+        path: "/inventory-manager-scheduling",
+        name: "inventory-manager-scheduling",
+        component: () => import("../pages/inventory-manager/IM_Scheduling.vue"),
     },
     {
-        path: '/member-scheduling',
-        name: 'member-scheduling',
-        component: () => import('../pages/member/Member_Scheduling.vue')
+        path: "/inventory-manager-item-list",
+        name: "inventory-manager-item-list",
+        component: () => import("../pages/inventory-manager/IM_ItemList.vue"),
     },
     {
-        path: '/member-view-barcode',
-        name: 'member-view-barcode',
-        component: () => import ('../pages/member/Member_View_Barcode.vue')
-    }
-
-]
-
+        path: "/inventory-manager-in-barcode",
+        name: "inventory-manager-in-barcode",
+        component: () => import("../pages/inventory-manager/IM_In_Barcode.vue"),
+    },
+    {
+        path: "/inventory-manager-Out-barcode",
+        name: "inventory-manager-out-barcode",
+        component: () =>
+            import("../pages/inventory-manager/IM_Out_Barcode.vue"),
+    },
+    {
+        path: "/inventory-manager-view-barcode",
+        name: "inventory-manager-view-barcode",
+        component: () =>
+            import("../pages/inventory-manager/IM_View_Barcode.vue"),
+    },
+    {
+        path: "/member-dashboard",
+        name: "member-dashboard",
+        component: () => import("../pages/member/MemberDashboard.vue"),
+    },
+    {
+        path: "/nav",
+        name: "nav",
+        component: () => import("../pages/test/Nav.vue"),
+    },
+    {
+        path: "/test-login",
+        name: "test-login",
+        component: () => import("../pages/test/Login.vue"),
+    },
+    {
+        path: "/test-post",
+        name: "test-post",
+        component: () => import("../pages/test/Post.vue"),
+    },
+    {
+        path: "/test-barcode",
+        name: "test-barcode",
+        component: () => import("../pages/admin/Barcode.vue"),
+    },
+    {
+        path: "/member-item-list",
+        name: "member-item-list",
+        component: () => import("../pages/member/Member_ItemList.vue"),
+    },
+    {
+        path: "/member-scheduling",
+        name: "member-scheduling",
+        component: () => import("../pages/member/Member_Scheduling.vue"),
+    },
+    {
+        path: "/member-view-barcode",
+        name: "member-view-barcode",
+        component: () => import("../pages/member/Member_View_Barcode.vue"),
+    },
+];
 
 const router = createRouter({
     history: createWebHistory(),
     routes,
-    scrollBehavior (to, from, savedPosition) {
-        return savedPosition || new Promise ((resolve => {
-            setTimeout(() => resolve({top:0, behavior: "smooth"}),1)
-        }))
-        return {top:null,left:null, behavior: null}
-    }
-  })
+    scrollBehavior(to, from, savedPosition) {
+        return (
+            savedPosition ||
+            new Promise((resolve) => {
+                setTimeout(() => resolve({ top: 0, behavior: "smooth" }), 1);
+            })
+        );
+        return { top: null, left: null, behavior: null };
+    },
+});
 
 //   router.beforeEach((to,from) => {
 //     const adminToken = localStorage.getItem('administrationPermission')
@@ -180,4 +175,4 @@ const router = createRouter({
 //         }
 //     }
 //   })
-  export default router;
+export default router;

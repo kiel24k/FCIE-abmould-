@@ -43,8 +43,7 @@
                             <td>{{ data.description }}</td>
                             <td>
                                 <span>
-                                    <button class="btn btn-dark" @click="addQuantityModal(data.item_id)">Add
-                                        Quantity</button>
+                                    <Button label="Add" severity="contrast" icon="pi pi-plus" @click="addQuantityModal(data.item_id)"/>
                                 </span>
                             </td>
                         </tr>
@@ -66,6 +65,7 @@ import Scanner from '@/components/Barcode_Scanner.vue'
 import InModal from '@/components/Barcode_In_Modal.vue'
 import { computed, onMounted, ref, watch } from 'vue';
 import Swal from 'sweetalert2';
+import Button from 'primevue/button';
 
 const inModal = ref(false)
 const inModalId = ref()

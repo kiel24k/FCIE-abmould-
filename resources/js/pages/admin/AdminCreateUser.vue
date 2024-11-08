@@ -10,7 +10,7 @@
             <div class="col">
                 <div class="create-user">
                     <form @submit.prevent enctype="multipart/form-data">
-                        <div class="card">
+                        <div class="card card-main">
                             <div class="card-header bg-dark">
                                 <h4 class="text-white">
                                     Create User |
@@ -22,72 +22,79 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col">
-                                        <label for="">First Name:
-                                            <span class="text-danger" v-if="validation.first_name">
-                                                {{ validation.first_name[0] }}
-                                            </span>
-                                        </label>
-                                        <input type="text" class="form-control" v-model="input.firstName">
+
+                                        <FloatLabel variant="on">
+                                            <InputText id="on_label" class="form-control"
+                                                :invalid="validation.first_name" v-model="input.firstName" />
+                                            <label for="on_label">First Name</label>
+                                        </FloatLabel>
+                                        <small class="text-danger" v-if="validation.first_name">{{
+                                            validation.first_name[0]}}</small>
                                     </div>
                                     <div class="col">
-                                        <label for="">Middle Name:
-                                            <span class="text-danger" v-if="validation.middle_name">
-                                                {{ validation.middle_name[0] }}
-                                            </span>
-                                        </label>
-                                        <input type="text" class="form-control" v-model="input.middleName">
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <label for="">Last Name:
-                                            <span class="text-danger" v-if="validation.last_name">
-                                                {{ validation.last_name[0] }}
-                                            </span>
-                                        </label>
-                                        <input type="text" class="form-control" v-model="input.lastName">
-                                    </div>
-                                    <div class="col">
-                                        <label for="">Telephone Number:
-                                            <span class="text-danger" v-if="validation.tel_no">
-                                                {{ validation.tel_no[0] }}
-                                            </span>
-                                        </label>
-                                        <input type="text" class="form-control" v-model="input.telNo">
+                                        <FloatLabel variant="on">
+                                            <InputText id="on_label" class="form-control"
+                                                :invalid="validation.middle_name" v-model="input.middleName" />
+                                            <label for="on_label">Middle Name</label>
+                                        </FloatLabel>
+                                        <span class="text-danger" v-if="validation.middle_name">{{
+                                            validation.middle_name[0] }}</span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col">
-                                        <label for="">Email:
-                                            <span class="text-danger" v-if="validation.email">
-                                                {{ validation.email[0] }}
-                                            </span>
-                                        </label>
-                                        <input type="text" class="form-control" v-model="input.email">
+                                    <div class="col mt-3">
+                                        <FloatLabel variant="on">
+                                            <InputText id="on_label" class="form-control"
+                                                :invalid="validation.last_name" v-model="input.lastName" />
+                                            <label for="on_label">Last Name</label>
+                                        </FloatLabel>
+                                        <span class="text-danger" v-if="validation.last_name">{{ validation.last_name[0]
+                                            }}</span>
+                                    </div>
+                                    <div class="col mt-3">
+                                        <FloatLabel variant="on">
+                                            <InputNumber id="on_label" v-model="input.telNo"
+                                                :invalid="validation.tel_no" :useGrouping="false" />
+                                            <label for="on_label">Tel No.</label>
+                                        </FloatLabel>
+                                        <span class="text-danger" v-if="validation.tel_no">{{ validation.tel_no[0]
+                                            }}</span>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col">
-                                        <label for="">Password:
-                                            <span class="text-danger" v-if="validation.password">
-                                                {{ validation.password[0] }}
-                                            </span>
-                                        </label>
-                                        <input type="password" class="form-control" v-model="input.password">
+                                    <div class="col mt-3">
+
+                                        <FloatLabel variant="on">
+                                            <InputText id="on_label" class="form-control" :invalid="validation.email"
+                                                v-model="input.email" />
+                                            <label for="on_label">Email</label>
+                                        </FloatLabel>
+                                        <span class="text-danger" v-if="validation.email">{{ validation.email[0]
+                                            }}</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col mt-3">
+                                        <FloatLabel variant="on">
+                                            <Password v-model="input.password" :invalid="validation.password" />
+                                            <label for="on_label">Password</label>
+                                        </FloatLabel>
+                                        <span class="text-danger" v-if="validation.password">
+                                            {{ validation.password[0] }}
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-3">
-                                        <label for="">Role:
-                                            <span class="text-danger" v-if="validation.role">
-                                                {{ validation.role[0] }}
-                                            </span>
-                                        </label>
-                                        <select id="inputState" class="form-select" v-model="input.role">
-                                            <option value="admin">admin</option>
-                                            <option value="inventory-manager">inventory manager</option>
-                                            <option value="member">member</option>
-                                        </select>
+                                        <label for="">Role:</label>
+                                        <div class="card flex justify-center">
+                                            <Select v-model="input.role" :options="optionRole"
+                                                :invalid="validation.role" optionLabel="name" placeholder="Select Role"
+                                                class="w-full md:w-56" />
+                                        </div>
+                                        <span class="text-danger" v-if="validation.role">
+                                            {{ validation.role[0] }}
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -97,9 +104,11 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col text-end">
-                                        <button class="btn btn-danger m-2">Back</button>
-                                        <button class="btn btn-success" @click.enter="addUser">Submit</button>
+                                    <div class="col text-end table-action">
+                                        <Button icon="pi pi-arrow-circle-left" label="Back" severity="danger" raised
+                                            @click="back" />
+                                        <Button icon="pi pi-check" label="Save" iconPos="right" severity="success"
+                                            raised @click.enter="addUser" />
                                     </div>
                                 </div>
                             </div>
@@ -117,9 +126,18 @@ import Sidebar from '@/components/Admin_Sidebar.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { FloatLabel, InputNumber, InputText, Password, Select, Button } from 'primevue';
+import Swal from 'sweetalert2';
+
 
 const isSidebarHidden = ref(false);
 const headerHeight = ref(0);
+const optionRole = ref([
+    { name: 'admin' },
+    { name: 'inventory-manager' },
+    { name: 'member' }
+])
+
 
 const toggleSidebar = () => {
     isSidebarHidden.value = !isSidebarHidden.value;
@@ -130,7 +148,7 @@ const input = ref({
     firstName: '',
     middleName: '',
     lastName: '',
-    telNo: '',
+    telNo: null,
     email: '',
     password: '',
     role: '',
@@ -162,27 +180,33 @@ const addUser = () => {
             tel_no: input.value.telNo,
             email: input.value.email,
             password: input.value.password,
-            role: input.value.role,
+            role: input.value.role.name,
             image: input.value.file
         },
         headers: {
             'content-type': 'multipart/form-data'
         }
     }).then(response => {
-
         console.log(input.value.file);
-        
-        if(response.status == 200){
+        if (response.status == 200) {
             route.push('/admin-user-list')
-
-       (err => {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "User Added Successful",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    }).catch(err => {
         if (err.response.status === 422) {
             validation.value = err.response.data.errors;
         }
-    });
-}})
+    })
 };
-
+const back = () => {
+    history.back()
+}
 onMounted(() => {
     const headerElement = document.querySelector('.header');
     if (headerElement) {
@@ -223,11 +247,20 @@ form {
     gap: 25px;
     border-radius: 10px;
     margin-top: 10px;
-   
-}
-.card{
-    box-shadow: 0px 0px 5px 0px gray;
-    padding:20px;
+
+
 }
 
+.card-main {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.table-action {
+    display: flex;
+    gap: 10px;
+    justify-content: end;
+    align-items: center;
+
+}
 </style>

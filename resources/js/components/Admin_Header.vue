@@ -4,30 +4,28 @@
             <div class="row">
                 <div class="col" style="max-width: 250px;">
                     <ul class="navbar nav d-flex justify-content-center">
+                       <router-link :to="{name: 'admin-dashboard'}">
                         <li class="nav-item">
-                            <img src="/public/background/abMouldLogo.png" width="150px" @click="$emit('toggle-sidebar')" style="cursor:pointer">
+                            <img src="/public/background/abMouldLogo.png" width="150px" @click="$emit('toggle-sidebar')"
+                                style="cursor:pointer">
                         </li>
+                       </router-link>
                     </ul>
                 </div>
                 <div class="col">
                     <ul class="navbar nav justify-content-end" style="margin-right:20px;">
                         <li class="nav-item">
-                            <a href="" class="nav-link">
-                                {{ userInformation.first_name }}
-                            </a>
+                            <span>
+                                {{ userInformation.first_name }} {{ userInformation.last_name }}  
+                            </span>
                         </li>
                         <li class="nav-item profile">
-                            <img :src="`/UserImage/${userInformation.image}`" width="20px" height="20px" alt=""
-                                @click="profileModal" />
+                            <div class="card flex justify-center">
+                                <SplitButton icon="pi pi-user" severity="contrast" raised @click="save"
+                                    :model="items" />
+                            </div>
                         </li>
                     </ul>
-                </div>
-
-                <div class="profile-modal" v-if="showModal" ref="target">
-                    <section>
-                        <router-link class="btn btn-success" :to="{ name: 'admin-profile' }">Profile</router-link>
-                        <button class="btn btn-danger" @click="logout">Logout</button>
-                    </section>
                 </div>
             </div>
 
@@ -37,15 +35,39 @@
 </template>
 <script setup>
 import { ref, onMounted } from 'vue';
+
 import axios from 'axios';
 import { useRouter } from "vue-router";
 import Loader from '@/components/Loading.vue';
+import { SplitButton } from 'primevue';
+import { useToast } from "primevue/usetoast";
+import Swal from 'sweetalert2';
 
 // Modal logic
-const showModal = ref(false);
+
 const emit = defineEmits(['user'])
-const profileModal = () => {
-    showModal.value = true;
+const toast = useToast();
+
+const items = [
+    {
+        label: 'Profile',
+        command: () => {
+            router.push('/admin-profile')
+        }
+    },
+    {
+        separator: true
+    },
+    {
+        label: 'Quit',
+        command: () => {
+            logout()
+        }
+    }
+];
+
+const save = () => {
+    toast.add({ severity: 'success', summary: 'Success', detail: 'Data Saved', life: 3000 });
 };
 
 const router = useRouter();
@@ -58,7 +80,7 @@ onMounted(() => {
     axios.get('api/user').then(response => {
         userInformation.value = response.data;
         loader.value = false;
-        emit('user',userInformation.value)
+        emit('user', userInformation.value)
     });
     if (!token) {
         router.push('/');
@@ -66,9 +88,28 @@ onMounted(() => {
 });
 
 const logout = () => {
-    localStorage.removeItem("responseTKN");
-    localStorage.removeItem("administrationPermission");
-    router.push("/");
+    Swal.fire({
+        title: "Do you want to logout?",
+        text: "Don't worry you can login again! ",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        cancelButtonText: 'No',
+        confirmButtonText: "Yes"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: "Logout Successful!",
+                text: "Your data has been saved!.",
+                icon: "success"
+            });
+            localStorage.removeItem("responseTKN");
+            localStorage.removeItem("administrationPermission");
+            router.push("/");
+        }
+    });
+
 };
 </script>
 <style scoped>
@@ -102,5 +143,4 @@ header {
     display: grid;
     gap: 10px;
 }
-
 </style>

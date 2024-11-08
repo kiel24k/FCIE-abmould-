@@ -28,9 +28,9 @@ class AdminController extends Controller
                 ->paginate(3);
             return response()->json($table);
         } else if (!$request->category) {
-            return response()->json(User::orderBy($sortName, $sortOrder)->get());
+            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(10));
         } else if ($request->category) {
-            return response()->json(User::orderBy($sortName, $sortOrder)->get());
+            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(10));
         }
     }
     public function userListSearch(Request $request)
@@ -169,6 +169,7 @@ class AdminController extends Controller
     public function itemsSearch(Request $request)
     {
         $searchTerm = $request->search;
+        
         if (empty($request->category)) {
             $allItem = Item::where(function ($query) use ($searchTerm) {
                 $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
