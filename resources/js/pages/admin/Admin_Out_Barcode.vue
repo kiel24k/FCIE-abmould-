@@ -43,7 +43,7 @@
                             <td>{{ data.description }}</td>
                             <td>
                                 <span>
-                                    <button class="btn btn-dark" @click="reduceItem(data.item_id)">Reduce Item</button>
+                                    <Button label="Reduce" icon="pi pi-minus" severity="contrast" @click="reduceItem(data.item_id)"/>
                                 </span>
                             </td>
                         </tr>
@@ -61,6 +61,7 @@ import Scanner from '@/components/Barcode_Scanner.vue'
 import { onMounted, ref, watch } from 'vue';
 import AdminOutModal from '@/components/Barcode_Out_Modal.vue'
 import Swal from 'sweetalert2';
+import Button from 'primevue/button';
 
 const OutModal = ref(false)
 const isSidebarHidden = ref(false);

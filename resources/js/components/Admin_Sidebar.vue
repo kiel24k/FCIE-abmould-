@@ -1,5 +1,5 @@
 <template>
-    <Logout v-if="logoutModal" @cancel="cancel"/>
+    <Logout v-if="logoutModal" @cancel="cancel" />
     <aside>
         <ul>
             <router-link :to="{ name: 'admin-dashboard' }">
@@ -64,12 +64,32 @@
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import Logout from '@/components/Logout_Modal.vue'
+import Swal from "sweetalert2";
 
 const router = useRouter()
 const logoutModal = ref(false)
 
 const logout = () => {
-    logoutModal.value = true
+    Swal.fire({
+        title: "Do you want to logout?",
+        text: "",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            localStorage.removeItem("responseTKN")
+            localStorage.removeItem("administrationPermission")
+            router.push("/")
+            Swal.fire({
+                title: "Logout Successful",
+                text: "Your Profile is safe",
+                icon: "success"
+            });
+        }
+    });
 }
 const cancel = () => {
     logoutModal.value = false
@@ -83,7 +103,7 @@ aside {
     overflow-x: hidden;
     background: rgb(255, 255, 255);
     box-shadow: 0px 15px 15px 0px gray;
-   
+
 }
 
 ul {
@@ -109,9 +129,10 @@ a li {
     padding: 10px;
     border-radius: 20px;
 }
-a:hover{
+
+a:hover {
     background: rgb(231, 231, 231);
-   
+
 }
 
 .title {

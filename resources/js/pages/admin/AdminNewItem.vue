@@ -1,71 +1,87 @@
 <template>
     <header>
-        <Header @user="user"/>
+        <Header @user="user" />
     </header>
     <div class="row m-2">
         <div class="col">
             <form @submit.prevent enctype="multipart/form-data">
-                <div class="card">
+                <div class="card card-main">
                     <div class="card-header bg-dark">
-                        <h4 class="text-white">New Item | <span style="color:white;font-size:15px; font-weight:400">Enter Item Information</span></h4>
+                        <h4 class="text-white">New Item | <span
+                                style="color:white;font-size:15px; font-weight:400">Enter Item Information</span></h4>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <label for="">Item Code <span class="text-danger" v-if="validation.item_code">
-                                        {{ validation.item_code[0] }}
-                                    </span></label>
-                                <input type="text" class="form-control" placeholder="" v-model="input.item_code">
+                                <span class="text-danger" v-if="validation.item_code">{{ validation.item_code[0]
+                                    }}</span>
+                                <FloatLabel variant="on">
+                                    <InputText id="Item Code" :invalid="validation.item_code" v-model="input.item_code"
+                                        variant="filled" size="large" class="form-control" />
+                                    <label for="Item Code">Item Code</label>
+                                </FloatLabel>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="">Brand: <span class="text-danger">
-                                        option
-                                    </span></label>
-                                <input type="text" class="form-control" placeholder="" v-model="input.brand">
+                                <Message severity="error" variant="simple">Option:</Message>
+                                <FloatLabel variant="on">
+                                    <InputText id="Item Code" v-model="input.brand" variant="filled" size="large"
+                                        class="form-control" />
+                                    <label for="Item Code">Brand</label>
+                                </FloatLabel>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="">Supplier Name <span class="text-danger" v-if="validation.supplier_name">
-                                        {{ validation.supplier_name[0] }}
-                                    </span></label>
-                                <input type="text" class="form-control" placeholder="" v-model="input.supplier_name">
+                                <Message severity="error" variant="simple">Option:</Message>
+                                <FloatLabel variant="on">
+                                    <InputText id="label" v-model="input.supplier_name" variant="filled" size="large"
+                                        class="form-control" />
+                                    <label for="label">Supplier Name</label>
+                                </FloatLabel>
                             </div>
                             <div class="col">
-                                <label for="">Unit Cost: <span class="text-danger" v-if="validation.unit_cost" >
-                                        {{ validation.unit_cost[0] }}
-                                      </span></label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text" id="basic-addon1">₱</span>
-                                    <input type="number" class="form-control" placeholder="" v-model="input.unit_cost">
+                                <InputNumber v-model="input.unit_cost" :invalid="validation.unit_cost" size="large"
+                                    inputId="stacked-buttons" showButtons mode="currency" currency="PHP" fluid
+                                    placeholder="Unit Cost" class="mt-4" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col mt-3">
+                                <label for="">Quantity <span class="text-danger" v-if="validation.quantity">{{
+                                    validation.quantity[0] }}</span></label>
+                                <InputNumber v-model="input.quantity" :invalid="validation.quantity"
+                                    inputId="horizontal-buttons" showButtons buttonLayout="horizontal" :step="1"
+                                    :min="1" fluid>
+                                    <template #incrementbuttonicon>
+                                        <span class="pi pi-plus" />
+                                    </template>
+                                    <template #decrementbuttonicon>
+                                        <span class="pi pi-minus" />
+                                    </template>
+                                </InputNumber>
+                            </div>
+                            <div class="col mt-3">
+                                <label for="">Item Type: <span class="text-danger" v-if="validation.category">
+                                        {{ validation.category[0] }}
+                                    </span></label>
+                                <div class="card flex justify-center">
+                                    <Select v-model="input.category" :invalid="validation.category" editable
+                                        :options="category" optionLabel="name" placeholder="Select a City"
+                                        class="w-full md:w-56" />
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-                                <label for="">Quantity: <span class="text-danger" v-if="validation.quantity">
-                                        {{ validation.quantity[0] }}
-                                    </span></label>
-                                <input type="number" class="form-control" placeholder="" v-model="input.quantity">
-                            </div>
-                            <div class="col">
-                                <label for="">Item Type: <span class="text-danger" v-if="validation.category">
-                                        {{ validation.category[0] }}
-                                    </span></label>
-                                <select class="form-select" v-model="input.category">
-                                        <option value="materials">materials</option>
-                                        <option value="tools">tools</option>
-                                    </select>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col">
                                 <label for="">Description: <span class="text-danger" v-if="validation.description">
-                                    {{ validation.description[0] }}
-                                </span></label>
-                                <textarea name="" id="" cols="30" rows="10" class="form-control" v-model="input.description"></textarea>
+                                        {{ validation.description[0] }}
+                                    </span></label>
+                                <Textarea name="" :invalid="validation.description" id="" cols="30" rows="10" autoResize class="form-control"
+                                    v-model="input.description"></Textarea>
+
+
                             </div>
                         </div>
                         <!-- <div class="row">
@@ -80,8 +96,8 @@
                         <input type="hidden" v-model="barcodeValue">
                         <div class="row text-end">
                             <div class="col action">
-                                <button class="btn btn-danger" @click="back">Back</button>
-                                <button class="btn btn-success" @click.enter="submit">Submit</button>
+                                <Button label="Back" icon="pi pi-arrow-circle-left" severity="danger m-2 " raised @click="back"/>
+                                <Button label="Save" icon="pi pi-check" iconPos="right" severity="success m-2" raised @click.enter="submit"/>
                             </div>
                         </div>
                     </div>
@@ -96,12 +112,16 @@ import Header from '@/components/Admin_Header.vue'
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
-import BarcodeComponent from '@/components/BarcodeGenerator.vue';
+import { FloatLabel, InputText, Message, InputNumber, Select, Textarea, Button, InputGroup } from 'primevue';
+import Swal from 'sweetalert2';
 
 const router = useRouter()
 const userInformation = ref()
 
-
+const category = ref([
+    { name: 'materials' },
+    { name: 'tools' }
+])
 const validation = ref({})
 const input = ref({
     item_code: '',
@@ -126,7 +146,7 @@ const submit = () => {
             supplier_name: input.value.supplier_name,
             unit_cost: input.value.unit_cost,
             quantity: input.value.quantity,
-            category: input.value.category,
+            category: input.value.category.name,
             description: input.value.description,
             brand: input.value.brand,
             // barcode: barcodeValue.value
@@ -135,6 +155,13 @@ const submit = () => {
         console.log(response);
         if (response.status = 200) {
             router.push('/admin-inventory-list')
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Item Added!",
+                showConfirmButton: false,
+                timer: 2000
+            });
         }
     }).catch(res => {
         console.log(res);
@@ -169,17 +196,22 @@ form {
     gap: 25px;
     border-radius: 10px;
     padding: 10px;
+    
+  
 }
+.card-main{
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 
 label {
     font-weight: 500;
 }
 
-.generate-barcode {
-    display: grid;
-    align-items: center;
-}
-.action{
+
+
+.action {
     display: flex;
     justify-content: end;
 }

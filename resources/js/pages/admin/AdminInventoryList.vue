@@ -17,25 +17,34 @@
                     </div>
                     <div class="row">
                         <div class="col table-category">
-                            <div class="card flex justify-center">
-                                <Select v-model="selected" :options="itemOption" :selected="itemOption.default"
-                                    showClear optionLabel="name" placeholder="Select a City" class="w-full md:w-56" />
-                            </div>
+                                <select class="form-select" v-model="selected">
+                                    <option value="selected" disabled>Select</option>
+                                    <option value=""> all </option>
+                                    <option value="tools">tools</option>
+                                    <option value="materials">materials</option>
+                                </select>
                         </div>
                         <div class="col table-action">
                             <div class="search">
-                                <input type="text" class="form-control" placeholder="search" v-model="search">
-                                <Button icon="pi pi-search" severity="secondary" raised />
+                                <InputGroup>
+                                    <InputText placeholder="Search Item" v-model="search" />
+                                    <InputGroupAddon>
+                                        <Button icon="pi pi-search" severity="secondary" variant="text" disabled />
+                                    </InputGroupAddon>
+                                </InputGroup>
                             </div>
-                            <Button icon="pi pi-file-pdf" severity="danger" raised></Button>
-                            <Button icon="pi pi-plus-circle" severity="info" label="New Item" raised />
+                            <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised @click="generatePdf"></Button>
+                            <router-link :to="{ name: 'admin-new-item' }">
+                                <Button icon="pi pi-plus-circle" severity="info" label="New Item" raised />
+                            </router-link>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col table">
-                            <table class="table table-hover align-middle">
+                            <table class="table table-hover table-responsive" ref="printContent">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th class="" @click="sort('category')">
                                             <div class="head-title">
                                                 Category
@@ -88,6 +97,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="(data, index) in responseData.data" :key="index">
+                                        <td>{{ index + 1 }}</td>
                                         <td>{{ data.category }}</td>
                                         <td>{{ data.item_code }}</td>
                                         <td>{{ data.brand }}</td>
@@ -111,139 +121,22 @@
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                    </div>
-
-
-
-                    <!-- Filter -->
-                    <!-- <div class="inventory-filter">
-                        <div class="category">
-                            <label for="">category: </label>
-                            <select class="form-select" v-model="selected">
-                                <option value="selected" disabled>Select</option>
-                                <option value=""> all </option>
-                                <option value="tools">tools</option>
-                                <option value="materials">materials</option>
-                            </select>
-                        </div>
-                        <div class="search col-8">
-                            <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1">
-                                    <img src="/public/icon/search.png" width="25px" alt="">
-                                </span>
-                                <input type="text" class="form-control" placeholder="Search" v-model="search">
-
-                                <Button icon="pi pi-file-pdf" severity="danger" label="print" @click="generatePdf"/>
+                            <div class="paginator text-center">
+                                <nav class="btnPaginate">
+                                    <Button icon="pi pi-chevron-left" severity="primary" @click="previousPage"
+                                        :disabled="!pagination.prev_page_url" rounded raised />
+                                    <span>Page {{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                                    <Button icon="pi pi-chevron-right" rounded raised @click="nextPage"
+                                        :disabled="!pagination.next_page_url" />
+                                </nav>
                             </div>
                         </div>
-                        <div class="create">
-                            <router-link :to="{ name: 'admin-new-item' }">
-                                <Button icon="pi pi-plus-circle" label="Add Item" severity="info"></Button>
-                            </router-link>
-                        </div>
                     </div>
-                    <div id="table" class="table-responsive-sm-2" ref="printContent">
-                        <table class="table table-bordered table-hover align-middle">
-                            <thead>
-                                <tr>
-                                    <th class="" @click="sort('category')">
-                                        <div class="head-title">
-                                            Category
-                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                        </div>
-                                    </th>
-                                    <th @click="sort('barcode')">
-                                        <div class="head-title">
-                                            item_code
-                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                        </div>
-                                    </th>
-                                    <th @click="sort('brand')">
-                                        <div class="head-title">
-                                            Brand
-                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                        </div>
-                                    </th>
-                                    <th @click="sort('supplier_name')">
-                                        <div class="head-title">
-                                            Supplier Name
-                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                        </div>
-                                    </th>
-                                    <th @click="sort('unit_cost')">
-                                        <div class="head-title">
-                                            Unit_Cost
-                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                        </div>
-                                    </th>
-                                    <th @click="sort('quantity')">
-                                        <div class="head-title">
-                                            Quantity
-                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                        </div>
-                                    </th>
-                                    <th @click="sort('description')">
-                                        <div class="head-title">
-                                            Description
-                                            <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                        </div>
-                                    </th>
-                                    <th>
-                                        <div class="head-title">
-                                            Action
-                                        </div>
-                                    </th>
-
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(data, index) in responseData.data" :key="index">
-                                    <td>{{ data.category }}</td>
-                                    <td>{{ data.item_code }}</td>
-                                    <td>{{ data.brand }}</td>
-                                    <td>{{ data.supplier_name }}</td>
-                                    <td class="text-success">{{ data.unit_cost }}</td>
-                                    <td>x{{ data.quantity }}</td>
-                                    <td>{{ data.description }}</td>
-                                    <td>
-                                        <span class="action">
-                                            <Button  @click="view(data.id)" icon="pi pi-eye" severity="info"/>
-                                            <router-link class="btnUpdate" 
-                                                :to="{ name: 'admin-edit-item', params: { id: data.id } }">
-                                                <Button icon="pi pi-pen-to-square" severity="success"/>
-                                            </router-link>
-                                            <Button  @click="deleteItem(data.id)" icon="pi pi-delete-left" severity="danger"/>
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-
-
-
-                        <div class="paginator text-center">
-                            <span>Page {{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                            <nav class="btnPaginate">
-                                <button class="btn btn-dark" @click="previousPage"
-                                    :disabled="!pagination.prev_page_url">
-                                    Previous
-                                </button>
-                                <button class="btn btn-success" @click="nextPage" :disabled="!pagination.next_page_url">
-                                    Next
-                                </button>
-                            </nav>
-                        </div>
-                    </div> -->
                 </div>
             </div>
         </div>
         <Loading v-if="loading" />
         <AdminViewModal v-if="viewModal" :viewModalId="viewModalId" @exit="viewModal = false" />
-
-
-
     </div>
 
 
@@ -258,19 +151,7 @@ import AdminViewModal from '@/components/Admin_View_Modal.vue'
 import DeleteItemModal from '@/components/Admin_Delete_Inventory_Modal_Logout.vue'
 import Loading from '@/components/Loading.vue'
 import html2pdf from 'html2pdf.js';
-import Button from 'primevue/button';
-import Select from 'primevue/select';    // optional
-
-const products = ref([
-    { name: 'Product A', category: 'Category 1', price: 100, quantity: 10 },
-    { name: 'Product B', category: 'Category 2', price: 150, quantity: 5 },
-    { name: 'Product C', category: 'Category 1', price: 200, quantity: 7 },
-    { name: 'Product D', category: 'Category 3', price: 250, quantity: 3 },
-    { name: 'Product E', category: 'Category 2', price: 120, quantity: 12 },
-    // Add more products as needed
-]);
-
-
+import {Button,InputText,InputGroup,InputGroupAddon} from 'primevue';
 
 const isSidebarHidden = ref(false);
 const toggleSidebar = () => {
@@ -280,20 +161,16 @@ const toggleSidebar = () => {
 const printContent = ref(null)
 const deleteItemModal = ref(false)
 const deleteId = ref()
-//current database table
-const selected = ref(null)
+
+const selected = ref('')
 const loading = ref(false)
 const responseData = ref({})
 const search = ref('')
 const viewModal = ref(false)
 const viewModalId = ref(null)
-const sortColumn = ref('brand'); // Default sorting column
-const sortOrder = ref('asc'); // Default sorting order
-const itemOption = ref([
-    { default: '' },
-    { name: 'tools' },
-    { name: 'materials' },
-]);
+const sortColumn = ref('brand'); 
+const sortOrder = ref('asc'); 
+
 
 const generatePdf = () => {
     const elem = printContent.value
@@ -321,30 +198,11 @@ const pagination = ref({
 
 // sddata per categordsd
 const category = async (page) => {
-    if (selected.value === null) {
+ 
         if (page < 1 || page > pagination.value.last_page) return;
         axios({
             method: 'GET',
-            url: `/api/item-category?&page=${page}`,
-            params: {
-                sort_by: sortColumn.value,
-                sort_order: sortOrder.value
-            }
-        }).then(response => {
-            loading.value = false
-            pagination.value = {
-                current_page: response.data.current_page,
-                last_page: response.data.last_page,
-                next_page_url: response.data.next_page_url,
-                prev_page_url: response.data.prev_page_url,
-            };
-            responseData.value = response.data
-        })
-    }else if(selected){
-        if (page < 1 || page > pagination.value.last_page) return;
-        axios({
-            method: 'GET',
-            url: `/api/item-category?category=${selected.value.name}&page=${page}`,
+            url: `/api/item-category?category=${selected.value}&page=${page}`,
             params: {
                 sort_by: sortColumn.value,
                 sort_order: sortOrder.value
@@ -361,7 +219,7 @@ const category = async (page) => {
         })
 
     }
-}
+
 const sort = (column) => {
     if (sortColumn.value === column) {
         sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
@@ -372,23 +230,24 @@ const sort = (column) => {
     category()
 };
 watch(selected, (oldVal, newVal) => {
-  if(selected.value == null){
-   category()
-  }
+    if (selected.value) {
+        category()
+    }
     category()
 })
 
 watch(search, (oldVal, newVal) => {
-    console.log(search.value);
     axios({
         method: 'GET',
-        url: `/api/items-search?category=${selected.value.name}&search=${search.value}`
+        url: `/api/items-search?category=${selected.value}&search=${search.value}`
     }).then(response => {
         responseData.value = response.data
+        console.log(response);
     })
-    if (search.value === '') {
+    if(search.value === ''){
         category()
     }
+
 })
 
 const view = (id) => {
@@ -441,6 +300,9 @@ onMounted(() => {
     align-content: center;
 }
 
+.search input:focus{
+    outline: none;
+}
 .search {
     display: flex;
 }
@@ -448,15 +310,28 @@ onMounted(() => {
 .table {
     padding: 10px;
     border: solid 1px rgb(221, 219, 219);
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.table-category select:focus {
+   outline: none;
+   box-shadow: none;
+
+
 }
 
 .table table th {
-    background: rgb(200, 236, 250);
+    background: rgb(206, 206, 206);
 }
 
 .table table .action {
     display: flex;
     gap: 10px;
+}
+.action {
+    display: flex;
+    justify-content: start;
 }
 </style>
 
