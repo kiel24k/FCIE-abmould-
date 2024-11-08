@@ -240,8 +240,7 @@ const isSidebarHidden = ref(false);
         border: solid 1px rgb(211, 208, 208);
         margin: auto;
         height: 30rem;
-        overflow-x: scroll;
-        overflow-y: scroll;
+      
         display: block;
     }
 

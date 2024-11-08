@@ -82,10 +82,10 @@
 
                     </div>
                     <div class="row">
-                        <div class="row text-end">
+                        <div class="row ">
                             <div class="col action">
-                                <Button label="Back" icon="pi pi-arrow-circle-left" iconPos="left" severity="danger m-2 " raised @click="back"/>
-                                <Button label="Update" icon="pi pi-refresh" iconPos="right" severity="success m-2" raised @click.enter="submit"/>
+                                <Button label="Back" icon="pi pi-arrow-circle-left" iconPos="left" severity="danger" raised @click="back"/>
+                                <Button label="Update" icon="pi pi-refresh" iconPos="right" severity="success" raised @click.enter="submit"/>
                             </div>
                         </div>
                     </div>
@@ -173,5 +173,10 @@ form {
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.action {
+    display: flex;
+    justify-content: end;
+    gap:10px;
 }
 </style>
