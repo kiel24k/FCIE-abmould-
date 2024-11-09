@@ -1,81 +1,53 @@
 <template>
-<div class="cover">
-    <div class="body">
-        <div class="content">
-            <div class="">
-                <div id="login" class="">
-                    <div class="text-center">
-                        <img src="/public/background/abMouldLogo.png" width="200px" height="70px" alt="">
-                        <hr>
-                    </div>
-                    <div class="row">
-                        <h1>Login</h1>
-                        <b>Hi, Welcome back</b>
-                        <div class="validation">
-                            <ul
-                                class="navbar nav"
-                                v-for="error in validation"
-                                :key="error"
-                            >
-                                <li class="list-item text-danger">
-                                    {{ error[0] }}
-                                </li>
-                            </ul>
+    <div class="cover">
+        <div class="body">
+            <div class="content">
+                <div class="">
+                    <div id="login" class="">
+                        <div class="text-center">
+                            <img src="/public/background/abMouldLogo.png" width="200px" height="70px" alt="">
+                            <hr>
                         </div>
-                    </div>
-                    <div class="row">
-                        <form @submit.prevent>
-                            <div class="row mt-3">
-                                <div class="col">
-                                    <label for="">Email</label>
-                                    <div class="input-group">
-                                        <span
-                                            class="input-group-text"
-                                            id="basic-addon1"
-                                        >
-                                            <img
-                                                src="/public/icon/email_logo.png"
-                                                width="20px"
-                                                alt=""
-                                            />
-                                        </span>
-                                        <input
-                                            type="text"
-                                            class="form-control"
-                                            placeholder="Enter you Email"
-                                            aria-label="Username"
-                                            aria-describedby="basic-addon1"
-                                            v-model="data.email"
-                                        />
+                        <div class="row">
+                            <h1>Login</h1>
+                            <b>Hi, Welcome back</b>
+                            <div class="validation">
+                                <ul class="navbar nav" v-for="error in validation" :key="error">
+                                    <li class="list-item text-danger">
+                                        {{ error[0] }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <form @submit.prevent>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <label for="">Email</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <img src="/public/icon/email_logo.png" width="20px" alt="" />
+                                            </span>
+                                            <input type="text" class="form-control" placeholder="Enter you Email"
+                                                aria-label="Username" aria-describedby="basic-addon1"
+                                                v-model="data.email" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col">
-                                    <label for="">Password</label>
-                                    <div class="input-group">
-                                        <span
-                                            class="input-group-text"
-                                            id="basic-addon1"
-                                        >
-                                            <img
-                                                src="/public/icon/password1.png"
-                                                width="20px"
-                                                alt=""
-                                            />
-                                        </span>
-                                        <input
-                                            type="password"
-                                            class="form-control"
-                                            placeholder="Enter you password"
-                                            aria-label="Username"
-                                            aria-describedby="basic-addon1"
-                                            v-model="data.password"
-                                        />
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <label for="">Password</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1">
+                                                <img src="/public/icon/password1.png" width="20px" alt="" />
+                                            </span>
+                                            <input type="password" class="form-control" placeholder="Enter you password"
+                                                aria-label="Username" aria-describedby="basic-addon1"
+                                                v-model="data.password" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- <div class="row mt-3">
+                                <!-- <div class="row mt-3">
                             <div class="col">
                                 <input type="checkbox" />
                                 <label for="">Remember-me</label>
@@ -84,28 +56,24 @@
                                 <a href="">Forgot Password?</a>
                             </div>
                         </div> -->
-                            <div class="row mt-3">
-                                <div class="col">
-                                    <button
-                                        class="btn submit"
-                                        :disabled="disabled"
-                                        @click="submit"
-                                    >
-                                        Login
-                                    </button>
+                                <div class="row mt-3">
+                                    <div class="col">
+                                        <button class="btn submit" :disabled="disabled" @click="submit">
+                                            Login
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- <div class="row mt-3 text-center">
+                                <!-- <div class="row mt-3 text-center">
                             <span>
                                 <small>Not register yet?</small>
                                 <a href="">Create an account</a>
                             </span>
                         </div> -->
-                        </form>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 </template>
@@ -161,8 +129,11 @@ onMounted(() => {
         } else if (response.data.role == "member") {
             localStorage.setItem("memberPermission", response.data.role);
             router.push("/member-scheduling");
+        } else if (response.data.role == "TL") {
+            localStorage.setItem("TLpermission", response.data.role);
+            router.push("/TL-home");
         }
-    });
+    })
 });
 </script>
 <style scoped>
@@ -176,6 +147,7 @@ onMounted(() => {
     background: url("/background/loginbackground.png") no-repeat center center/cover fixed;
     z-index: 1;
 }
+
 #login {
     width: 25rem;
     margin: auto;
@@ -191,6 +163,7 @@ onMounted(() => {
     background-color: rgb(104, 77, 224);
     color: white;
 }
+
 .submit:hover {
     border: 1px solid rgb(104, 77, 224);
 }
@@ -199,5 +172,4 @@ a {
     text-decoration: none;
     font-weight: 500;
 }
-
 </style>

@@ -14,15 +14,10 @@
                 </div>
                 <div class="col">
                     <ul class="navbar nav justify-content-end" style="margin-right:20px;">
-                        <li class="nav-item">
-                            <span>
-                                {{ userInformation.first_name }} {{ userInformation.last_name }}  
-                            </span>
-                        </li>
                         <li class="nav-item profile">
                             <div class="card flex justify-center">
-                                <SplitButton icon="pi pi-user" severity="contrast" raised @click="save"
-                                    :model="items" />
+                                <SplitButton :label="userInformation.first_name" severity="secondary" text @click="save"
+                                    :model="items"/>
                             </div>
                         </li>
                     </ul>
@@ -46,11 +41,12 @@ import Swal from 'sweetalert2';
 // Modal logic
 
 const emit = defineEmits(['user'])
-const toast = useToast();
+
 
 const items = [
     {
         label: 'Profile',
+        icon: 'pi pi-user',
         command: () => {
             router.push('/admin-profile')
         }
@@ -59,16 +55,15 @@ const items = [
         separator: true
     },
     {
-        label: 'Quit',
+        label: 'Logout',
+        icon:'pi pi-sign-out',
         command: () => {
             logout()
         }
     }
 ];
 
-const save = () => {
-    toast.add({ severity: 'success', summary: 'Success', detail: 'Data Saved', life: 3000 });
-};
+
 
 const router = useRouter();
 const userInformation = ref({});
@@ -101,7 +96,7 @@ const logout = () => {
         if (result.isConfirmed) {
             Swal.fire({
                 title: "Logout Successful!",
-                text: "Your data has been saved!.",
+                text: "Thank You!.",
                 icon: "success"
             });
             localStorage.removeItem("responseTKN");
