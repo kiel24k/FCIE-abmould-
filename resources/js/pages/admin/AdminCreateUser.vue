@@ -54,7 +54,7 @@
                                     <div class="col mt-3">
                                         <FloatLabel variant="on">
                                             <InputNumber id="on_label" v-model="input.telNo"
-                                                :invalid="validation.tel_no" :useGrouping="false" />
+                                                :invalid="validation.tel_no" :useGrouping="false" fluid/>
                                             <label for="on_label">Tel No.</label>
                                         </FloatLabel>
                                         <span class="text-danger" v-if="validation.tel_no">{{ validation.tel_no[0]
@@ -76,7 +76,7 @@
                                 <div class="row">
                                     <div class="col mt-3">
                                         <FloatLabel variant="on">
-                                            <Password v-model="input.password" :feedback="false" :invalid="validation.password" />
+                                            <Password v-model="input.password" :feedback="false" :invalid="validation.password" fluid />
                                             <label for="on_label">Password</label>
                                         </FloatLabel>
                                         <span class="text-danger" v-if="validation.password">
