@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Bar :data="chartData" :options="chartOptions" />
+        <Bar :data="chartData" :options="chartOptions" class="bar" />
     </div>
 </template>
 
@@ -33,9 +33,9 @@ const chartData = computed(() => ({
     ],
     datasets: [{
         label: 'consumed of recent used materials',
-        data: [dataOfSumCategory.value.tools,dataOfSumCategory.value.materials],
+        data: [dataOfSumCategory.value.tools, dataOfSumCategory.value.materials],
         backgroundColor: ['skyblue'],
-    }, ],
+    },],
     fill: false,
 }));
 
@@ -58,7 +58,7 @@ const chartOptions = ref({
         },
         tooltip: {
             callbacks: {
-                label: function(tooltipItem) {
+                label: function (tooltipItem) {
                     return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
                 }
             }
@@ -91,5 +91,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
+.bar {
+    width: 90rem;
+    max-height: 30rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 </style>

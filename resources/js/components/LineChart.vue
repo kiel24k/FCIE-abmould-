@@ -5,27 +5,33 @@
 </template>
 
 <script setup>
-import Chart  from 'chart.js/auto';
+import Chart from 'chart.js/auto';
 import { onMounted } from 'vue';
 
 onMounted(() => {
     const lineChart = document.getElementById("lineChart")
     new Chart(lineChart, {
-        type:'line',
+        type: 'line',
         data: {
             labels: "hahaha",
-  datasets: [{
-    label: 'My First Dataset',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    fill: false,
-    borderColor: 'rgb(75, 192, 192)',
-    tension: 0.1
-  }]
+            datasets: [{
+                label: 'My First Dataset',
+                data: [65, 59, 80, 81, 56, 55, 40],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
         }
     })
 })
 </script>
 
 <style scoped>
-
+#lineChart {
+    width: 90rem;
+    max-height: 30rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin-top: 2rem;
+}
 </style>

@@ -9,6 +9,26 @@
         <div :class="isSidebarHidden ? 'col-12' : 'col-9'" key="content">
             <div class="analytics py-3 px-5 border-info rounded">
                 <div class="content">
+                    <section class="item-count">
+                        <div class="text-center bg-danger">
+                            <b>No. items</b>
+                           <div class="item-response">
+                            <h2>12</h2>
+                           </div>
+                        </div>
+                        <div class="text-center bg-warning">
+                            <b>Users</b>
+                            <div class="item-response">
+                                <h2>23</h2>
+                            </div>
+                        </div>
+                        <div class="text-center bg-primary" >
+                            <b>#</b>
+                            <div class="item-response">
+                                <h2>100</h2>
+                            </div>
+                        </div>
+                    </section>
                     <section>
                         <div class="title">
                             <h1>Dashboard</h1>
@@ -17,12 +37,13 @@
                             <div>
                                 <BarChart />
                             </div>
-                            <div class="pie">
-                                <Doughnut />
-                            </div>
                             <div>
                                 <LineChart />
                             </div>
+                            <div class="pie">
+                                <Doughnut />
+                            </div>
+                            
                             <div>
                                 <h1>no data pa</h1>
                             </div>
@@ -120,6 +141,26 @@ const isSidebarHidden = ref(false);
     overflow: hidden;
     transition: width 0.5s ease;
 }
+.item-count{
+    display: flex;
+    gap:10px;
+    justify-content: start;
+    flex-wrap: wrap;
+}
+.item-count > div{
+    width: 12rem;
+    height: 12rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.item-response{
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    height:10rem;
+    
+}
 
 @media screen and (min-width: 769px) {
     .analytics {
@@ -131,22 +172,11 @@ const isSidebarHidden = ref(false);
     }
 
     .analytics .chart {
-        display: grid;
-        grid-template-columns: 33rem 30rem;
-
-        gap: 25px;
+        
     }
 
     .analytics .chart>div {
-        box-shadow: 0px 0px 5px 0px gray;
-        background: rgb(250, 250, 246);
-        display: grid;
-        justify-content: center;
-        align-items: center;
-        padding: 10px;
-        border-radius: 10px;
-        height: 25rem;
-        align-content: center;
+       
     }
 
     .analytics section {
