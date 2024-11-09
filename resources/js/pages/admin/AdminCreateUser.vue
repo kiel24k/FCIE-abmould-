@@ -76,7 +76,7 @@
                                 <div class="row">
                                     <div class="col mt-3">
                                         <FloatLabel variant="on">
-                                            <Password v-model="input.password" :invalid="validation.password" />
+                                            <Password v-model="input.password" :feedback="false" :invalid="validation.password" />
                                             <label for="on_label">Password</label>
                                         </FloatLabel>
                                         <span class="text-danger" v-if="validation.password">
@@ -135,7 +135,8 @@ const headerHeight = ref(0);
 const optionRole = ref([
     { name: 'admin' },
     { name: 'inventory-manager' },
-    { name: 'member' }
+    { name: 'member' },
+    {name: 'TL'}
 ])
 
 

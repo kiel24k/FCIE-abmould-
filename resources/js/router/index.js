@@ -151,6 +151,16 @@ const routes = [
         name: "member-view-barcode",
         component: () => import("../pages/member/Member_View_Barcode.vue"),
     },
+    {
+        path: "/TL-home",
+        name: "TL-home",
+        component: () => import("../pages/TL/TL_Home.vue"),
+    },
+    {
+        path: "/TL-item-list",
+        name: "TL-item-list",
+        component: () => import("../pages/TL/TL_Item_List.vue"),
+    },
 ];
 
 const router = createRouter({
