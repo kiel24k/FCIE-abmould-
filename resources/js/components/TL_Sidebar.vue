@@ -30,12 +30,6 @@
                    <i class="pi pi-calendar"/>
                     <span>Scheduling</span>
                 </li>
-            </router-link>
-            <router-link :to="{ name: 'member-item-list' }">
-                <li>
-                   <i class="pi pi-list"/>
-                    <span>Item sList</span>
-                </li>
             </router-link> -->
         </ul>
     </aside>
