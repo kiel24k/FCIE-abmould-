@@ -9,6 +9,7 @@ use App\Http\Controllers\InventoryManagerController;
 
 
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\TlController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -60,6 +61,11 @@ Route::controller(InventoryManagerController::class)->group(function () {
 Route::controller(MemberController::class)->group(function () {
     Route::get('/member-get-item', 'getItem');
     Route::get('/member-item-search-list', 'itemSearchList');
+});
+
+Route::controller(TlController::class)->group(function () {
+    route::get('tl-get-item', 'getItem');
+    Route::get('/tl-item-search-list', 'itemSearchlist');
 });
 
 Route::controller(ChartController::class)->group(function () {

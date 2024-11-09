@@ -19,7 +19,7 @@
                     <span>Home</span>
                 </li>
             </router-link>
-            <router-link :to="{ name: 'member-view-barcode' }">
+            <!-- <router-link :to="{ name: 'member-view-barcode' }">
                 <li>
                    <i class="pi pi-barcode"/>
                     <span>Scan Items</span>
@@ -36,13 +36,7 @@
                    <i class="pi pi-list"/>
                     <span>Item List</span>
                 </li>
-            </router-link>
-            <a @click="logout" style="cursor:pointer">
-                <li>
-                    <img src="/public/icon//logout_leave.png" width="25px" alt="">
-                    <span>Logout</span>
-                </li>
-            </a>
+            </router-link> -->
         </ul>
     </aside>
 </template>
