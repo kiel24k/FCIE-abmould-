@@ -51,9 +51,10 @@
                         <div class="row">
                           <b>Supplier Name:</b>
                           <small>{{ data.supplier_name }}</small>
+                          <b> {{ data.item_code }}</b>
                         </div>
                         <div class="row">
-                            <barcode :barcodeValue="data.barcode"/>
+                            <barcode :barcodeValue="data.item_code"/>
                         </div>
                       </div>
                     </div>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use Illuminate\Http\Request;
 
-class Tlcontroller extends Controller
+class TlController extends Controller
 {
     public function getItem(Request $request)
     {
@@ -23,9 +23,9 @@ class Tlcontroller extends Controller
     public function itemSearchlist(Request $request)
     {
         if (!$request->category) {
-            $allItem = Item::where('item_code', 'LIKE', '%'.$request->search. '%')
-            ->latest()
-            ->paginate(10);
+            $allItem = Item::where('item_code', 'LIKE', '%' . $request->search . '%')
+                ->latest()
+                ->paginate(10);
             return response()->json($allItem);
         } else if ($request->category) {
             $item = Item::where('category', '=', $request->category)
