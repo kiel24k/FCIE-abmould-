@@ -66,6 +66,9 @@ Route::controller(MemberController::class)->group(function () {
 Route::controller(TlController::class)->group(function () {
     route::get('tl-get-item', 'getItem');
     Route::get('/tl-item-search-list', 'itemSearchlist');
+    route::get('tl-get-date-schedule', 'getDateSchedule');
+    route::get('/tl-schedule-list', 'scheduleList');
+    
 });
 
 Route::controller(ChartController::class)->group(function () {
