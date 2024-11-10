@@ -76,7 +76,11 @@ return response()->json($data);
                 })->get();
             return response()->json($item);
         }
-
-        
+    }
+    public function updateScheduleStatus (Request $request) {
+        $schedule = Schedule::find($request->id);
+        $schedule->status = $request->status;
+        $schedule->update();
+        return response()->json($schedule);
     }
 }

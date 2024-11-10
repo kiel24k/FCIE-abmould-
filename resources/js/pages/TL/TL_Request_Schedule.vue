@@ -3,12 +3,23 @@ import Header from '@/components/TL_Header.vue'
 import axios from 'axios';
 import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
 import { computed, onMounted, ref, watch } from 'vue';
+import StatusModal from '@/components/TL_Change_Status_Modal.vue'
 
 const dateCategory = ref(null);
 const search = ref('')
 const dateSchedule = ref([])
 const schedule = ref({})
+const statusModal = ref(false)
+const statusData = ref({})
 
+const changeStatusBtn = (data) => {
+    statusData.value = data
+    statusModal.value = true
+}
+const closeModal = () => {
+    statusModal.value = false
+    SCHEDULE_LIST_API()
+}
 
 
 
@@ -85,10 +96,12 @@ onMounted(() => {
 </script>
 
 <template>
+    <transition name="changeStatusModal">
+        <StatusModal v-if="statusModal" @closeModal="closeModal" :statusData="statusData" />
+    </transition>
     <header>
         <Header />
     </header>
-
     <section>
         <article class="box">
             <div class="">
@@ -167,7 +180,7 @@ onMounted(() => {
                             <td>{{ data.quantity }}</td>
                             <td>{{ data.date_schedule }}</td>
                             <td>{{ data.status }}</td>
-                            <td><Button label="Change" icon="pi pi-wrench" rounded raised severity="info"/></td>
+                            <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded raised severity="info"/></td>
                         </tr>
                     </tbody>
                 </table>
@@ -191,6 +204,7 @@ section {
     width: 75%;
     margin: auto;
     padding: 10px;
+    overflow: hidden;
 }
 
 .box {
@@ -223,5 +237,25 @@ section {
     justify-content: center;
     gap: 10px;
 }
+.changeStatusModal-leave-active{
+    transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.changeStatusModal-leave-to {
+    transform: translateY(20px);
+    opacity: 0;
+}
+
+@keyframes bounce-in {
+    0% {
+      transform: scale(0);
+    }
+    50% {
+      transform: scale(1.25);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
 
 </style>
