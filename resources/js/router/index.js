@@ -157,9 +157,9 @@ const routes = [
         component: () => import("../pages/TL/TL_Home.vue"),
     },
     {
-        path: "/TL-item-list",
-        name: "TL-item-list",
-        component: () => import("../pages/TL/TL_Item_List.vue"),
+        path: "/TL-scan-item-view",
+        name: "TL-scan-item-view",
+        component: () => import("../pages/TL/TL_Scan_Item_View.vue"),
     },
 ];
 

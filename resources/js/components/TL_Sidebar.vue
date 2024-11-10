@@ -19,18 +19,18 @@
                     <span>Home</span>
                 </li>
             </router-link>
-            <!-- <router-link :to="{ name: 'member-view-barcode' }">
+             <router-link :to="{name: 'TL-scan-item-view'}">
                 <li>
                    <i class="pi pi-barcode"/>
                     <span>Scan Items</span>
-                </li>
+                </li> 
             </router-link>
-            <router-link :to="{ name: 'member-scheduling' }">
+            <!-- <router-link :to="{ name: 'member-scheduling' }">
                 <li>
                    <i class="pi pi-calendar"/>
                     <span>Scheduling</span>
                 </li>
-            </router-link> -->
+            </router-link>  -->
         </ul>
     </aside>
 </template>
