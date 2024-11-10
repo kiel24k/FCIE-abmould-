@@ -97,7 +97,7 @@ const updateBtn = async (id) => {
                 <div class="row mt-3">
                     <div class="col text-end table-action">
                         <Button @click="closeModal" label="Close" severity="danger" raised />
-                        <Button @click="updateBtn(statusData.id)" label="Update" severity="info" raised />
+                        <Button @click="updateBtn(statusData.id)" :disabled="!selectStatus" label="Update" severity="info" raised />
                     </div>
                 </div>
             </div>
