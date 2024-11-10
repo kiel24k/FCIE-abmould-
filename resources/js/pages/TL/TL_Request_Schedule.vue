@@ -104,14 +104,17 @@ onMounted(() => {
     </header>
     <section>
         <article class="box">
-            <div class="">
-                1
+            <div class="text-center">
+                <b>Pending</b>
             </div>
-            <div class="">
-                2
+            <div class="text-center">
+                <b>Approved</b>
             </div>
-            <div class="">
-                3
+            <div class="text-center">
+                <b>Not Approved</b>
+            </div>
+            <div class="text-center">
+                <b>Released</b>
             </div>
         </article>
     </section>
@@ -179,7 +182,14 @@ onMounted(() => {
                             <td>{{ data.item_code }}</td>
                             <td>{{ data.quantity }}</td>
                             <td>{{ data.date_schedule }}</td>
-                            <td>{{ data.status }}</td>
+                            <td>
+                                <span :style="{'background-color': data.status === 'pending' ? 'rgb(253,217,216)' :
+                                                        data.status === 'approved' ? 'rgb(215,229,254)' :
+                                                        data.status === 'not-approved' ? 'rgb(252,222,192)':
+                                                        data.status === 'released' ? 'rgb(198,240,219)' :
+                                                        'iherit'
+                            }">{{ data.status }}</span>
+                            </td>
                             <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded raised severity="info"/></td>
                         </tr>
                     </tbody>
@@ -200,11 +210,15 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.table-main{
+    overflow-y: scroll;
+   
+}
 section {
     width: 75%;
     margin: auto;
     padding: 10px;
-    overflow: hidden;
+    
 }
 
 .box {
@@ -257,5 +271,16 @@ section {
       transform: scale(1);
     }
   }
-
+ td{
+    text-align: start;       
+    vertical-align: middle;
+ }
+  td span{
+    padding:8px;
+    border-radius: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(126, 126, 126, 0.2);
+    font-weight: 600;
+    text-transform: capitalize;
+  }
 </style>
