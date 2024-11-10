@@ -25,12 +25,12 @@
                     <span>Scan Items</span>
                 </li> 
             </router-link>
-            <!-- <router-link :to="{ name: 'member-scheduling' }">
+             <router-link :to="{ name: 'TL-schedule-request' }">
                 <li>
                    <i class="pi pi-calendar"/>
-                    <span>Scheduling</span>
+                    <span>Schedule Request</span>
                 </li>
-            </router-link>  -->
+            </router-link>  
         </ul>
     </aside>
 </template>

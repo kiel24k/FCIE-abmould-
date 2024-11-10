@@ -161,6 +161,11 @@ const routes = [
         name: "TL-scan-item-view",
         component: () => import("../pages/TL/TL_Scan_Item_View.vue"),
     },
+    {
+        path: '/TL-schedule-request',
+        name: 'TL-schedule-request',
+        component: () => import('../pages/TL/TL_Request_Schedule.vue')
+    }
 ];
 
 const router = createRouter({

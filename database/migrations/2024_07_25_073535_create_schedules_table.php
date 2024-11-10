@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('supplier_name');
             $table->string('item_code');
             $table->integer('quantity')->nullable();
-            $table->string('status');
+            $table->enum('status', ['pending', 'approved', 'not-approved', 'released']);
             $table->string('date_schedule');
             $table->timestamps();
         });
