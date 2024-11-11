@@ -29,7 +29,12 @@
                 </li>
             </router-link>
             <hr>
-
+            <router-link :to="{ name: 'admin-schedule-request' }">
+                <li>
+                    <i class="pi pi-calendar"/>
+                    <span>Schedule Request</span>
+                </li>
+            </router-link>
             <router-link :to="{ name: 'admin-inventory-list' }">
                 <li>
                     <img src="/public/icon/list_icon.png" width="25px" alt="" />

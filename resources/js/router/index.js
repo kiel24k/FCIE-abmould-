@@ -77,6 +77,11 @@ const routes = [
         name: "admin-profile",
         component: () => import("../pages/admin/Admin_Profile.vue"),
     },
+    {
+        path: "/admin-schedule-request",
+        name: 'admin-schedule-request',
+        component: () => import('../pages/admin/Admin_Request_Schedule.vue')
+    },
 
     {
         path: "/inventory-manager-dashboard",
