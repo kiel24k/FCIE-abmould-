@@ -117,6 +117,11 @@ const routes = [
             import("../pages/inventory-manager/IM_View_Barcode.vue"),
     },
     {
+        path: "/inventory-manager-schedule-request",
+        name: 'inventory-manager-schedule-request',
+        component: () => import('../pages/inventory-manager/IM_Request_Schedule.vue')
+    },
+    {
         path: "/member-dashboard",
         name: "member-dashboard",
         component: () => import("../pages/member/MemberDashboard.vue"),

@@ -1,10 +1,10 @@
 <script setup>
-import Header from '@/components/Admin_Header.vue'
-import Sidebar from '@/components/Admin_Sidebar.vue'
+import Header from '@/components/IM_Header.vue'
+
 import axios from 'axios';
 import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
 import { computed, onMounted, ref, watch } from 'vue';
-import StatusModal from '@/components/Admin_Change_Status_Modal.vue'
+import StatusModal from '@/components/IM_Change_Status_Modal.vue'
 
 const dateCategory = ref(null);
 const search = ref('')
@@ -26,7 +26,7 @@ const closeModal = () => {
 
 
 const SCHEDULE_LIST_API = async () => {
-    const response = await axios.get('api/admin-schedule-list', {
+    const response = await axios.get('api/IM-schedule-list', {
         params: {
             category: dateCategory.value,
             search: search.value
@@ -38,7 +38,7 @@ const SCHEDULE_LIST_API = async () => {
 
 watch(dateCategory, async (oldVal, newVal) => {
     try {
-        const response = await axios.get('api/admin-schedule-list',
+        const response = await axios.get('api/IM-schedule-list',
             {
                 params: {
                     category: dateCategory.value.name,
@@ -59,7 +59,7 @@ watch(dateCategory, async (oldVal, newVal) => {
 
 watch(search, async (oldVal, newVal) => {
     try {
-        const response = await axios.get('api/admin-schedule-list',
+        const response = await axios.get('api/IM-schedule-list',
             {
                 params: {
                     category: dateCategory.value,
@@ -76,7 +76,7 @@ watch(search, async (oldVal, newVal) => {
 })
 
 const GET_DATE_SCHEDULE_API = async () => {
-    const response = await axios.get('api/admin-get-date-schedule')
+    const response = await axios.get('api/IM-get-date-schedule')
     const test = response.data.map((el) => ({ name: el.date_schedule }))
     dateSchedule.value = test
 
@@ -101,10 +101,6 @@ onMounted(() => {
     <header>
         <Header />
     </header>
-   <div class="row">
-    <div class="">
-        <Sidebar/>
-    </div>
     <section>
         <article class="box">
             <div class="text-center">
@@ -210,7 +206,7 @@ onMounted(() => {
 
     </section>
 
-   </div>
+ 
 </template>
 
 <style scoped>
