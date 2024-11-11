@@ -46,6 +46,12 @@ Route::controller(AdminController::class)->group(function () {
     route::post('/save-scanned-items-out','saveScannedItemsOut');
     route::get('/get-scanned-items-out/{id}', 'getScannedItemsOut');
 
+    route::get('admin-get-item', 'getItem');
+    Route::get('/admin-item-search-list', 'itemSearchlist');
+    route::get('admin-get-date-schedule', 'getDateSchedule');
+    route::get('/admin-schedule-list', 'scheduleList');
+    route::post('/admin-update-schedule-status','updateScheduleStatus');
+
     Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');
 });
