@@ -57,6 +57,12 @@
                     </li>
                 </router-link>
                 <hr>
+                <router-link :to="{ name: 'inventory-manager-schedule-request' }">
+                    <li>
+                       <i class="pi pi-calendar"/>
+                        <span>Schedule request</span>
+                    </li>
+                </router-link>
             <router-link :to="{ name: 'inventory-manager-item-list' }">
                 <li>
                     <img
@@ -67,6 +73,7 @@
                     <span>Item List</span>
                 </li>
             </router-link>
+            
             <router-link :to="{ name: 'inventory-manager-scheduling' }">
                 <li>
                     <img
