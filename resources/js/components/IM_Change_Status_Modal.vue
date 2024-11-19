@@ -8,6 +8,7 @@ const status = ref([
     { name: 'pending' },
     { name: 'approved' },
     { name: 'not-approved' },
+    {name:'released'}
 ])
 const emit = defineEmits(['closeModal'])
 const props = defineProps(['statusData'])
