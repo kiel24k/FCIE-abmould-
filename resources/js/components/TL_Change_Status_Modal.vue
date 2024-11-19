@@ -5,10 +5,7 @@ import Swal from 'sweetalert2';
 
 const selectStatus = ref()
 const status = ref([
-    { name: 'pending' },
     { name: 'approved' },
-    { name: 'not-approved' },
-    { name: 'released' }
 ])
 const emit = defineEmits(['closeModal'])
 const props = defineProps(['statusData'])
