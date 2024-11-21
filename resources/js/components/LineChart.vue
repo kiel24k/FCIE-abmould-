@@ -15,11 +15,8 @@ const lineChartResponse = ref({})
 const LINE_CHART_API = async() => {
     const response = await axios.get('api/linegraph')
    lineChartResponse.value = response.data
-   console.log(lineChartResponse.value);
-   
-    
 }
-const test2 = ref([65, 59, 80, 81, 56, 55, 40])
+
 
 onMounted(async () => {
     await LINE_CHART_API()
@@ -28,9 +25,9 @@ onMounted(async () => {
         data: {
             labels:lineChartResponse.value.map((el) => el.item_code),
             datasets: [{
-                label: 'My First Dataset',
+                label: 'first 10 items newly added',
                 data: lineChartResponse.value.map((el) => el.unit_cost),
-                fill: false,ds
+                fill: false,
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
             }]
