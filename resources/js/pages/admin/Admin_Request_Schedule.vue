@@ -5,6 +5,8 @@ import axios from 'axios';
 import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
 import { computed, onMounted, ref, watch } from 'vue';
 import StatusModal from '@/components/Admin_Change_Status_Modal.vue'
+import html2pdf from 'html2pdf.js';
+
 
 const dateCategory = ref(null);
 const search = ref('')
@@ -12,6 +14,8 @@ const dateSchedule = ref([])
 const schedule = ref({})
 const statusModal = ref(false)
 const statusData = ref({})
+const printTable = ref(null)
+const statusCount = ref({})
 
 const changeStatusBtn = (data) => {
     statusData.value = data
@@ -20,6 +24,7 @@ const changeStatusBtn = (data) => {
 const closeModal = () => {
     statusModal.value = false
     SCHEDULE_LIST_API()
+    STATUS_COUNT_API()
 }
 
 
@@ -51,7 +56,7 @@ watch(dateCategory, async (oldVal, newVal) => {
     } catch (error) {
 
     }
-    if(dateCategory.value.name === 'all'){
+    if (dateCategory.value.name === 'all') {
         dateCategory.value = ''
     }
 
@@ -68,7 +73,7 @@ watch(search, async (oldVal, newVal) => {
             }
         )
         schedule.value = response.data
-        
+
 
     } catch (error) {
 
@@ -83,11 +88,34 @@ const GET_DATE_SCHEDULE_API = async () => {
 
 }
 
+
+const exportBtn = () => {
+    const elem = printTable.value
+
+    const options = {
+        margin: 1,
+        filename: 'document.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
+    };
+    html2pdf()
+        .from(elem)
+        .set(options)
+        .save();
+
+
+}
+const STATUS_COUNT_API = async () => {
+    const response = await axios.get('api/count-status')
+    statusCount.value = response.data
+}
 onMounted(() => {
     GET_DATE_SCHEDULE_API()
     SCHEDULE_LIST_API()
+    STATUS_COUNT_API()
 
-    
+
 })
 
 
@@ -101,128 +129,123 @@ onMounted(() => {
     <header>
         <Header />
     </header>
-   <div class="row">
-    <div class="">
-        <Sidebar/>
-    </div>
-    <section>
-        <article class="box">
-            <div class="text-center">
-                <b>Pending</b>
-            </div>
-            <div class="text-center">
-                <b>Approved</b>
-            </div>
-            <div class="text-center">
-                <b>Not Approved</b>
-            </div>
-            <div class="text-center">
-                <b>Released</b>
-            </div>
-        </article>
-    </section>
-
-    <section>
+    <div class="row">
         <div class="">
-            <figure class="table-action">
-                <div class="select-category">
-                    <div class="flex justify-center">
-                        
-                        <Select v-model="dateCategory" :options="dateSchedule" optionLabel="name" placeholder="Schedule Date"
-                            checkmark />
+            <Sidebar />
+        </div>
+        <section>
+            <article class="box">
+                <div class="text-center" v-for="(data) in statusCount">
+                    <b>{{data.status}}</b>
+                    <h2>{{ data.status_count }}</h2>
+                </div>
+            </article>
+        </section>
+
+        <section>
+            <div class="">
+                <figure class="table-action">
+                    <div class="select-category">
+                        <div class="flex justify-center">
+
+                            <Select v-model="dateCategory" :options="dateSchedule" optionLabel="name"
+                                placeholder="Schedule Date" checkmark />
+                        </div>
+
+                        <br>
+
                     </div>
 
-                    <br>
+                    <div class="search">
+                        <InputGroup>
+                            <InputText v-model="search" placeholder="Keyword" raised />
+                            <InputGroupAddon>
+                                <Button icon="pi pi-search" severity="secondary" variant="text" @click="toggle" />
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
 
-                </div>
+                    <div class="print">
+                        <Button label="Export" severity="danger" icon="pi pi-file-pdf" raised @click="exportBtn" />
+                    </div>
 
-                <div class="search">
-                    <InputGroup>
-                        <InputText v-model="search" placeholder="Keyword" raised />
-                        <InputGroupAddon>
-                            <Button icon="pi pi-search" severity="secondary" variant="text" @click="toggle" />
-                        </InputGroupAddon>
-                    </InputGroup>
-                </div>
-
-                <div class="print">
-                    <Button label="Print" severity="danger" icon="pi pi-file-pdf" raised />
-                </div>
-
-            </figure>
-            <figure class="table-main ">
-                <table class="table table-striped table-responsive table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Supplier Name
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
-                            <th>Item Code
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
-                            <th>Quantity
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
-                            <th>Date Schedule
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
-                            <th>Status
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(data, index) in schedule" :key="index">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ data.supplier_name }}</td>
-                            <td>{{ data.item_code }}</td>
-                            <td>{{ data.quantity }}</td>
-                            <td>{{ data.date_schedule }}</td>
-                            <td>
-                                <span :style="{'background-color': data.status === 'pending' ? 'rgb(253,217,216)' :
-                                                        data.status === 'approved' ? 'rgb(215,229,254)' :
-                                                        data.status === 'not-approved' ? 'rgb(252,222,192)':
-                                                        data.status === 'released' ? 'rgb(198,240,219)' :
+                </figure>
+                <figure class="table-main ">
+                    <table class="table table-striped table-responsive table-hover" ref="printTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Supplier Name
+                                    <i class="pi pi-sort-amount-down" />
+                                    <!-- <i class="pi pi-sort-amount-up"/> -->
+                                </th>
+                                <th>Item Code
+                                    <i class="pi pi-sort-amount-down" />
+                                    <!-- <i class="pi pi-sort-amount-up"/> -->
+                                </th>
+                                <th>Quantity
+                                    <i class="pi pi-sort-amount-down" />
+                                    <!-- <i class="pi pi-sort-amount-up"/> -->
+                                </th>
+                                <th>Date Schedule
+                                    <i class="pi pi-sort-amount-down" />
+                                    <!-- <i class="pi pi-sort-amount-up"/> -->
+                                </th>
+                                <th>Status
+                                    <i class="pi pi-sort-amount-down" />
+                                    <!-- <i class="pi pi-sort-amount-up"/> -->
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(data, index) in schedule" :key="index">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ data.supplier_name }}</td>
+                                <td>{{ data.item_code }}</td>
+                                <td>{{ data.quantity }}</td>
+                                <td>{{ data.date_schedule }}</td>
+                                <td>
+                                    <span :style="{
+                                        'background-color': data.status === 'pending' ? 'rgb(253,217,216)' :
+                                            data.status === 'approved' ? 'rgb(215,229,254)' :
+                                                data.status === 'not-approved' ? 'rgb(252,222,192)' :
+                                                    data.status === 'released' ? 'rgb(198,240,219)' :
                                                         'iherit'
-                            }">{{ data.status }}</span>
-                            </td>
-                            <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded raised severity="info"/></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </figure>
-        </div>
-        <figcaption>
-            <div class="paginate">
-
-                <Button severity="secondary" rounded raised label="Prev" /> <span> 1 of 2</span> <Button
-                    severity="secondary" rounded raised label="Next" />
+                                    }">{{ data.status }}</span>
+                                </td>
+                                <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded
+                                        raised severity="info" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </figure>
             </div>
+            <figcaption>
+                <div class="paginate">
 
-        </figcaption>
+                    <Button severity="secondary" rounded raised label="Prev" /> <span> 1 of 2</span> <Button
+                        severity="secondary" rounded raised label="Next" />
+                </div>
 
-    </section>
+            </figcaption>
 
-   </div>
+        </section>
+
+    </div>
 </template>
 
 <style scoped>
-.table-main{
+.table-main {
     overflow-y: scroll;
-   
+
 }
+
 section {
     width: 75%;
     margin: auto;
     padding: 10px;
-    
+
 }
 
 .box {
@@ -255,7 +278,8 @@ section {
     justify-content: center;
     gap: 10px;
 }
-.changeStatusModal-leave-active{
+
+.changeStatusModal-leave-active {
     transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
@@ -266,29 +290,34 @@ section {
 
 @keyframes bounce-in {
     0% {
-      transform: scale(0);
+        transform: scale(0);
     }
+
     50% {
-      transform: scale(1.25);
+        transform: scale(1.25);
     }
+
     100% {
-      transform: scale(1);
+        transform: scale(1);
     }
-  }
- td{
-    text-align: start;       
+}
+
+td {
+    text-align: start;
     vertical-align: middle;
- }
-  td span{
-    padding:8px;
+}
+
+td span {
+    padding: 8px;
     border-radius: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(126, 126, 126, 0.2);
     font-weight: 600;
     text-transform: capitalize;
-  }
-  table th {
+}
+
+table th {
     background: rgba(165, 164, 164, 0.5);
     backdrop-filter: blur(15);
-  }
+}
 </style>

@@ -433,4 +433,13 @@ return response()->json($data);
         $schedule->update();
         return response()->json($schedule);
     }
+
+    public function countStatus () {
+        $data = DB::table('schedules')
+        ->select('status')
+        ->selectRaw('COUNT(*) as status_count')
+        ->groupBy('status')
+        ->get();
+        return response()->json($data);
+    }
 }

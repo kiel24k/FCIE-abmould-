@@ -172,6 +172,7 @@ const sortColumn = ref('brand');
 const sortOrder = ref('asc'); 
 
 
+
 const generatePdf = () => {
     const elem = printContent.value
 
@@ -279,8 +280,11 @@ const nextPage = () => {
 };
 
 
+
+
 onMounted(() => {
     category()
+   
 })
 
 </script>
