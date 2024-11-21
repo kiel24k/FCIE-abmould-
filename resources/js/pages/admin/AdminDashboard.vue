@@ -43,10 +43,6 @@
                             <div class="pie">
                                 <Doughnut />
                             </div>
-                            
-                            <div>
-                                <h1>no data pa</h1>
-                            </div>
                         </div>
                     </section>
                 </div>
