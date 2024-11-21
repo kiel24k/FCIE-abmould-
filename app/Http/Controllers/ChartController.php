@@ -24,4 +24,13 @@ class ChartController extends Controller
         ->get();
         return response()->json($data);
     }
+
+    public function pieGraph () {
+        $data = DB::table('items')
+        ->select('category')
+        ->selectRaw('COUNT(*) as category_count')
+        ->groupBy('category')
+        ->get();
+        return response()->json($data);
+    }
 }

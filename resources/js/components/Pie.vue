@@ -1,26 +1,33 @@
 <template>
-    <div class="pie">
-            <canvas id="pie"></canvas>
+    <div class="pie text-center">
+      <b>Count per category</b>
+            <canvas id="pie" ref="piegraph"></canvas>
     </div>
 </template>
 
 <script setup>
 import Chart from 'chart.js/auto';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
-onMounted(() => {
-    const pie = document.getElementById("pie");
-    new Chart(pie,{
+const pieGraphResponse = ref({})
+const PIE_GRAPH_API = async () => {
+  const response = await axios.get('api/piegraph')
+  pieGraphResponse.value = response.data
+ 
+  
+
+}
+
+const piegraph = ref()
+onMounted(async () => {
+await PIE_GRAPH_API()
+    new Chart(piegraph.value,{
         type:'pie',
         data: {
-            labels: [
-    'Red',
-    'Blue',
-    'Yellow'
-  ],
+            labels:pieGraphResponse.value.map((el) => el.category),
   datasets: [{
     label: 'My First Dataset',
-    data: [300, 50, 100],
+    data: pieGraphResponse.value.map((el) => el.category_count),
     backgroundColor: [
       'rgb(255, 99, 132)',
       'rgb(54, 162, 235)',
