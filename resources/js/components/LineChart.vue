@@ -30,7 +30,7 @@ onMounted(async () => {
             datasets: [{
                 label: 'My First Dataset',
                 data: lineChartResponse.value.map((el) => el.unit_cost),
-                fill: false,
+                fill: false,ds
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
             }]
