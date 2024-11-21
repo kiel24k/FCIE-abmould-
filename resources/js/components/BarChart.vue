@@ -11,7 +11,9 @@ import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, Li
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
 
-const dataOfSumCategory = ref({})
+const dataOfSumCategory = ref([])
+
+
 const sumOfCategory = () => {
     axios({
         method: 'GET',
@@ -21,19 +23,19 @@ const sumOfCategory = () => {
         // chartData.value.datasets[0].data[1] = 30
         // console.log( chartData.value.datasets[0].data);
         // console.log(dataOfSumCategory.value.materials);
+        console.log(dataOfSumCategory.value);
+        
 
     })
 }
 
 
+
 const chartData = computed(() => ({
-    labels: [
-        "Tools",
-        "Materials"
-    ],
+    labels: dataOfSumCategory.value.map((el) => el.category),
     datasets: [{
         label: 'consumed of recent used materials',
-        data: [dataOfSumCategory.value.tools, dataOfSumCategory.value.materials],
+        data: dataOfSumCategory.value.map((el) => el.quantity),
         backgroundColor: ['skyblue'],
     },],
     fill: false,
@@ -81,7 +83,7 @@ const chartOptions = ref({
 });
 
 watch(chartData, (oldVal, NewVal) => {
-    console.log("dsds");
+  
 })
 onMounted(() => {
 
