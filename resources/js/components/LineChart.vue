@@ -1,6 +1,6 @@
 <template>
     <div class="lineChart">
-        <canvas id="lineChart" ref="test"></canvas>
+        <canvas id="lineChart" ref="lineChart"></canvas>
     </div>
 </template>
 
@@ -8,19 +8,29 @@
 import Chart from 'chart.js/auto';
 import { onMounted, ref } from 'vue';
 
-const test = ref()
+
+const lineChart = ref()
+const lineChartResponse = ref({})
+
+const LINE_CHART_API = async() => {
+    const response = await axios.get('api/linegraph')
+   lineChartResponse.value = response.data
+   console.log(lineChartResponse.value);
+   
+    
+}
 const test2 = ref([65, 59, 80, 81, 56, 55, 40])
 
-onMounted(() => {
-  
-    new Chart(test.value, {
+onMounted(async () => {
+    await LINE_CHART_API()
+    new Chart(lineChart.value, {
         type: 'line',
         data: {
-            labels:["Dsds","dsds"],
+            labels:lineChartResponse.value.map((el) => el.item_code),
             datasets: [{
                 label: 'My First Dataset',
-                data: test2.value,
-                fill: false,
+                data: lineChartResponse.value.map((el) => el.unit_cost),
+                fill: false,ds
                 borderColor: 'rgb(75, 192, 192)',
                 tension: 0.1
             }]

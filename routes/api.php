@@ -87,6 +87,7 @@ Route::controller(TlController::class)->group(function () {
 
 Route::controller(ChartController::class)->group(function () {
     route::get('/bargraph', 'bargraph');
+    route::get('/linegraph', 'lineGraph');
 });
 
 route::controller(HistoryController::class)->group(function () {

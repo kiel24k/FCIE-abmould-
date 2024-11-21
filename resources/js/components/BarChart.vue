@@ -23,7 +23,7 @@ const sumOfCategory = () => {
         // chartData.value.datasets[0].data[1] = 30
         // console.log( chartData.value.datasets[0].data);
         // console.log(dataOfSumCategory.value.materials);
-        console.log(dataOfSumCategory.value);
+       
         
 
     })
@@ -82,9 +82,7 @@ const chartOptions = ref({
     }
 });
 
-watch(chartData, (oldVal, NewVal) => {
-  
-})
+
 onMounted(() => {
 
     sumOfCategory()
