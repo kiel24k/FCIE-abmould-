@@ -173,6 +173,7 @@ const isSidebarHidden = ref(false);
 
     .analytics .chart {
         
+        
     }
 
     .analytics .chart>div {
