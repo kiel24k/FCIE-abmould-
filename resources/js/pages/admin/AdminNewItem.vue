@@ -49,7 +49,7 @@
                         </div>
                         <div class="row">
                             <div class="col mt-3">
-                                <label for="">Quantity <span class="text-danger" v-if="validation.quantity">{{
+                                <label for="">Quantity: <span class="text-danger" v-if="validation.quantity">{{
                                     validation.quantity[0] }}</span></label>
                                 <InputNumber v-model="input.quantity" :invalid="validation.quantity"
                                     inputId="horizontal-buttons" showButtons buttonLayout="horizontal" :step="1"
@@ -63,18 +63,22 @@
                                 </InputNumber>
                             </div>
                             <div class="col mt-3">
-                                <label for="">Item Type: <span class="text-danger" v-if="validation.category">
-                                        {{ validation.category[0] }}
-                                    </span></label>
+                                <label for="">Type: <span class="text-danger" v-if="validation.category">
+                                    {{ validation.category[0] }}
+                                </span></label>
                                 <div class="card flex justify-center">
-                                    <Select v-model="input.category" :invalid="validation.category" editable
-                                        :options="category" optionLabel="name" placeholder="Select a City"
-                                        class="w-full md:w-56" />
+                                        <FloatLabel variant="on">
+                                            <InputText id="label" v-model="input.category" :invalid="validation.category" variant="filled" size="medium"
+                                                class="form-control" />
+                                            <label for="label">Item type | Category</label>
+                                        </FloatLabel>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
+
+                                
                                 <label for="">Description: <span class="text-danger" v-if="validation.description">
                                         {{ validation.description[0] }}
                                     </span></label>
@@ -118,10 +122,7 @@ import Swal from 'sweetalert2';
 const router = useRouter()
 const userInformation = ref()
 
-const category = ref([
-    { name: 'materials' },
-    { name: 'tools' }
-])
+
 const validation = ref({})
 const input = ref({
     item_code: '',
@@ -146,7 +147,7 @@ const submit = () => {
             supplier_name: input.value.supplier_name,
             unit_cost: input.value.unit_cost,
             quantity: input.value.quantity,
-            category: input.value.category.name,
+            category: input.value.category,
             description: input.value.description,
             brand: input.value.brand,
             // barcode: barcodeValue.value
