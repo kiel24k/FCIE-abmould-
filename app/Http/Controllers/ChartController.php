@@ -13,6 +13,7 @@ class ChartController extends Controller
 
         $label = DB::table('items')
             ->select('category', 'quantity')
+            ->orderBy('id', 'DESC')
             ->get();
         return response()->json($label);
     }
