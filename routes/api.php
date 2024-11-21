@@ -51,6 +51,8 @@ Route::controller(AdminController::class)->group(function () {
     route::get('admin-get-date-schedule', 'getDateSchedule');
     route::get('/admin-schedule-list', 'scheduleList');
     route::post('/admin-update-schedule-status','updateScheduleStatus');
+route::get('/count-status', 'countStatus');
+
 
     Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');
