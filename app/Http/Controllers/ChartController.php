@@ -8,21 +8,12 @@ use Illuminate\Support\Facades\DB;
 
 class ChartController extends Controller
 {
-    public function bargraph() {
-           $materials = DB::table('items')
-           ->select('quantity')
-           ->where('category', '=', 'materials')
-           ->sum('quantity');
+    public function bargraph()
+    {
 
-           $tools = DB::table('items')
-           ->select('quantity')
-           ->where('category' ,'=', 'tools')
-           ->sum('quantity');
-           return response()->json([
-            'materials' => $materials,
-            'tools' => $tools
-           ]);
-
-        //    $collection = collect([])
+        $label = DB::table('items')
+            ->select('category', 'quantity')
+            ->get();
+        return response()->json($label);
     }
 }

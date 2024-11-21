@@ -1,6 +1,6 @@
 const admin = [
     DASHBOARD[
-        { CALCULATION_ON_BAR_GRAPH: "" },
+        { CALCULATION_ON_BAR_GRAPH: "DONE" },
         { CALCULATION_ON_LINE_GRAPH: "" },
         { CALCULATION_ON_PIE_CHART: "" }  
     ],
