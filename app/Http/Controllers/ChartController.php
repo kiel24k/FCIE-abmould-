@@ -19,7 +19,8 @@ class ChartController extends Controller
     public function lineGraph () {
         $data = DB::table('items')
         ->select('item_code','unit_cost')
-        ->where('id' ,'>', 10)
+        ->where('id' ,'<=', 10)
+        ->orderBy('id', 'DESC')
         ->get();
         return response()->json($data);
     }
