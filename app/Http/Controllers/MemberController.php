@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class MemberController extends Controller
 {
+
+    public function category () {
+        $items = Item::select('category')
+        ->orderBy('id', 'DESC')
+        ->get();
+        return response()->json($items);
+    }
+    
     public function getItem(Request $request)
     {
         if (!$request->category) {
