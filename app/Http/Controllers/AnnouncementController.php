@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Announcement;
 use App\Models\User;
 use App\Notifications\AnnouncementCreated;
 use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
 {
-  public function store (Request $request){
-    $announcement = Announcement::create([
-        'title' => "dsds",
-        'description' => "dsdsds"
-    ]);
+  public function store(Request $request)
+  {
+    $user = User::find(1); // Find a user by ID
+    $message = "I found that our stock is currently low, with only 30 units remaining, which is concerning given that we typically maintain a higher inventory to meet customer needs and avoid potential stockouts.";
 
-    $user = User::first();
-    // $user->notify(new AnnouncementCreated($announcement));
-    return response()->json($user);
+    // Send the notification
+    $user->notify(new AnnouncementCreated($message));
   }
 }

@@ -17,12 +17,13 @@
                     </div>
                     <div class="row">
                         <div class="col table-category">
-                                <select class="form-select" v-model="selected">
-                                    <option value="selected" disabled>Select</option>
-                                    <option value=""> all </option>
-                                    <option value="tools">tools</option>
-                                    <option value="materials">materials</option>
-                                </select>
+                            <select class="form-select" v-model="selected">
+                                <option value="" >all</option>
+                                <option :value="data.category" v-for="(data) in categoryList">
+                                    {{ data.category }}
+                                </option>
+                              
+                            </select>
                         </div>
                         <div class="col table-action">
                             <div class="search">
@@ -33,7 +34,8 @@
                                     </InputGroupAddon>
                                 </InputGroup>
                             </div>
-                        <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised @click="generatePdf"></Button>
+                            <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised
+                                @click="generatePdf"></Button>
                             <router-link :to="{ name: 'admin-new-item' }">
                                 <Button icon="pi pi-plus-circle" severity="info" label="New Item" raised />
                             </router-link>
@@ -92,14 +94,13 @@
                                                 Action
                                             </div>
                                         </th>
-
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(data, index) in responseData.data" :key="index">
                                         <td>{{ index + 1 }}</td>
                                         <td>{{ data.category }}</td>
-                                        <td>{{ data.item_code }}</td>
+                                        <td> <i class="pi pi-barcode"></i> {{ data.item_code }}</td>
                                         <td>{{ data.brand }}</td>
                                         <td>{{ data.supplier_name }}</td>
                                         <td class="text-success">{{ data.unit_cost }}</td>
@@ -114,7 +115,7 @@
                                                     <Button icon="pi pi-pen-to-square" severity="success" rounded
                                                         raised />
                                                 </router-link>
-                                                <Button @click="deleteItem(data.id)" icon="pi pi-delete-left"
+                                                <Button @click="deleteItem(data.id)" icon="pi pi-trash"
                                                     severity="danger" rounded raised />
                                             </span>
                                         </td>
@@ -151,7 +152,7 @@ import AdminViewModal from '@/components/Admin_View_Modal.vue'
 import DeleteItemModal from '@/components/Admin_Delete_Inventory_Modal_Logout.vue'
 import Loading from '@/components/Loading.vue'
 import html2pdf from 'html2pdf.js';
-import {Button,InputText,InputGroup,InputGroupAddon} from 'primevue';
+import { Button, InputText, InputGroup, InputGroupAddon } from 'primevue';
 
 const isSidebarHidden = ref(false);
 const toggleSidebar = () => {
@@ -168,10 +169,15 @@ const responseData = ref({})
 const search = ref('')
 const viewModal = ref(false)
 const viewModalId = ref(null)
-const sortColumn = ref('brand'); 
-const sortOrder = ref('asc'); 
+const sortColumn = ref('brand');
+const sortOrder = ref('asc');
+const categoryList = ref({})
 
+const CATEGORY_LIST_API = async () => {
+    const response = await axios('api/category')
+    categoryList.value = response.data
 
+}
 
 const generatePdf = () => {
     const elem = printContent.value
@@ -199,27 +205,27 @@ const pagination = ref({
 
 // sddata per categordsd
 const category = async (page) => {
- 
-        if (page < 1 || page > pagination.value.last_page) return;
-        axios({
-            method: 'GET',
-            url: `/api/item-category?category=${selected.value}&page=${page}`,
-            params: {
-                sort_by: sortColumn.value,
-                sort_order: sortOrder.value
-            }
-        }).then(response => {
-            loading.value = false
-            pagination.value = {
-                current_page: response.data.current_page,
-                last_page: response.data.last_page,
-                next_page_url: response.data.next_page_url,
-                prev_page_url: response.data.prev_page_url,
-            };
-            responseData.value = response.data
-        })
 
-    }
+    if (page < 1 || page > pagination.value.last_page) return;
+    axios({
+        method: 'GET',
+        url: `/api/item-category?category=${selected.value}&page=${page}`,
+        params: {
+            sort_by: sortColumn.value,
+            sort_order: sortOrder.value
+        }
+    }).then(response => {
+        loading.value = false
+        pagination.value = {
+            current_page: response.data.current_page,
+            last_page: response.data.last_page,
+            next_page_url: response.data.next_page_url,
+            prev_page_url: response.data.prev_page_url,
+        };
+        responseData.value = response.data
+    })
+
+}
 
 const sort = (column) => {
     if (sortColumn.value === column) {
@@ -245,7 +251,7 @@ watch(search, (oldVal, newVal) => {
         responseData.value = response.data
         console.log(response);
     })
-    if(search.value === ''){
+    if (search.value === '') {
         category()
     }
 
@@ -284,7 +290,8 @@ const nextPage = () => {
 
 onMounted(() => {
     category()
-   
+    CATEGORY_LIST_API()
+
 })
 
 </script>
@@ -304,9 +311,10 @@ onMounted(() => {
     align-content: center;
 }
 
-.search input:focus{
+.search input:focus {
     outline: none;
 }
+
 .search {
     display: flex;
 }
@@ -318,9 +326,10 @@ onMounted(() => {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
 .table-category select:focus {
-   outline: none;
-   box-shadow: none;
+    outline: none;
+    box-shadow: none;
 
 
 }
@@ -333,6 +342,7 @@ onMounted(() => {
     display: flex;
     gap: 10px;
 }
+
 .action {
     display: flex;
     justify-content: start;

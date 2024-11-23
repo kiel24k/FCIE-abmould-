@@ -52,6 +52,7 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/admin-schedule-list', 'scheduleList');
     route::post('/admin-update-schedule-status', 'updateScheduleStatus');
     route::get('/count-status', 'countStatus');
+    route::get('/category', 'category');
 
 
     Route::get('/test', 'test');
