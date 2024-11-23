@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TlController extends Controller
 {
@@ -83,4 +84,15 @@ return response()->json($data);
         $schedule->update();
         return response()->json($schedule);
     }
+
+    public function countStatus () {
+        $data = DB::table('schedules')
+        ->select('status')
+        ->selectRaw('COUNT(*) as status_count')
+        ->groupBy('status')
+        ->get();
+        return response()->json($data);
+    }
+
+   
 }

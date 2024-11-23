@@ -85,6 +85,7 @@ Route::controller(TlController::class)->group(function () {
     route::get('tl-get-date-schedule', 'getDateSchedule');
     route::get('/tl-schedule-list', 'scheduleList');
     route::post('/tl-update-schedule-status', 'updateScheduleStatus');
+    route::get('/tl-status-count', 'countStatus');
 });
 
 Route::controller(ChartController::class)->group(function () {
