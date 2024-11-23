@@ -10,22 +10,16 @@
             <div class="analytics py-3 px-5 border-info rounded">
                 <div class="content">
                     <section class="item-count">
-                        <div class="text-center bg-danger">
-                            <b>No. items</b>
+                        <div class="text-center no-items">
+                            <b>Items</b>
                            <div class="item-response">
-                            <h2>12</h2>
+                            <h2>{{ dashboardApi.item }}</h2>
                            </div>
                         </div>
-                        <div class="text-center bg-warning">
+                        <div class="text-center no-users">
                             <b>Users</b>
                             <div class="item-response">
-                                <h2>23</h2>
-                            </div>
-                        </div>
-                        <div class="text-center bg-primary" >
-                            <b>#</b>
-                            <div class="item-response">
-                                <h2>100</h2>
+                                <h2>{{dashboardApi.user}}</h2>
                             </div>
                         </div>
                     </section>
@@ -101,6 +95,13 @@ import BarChart from '@/components/BarChart.vue';
 
 const responseData = ref({});
 const isSidebarHidden = ref(false);
+const dashboardApi = ref({})
+
+const DASHBOARD_COUNT_API = async () => {
+    const response = await axios('api/dashboard-count')
+   dashboardApi.value = response.data
+    
+}
 
 // const getInHistory = () => {
 //     axios({
@@ -119,6 +120,10 @@ const isSidebarHidden = ref(false);
 // onMounted(() => {
 //     getInHistory();
 // });
+
+onMounted(() => {
+    DASHBOARD_COUNT_API()
+})
 </script>
 
 
@@ -156,6 +161,14 @@ const isSidebarHidden = ref(false);
     align-content: center;
     height:10rem;
     
+}
+.no-items{
+    background-color: red; 
+    background-image: linear-gradient(to right, rgb(248, 248, 248) , rgb(91, 155, 8));
+}
+.no-users{
+    background-color: rgb(31, 143, 187); 
+    background-image: linear-gradient(to right, rgb(248, 248, 248) , rgb(10, 150, 185));
 }
 
 @media screen and (min-width: 769px) {

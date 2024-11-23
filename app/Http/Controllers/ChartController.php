@@ -33,4 +33,13 @@ class ChartController extends Controller
         ->get();
         return response()->json($data);
     }
+
+    public function dashboardCount () {
+        $item = DB::table('items')->count();
+        $user = DB::table('users')->count();
+        return response()->json([
+            'item' => $item,
+            'user' => $user
+        ]);
+    }
 }

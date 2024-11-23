@@ -41,17 +41,17 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/edit-quantity/{id}', 'editQuantity');
     Route::post('/add-quantity-submit/{id}', 'addQuantitySubmit');
     Route::post('/reduce-quantity-submit/{id}', 'reduceQuantity');
-    route::post('/save-scanned-items','saveScannedItems');
+    route::post('/save-scanned-items', 'saveScannedItems');
     route::get('/get-scanned-items/{id}', 'getScannedItems');
-    route::post('/save-scanned-items-out','saveScannedItemsOut');
+    route::post('/save-scanned-items-out', 'saveScannedItemsOut');
     route::get('/get-scanned-items-out/{id}', 'getScannedItemsOut');
 
     route::get('admin-get-item', 'getItem');
     Route::get('/admin-item-search-list', 'itemSearchlist');
     route::get('admin-get-date-schedule', 'getDateSchedule');
     route::get('/admin-schedule-list', 'scheduleList');
-    route::post('/admin-update-schedule-status','updateScheduleStatus');
-route::get('/count-status', 'countStatus');
+    route::post('/admin-update-schedule-status', 'updateScheduleStatus');
+    route::get('/count-status', 'countStatus');
 
 
     Route::get('/test', 'test');
@@ -69,7 +69,7 @@ Route::controller(InventoryManagerController::class)->group(function () {
     Route::get('/IM-item-search-list', 'itemSearchlists');
     route::get('/IM-get-date-schedule', 'getDateSchedule');
     route::get('/IM-schedule-list', 'scheduleList');
-    route::post('/IM-update-schedule-status','updateScheduleStatus');
+    route::post('/IM-update-schedule-status', 'updateScheduleStatus');
 });
 
 
@@ -83,21 +83,20 @@ Route::controller(TlController::class)->group(function () {
     Route::get('/tl-item-search-list', 'itemSearchlist');
     route::get('tl-get-date-schedule', 'getDateSchedule');
     route::get('/tl-schedule-list', 'scheduleList');
-    route::post('/tl-update-schedule-status','updateScheduleStatus');
-    
+    route::post('/tl-update-schedule-status', 'updateScheduleStatus');
 });
 
 Route::controller(ChartController::class)->group(function () {
     route::get('/bargraph', 'bargraph');
     route::get('/linegraph', 'lineGraph');
-    route::get('/piegraph', 'pieGraph');    
+    route::get('/piegraph', 'pieGraph');
+    route::get('/dashboard-count', 'dashboardCount');
 });
 
 route::controller(HistoryController::class)->group(function () {
     Route::post('/create-in-history', 'createInHistory');
     route::post('/create-out-history', 'createOutHistory');
     route::get('/get-in-history', 'getInHistory');
-
 });
 
 
