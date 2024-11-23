@@ -29,7 +29,7 @@ const inventory_manager = [
         { NUMBER_OF_PENDING_APPROVE_NOT_APPROVED_RELEASED: "DONE" }
     ],
     ITEM_LIST[
-        {FIX_UI_TABLE: ""}
+        {FIX_UI_TABLE: "DONE"}
     ]
 ];
 

@@ -77,7 +77,7 @@
                                                     <Button icon="pi pi-pen-to-square" severity="success" rounded
                                                         raised />
                                                 </router-link>
-                                                <Button @click="deleteUser(data.id)" icon="pi pi-delete-left"
+                                                <Button @click="deleteUser(data.id)" icon="pi pi-trash"
                                                     severity="danger" rounded raised />
                                             </span>
                                         </td>

@@ -23,7 +23,7 @@
                 <img src="/public/icon/search.png" width="25px" alt="" />
               </span>
               <input type="text" class="form-control" placeholder="Search" v-model="search" />
-              <button class="btn btn-danger" @click="generatePdf">Print</button>
+              <Button  @click="generatePdf" severity="danger">Print</Button>
             </div>
           </div>
         </div>
@@ -77,15 +77,11 @@
               <td>{{ data.unit_cost }}</td>
               <td>{{ data.quantity }}</td>
               <td>{{ data.description }}</td>
-              <td class="text-center">
-                <span>
-                  <button class="btn btn" @click="updateBtn(data.id)">
-                    <img src="/public/icon/edit_icon_pencil.png" width="25px" alt="">
-                  </button>
-                  <button class="btn btn">
-                    <img src="/public/icon/view_icon_eye.png" width="30px" alt="" @click="viewData(data.id)">
-                  </button>
-                </span>
+              <td class="table-action">
+             
+                  <Button severity="info" icon="pi pi-pen-to-square" @click="updateBtn(data.id)" raised/>
+                   <Button severity="danger" icon="pi pi-trash" @click="viewData(data.id)" raised />
+                
               </td>
             </tr>
           </tbody>
@@ -119,6 +115,7 @@ import { onMounted, ref, watch } from 'vue';
 import UpdateModal from '../../components/IM_UpdateItemModal.vue'
 import itemModal from '@/components/IM_View_Modal.vue'
 import html2pdf from 'html2pdf.js';
+import { Button } from 'primevue';
 
 
 const printContent = ref(null)
@@ -237,9 +234,10 @@ onMounted(() => {
 .table-list {
   max-width: 80%;
   margin: auto;
-  background: rgb(248, 248, 240);
+ 
   padding: 5px;
-  box-shadow: 0px 0px 5px 0px gray;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   margin-top: 10px;
 
@@ -264,12 +262,17 @@ onMounted(() => {
   align-items: center;
   gap: 10px;
 }
+.table-action {
+  display: flex;
+  justify-content: center;
+  gap:10px;
+}
 
 .table th {
 
   cursor: pointer;
   font-weight: 400;
-  color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   font-family:
     system-ui,
     -apple-system,
@@ -282,7 +285,7 @@ onMounted(() => {
     "Open Sans",
     "Helvetica Neue",
     sans-serif;
-  background: rgb(90, 90, 90);
+  background: rgb(205,204,207);
 }
 
 .createButton {
