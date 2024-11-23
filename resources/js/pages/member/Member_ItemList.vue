@@ -25,38 +25,21 @@
                 </div>
 
                 <div class="items">
-                    <div
-                        class="item"
-                        v-for="(data, index) in responseData.data"
-                        :key="index"
-                    >
-                        <div class="title">
-                           <h4>{{ data.item_code }}</h4>
-                           <h4>{{ data.category }}</h4>
-                        </div>
-                        <div class="row">
-                            <b>Unit Cost:</b>
-                            <span>₱{{data.unit_cost}}</span>
-                        </div>
-                        <div class="row">
-                           <b>Description:</b>
-                          <p>
-                           {{ data.description }}
-                          </p>
-                        </div>
-                        <div class="row">
-                          <b>Quantity:</b>
-                          <small>{{ data.quantity }}x</small>
-                        </div>
-                        <div class="row">
-                          <b>Supplier Name:</b>
-                          <small>{{ data.supplier_name }}</small>
-                        </div>
-                        <div class="row">
-                            <barcode :barcodeValue="data.barcode"/>
-                        </div>
-                      </div>
-                    </div>
+                    <Card style="width: 25rem; border-radius: 10px;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden" v-for="(data) in responseData.data ">
+                        <template #header class="">
+                            <div class="text-center">
+                                <barcode :barcodeValue="data.item_code" />
+                            </div>
+                        </template>
+                        <template #title>{{ data.category }}</template>
+                        <template #subtitle>{{ data.supplier_name }} | {{ data.brand }}</template>
+                        <template #content>
+                            <p class="m-0">
+                                {{ data.description }}
+                            </p>
+                        </template>
+                    </Card>
+                </div>
                 <div class="pagination justify-content-center mt-5">
                     <Bootstrap5Pagination
                         :data="responseData"

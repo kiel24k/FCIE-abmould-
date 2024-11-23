@@ -3,26 +3,6 @@
     <div class="row m-2">
         <div class="col">
             <div class="admin-inventory-list">
-                <!-- Filter -->
-                <!-- <div class="inventory-filter">
-                    <div class="category">
-                        <label for="">category: </label>
-                        <select class="form-select" v-model="selected">
-                            <option value="selected" disabled>Select</option>
-                            <option value="">all</option>
-                            <option value="tools">tools</option>
-                            <option value="materials">materials</option>
-                        </select>
-                    </div>
-                    <div class="search col-8">
-                        <div class="input-group">
-                            <span class="input-group-text" id="basic-addon1">
-                                <img src="/public/icon/search.png" width="25px" alt="">
-                            </span>
-                            <input type="text" class="form-control" placeholder="Search" v-model="search">
-                        </div>
-                    </div>
-                </div> -->
                 <div class="row">
                     <div class="col text-end">
                         <div class="category">
@@ -41,7 +21,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="items">
                     <Card style="width: 25rem; border-radius: 10px;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden" v-for="(data) in responseData.data ">
                         <template #header class="">
