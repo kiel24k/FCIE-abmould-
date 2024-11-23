@@ -35,8 +35,10 @@ const member = [
 ];
 
 const tl = [
-    Home[{ FIX_UI: "" }],
+    Home[
+        { FIX_UI: "DONE" }
+        ],
     SCHEDULE_REQUEST[
-        { NUMBER_OF_PENDING_APPROVE_NOT_APPROVED_RELEASED: "" }
+        { NUMBER_OF_PENDING_APPROVE_NOT_APPROVED_RELEASED: "DONE" }
     ],
 ];

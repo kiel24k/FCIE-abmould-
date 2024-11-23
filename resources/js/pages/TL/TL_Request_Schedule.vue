@@ -11,6 +11,7 @@ const dateSchedule = ref([])
 const schedule = ref({})
 const statusModal = ref(false)
 const statusData = ref({})
+const statusCount = ref({})
 
 const changeStatusBtn = (data) => {
     statusData.value = data
@@ -19,6 +20,7 @@ const changeStatusBtn = (data) => {
 const closeModal = () => {
     statusModal.value = false
     SCHEDULE_LIST_API()
+    STATUS_COUNT_API()
 }
 
 
@@ -78,8 +80,12 @@ const GET_DATE_SCHEDULE_API = async () => {
     const response = await axios.get('api/tl-get-date-schedule')
     const test = response.data.map((el) => ({ name: el.date_schedule }))
     dateSchedule.value = test
-
-
+}
+const STATUS_COUNT_API = async () => {
+    const response = await axios('api/tl-status-count')
+    statusCount.value = response.data
+    console.log(statusCount.value);
+    
 }
 
 
@@ -87,6 +93,7 @@ const GET_DATE_SCHEDULE_API = async () => {
 onMounted(() => {
     GET_DATE_SCHEDULE_API()
     SCHEDULE_LIST_API()
+    STATUS_COUNT_API()
 
     
 })
@@ -104,18 +111,11 @@ onMounted(() => {
     </header>
     <section>
         <article class="box">
-            <div class="text-center">
-                <b>Pending</b>
+            <div class="text-center"  v-for="(data) in statusCount">
+                <b>{{data.status}}</b>
+                <h2>{{ data.status_count }}</h2>
             </div>
-            <div class="text-center">
-                <b>Approved</b>
-            </div>
-            <div class="text-center">
-                <b>Not Approved</b>
-            </div>
-            <div class="text-center">
-                <b>Released</b>
-            </div>
+            
         </article>
     </section>
 
@@ -124,15 +124,11 @@ onMounted(() => {
             <figure class="table-action">
                 <div class="select-category">
                     <div class="flex justify-center">
-                        
                         <Select v-model="dateCategory" :options="dateSchedule" optionLabel="name" placeholder="Schedule Date"
                             checkmark />
                     </div>
-
                     <br>
-
                 </div>
-
                 <div class="search">
                     <InputGroup>
                         <InputText v-model="search" placeholder="Keyword" raised />

@@ -25,7 +25,6 @@
                     </div>
                 </div>
                 <div class="items">
-                    
                     <Card style="width: 25rem; border-radius: 10px;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden" v-for="(data) in responseData.data ">
                         <template #header class="">
                             <div class="text-center">
@@ -65,6 +64,7 @@ const selected = ref("");
 const responseData = ref({});
 const search = ref("");
 
+
 const getItem = (page) => {
     axios({
         method: "GET",
@@ -91,8 +91,11 @@ watch(search, (oldVal, newVal) => {
     }
 });
 
+
+
 onMounted(() => {
     getItem();
+   
 });
 </script>
 
