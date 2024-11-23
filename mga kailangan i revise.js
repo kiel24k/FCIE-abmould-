@@ -30,7 +30,7 @@ const inventory_manager = [
     ],
     ITEM_LIST[
         { FIX_UI_TABLE: "DONE" },
-        {ITEM_LIST_WITH_MANY_CATEGORY: ""}
+        {ITEM_LIST_WITH_MANY_CATEGORY: "DONE"}
         
     ],
 ];
@@ -40,7 +40,7 @@ const member = [
         {FIX_UI: "DONE"},
         {FIX_LOGOUT_ON_SIDEBAR_AND_MOVE_TO_HEADER: "DONE"},
         {LOGOUT_STATEMENT_ON_HEADER: "DONE"},
-        {ITEM_LIST_WITH_MANY_CATEGORY: ""}
+        {ITEM_LIST_WITH_MANY_CATEGORY: "DONE"}
     ]
 ];
 

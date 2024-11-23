@@ -9,10 +9,10 @@
                     <div class="category">
                         <label for="">category: </label>
                         <select class="form-select" v-model="selected">
-                            <option value="selected" disabled>Select</option>
                             <option value="">all</option>
-                            <option value="tools">tools</option>
-                            <option value="materials">materials</option>
+                           <option :value="data.category" v-for="(data) in categoryList">
+                            {{ data.category }}
+                           </option>
                         </select>
                     </div>
                     <div class="search col-8">
@@ -58,12 +58,15 @@ import barcode from '@/components/BarcodeView.vue'
 import { Card } from "primevue";
 
 
-
-
 const selected = ref("");
 const responseData = ref({});
 const search = ref("");
+const categoryList = ref({})
 
+const CATEGORY_LIST_API = async () => {
+    const response = await axios('api/member-category-list')
+    categoryList.value = response.data
+}
 
 const getItem = (page) => {
     axios({
@@ -95,6 +98,7 @@ watch(search, (oldVal, newVal) => {
 
 onMounted(() => {
     getItem();
+    CATEGORY_LIST_API()
    
 });
 </script>

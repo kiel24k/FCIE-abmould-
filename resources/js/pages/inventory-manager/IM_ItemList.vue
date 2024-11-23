@@ -11,10 +11,12 @@
           <div class="category">
             <label for="">category: </label>
             <select class="form-select" v-model="selected">
-              <option value="selected" disabled>Select</option>
+            
               <option value="">all</option>
-              <option value="tools">tools</option>
-              <option value="materials">materials</option>
+              <option value="tools" v-for="(data) in categoryList" >
+                {{ data.category }}
+              </option>
+            
             </select>
           </div>
           <div class="search col-8">
@@ -128,9 +130,15 @@ const updateModal = ref(false)
 const viewModalId = ref()
 const sort_column_name = ref('item_code')
 const sort_order = ref('asc')
+const categoryList = ref({})
 const updateBtn = (id) => {
   updateModal.value = true
   itemId.value = id
+}
+
+const CATEGORY_LIST_API = async () => {
+  const response = await axios('api/IM-category-list')
+  categoryList.value = response.data
 }
 
 const getItem = (page) => {
@@ -195,6 +203,7 @@ const generatePdf = () => {
 
 onMounted(() => {
   getItem()
+  CATEGORY_LIST_API()
 })
 
 

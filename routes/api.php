@@ -72,12 +72,14 @@ Route::controller(InventoryManagerController::class)->group(function () {
     route::get('/IM-schedule-list', 'scheduleList');
     route::post('/IM-update-schedule-status', 'updateScheduleStatus');
     route::get('status-count', 'statusCount');
+    route::get('/IM-category-list', 'category');
 });
 
 
 Route::controller(MemberController::class)->group(function () {
     Route::get('/member-get-item', 'getItem');
     Route::get('/member-item-search-list', 'itemSearchList');
+    route::get('/member-category-list','category');
 });
 
 Route::controller(TlController::class)->group(function () {
