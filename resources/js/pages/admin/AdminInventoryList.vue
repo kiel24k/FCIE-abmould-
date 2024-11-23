@@ -33,7 +33,7 @@
                                     </InputGroupAddon>
                                 </InputGroup>
                             </div>
-                            <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised @click="generatePdf"></Button>
+                        <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised @click="generatePdf"></Button>
                             <router-link :to="{ name: 'admin-new-item' }">
                                 <Button icon="pi pi-plus-circle" severity="info" label="New Item" raised />
                             </router-link>

@@ -70,6 +70,7 @@ Route::controller(InventoryManagerController::class)->group(function () {
     route::get('/IM-get-date-schedule', 'getDateSchedule');
     route::get('/IM-schedule-list', 'scheduleList');
     route::post('/IM-update-schedule-status', 'updateScheduleStatus');
+    route::get('status-count', 'statusCount');
 });
 
 

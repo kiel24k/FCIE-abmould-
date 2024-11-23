@@ -2,13 +2,9 @@
 import { useRouter } from "vue-router";
 
 
-const router = useRouter()
+
 const emit = defineEmits(['cancel'])
-const logout = () => {
-    localStorage.removeItem("responseTKN")
-   localStorage.removeItem("inventoryManagerPermission")
-   router.push("/")
-}
+
 
 const cancel = () => {
     emit('cancel')

@@ -1,6 +1,5 @@
 <template>
     <div class="pie text-center">
-      <b>Count per category</b>
             <canvas id="pie" ref="piegraph"></canvas>
     </div>
 </template>
@@ -26,7 +25,7 @@ await PIE_GRAPH_API()
         data: {
             labels:pieGraphResponse.value.map((el) => el.category),
   datasets: [{
-    label: 'My First Dataset',
+    label: 'Count',
     data: pieGraphResponse.value.map((el) => el.category_count),
     backgroundColor: [
       'rgb(255, 99, 132)',

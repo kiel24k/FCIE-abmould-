@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Item;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class InventoryManagerController extends Controller
 {
@@ -80,7 +81,7 @@ class InventoryManagerController extends Controller
         return response()->json($item);
     }
 
-    
+
 
 
 
@@ -114,16 +115,16 @@ class InventoryManagerController extends Controller
     }
 
 
-public function getDateSchedule () {
-   $data = Schedule::select('date_schedule')->get();
-$data->prepend(['date_schedule' => 'all']); // Add 'all' at the beginning
+    public function getDateSchedule()
+    {
+        $data = Schedule::select('date_schedule')->get();
+        $data->prepend(['date_schedule' => 'all']); // Add 'all' at the beginning
 
-return response()->json($data);
-}
+        return response()->json($data);
+    }
 
     public function scheduleList(Request $request)
     {
-
         $search = $request->search;
         $category = $request->category;
         if ((empty($category) || $category == 'all') && empty($search)) {
@@ -153,10 +154,20 @@ return response()->json($data);
             return response()->json($item);
         }
     }
-    public function updateScheduleStatus (Request $request) {
+    public function updateScheduleStatus(Request $request)
+    {
         $schedule = Schedule::find($request->id);
         $schedule->status = $request->status;
         $schedule->update();
         return response()->json($schedule);
+    }
+    public function statusCount()
+    {
+        $status = DB::table('schedules')
+        ->select('status')
+        ->selectRaw('COUNT(*) as statusCount')
+        ->groupBy('status')
+        ->get();
+        return response()->json($status);
     }
 }
