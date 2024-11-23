@@ -41,45 +41,6 @@
                     </section>
                 </div>
             </div>
-            <div class="text-center mt-5 row">
-                <b>History</b>
-            </div>
-            <div id="table" class="table-responsive-sm-2 row">
-                <table class="table table-hover mt-4">
-                    <thead>
-                        <tr>
-                            <th>
-                                <div class="head-title">Date</div>
-                            </th>
-                            <th>
-                                <div class="head-title">Category</div>
-                            </th>
-                            <th>
-                                <div class="head-title">Item Code</div>
-                            </th>
-                            <th>
-                                <div class="head-title">Barcode</div>
-                            </th>
-                            <th>
-                                <div class="head-title">Changed by</div>
-                            </th>
-                            <th>
-                                <div class="head-title">Status</div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- <tr v-for="(data, index) in responseData.data" :key="index">
-                            <td>{{ data.date }}</td>
-                            <td>{{ data.category }}</td>
-                            <td>{{ data.item_code }}</td>
-                            <td>{{ data.barcode }}</td>
-                            <td>{{ data.change_by_name }}</td>
-                            <td>{{ data.made }}</td>
-                        </tr> -->
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 </template>

@@ -205,7 +205,7 @@ onMounted(() => {
                                 }">{{ data.status }}</span>
                             </td>
                             <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded raised
-                                    severity="info" /></td>
+                                    severity="info" :disabled="data.status === 'approved'" /></td>
                         </tr>
                     </tbody>
                 </table>

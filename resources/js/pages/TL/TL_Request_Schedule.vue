@@ -186,7 +186,7 @@ onMounted(() => {
                                                         'iherit'
                             }">{{ data.status }}</span>
                             </td>
-                            <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded raised severity="info"/></td>
+                            <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded raised severity="info" :disabled="data.status === 'approved'"/></td>
                         </tr>
                     </tbody>
                 </table>

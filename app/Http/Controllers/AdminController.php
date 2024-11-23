@@ -358,6 +358,13 @@ class AdminController extends Controller
 
     //////testsraasesaeae///////////////
 
+    public function category () {
+        $items = Item::select('category')
+        ->orderBy('id', 'DESC')
+        ->get();
+
+        return response()->json($items);
+    }
     public function getItem(Request $request)
     {
         if (!$request->category) {
@@ -394,7 +401,6 @@ $data->prepend(['date_schedule' => 'all']); // Add 'all' at the beginning
 
 return response()->json($data);
 }
-
     public function scheduleList(Request $request)
     {
 
