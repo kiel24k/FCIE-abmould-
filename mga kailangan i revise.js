@@ -28,7 +28,7 @@ const inventory_manager = [
 
 const member = [
     ITEM_LIST [ 
-        {FIX_UI: ""},
+        {FIX_UI: "DONE"},
         {FIX_LOGOUT_ON_SIDEBAR_AND_MOVE_TO_HEADER: "DONE"},
         {LOGOUT_STATEMENT_ON_HEADER: "DONE"}
     ]
