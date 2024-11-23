@@ -84,12 +84,6 @@
                     <span>Scheduling</span>
                 </li>
             </router-link>
-            <a @click="logout" style="cursor:pointer">
-                <li>
-                    <img src="/public/icon//logout_leave.png" width="25px" alt="">
-                    <span>Logout</span>
-                </li>
-            </a>
         </ul>
     </aside>
 </template>
@@ -110,9 +104,7 @@ const menu = () => {
 const cancel = () => {
     logoutModal.value = false
 }
-const logout = () => {
-    logoutModal.value = true 
-}
+
 </script>
 <style scoped>
 aside {

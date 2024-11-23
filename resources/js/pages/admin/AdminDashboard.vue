@@ -164,11 +164,11 @@ onMounted(() => {
 }
 .no-items{
     background-color: red; 
-    background-image: linear-gradient(to right, rgb(248, 248, 248) , rgb(91, 155, 8));
+    background-image: linear-gradient(to right, rgb(160, 236, 186) , rgb(91, 155, 8));
 }
 .no-users{
     background-color: rgb(31, 143, 187); 
-    background-image: linear-gradient(to right, rgb(248, 248, 248) , rgb(10, 150, 185));
+    background-image: linear-gradient(to right, rgb(195, 246, 255) , rgb(10, 150, 185));
 }
 
 @media screen and (min-width: 769px) {
