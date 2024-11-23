@@ -4,6 +4,7 @@
         <div class="col">
             <div class="admin-inventory-list">
                 <!-- Filter -->
+             
                 <div class="inventory-filter">
                     <div class="category">
                         <label for="">category: </label>
@@ -23,8 +24,8 @@
                           </div>
                     </div>
                 </div>
-
                 <div class="items">
+                    
                     <Card style="width: 25rem; border-radius: 10px;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden" v-for="(data) in responseData.data ">
                         <template #header class="">
                             <div class="text-center">
@@ -55,6 +56,7 @@ import Header from "@/components/Member_Header.vue";
 import { Bootstrap5Pagination } from "laravel-vue-pagination";
 import { onMounted, ref, watch } from "vue";
 import barcode from '@/components/BarcodeView.vue'
+import { Card } from "primevue";
 
 
 
