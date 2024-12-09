@@ -221,15 +221,6 @@ onMounted(() => {
                     </table>
                 </figure>
             </div>
-            <figcaption>
-                <div class="paginate">
-
-                    <Button severity="secondary" rounded raised label="Prev" /> <span> 1 of 2</span> <Button
-                        severity="secondary" rounded raised label="Next" />
-                </div>
-
-            </figcaption>
-
         </section>
 
     </div>
