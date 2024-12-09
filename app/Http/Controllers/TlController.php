@@ -24,6 +24,19 @@ class TlController extends Controller
                 ->orderBy('id', 'DESC')
                 ->get();
             return response()->json($item);
+        }else if(empty($request->category) && isset($request->search)){
+            $item = DB::table('items')
+            ->select('*')
+            ->where('item_code', 'LIKE' , '%' . $request->search . '%')
+            ->orWhere('supplier_name', 'LIKE' , '%' . $request->search . '%')
+            ->orWhere('unit_cost', 'LIKE' , '%' . $request->search . '%')
+            ->orWhere('category', 'LIKE' , '%' . $request->search . '%')
+            ->orWhere('description', 'LIKE' , '%' . $request->search . '%')
+            ->orWhere('brand', 'LIKE' , '%' . $request->search . '%')
+            ->orderBy('id', 'DESC')
+            ->get();
+            return response()->json($item);
+
         }else if(isset($request->category) && empty($request->search)){
             $item = DB::table('items')
                     ->select('*')
