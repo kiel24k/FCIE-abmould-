@@ -7,7 +7,7 @@
                     <div class="col text-end">
                         <div class="category">
                             <select  v-model="selected">
-                                <option value="selected" v-for="(data) in itemCategory" >
+                                <option :value="data.category" v-for="(data) in itemCategory" >
                                     {{ data.category }}
                                 </option>
                             </select>
@@ -20,8 +20,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- <div class="items">
-                    <Card style="width: 25rem; border-radius: 10px;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden" v-for="(data) in responseData.data ">
+                <div class="items">
+                    <Card style="width: 25rem; border-radius: 10px;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden" v-for="(data) in items ">
                         <template #header class="">
                             <div class="text-center">
                                 <barcode :barcodeValue="data.item_code" />
@@ -35,7 +35,7 @@
                             </p>
                         </template>
                     </Card>
-                </div> -->
+                </div>
                 <div class="pagination justify-content-center mt-5">
                     <Bootstrap5Pagination :data="responseData" @pagination-change-page="getItem" />
                 </div>
@@ -60,6 +60,7 @@ const search = ref("");
 
 //API VARIABLES
 const itemCategory = ref({})
+const items = ref({})
 //END OF API VARIABLES
 
 
@@ -68,6 +69,20 @@ const ITEM_CATEGORY_API = async () => {
     itemCategory.value = response.data
 };  
 
+const ITEMS_API = async () => {
+    const response = await axios.get('api/tl-items', {
+        params: {
+            category: selected.value
+        }
+    })
+   items.value = response.data
+}
+
+watch(selected, (oldVal, newVal) => {
+    
+    ITEMS_API()
+})
+
 
 
 
@@ -75,6 +90,7 @@ const ITEM_CATEGORY_API = async () => {
 
 onMounted(() => {
     ITEM_CATEGORY_API()
+    ITEMS_API()
 });
 </script>
 
