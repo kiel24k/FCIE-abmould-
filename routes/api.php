@@ -83,8 +83,8 @@ Route::controller(MemberController::class)->group(function () {
 });
 
 Route::controller(TlController::class)->group(function () {
-    route::get('tl-get-item', 'getItem');
-    Route::get('/tl-item-search-list', 'itemSearchlist');
+    route::get('tl-item-category', 'itemCategory');
+    Route::get('/tl-items', 'items');
     route::get('tl-get-date-schedule', 'getDateSchedule');
     route::get('/tl-schedule-list', 'scheduleList');
     route::post('/tl-update-schedule-status', 'updateScheduleStatus');

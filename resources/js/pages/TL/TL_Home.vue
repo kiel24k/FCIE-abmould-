@@ -7,10 +7,9 @@
                     <div class="col text-end">
                         <div class="category">
                             <select  v-model="selected">
-                                <option value="selected" disabled>Select</option>
-                                <option value="">all</option>
-                                <option value="tools">tools</option>
-                                <option value="materials">materials</option>
+                                <option value="selected" v-for="(data) in itemCategory" >
+                                    {{ data.category }}
+                                </option>
                             </select>
                             <InputGroup>
                                 <InputText placeholder="Keyword" v-model="search" />
@@ -21,7 +20,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="items">
+                <!-- <div class="items">
                     <Card style="width: 25rem; border-radius: 10px;box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); overflow: hidden" v-for="(data) in responseData.data ">
                         <template #header class="">
                             <div class="text-center">
@@ -36,7 +35,7 @@
                             </p>
                         </template>
                     </Card>
-                </div>
+                </div> -->
                 <div class="pagination justify-content-center mt-5">
                     <Bootstrap5Pagination :data="responseData" @pagination-change-page="getItem" />
                 </div>
@@ -58,36 +57,24 @@ const selected = ref("");
 const responseData = ref({});
 const search = ref("");
 
-const getItem = (page) => {
-    axios({
-        method: "GET",
-        url: `/api/tl-get-item?category=${selected.value}&page=${page}`,
-    }).then((response) => {
-        responseData.value = response.data;
-        console.log(response);
 
-    });
-};
+//API VARIABLES
+const itemCategory = ref({})
+//END OF API VARIABLES
 
-watch(selected, (oldVal, newVal) => {
-    getItem();
-});
 
-watch(search, (oldVal, newVal) => {
-    axios({
-        method: "GET",
-        url: `/api/tl-item-search-list?category=${selected.value}&search=${search.value}`,
-    }).then((response) => {
-        responseData.value = response.data;
-    });
+const ITEM_CATEGORY_API = async () => {
+    const response = await axios.get('api/tl-item-category')
+    itemCategory.value = response.data
+};  
 
-    if (search.value === "") {
-        getItem();
-    }
-});
+
+
+
+
 
 onMounted(() => {
-    getItem();
+    ITEM_CATEGORY_API()
 });
 </script>
 
