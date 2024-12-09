@@ -9,46 +9,34 @@ use Illuminate\Support\Facades\DB;
 
 class TlController extends Controller
 {
-    public function getItem(Request $request)
+    public function itemCategory(Request $request)
     {
-        if (!$request->category) {
-            $allItem = Item::latest()
-                ->paginate(10);
-            return response()->json($allItem);
-        } else if ($request->category) {
-            $item = Item::where('category', '=', $request->category)
-                ->latest()
-                ->paginate(10);
-            return response()->json($item);
-        }
+        $item = DB::table('items')
+            ->select('category')
+            ->orderBy('id', 'DESC')
+            ->get();
+        return response()->json($item);
     }
-    public function itemSearchlist(Request $request)
+    public function items(Request $request)
     {
-        if (!$request->category) {
-            $allItem = Item::where('item_code', 'LIKE', '%' . $request->search . '%')
-                ->latest()
-                ->paginate(10);
-            return response()->json($allItem);
-        } else if ($request->category) {
-            $item = Item::where('category', '=', $request->category)
-                ->where('item_code', 'LIKE', '%' . $request->search . '%')
-                ->latest()
-                ->paginate(10);
+        if (empty($request->category) && empty($request->search)) {
+            $item = DB::table('items')
+                ->orderBy('id', 'DESC')
+                ->get();
             return response()->json($item);
         }
     }
 
+    public function getDateSchedule()
+    {
+        $data = Schedule::select('date_schedule')->get();
+        $data->prepend(['date_schedule' => 'all']); // Add 'all' at the beginning
 
-public function getDateSchedule () {
-   $data = Schedule::select('date_schedule')->get();
-$data->prepend(['date_schedule' => 'all']); // Add 'all' at the beginning
-
-return response()->json($data);
-}
+        return response()->json($data);
+    }
 
     public function scheduleList(Request $request)
     {
-
         $search = $request->search;
         $category = $request->category;
         if ((empty($category) || $category == 'all') && empty($search)) {
@@ -78,21 +66,21 @@ return response()->json($data);
             return response()->json($item);
         }
     }
-    public function updateScheduleStatus (Request $request) {
+    public function updateScheduleStatus(Request $request)
+    {
         $schedule = Schedule::find($request->id);
         $schedule->status = $request->status;
         $schedule->update();
         return response()->json($schedule);
     }
 
-    public function countStatus () {
+    public function countStatus()
+    {
         $data = DB::table('schedules')
-        ->select('status')
-        ->selectRaw('COUNT(*) as status_count')
-        ->groupBy('status')
-        ->get();
+            ->select('status')
+            ->selectRaw('COUNT(*) as status_count')
+            ->groupBy('status')
+            ->get();
         return response()->json($data);
     }
-
-   
 }
