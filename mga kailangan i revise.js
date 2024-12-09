@@ -7,11 +7,7 @@ const admin = [
     ],
     SCHEDULE_REQUEST[
         { PRINT_TABLE: "DONE" },
-        { NUMBER_OF_PENDING_APPROVE_NOT_APPROVED_RELEASED: "DONE" },
-        { PAGINATION_ON_TABLE: "" },
-        { NEXT_PAGE_PREV_PAGE_ON_TABLE: "" },
-        { SORTING_ON_TABLE: "" }
-        
+        { NUMBER_OF_PENDING_APPROVE_NOT_APPROVED_RELEASED: "DONE" }
     ],
     ITEM_LIST[
         ({ NEW_ITEM_CAN_ADD_ITEM_TYPE_DYNAMICALLY: "DONE" },
