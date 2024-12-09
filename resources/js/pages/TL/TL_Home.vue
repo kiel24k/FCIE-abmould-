@@ -72,17 +72,20 @@ const ITEM_CATEGORY_API = async () => {
 const ITEMS_API = async () => {
     const response = await axios.get('api/tl-items', {
         params: {
-            category: selected.value
+            category: selected.value,
+            search: search.value
         }
     })
    items.value = response.data
 }
 
 watch(selected, (oldVal, newVal) => {
-    
     ITEMS_API()
 })
 
+watch(search, (oldVal, newVal) => {
+    ITEMS_API()
+})
 
 
 
