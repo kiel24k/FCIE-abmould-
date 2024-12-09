@@ -169,7 +169,7 @@ class AdminController extends Controller
     public function itemsSearch(Request $request)
     {
         $searchTerm = $request->search;
-        
+
         if (empty($request->category)) {
             $allItem = Item::where(function ($query) use ($searchTerm) {
                 $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
@@ -358,10 +358,11 @@ class AdminController extends Controller
 
     //////testsraasesaeae///////////////
 
-    public function category () {
+    public function category()
+    {
         $items = Item::select('category')
-        ->orderBy('id', 'DESC')
-        ->get();
+            ->orderBy('id', 'DESC')
+            ->get();
 
         return response()->json($items);
     }
@@ -394,16 +395,15 @@ class AdminController extends Controller
         }
     }
 
+    public function getDateSchedule()
+    {
+        $data = Schedule::select('date_schedule')->get();
+        $data->prepend(['date_schedule' => 'all']); // Add 'all' at the beginning
 
-public function getDateSchedule () {
-   $data = Schedule::select('date_schedule')->get();
-$data->prepend(['date_schedule' => 'all']); // Add 'all' at the beginning
-
-return response()->json($data);
-}
+        return response()->json($data);
+    }
     public function scheduleList(Request $request)
     {
-
         $search = $request->search;
         $category = $request->category;
         if ((empty($category) || $category == 'all') && empty($search)) {
@@ -433,21 +433,21 @@ return response()->json($data);
             return response()->json($item);
         }
     }
-    public function updateScheduleStatus (Request $request) {
+    public function updateScheduleStatus(Request $request)
+    {
         $schedule = Schedule::find($request->id);
         $schedule->status = $request->status;
         $schedule->update();
         return response()->json($schedule);
     }
 
-    public function countStatus () {
+    public function countStatus()
+    {
         $data = DB::table('schedules')
-        ->select('status')
-        ->selectRaw('COUNT(*) as status_count')
-        ->groupBy('status')
-        ->get();
+            ->select('status')
+            ->selectRaw('COUNT(*) as status_count')
+            ->groupBy('status')
+            ->get();
         return response()->json($data);
     }
-
-   
 }
