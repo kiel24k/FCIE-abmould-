@@ -24,6 +24,13 @@ class TlController extends Controller
                 ->orderBy('id', 'DESC')
                 ->get();
             return response()->json($item);
+        }else if(isset($request->category) && empty($request->search)){
+            $item = DB::table('items')
+                    ->select('*')
+                    ->where('category', '=' , $request->category)
+                    ->orderBy('id', 'DESC')
+                    ->get();
+                    return response()->json($item);
         }
     }
 
