@@ -83,27 +83,84 @@ onMounted(() => {
 </script>
 
 <style>
-.scanner {
-  max-width: 600px;
-  height: 500px;
-  box-shadow: 0px 0px 10px 0px gray;
-  margin: auto;
-  display: block;
+
+@media screen and (max-width: 1116px) {
+  .scanner {
+    width: 40rem;
+    height: 500px;
+    box-shadow: 0px 0px 10px 0px gray;
+    margin: auto;
+    display: block;
+  }
+  
+  .status {
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .result {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .action {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+
 }
 
-.status {
-  text-align: center;
-  margin: 10px 0;
-}
+@media screen and (max-width: 568px){
+  .scanner {
+    max-width: 30rem;
+    height: 500px;
+    box-shadow: 0px 0px 10px 0px gray;
+    margin: auto;
+    display: block;
+  }
+  
+  .status {
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .result {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .action {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
 
-.result {
-  text-align: center;
-  font-weight: bold;
 }
+@media screen and (min-width: 887px){
+  .scanner {
+    width: 40rem;
+    height: 500px;
+    box-shadow: 0px 0px 10px 0px gray;
+    margin: auto;
+    display: block;
+  }
+  
+  .status {
+    text-align: center;
+    margin: 10px 0;
+  }
+  
+  .result {
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  .action {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
 
-.action {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
 }
 </style>

@@ -450,4 +450,16 @@ class AdminController extends Controller
             ->get();
         return response()->json($data);
     }
+
+    public function lowStockAlert () {
+        $data = DB::table('items')->sum('quantity');
+        $alert = new AnnouncementController();
+        if($data <= 30){
+            $alert->lowStockAlert();
+        }else{
+            return response()->json([
+                'status' => 200
+            ]);
+        }
+    }
 }

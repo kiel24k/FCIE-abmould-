@@ -54,6 +54,7 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/count-status', 'countStatus');
     route::get('/category', 'category');
 
+    route::get('/low-stock-alert', 'lowStockAlert');
 
     Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');
@@ -105,4 +106,4 @@ route::controller(HistoryController::class)->group(function () {
 });
 
 
-Route::post('/announcements', [AnnouncementController::class, 'store']);
+Route::post('/low-stock-email', [AnnouncementController::class, 'lowStockAlert']);
