@@ -1,10 +1,11 @@
 <template>
     <Logout v-if="logoutModal" @cancel="cancel" />
-    <aside>
+    <aside :class="{ hideSidebar: isHideSidebar }">
         <ul>
             <router-link :to="{ name: 'admin-dashboard' }">
                 <li>
-                    <img src="/public/icon/dashboard_icon.png" width="25px" alt="" />
+                    <img src="/public/icon/dashboard_icon.png" width="25px" alt="" 
+                         />
                     <span>Dashboard</span>
                 </li>
             </router-link>
@@ -31,7 +32,7 @@
             <hr>
             <router-link :to="{ name: 'admin-schedule-request' }">
                 <li>
-                    <i class="pi pi-calendar"/>
+                    <i class="pi pi-calendar" />
                     <span>Schedule Request</span>
                 </li>
             </router-link>
@@ -54,46 +55,21 @@
                     <span>User List</span>
                 </li>
             </router-link>
-
-
         </ul>
     </aside>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import Logout from '@/components/Logout_Modal.vue'
-import Swal from "sweetalert2";
-
-const router = useRouter()
 const logoutModal = ref(false)
 
-const logout = () => {
-    Swal.fire({
-        title: "Do you want to logout?",
-        text: "",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes!"
-    }).then((result) => {
-        if (result.isConfirmed) {
-            localStorage.removeItem("responseTKN")
-            localStorage.removeItem("administrationPermission")
-            router.push("/")
-            Swal.fire({
-                title: "Logout Successful",
-                text: "Your Profile is safe",
-                icon: "success"
-            });
-        }
-    });
-}
+const isHideSidebar = ref(false)
 const cancel = () => {
     logoutModal.value = false
 }
+
+
 </script>
 <style scoped>
 aside {
@@ -102,7 +78,7 @@ aside {
     height: 100%;
     overflow-x: hidden;
     background: rgb(255, 255, 255);
-    box-shadow: 0px 15px 15px 0px gray;
+    transition: all linear 0.3s;
 
 }
 
@@ -155,4 +131,6 @@ span {
     background: rgb(232, 248, 248);
     border-radius: 20px;
 }
+
+
 </style>

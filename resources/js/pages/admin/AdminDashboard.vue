@@ -1,6 +1,6 @@
 <template>
     <header>
-        <Header @toggle-sidebar="toggleSidebar" />
+        <Header />
     </header>
     <div class="row">
         <div :class="isSidebarHidden ? 'col-0' : 'col-2'" :key="sidebar">
@@ -49,7 +49,6 @@
 <script setup>
 import { onMounted, ref } from 'vue';
 import Header from '@/components/Admin_Header.vue';
-import Sidebar from '@/components/Admin_Sidebar.vue';
 import Doughnut from '@/components/Pie.vue';
 import LineChart from '@/components/LineChart.vue';
 import BarChart from '@/components/BarChart.vue';
@@ -89,6 +88,17 @@ onMounted(() => {
 
 
 <style scoped>
+
+@media screen and (max-width: 1116px) {
+ 
+}
+
+@media screen and (max-width: 768px){
+
+}
+@media screen and (min-width: 601px){
+    
+}
 .hideSidebar {
     transform: translateX(-100%);
     transition: transform 0.5s ease;

@@ -3,12 +3,8 @@
         <Header @toggle-sidebar="toggleSidebar" />
     </header>
     <DeleteItemModal v-if="deleteItemModal" @cancelItem="cancelItem" :deleteId="deleteId" />
-    <div class="row">
-        <div :class="isSidebarHidden ? 'col-0' : 'col-2'" :key="sidebar">
-            <Sidebar :class="{ hideSidebar: isSidebarHidden }" />
-        </div>
-        <div :class="isSidebarHidden ? 'col-12' : 'col-9'" key="content" class="row my-3 mx-1">
-            <div class="col">
+    <div class="row justify-content-center">
+            <div class="col-9">
                 <div class="admin-inventory-list">
                     <div class="row">
                         <div class="col title">
@@ -22,106 +18,106 @@
                                 <option :value="data.category" v-for="(data) in categoryList">
                                     {{ data.category }}
                                 </option>
-                              
                             </select>
+                            <InputGroup>
+                                <InputText placeholder="Search Item" v-model="search" />
+                                <InputGroupAddon>
+                                    <Button icon="pi pi-search" severity="secondary" variant="text" disabled />
+                                </InputGroupAddon>
+                            </InputGroup>
                         </div>
                         <div class="col table-action">
-                            <div class="search">
-                                <InputGroup>
-                                    <InputText placeholder="Search Item" v-model="search" />
-                                    <InputGroupAddon>
-                                        <Button icon="pi pi-search" severity="secondary" variant="text" disabled />
-                                    </InputGroupAddon>
-                                </InputGroup>
-                            </div>
                             <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised
                                 @click="generatePdf"></Button>
                             <router-link :to="{ name: 'admin-new-item' }">
-                                <Button icon="pi pi-plus-circle" severity="info" label="New Item" raised />
+                                <Button icon="pi pi-plus-circle" severity="info" label="New" raised />
                             </router-link>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col table">
-                            <table class="table table-hover table-responsive" ref="printContent">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th class="" @click="sort('category')">
-                                            <div class="head-title">
-                                                Category
-                                                <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                            </div>
-                                        </th>
-                                        <th @click="sort('barcode')">
-                                            <div class="head-title">
-                                                item_code
-                                                <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                            </div>
-                                        </th>
-                                        <th @click="sort('brand')">
-                                            <div class="head-title">
-                                                Brand
-                                                <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                            </div>
-                                        </th>
-                                        <th @click="sort('supplier_name')">
-                                            <div class="head-title">
-                                                Supplier Name
-                                                <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                            </div>
-                                        </th>
-                                        <th @click="sort('unit_cost')">
-                                            <div class="head-title">
-                                                Unit_Cost
-                                                <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                            </div>
-                                        </th>
-                                        <th @click="sort('quantity')">
-                                            <div class="head-title">
-                                                Quantity
-                                                <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                            </div>
-                                        </th>
-                                        <th @click="sort('description')">
-                                            <div class="head-title">
-                                                Description
-                                                <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div class="head-title">
-                                                Action
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr v-for="(data, index) in responseData.data" :key="index">
-                                        <td>{{ index + 1 }}</td>
-                                        <td>{{ data.category }}</td>
-                                        <td> <i class="pi pi-barcode"></i> {{ data.item_code }}</td>
-                                        <td>{{ data.brand }}</td>
-                                        <td>{{ data.supplier_name }}</td>
-                                        <td class="text-success">{{ data.unit_cost }}</td>
-                                        <td>x{{ data.quantity }}</td>
-                                        <td>{{ data.description }}</td>
-                                        <td>
-                                            <span class="action">
-                                                <Button @click="view(data.id)" icon="pi pi-eye" severity="info" rounded
-                                                    raised />
-                                                <router-link class="btnUpdate"
-                                                    :to="{ name: 'admin-edit-item', params: { id: data.id } }">
-                                                    <Button icon="pi pi-pen-to-square" severity="success" rounded
+                        <div class="col">
+                            <figure class="table-main">
+                                <table class="table table-hover table-responsive" ref="printContent">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th class="" @click="sort('category')">
+                                                <div class="head-title">
+                                                    Category
+                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                                </div>
+                                            </th>
+                                            <th @click="sort('barcode')">
+                                                <div class="head-title">
+                                                    item_code
+                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                                </div>
+                                            </th>
+                                            <th @click="sort('brand')">
+                                                <div class="head-title">
+                                                    Brand
+                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                                </div>
+                                            </th>
+                                            <th @click="sort('supplier_name')">
+                                                <div class="head-title">
+                                                    Supplier Name
+                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                                </div>
+                                            </th>
+                                            <th @click="sort('unit_cost')">
+                                                <div class="head-title">
+                                                    Unit_Cost
+                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                                </div>
+                                            </th>
+                                            <th @click="sort('quantity')">
+                                                <div class="head-title">
+                                                    Quantity
+                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                                </div>
+                                            </th>
+                                            <th @click="sort('description')">
+                                                <div class="head-title">
+                                                    Description
+                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="head-title">
+                                                    Action
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="(data, index) in responseData.data" :key="index">
+                                            <td>{{ index + 1 }}</td>
+                                            <td>{{ data.category }}</td>
+                                            <td> <i class="pi pi-barcode"></i> {{ data.item_code }}</td>
+                                            <td>{{ data.brand }}</td>
+                                            <td>{{ data.supplier_name }}</td>
+                                            <td class="text-success">{{ data.unit_cost }}</td>
+                                            <td>x{{ data.quantity }}</td>
+                                            <td>{{ data.description }}</td>
+                                            <td>
+                                                <span class="action">
+                                                    <Button @click="view(data.id)" icon="pi pi-eye" severity="info" rounded
                                                         raised />
-                                                </router-link>
-                                                <Button @click="deleteItem(data.id)" icon="pi pi-trash"
-                                                    severity="danger" rounded raised />
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                                    <router-link class="btnUpdate"
+                                                        :to="{ name: 'admin-edit-item', params: { id: data.id } }">
+                                                        <Button icon="pi pi-pen-to-square" severity="success" rounded
+                                                            raised />
+                                                    </router-link>
+                                                    <Button @click="deleteItem(data.id)" icon="pi pi-trash"
+                                                        severity="danger" rounded raised />
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </figure>
+                          
                             <div class="paginator text-center">
                                 <nav class="btnPaginate">
                                     <Button icon="pi pi-chevron-left" severity="primary" @click="previousPage"
@@ -135,7 +131,6 @@
                     </div>
                 </div>
             </div>
-        </div>
         <Loading v-if="loading" />
         <AdminViewModal v-if="viewModal" :viewModalId="viewModalId" @exit="viewModal = false" />
     </div>
@@ -298,14 +293,30 @@ onMounted(() => {
 
 
 <style scoped>
+@media  screen and (max-width:1019px) {
+    .table-main{
+        max-width: 50rem;
+        overflow-y: scroll;
+        margin: auto;
+    }
+    
+}
+@media screen and (max-width:888px){
+    .table-main{
+        max-width: 30rem;
+        overflow-y: scroll;
+        margin: auto;
+    }
+ 
+}
 .admin-inventory-list {
     display: grid;
     gap: 20px;
+ 
 }
 
 .table-action {
     display: flex;
-    justify-content: end;
     gap: 15px;
     align-items: center;
     align-content: center;
@@ -325,6 +336,9 @@ onMounted(() => {
     background: white;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.table-category {
+    display: flex;
 }
 
 .table-category select:focus {

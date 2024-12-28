@@ -4,11 +4,8 @@
             @data="addScheduleModal = false" />
     </transition>
     <Header @toggle-sidebar="toggleSidebar" />
-    <div class="row">
-        <div :class="isSidebarHidden ? 'col-0' : 'col-2'" :key="sidebar">
-            <Sidebar :class="{ hideSidebar: isSidebarHidden }" />
-        </div>
-        <div :class="isSidebarHidden ? 'col-11' : 'col-9'" key="content" class="row m-2">
+    <div class="row justify-content-center">
+        <div class="col-8">
             <div class="col">
                 <div class="row scheduling">
                     <div class="col" style="width:50rem">

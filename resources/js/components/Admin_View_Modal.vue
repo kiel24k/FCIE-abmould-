@@ -16,7 +16,7 @@
                   </div>
                 </div>
                 <div class="row">
-                  <b>Category:</b>
+                  <b>Category:</b>  
                   <p>{{ item.category }}</p>
                 </div>
                 <div class="row">

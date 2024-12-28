@@ -130,9 +130,6 @@ onMounted(() => {
         <Header />
     </header>
     <div class="row">
-        <div class="">
-            <Sidebar />
-        </div>
         <section>
             <article class="box">
                 <div class="text-center" v-for="(data) in statusCount">
@@ -147,13 +144,10 @@ onMounted(() => {
                 <figure class="table-action">
                     <div class="select-category">
                         <div class="flex justify-center">
-
                             <Select v-model="dateCategory" :options="dateSchedule" optionLabel="name"
                                 placeholder="Schedule Date" checkmark />
                         </div>
-
                         <br>
-
                     </div>
 
                     <div class="search">
@@ -229,7 +223,6 @@ onMounted(() => {
 <style scoped>
 .table-main {
     overflow-y: scroll;
-
 }
 
 section {
@@ -279,36 +272,5 @@ section {
     opacity: 0;
 }
 
-@keyframes bounce-in {
-    0% {
-        transform: scale(0);
-    }
 
-    50% {
-        transform: scale(1.25);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-td {
-    text-align: start;
-    vertical-align: middle;
-}
-
-td span {
-    padding: 8px;
-    border-radius: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(126, 126, 126, 0.2);
-    font-weight: 600;
-    text-transform: capitalize;
-}
-
-table th {
-    background: rgba(165, 164, 164, 0.5);
-    backdrop-filter: blur(15);
-}
 </style>
