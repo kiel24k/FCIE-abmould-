@@ -11,11 +11,11 @@
                     <div class="col" style="width:50rem">
                         <ScheduledItems :selectedDate="selectedDate" />
                     </div>
-                    <div class="col-3">
+                    <div class="col-4">
                         <div class="add-sched">
                             <button class="btn text-start" @click="addSchedule">
                                <strong class="fs-5">+ Add schedule</strong><br>
-                               <p class="lh-sm" style="font-size: 11px;">
+                               <p class="lh-sm pt-1" style="font-size: 11px;">
                                 You set schedule of materials and equipment's here
                                </p>
                             </button>
@@ -90,9 +90,9 @@ const addSchedule = () => {
 
 .add-sched button {
     width: 100%;
-    max-width: 25rem;
-    height: 4.8rem;
-    padding-left: 1rem;
+    max-width: 30rem;
+    height: 5rem;
+    padding-left: 2rem;
 }
 
 .add-sched button:hover{
@@ -129,5 +129,4 @@ const addSchedule = () => {
     transform: translateY(-100%);
     opacity: 0;
 }
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 </style>

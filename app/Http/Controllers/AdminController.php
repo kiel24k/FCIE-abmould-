@@ -148,7 +148,7 @@ class AdminController extends Controller
 
     public function itemCategory(Request $request)
     {
-        $sortBy = $request->query('sort_by', 'brand'); // default brand request 
+        $sortBy = $request->query('sort_by', 'brand'); // default brand request
         $sortOrder = $request->query('sort_order', 'asc');
         if ($request->category) {
             $item = Item::where('category', '=', $request->category)
@@ -244,21 +244,32 @@ class AdminController extends Controller
     }
     public function addSchedule(Request $request)
     {
+        // Validate the input
         $request->validate([
-            'supplier_name' => 'required',
-            'item_code'     => 'required',
-            'quantity'      => 'required',
-            'date_schedule' => 'required'
+            'date_schedule' => 'required|date',
+            'items'         => 'required|array|min:1', // Ensure items is an array with at least one item
+            'items.*.item_code' => 'required|string', // Validate each item's code
+            'items.*.quantity'  => 'required|integer|min:1', // Validate each item's quantity
         ]);
-        $schedule = new Schedule();
-        $schedule->supplier_name = $request->supplier_name;
-        $schedule->item_code     = $request->item_code;
-        $schedule->quantity      = $request->quantity;
-        $schedule->date_schedule = $request->date_schedule;
-        $schedule->status        = 'pending';
-        $schedule->save();
-        return response()->json($schedule);
+
+        // Loop through the items and save each schedule
+        $schedules = [];
+        foreach ($request->items as $item) {
+            $schedule = new Schedule();
+            $schedule->supplier_name = $request->supplier_name ?? 'Unknown'; // Default if not provided
+            $schedule->item_code     = $item['item_code'];
+            $schedule->quantity      = $item['quantity'];
+            $schedule->date_schedule = $request->date_schedule;
+            $schedule->status        = 'pending';
+            $schedule->save();
+
+            $schedules[] = $schedule;
+        }
+
+        // Return all created schedules as a response
+        return response()->json($schedules, 201);
     }
+
     // public function generateBarcode()
     // {
     //     $a = mt_rand(100000, 999999);

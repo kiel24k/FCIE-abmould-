@@ -9,14 +9,17 @@
         <div class="content">
             <div class="analytics py-3 pl-5 border-info rounded">
                 <div class="content">
+                    <div class="title">
+                        <h1>Dashboard</h1>
+                    </div>
                     <section class="item-count">
-                        <div class="text-center no-items">
+                        <div class="text-center no-items p-3" style="color: #fff;">
                             <b>Items</b>
                             <div class="item-response">
                                 <h2>{{ dashboardApi.item }}</h2>
                             </div>
                         </div>
-                        <div class="text-center no-users">
+                        <div class="text-center no-users p-3">
                             <b>Users</b>
                             <div class="item-response">
                                 <h2>{{ dashboardApi.user }}</h2>
@@ -24,9 +27,6 @@
                         </div>
                     </section>
                     <section>
-                        <div class="title">
-                            <h1>Dashboard</h1>
-                        </div>
                         <div class="">
                             <div class="parent">
                                 <div class="div1">
@@ -90,12 +90,10 @@ onMounted(() => {
 
 
 <style scoped>
-@media screen and (max-width: 1116px) {}
-
-@media screen and (max-width: 768px) {}
-
-@media screen and (min-width: 601px) {}
-
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+template{
+    font-family: "Poppins", serif;
+}
 .content {
     padding-left: 8rem;
 }
@@ -134,7 +132,7 @@ onMounted(() => {
 
 .no-items {
     background-color: red;
-    background-image: linear-gradient(to right, rgb(160, 236, 186), rgb(91, 155, 8));
+    background-image: linear-gradient(to right, rgb(228, 84, 84), rgb(240, 18, 18));
 }
 
 .no-users {
@@ -142,19 +140,31 @@ onMounted(() => {
     background-image: linear-gradient(to right, rgb(195, 246, 255), rgb(10, 150, 185));
 }
 
-.div1, .div2, .div3{
+.div1,
+.div2,
+.div3 {
     padding: 10px;
 }
+
 .parent {
-display: grid;
-grid-template-columns: repeat(5, 1fr);
-grid-template-rows: repeat(2, 1.5fr) repeat(2, 2fr);
-grid-column-gap: 0px;
-grid-row-gap: 0px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: repeat(2, 1.5fr) repeat(2, 2fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
 }
-.div1 { grid-area: 1 / 1 / 3 / 3; }
-.div2 { grid-area: 1 / 3 / 3 / 6; }
-.div3 { grid-area: 3 / 1 / 5 / 6; }
+
+.div1 {
+    grid-area: 1 / 1 / 3 / 3;
+}
+
+.div2 {
+    grid-area: 1 / 3 / 3 / 6;
+}
+
+.div3 {
+    grid-area: 3 / 1 / 5 / 6;
+}
 
 @media screen and (min-width: 769px) {
     .analytics {
