@@ -28,11 +28,11 @@
                                 <router-link :to="{ name: 'create-user' }">
                                     <Button icon="pi pi-plus-circle" label="New" severity="info" />
                                 </router-link>
-                              
+
                             </div>
-                          
+
                         </div>
-                        
+
                     </div>
                     <div class="row">
                        <figure class="table-main">
@@ -84,7 +84,7 @@
                             </tbody>
                         </table>
                        </figure>
-                        
+
                             <div class="paginator text-center">
 
                                 <nav class="btnPaginate">
@@ -95,13 +95,13 @@
                                         :disabled="!pagination.next_page_url" />
                                 </nav>
                             </div>
-                      
+
                     </div>
 
-                    
+
                 </div>
             </div>
-        
+
     </div>
     <Loading v-if="loading" />
 </template>
@@ -221,10 +221,10 @@ swalWithBootstrapButtons.fire({
     });
   }
 });
-   
+
     // await axios.delete(`api/delete-user/${id}`).then(response => {
     //     page()
-        
+
     // })
 }
 const prevBtn = () => {
@@ -262,6 +262,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.mt-5{
+    padding-left: 10rem;
+}
 .table-main{
     overflow-x: scroll;
 }
@@ -335,15 +338,15 @@ align-items: center;
     width: 0;
     overflow: hidden;
     transition: width 0.5s ease;
-    
+
 }
 
 .user-list-table {
     max-width: 100%;
     margin: auto;
-    
-  
-   
+
+
+
 }
 
 .filter {

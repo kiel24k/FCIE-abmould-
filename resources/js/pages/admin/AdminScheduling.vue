@@ -4,7 +4,7 @@
             @data="addScheduleModal = false" />
     </transition>
     <Header @toggle-sidebar="toggleSidebar" />
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
         <div class="col-8">
             <div class="col">
                 <div class="row scheduling">
@@ -13,8 +13,11 @@
                     </div>
                     <div class="col-3">
                         <div class="add-sched">
-                            <button class="btn" @click="addSchedule">
-                                Add schedule
+                            <button class="btn text-start" @click="addSchedule">
+                               <strong class="fs-5">+ Add schedule</strong><br>
+                               <p class="lh-sm" style="font-size: 11px;">
+                                You set schedule of materials and equipment's here
+                               </p>
                             </button>
                         </div>
                         <div class="calendar">
@@ -50,6 +53,9 @@ const addSchedule = () => {
 </script>
 
 <style scoped>
+.btn strong{
+    font-family: 'Poppins', sans-serif;
+}
 .hideSidebar {
     transform: translateX(-100%);
     transition: transform 0.5s ease;
@@ -64,7 +70,6 @@ const addSchedule = () => {
     overflow: hidden;
     transition: width 0.5s ease;
 }
-
 .scheduling {
     width: 100%;
     margin: auto;
@@ -79,18 +84,27 @@ const addSchedule = () => {
 
 .add-sched {
     margin-top: 20px;
-    height: 10rem;
+    height: 12rem;
+    justify-content: left;
 }
 
 .add-sched button {
     width: 100%;
     max-width: 25rem;
-    height: 3.8rem
+    height: 4.8rem;
+    padding-left: 1rem;
 }
 
-.add-sched button:hover {
+.add-sched button:hover{
     background-color: rgb(10, 135, 218);
     color: #fff;
+}
+.add-sched button:hover .lh-sm{
+    color: #fff;
+}
+
+.add-sched button .lh-sm{
+    color: #bbb5b5;
 }
 
 .side-action {
@@ -115,4 +129,5 @@ const addSchedule = () => {
     transform: translateY(-100%);
     opacity: 0;
 }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 </style>

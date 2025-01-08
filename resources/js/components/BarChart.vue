@@ -5,89 +5,86 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
+// Reactive variable to store the processed data
+const summedCategories = ref([]);
 
-const dataOfSumCategory = ref([])
+// Function to fetch and process data
+const sumOfCategory = async () => {
+    try {
+        const response = await axios.get('/api/bargraph');
+        const rawData = response.data;
 
+        // Group and sum quantities by category
+        const categorySums = rawData.reduce((acc, item) => {
+            if (!acc[item.category]) {
+                acc[item.category] = 0;
+            }
+            acc[item.category] += item.quantity;
+            return acc;
+        }, {});
 
-const sumOfCategory = () => {
-    axios({
-        method: 'GET',
-        url: '/api/bargraph'
-    }).then(response => {
-        dataOfSumCategory.value = response.data
-        // chartData.value.datasets[0].data[1] = 30
-        // console.log( chartData.value.datasets[0].data);
-        // console.log(dataOfSumCategory.value.materials);
-       
-        
+        // Convert the grouped data back to an array for the chart
+        summedCategories.value = Object.entries(categorySums).map(([category, quantity]) => ({
+            category,
+            quantity,
+        }));
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+};
 
-    })
-}
-
-
-
+// Chart data
 const chartData = computed(() => ({
-    labels: dataOfSumCategory.value.map((el) => el.category),
-    datasets: [{
-        label: 'consumed of recent used materials',
-        data: dataOfSumCategory.value.map((el) => el.quantity),
-        backgroundColor: ['skyblue'],
-    },],
-    fill: false,
+    labels: summedCategories.value.map((el) => el.category),
+    datasets: [
+        {
+            label: 'Consumed of Recent Used Materials',
+            data: summedCategories.value.map((el) => el.quantity),
+            backgroundColor: 'skyblue',
+        },
+    ],
 }));
 
-// const chartData = ref({
-//     labels: ['tools', 'materials'],
-//     datasets: [{
-//
-//         backgroundColor: ['green', 'yellow'],
-//         data: [20, 10],
-//         fill: false,
-//     }]
-// });
-
-
+// Chart options
 const chartOptions = ref({
     responsive: true,
     plugins: {
         legend: {
-            position: 'top'
+            position: 'top',
         },
         tooltip: {
             callbacks: {
                 label: function (tooltipItem) {
                     return `${tooltipItem.dataset.label}: ${tooltipItem.raw}`;
-                }
-            }
-        }
+                },
+            },
+        },
     },
     scales: {
         x: {
             title: {
                 display: true,
-                text: 'test'
-            }
+                text: 'Categories',
+            },
         },
         y: {
             title: {
                 display: true,
-                text: 'test'
-            }
-        }
-    }
+                text: 'Quantity',
+            },
+        },
+    },
 });
 
-
+// Fetch data on mount
 onMounted(() => {
-
-    sumOfCategory()
-
-})
+    sumOfCategory();
+});
 </script>
 
 <style scoped>

@@ -3,7 +3,7 @@
         <Header @toggle-sidebar="toggleSidebar" />
     </header>
     <DeleteItemModal v-if="deleteItemModal" @cancelItem="cancelItem" :deleteId="deleteId" />
-    <div class="row justify-content-center">
+    <div class="row justify-content-center" id="content">
             <div class="col-9">
                 <div class="admin-inventory-list">
                     <div class="row">
@@ -117,7 +117,7 @@
                                     </tbody>
                                 </table>
                             </figure>
-                          
+
                             <div class="paginator text-center">
                                 <nav class="btnPaginate">
                                     <Button icon="pi pi-chevron-left" severity="primary" @click="previousPage"
@@ -293,13 +293,17 @@ onMounted(() => {
 
 
 <style scoped>
+#content{
+    padding-top: 2rem;
+    padding-left: 10rem;
+}
 @media  screen and (max-width:1019px) {
     .table-main{
         max-width: 50rem;
         overflow-y: scroll;
         margin: auto;
     }
-    
+
 }
 @media screen and (max-width:888px){
     .table-main{
@@ -307,12 +311,12 @@ onMounted(() => {
         overflow-y: scroll;
         margin: auto;
     }
- 
+
 }
 .admin-inventory-list {
     display: grid;
     gap: 20px;
- 
+
 }
 
 .table-action {
@@ -582,7 +586,7 @@ onMounted(() => {
     .action {
         display: flex;
     }
-   
+
 
     table tbody button {
         border-radius: 5px;

@@ -38,11 +38,10 @@ onMounted(async () => {
 
 <style scoped>
 #lineChart {
-    width: 100%;
-    max-height: 30rem;
+    width: 20rem; /* Set a fixed width */
+    height: 20rem; /* Match the height to the width */
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     margin-top: 2rem;
-    
 }
 </style>

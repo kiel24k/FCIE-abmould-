@@ -221,6 +221,10 @@ onMounted(() => {
 </template>
 
 <style scoped>
+.row{
+    padding-top: 2rem;
+    padding-left: 3rem;
+}
 .table-main {
     overflow-y: scroll;
 }
