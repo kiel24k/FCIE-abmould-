@@ -462,4 +462,29 @@ class AdminController extends Controller
             ]);
         }
     }
+
+    public function changePassword (Request $request) {
+        $request->validate([
+            'current_password' => ['required','string'],
+            'new_password' => ['required', 'string','min:8',]
+        ]);
+
+        $currentPasswordStatus = Hash::check($request->current_password, $request->old_password);
+        if(!$currentPasswordStatus){
+            return response()->json([
+                'message' => "Password Doesn't match!",
+                'status' => 401
+            ]);
+        }else{
+            User::findOrFail($request->id)->update([
+                'password' => Hash::make($request->new_password)
+            ]);
+            return response()->json([
+                'message' => 'Password Update Change',
+                'status' => 200
+            ]);
+        }
+
+    }
+    
 }
