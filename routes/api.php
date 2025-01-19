@@ -55,6 +55,7 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/category', 'category');
 
     route::get('/low-stock-alert', 'lowStockAlert');
+    route::post('/change-password', 'changePassword');
 
     Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');
