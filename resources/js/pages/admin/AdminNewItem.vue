@@ -24,7 +24,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <Message severity="error" variant="simple">Option:</Message>
+                                <Message severity="error" variant="simple">Optional:</Message>
                                 <FloatLabel variant="on">
                                     <InputText id="Item Code" v-model="input.brand" variant="filled" size="large"
                                         class="form-control" />
@@ -34,7 +34,7 @@
                         </div>
                         <div class="row">
                             <div class="col">
-                                <Message severity="error" variant="simple">Option:</Message>
+                                <Message severity="error" variant="simple">Optional:</Message>
                                 <FloatLabel variant="on">
                                     <InputText id="label" v-model="input.supplier_name" variant="filled" size="large"
                                         class="form-control" />
