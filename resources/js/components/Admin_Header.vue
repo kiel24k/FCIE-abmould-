@@ -18,6 +18,26 @@
                     <ul class="navbar nav justify-content-end" style="margin-right:20px;">
                         <Button icon="pi pi-exclamation-triangle" severity="danger" raised rounded class="m-2" v-if="isStockAlertBtn"
                             @click="showStockAlert" />
+                            <li class="nav-item">
+                                    <Button type="button" icon="pi pi-bell" severity="secondary" @click="toggle" class="min-w-48" />
+                            
+                                    <Popover ref="op">
+                                        <div class="flex flex-col gap-4">
+                                            <div>
+                                                <span class="font-medium block mb-2">Team Members</span>
+                                                <ul class="list-none p-0 m-0 flex flex-col">
+                                                    <div v-for="member in members" :key="member.name" class="flex items-center gap-2 px-2 py-3 hover:bg-emphasis cursor-pointer rounded-border" @click="selectMember(member)">
+                                                        <img :src="`https://primefaces.org/cdn/primevue/images/avatar/${member.image}`" style="width: 32px" />
+                                                        <div>
+                                                            <span class="font-medium">{{ member.name }}</span>
+                                                            <div class="text-sm text-surface-500 dark:text-surface-400">{{ member.email }}</div>
+                                                        </div>
+                                                    </div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </Popover>
+                            </li>
                         <li class="nav-item profile">
                             <div class="card flex justify-center">
                                 <SplitButton :label="userInformation.first_name" severity="secondary" text @click="save"
@@ -40,7 +60,7 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from "vue-router";
 import Loader from '@/components/Loading.vue';
-import { Button, SplitButton } from 'primevue';
+import { Button, Popover, SplitButton } from 'primevue';
 import Swal from 'sweetalert2';
 import Sidebar from '@/components/Admin_Sidebar.vue'
 
@@ -144,6 +164,24 @@ const sidebarBtn = () => {
         isSidebarActive.value = true
     }
 
+}
+//notification here!!
+
+const op = ref();
+const selectedMember = ref(null);
+const members = ref([
+    { name: 'Amy Elsner', image: 'amyelsner.png', email: 'amy@email.com', role: 'Owner' },
+    { name: 'Bernardo Dominic', image: 'bernardodominic.png', email: 'bernardo@email.com', role: 'Editor' },
+    { name: 'Ioni Bowcher', image: 'ionibowcher.png', email: 'ioni@email.com', role: 'Viewer' }
+]);
+
+const toggle = (event) => {
+    op.value.toggle(event);
+}
+
+const selectMember = (member) => {
+    selectedMember.value = member;
+    op.value.hide();
 }
 </script>
 <style scoped>
