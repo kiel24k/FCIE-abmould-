@@ -22,15 +22,16 @@
                                     <Button type="button" icon="pi pi-bell" severity="secondary" @click="toggle" class="min-w-48" />
                             
                                     <Popover ref="op">
-                                        <div class="flex flex-col gap-4">
+                                        <div class="pop flex flex-col gap-4">
                                             <div>
-                                                <span class="font-medium block mb-2">Team Members</span>
+                                                <span class="font-medium block mb-2">Notification</span>
                                                 <ul class="list-none p-0 m-0 flex flex-col">
-                                                    <div v-for="member in members" :key="member.name" class="flex items-center gap-2 px-2 py-3 hover:bg-emphasis cursor-pointer rounded-border" @click="selectMember(member)">
-                                                        <img :src="`https://primefaces.org/cdn/primevue/images/avatar/${member.image}`" style="width: 32px" />
+                                                    <div v-for="notif in notifs" :key="notif.name" class="flex items-center gap-2 px-2 py-3 hover:bg-emphasis cursor-pointer rounded-border" @click="selectMember(member)">
+                                                       <b></b>
                                                         <div>
-                                                            <span class="font-medium">{{ member.name }}</span>
-                                                            <div class="text-sm text-surface-500 dark:text-surface-400">{{ member.email }}</div>
+                                                            <b class="font-medium">{{ notif.message }}</b>
+                                                            <div class="text-sm text-surface-500 dark:text-surface-400">{{ notif.email }}</div>
+                                                            <div><small>{{ notif.role }}</small></div>
                                                         </div>
                                                     </div>
                                                 </ul>
@@ -165,14 +166,20 @@ const sidebarBtn = () => {
     }
 
 }
-//notification here!!
+//NOTIFICATION SECTION HERE!
 
 const op = ref();
 const selectedMember = ref(null);
-const members = ref([
-    { name: 'Amy Elsner', image: 'amyelsner.png', email: 'amy@email.com', role: 'Owner' },
-    { name: 'Bernardo Dominic', image: 'bernardodominic.png', email: 'bernardo@email.com', role: 'Editor' },
-    { name: 'Ioni Bowcher', image: 'ionibowcher.png', email: 'ioni@email.com', role: 'Viewer' }
+const notifs = ref([
+    { name: 'John Doe Member', message: 'Update the item', email: 'JohnDoe@email.com', role: 'Admin' },
+    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
+    { name: 'Ioni Bowcher', message: 'Delete the Item', email: 'ioni@email.com', role: 'TL' },
+    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
+    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
+    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
+    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
+    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
+    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
 ]);
 
 const toggle = (event) => {
@@ -218,5 +225,9 @@ header {
 
 .hideSidebarActive {
     transform: translate(-100%);
+}
+.pop{
+    max-height: 20rem;
+    overflow-y: scroll;
 }
 </style>
