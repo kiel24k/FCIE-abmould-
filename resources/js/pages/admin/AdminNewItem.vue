@@ -138,6 +138,8 @@ const user = (id) => {
     userInformation.value = id
 }
 const submit = () => {
+
+
     axios({
         method: 'POST',
         url: 'api/new-item',
