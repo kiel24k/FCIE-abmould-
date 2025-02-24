@@ -143,6 +143,7 @@ class AdminController extends Controller
         $item->brand         = $request->brand;
         // $item->barcode       = $request->barcode;
         $item->save();
+        NotificationController::addItemNotification();
         return response()->json($item);
     }
 

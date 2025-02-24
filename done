@@ -1,6 +1,9 @@
 
--Logs admin notification =>
--Idadagdag  yung "quantity" sa row =>  
+-Logs admin notification => UI / !backend => working
+-Idadagdag  yung "quantity" sa row => di ko pa magamit ung camera ko
 -Reduce dapat makita na yung mga description nasa in => 
 -yung sa notification stock pwedeng via email or sa system nadin =>
 -option to optional => done
+
+::not fix::
+SCROLLBAR NG SIDEBAR ADMIN, AYAW MAKITA ANG PINAKA BABANG DULO KAPAG NAG SCROLL
