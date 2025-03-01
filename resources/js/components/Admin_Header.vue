@@ -170,17 +170,18 @@ const sidebarBtn = () => {
 
 const op = ref();
 const selectedMember = ref(null);
-const notifs = ref([
-    { name: 'John Doe Member', message: 'Update the item', email: 'JohnDoe@email.com', role: 'Admin' },
-    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
-    { name: 'Ioni Bowcher', message: 'Delete the Item', email: 'ioni@email.com', role: 'TL' },
-    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
-    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
-    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
-    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
-    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
-    { name: 'Linus haven', message: 'Add new Item', email: 'Linus0404@email.com', role: 'Member' },
-]);
+const notifs = ref({})
+
+const NOTIFICATION_TABLE_API = async () => {
+  axios({
+    method: 'GET',
+    url: 'api/notification-table'
+  }).then(response => {
+    notifs.value = response.data
+    console.log(response.data);
+    
+  })
+}
 
 const toggle = (event) => {
     op.value.toggle(event);
@@ -190,6 +191,10 @@ const selectMember = (member) => {
     selectedMember.value = member;
     op.value.hide();
 }
+
+onMounted(() => {
+    NOTIFICATION_TABLE_API();
+})
 </script>
 <style scoped>
 header {

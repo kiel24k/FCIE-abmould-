@@ -77,6 +77,18 @@
                                                     <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                                                 </div>
                                             </th>
+                                            <th @click="sort('treshold')">
+                                                <div class="head-title">
+                                                    Treshold
+                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                                </div>
+                                            </th>
+                                            <th @click="sort('out_of_stock_notif')">
+                                                <div class="head-title">
+                                                    Days of out of stock notif
+                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
+                                                </div>
+                                            </th>
                                             <th @click="sort('description')">
                                                 <div class="head-title">
                                                     Description
@@ -99,6 +111,8 @@
                                             <td>{{ data.supplier_name }}</td>
                                             <td class="text-success">{{ data.unit_cost }}</td>
                                             <td>x{{ data.quantity }}</td>
+                                            <td>x{{ data.treshold }}</td>
+                                            <td>{{ data.out_of_stock_notif }}</td>
                                             <td>{{ data.description }}</td>
                                             <td>
                                                 <span class="action">
