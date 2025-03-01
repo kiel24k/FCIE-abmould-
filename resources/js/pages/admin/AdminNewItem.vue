@@ -1,3 +1,87 @@
+<script setup>
+import Header from '@/components/Admin_Header.vue'
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
+import { FloatLabel, InputText, Message, InputNumber, Select, Textarea, Button, InputGroup, DatePicker } from 'primevue';
+import Swal from 'sweetalert2';
+
+const router = useRouter()
+const userInformation = ref()
+
+
+const validation = ref({})
+const input = ref({
+    item_code: '',
+    supplier_name: '',
+    unit_cost: '',
+    quantity: '',
+    category: '',
+    treshold: '',
+    out_of_stock_notif: '',
+    description: '',
+    brand: ''
+})
+
+const user = (id) => {
+    userInformation.value = id
+}
+const submit = () => {
+
+
+    axios({
+        method: 'POST',
+        url: 'api/new-item',
+        data: {
+            user_id: userInformation.value.id,
+            item_code: input.value.item_code,
+            supplier_name: input.value.supplier_name,
+            unit_cost: input.value.unit_cost,
+            quantity: input.value.quantity,
+            treshold: input.value.treshold,
+            out_of_stock_notif: input.value.out_of_stock_notif,
+            category: input.value.category,
+            description: input.value.description,
+            brand: input.value.brand,
+            // barcode: barcodeValue.value
+        }
+    }).then(response => {
+        console.log(response);
+        if (response.status = 200) {
+            router.push('/admin-inventory-list')
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Item Added!",
+                showConfirmButton: false,
+                timer: 2000
+            });
+        }
+    }).catch(res => {
+        console.log(res);
+        if (res.response.status == 422) {
+            validation.value = res.response.data.errors
+        }
+    })
+}
+
+const barcodeValue = ref(null)
+const selectBarcode = () => {
+    axios({
+        method: 'GET',
+        url: 'api/generate-barcode',
+    }).then(response => {
+        barcodeValue.value = response.data
+    })
+}
+const back = () => {
+    history.back()
+}
+onMounted(() => {
+    selectBarcode()
+})
+</script>
+
 <template>
     <header>
         <Header @user="user" />
@@ -62,28 +146,64 @@
                                     </template>
                                 </InputNumber>
                             </div>
+
                             <div class="col mt-3">
-                                <label for="">Type: <span class="text-danger" v-if="validation.category">
-                                    {{ validation.category[0] }}
-                                </span></label>
-                                <div class="card flex justify-center">
+                                <label for="">Treshold: <span class="text-danger" v-if="validation.treshold">{{
+                                    validation.treshold[0]
+                                }}</span></label>
+                                <InputNumber v-model="input.treshold" :invalid="validation.treshold"
+                                    inputId="horizontal-buttons" showButtons buttonLayout="horizontal" :step="1"
+                                    :min="1" fluid>
+                                    <template #incrementbuttonicon>
+                                        <span class="pi pi-plus" />
+                                    </template>
+                                    <template #decrementbuttonicon>
+                                        <span class="pi pi-minus" />
+                                    </template>
+                                </InputNumber>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col mt-3">
+                                    <label for="">Type: <span class="text-danger" v-if="validation.category">
+                                            {{ validation.category[0] }}
+                                        </span></label>
+                                    <div class="card flex justify-center">
                                         <FloatLabel variant="on">
-                                            <InputText id="label" v-model="input.category" :invalid="validation.category" variant="filled" size="medium"
+                                            <InputText id="label" v-model="input.category"
+                                                :invalid="validation.category" variant="filled" size="medium"
                                                 class="form-control" />
                                             <label for="label">Item type | Category</label>
                                         </FloatLabel>
+                                    </div>
+                                </div>
+
+                                <div class="col mt-3">
+                                    <label for="">Days until out of stock notif: <span class="text-danger"
+                                            v-if="validation.out_of_stock_notif">{{
+                                                validation.out_of_stock_notif[0] }}</span></label>
+                                    <div class="card flex justify-center">
+                                        <FloatLabel variant="on">
+                                            <DatePicker v-model="input.out_of_stock_notif"
+                                                :invalid="validation.out_of_stock_notif" inputId="in_label" fluid
+                                                showIcon iconDisplay="input" variant="filled" size="medium" />
+                                            <label for="in_label">Date</label>
+                                        </FloatLabel>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
 
-                                
+
                                 <label for="">Description: <span class="text-danger" v-if="validation.description">
                                         {{ validation.description[0] }}
                                     </span></label>
-                                <Textarea name="" :invalid="validation.description" id="" cols="30" rows="10" autoResize class="form-control"
-                                    v-model="input.description"></Textarea>
+                                <Textarea name="" :invalid="validation.description" id="" cols="30" rows="10" autoResize
+                                    class="form-control" v-model="input.description"></Textarea>
 
 
                             </div>
@@ -100,8 +220,10 @@
                         <input type="hidden" v-model="barcodeValue">
                         <div class="row text-end">
                             <div class="col action">
-                                <Button label="Back" icon="pi pi-arrow-circle-left" severity="danger m-2 " raised @click="back"/>
-                                <Button label="Save" icon="pi pi-check" iconPos="right" severity="success m-2" raised @click.enter="submit"/>
+                                <Button label="Back" icon="pi pi-arrow-circle-left" severity="danger m-2 " raised
+                                    @click="back" />
+                                <Button label="Save" icon="pi pi-check" iconPos="right" severity="success m-2" raised
+                                    @click.enter="submit" />
                             </div>
                         </div>
                     </div>
@@ -111,85 +233,7 @@
     </div>
 </template>
 
-<script setup>
-import Header from '@/components/Admin_Header.vue'
-import axios from 'axios';
-import { onMounted, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { FloatLabel, InputText, Message, InputNumber, Select, Textarea, Button, InputGroup } from 'primevue';
-import Swal from 'sweetalert2';
 
-const router = useRouter()
-const userInformation = ref()
-
-
-const validation = ref({})
-const input = ref({
-    item_code: '',
-    supplier_name: '',
-    unit_cost: '',
-    quantity: '',
-    category: '',
-    description: '',
-    brand: ''
-})
-
-const user = (id) => {
-    userInformation.value = id
-}
-const submit = () => {
-
-
-    axios({
-        method: 'POST',
-        url: 'api/new-item',
-        data: {
-            user_id: userInformation.value.id,
-            item_code: input.value.item_code,
-            supplier_name: input.value.supplier_name,
-            unit_cost: input.value.unit_cost,
-            quantity: input.value.quantity,
-            category: input.value.category,
-            description: input.value.description,
-            brand: input.value.brand,
-            // barcode: barcodeValue.value
-        }
-    }).then(response => {
-        console.log(response);
-        if (response.status = 200) {
-            router.push('/admin-inventory-list')
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Item Added!",
-                showConfirmButton: false,
-                timer: 2000
-            });
-        }
-    }).catch(res => {
-        console.log(res);
-        if (res.response.status == 422) {
-            validation.value = res.response.data.errors
-        }
-    })
-}
-
-const barcodeValue = ref(null)
-const selectBarcode = () => {
-    axios({
-        method: 'GET',
-        url: 'api/generate-barcode',
-    }).then(response => {
-        barcodeValue.value = response.data
-    })
-}
-const back = () => {
-    history.back()
-}
-onMounted(() => {
-    selectBarcode()
-})
-</script>
 
 <style scoped>
 form {
@@ -199,10 +243,11 @@ form {
     gap: 25px;
     border-radius: 10px;
     padding: 10px;
-    
-  
+
+
 }
-.card-main{
+
+.card-main {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }

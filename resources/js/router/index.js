@@ -79,8 +79,18 @@ const routes = [
     },
     {
         path: "/admin-schedule-request",
-        name: 'admin-schedule-request',
-        component: () => import('../pages/admin/Admin_Request_Schedule.vue')
+        name: "admin-schedule-request",
+        component: () => import("../pages/admin/Admin_Request_Schedule.vue"),
+    },
+    {
+        path: "/admin-track-low-stock",
+        name: "admin-track-low-stock",
+        component: () => import("../pages/admin/Admin_Track_Low_Stock.vue"),
+    },
+    {
+        path: "/admin-set-stock",
+        name: "admin-set-stock",
+        component: () => import("../pages/admin/Admin_Set_Stock.vue"),
     },
 
     {
@@ -118,8 +128,9 @@ const routes = [
     },
     {
         path: "/inventory-manager-schedule-request",
-        name: 'inventory-manager-schedule-request',
-        component: () => import('../pages/inventory-manager/IM_Request_Schedule.vue')
+        name: "inventory-manager-schedule-request",
+        component: () =>
+            import("../pages/inventory-manager/IM_Request_Schedule.vue"),
     },
     {
         path: "/member-dashboard",
@@ -172,10 +183,10 @@ const routes = [
         component: () => import("../pages/TL/TL_Scan_Item_View.vue"),
     },
     {
-        path: '/TL-schedule-request',
-        name: 'TL-schedule-request',
-        component: () => import('../pages/TL/TL_Request_Schedule.vue')
-    }
+        path: "/TL-schedule-request",
+        name: "TL-schedule-request",
+        component: () => import("../pages/TL/TL_Request_Schedule.vue"),
+    },
 ];
 
 const router = createRouter({

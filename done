@@ -5,5 +5,12 @@
 -yung sa notification stock pwedeng via email or sa system nadin =>
 -option to optional => done
 
+::now::
+-create a Modal that update the treshold
+-create a table for set stock
+-create a low stock notification on header and show all low stock list
+-create category management sa sidebar
+
+
 ::not fix::
 SCROLLBAR NG SIDEBAR ADMIN, AYAW MAKITA ANG PINAKA BABANG DULO KAPAG NAG SCROLL

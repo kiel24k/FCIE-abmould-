@@ -8,21 +8,19 @@ use Illuminate\Support\Facades\DB;
 
 class NotificationController extends Controller
 {
-
-    private $message = "Added Item";
-
-    public static function addItemNotification()
+    public static function addItemNotification($id)
     {
         $data = new Notification();
-        $data->user_id = 4;
-        $data->message = "Added Item";
+        $data->user_id = $id;
+        $data->message = "Added new Item";
         $data->save();
     }
 
-    public function getJoinTable()
+    public function getNotificationTable()
     {
      $users = DB::table('notifications')
-            ->join('users', 'users.id', '=', 'notifications.user_id')  // Correct the join condition
+            ->join('users', 'users.id', '=', 'notifications.user_id') 
+            ->orderBy('notifications.id', 'DESC') // Correct the join condition
             ->get();
             return response()->json($users);
     }

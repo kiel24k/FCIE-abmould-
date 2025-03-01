@@ -57,6 +57,9 @@ Route::controller(AdminController::class)->group(function () {
 
     route::get('/low-stock-alert', 'lowStockAlert');
     route::post('/change-password', 'changePassword');
+    
+    route::get('/stock-category', 'stockCategory');
+    route::get('/get-track-low-stock', 'getTrackLowStock');
 
     Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');
@@ -110,4 +113,4 @@ route::controller(HistoryController::class)->group(function () {
 
 Route::post('/low-stock-email', [AnnouncementController::class, 'lowStockAlert']);
 
-route::get('/notification-test', [NotificationController::class, 'getJoinTable']);
+route::get('/notification-table', [NotificationController::class, 'getNotificationTable']);
