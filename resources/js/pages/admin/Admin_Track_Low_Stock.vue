@@ -2,6 +2,9 @@
 import Header from '@/components/Admin_Header.vue'
 import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
 import { onMounted, ref, watch } from 'vue';
+import TrackLowStockModal from '@/components/Admin_Track_Low_Stock_Adjust_Treshold_Modal.vue'
+
+const isModal = ref(false)
 
 const selectedCategory = ref('')
 const search = ref('')
@@ -15,6 +18,7 @@ const pagination = ref({
     last_page: null,
     page: 1
 })
+
 
 const GET_TRACK_LOW_STOCK_CATEGORY_API = async () => {
     await axios({
@@ -76,7 +80,13 @@ const next = () => {
     if(pagination.value.last_page > pagination.value.current_page){
         GET_TRACK_LOW_STOCK_API(pagination.value.current_page + 1)
     }
-   
+}
+const openAdjustTresholdModal = () => {
+    isModal.value = true
+}
+
+const closeAdjustTresholdModal = () => {
+    isModal.value = false
 }
 
 watch(selectedCategory, (oldVal, newVal) => {
@@ -99,6 +109,7 @@ onMounted(() => {
     <header>
         <Header />
     </header>
+    <TrackLowStockModal v-if="isModal" @closeAdjustTresholdModal="closeAdjustTresholdModal"/>
 
     <section>
         <div class="row bg-white p-3">
@@ -174,7 +185,7 @@ onMounted(() => {
                         <td>x{{ data.treshold }}</td>
                         <td>{{ data.out_of_stock_notif }}</td>
                         <td>
-                            <Button label="Adjust Treshold" severity="info" icon="pi pi-pencil" raised />
+                            <Button label="Adjust Treshold" severity="info" icon="pi pi-pencil" raised @click="openAdjustTresholdModal()"  />
                         </td>
                     </tr>
                 </tbody>
