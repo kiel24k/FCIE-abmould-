@@ -161,6 +161,7 @@ import AdminViewModal from '@/components/Admin_View_Modal.vue'
 import DeleteItemModal from '@/components/Admin_Delete_Inventory_Modal_Logout.vue'
 import Loading from '@/components/Loading.vue'
 import html2pdf from 'html2pdf.js';
+
 import { Button, InputText, InputGroup, InputGroupAddon } from 'primevue';
 
 const isSidebarHidden = ref(false);
