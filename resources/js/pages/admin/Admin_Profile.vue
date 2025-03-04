@@ -4,34 +4,27 @@ import { Button, Image, Message } from 'primevue';
 import { onMounted, ref } from 'vue';
 import 'primeicons/primeicons.css'
 import Swal from 'sweetalert2';
+import editProfileModal from '@/components/Admin_Edit_Profile.vue';
 
+
+const isEditProfileModal = ref(false)
 const userInformation = ref([])
 
 
 const user = (userData) => {
     userInformation.value = userData
+    
+}
+const editProfileBtn = () => {
+    isEditProfileModal.value = true
 }
 
-const editProfile = () => {
-    Swal.fire({
-  title: "profile => not done/ ongoing",
-  showClass: {
-    popup: `
-      animate__animated
-      animate__fadeInUp
-      animate__faster
-    `
-  },
-  hideClass: {
-    popup: `
-      animate__animated
-      animate__fadeOutDown
-      animate__faster
-    `
-  }
-});
-
+const closeModal = () => {
+    isEditProfileModal.value = false
 }
+
+
+
 
 
 </script>
@@ -40,6 +33,8 @@ const editProfile = () => {
     <header>
         <Header @user="user" />
     </header>
+    <editProfileModal v-if="isEditProfileModal" @closeModal="closeModal" :userInformation="userInformation"/>
+   
     <section class="row mt-4" id="profile">
         <div class="col">
             <figure>
@@ -56,7 +51,7 @@ const editProfile = () => {
         </div>
         <div class="col profile-action">
             <div class="">
-                <Button @click="editProfile" icon="pi pi-file-edit" label="edit" raised severity="info"/>
+                <Button @click="editProfileBtn" icon="pi pi-file-edit" label="edit" raised severity="info"/>
             </div>
         </div>
     </section>

@@ -18,9 +18,12 @@ return new class extends Migration
             $table->string('supplier_name')->nullable();
             $table->decimal('unit_cost', 10, 2)->nullable();
             $table->integer('quantity')->nullable();
+            $table->integer('treshold')->nullable();
             $table->string('category');
+            $table->string('out_of_stock_notif')->nullable();
             $table->string('description');
             $table->string('brand')->nuillable();
+            $table->date('release_date')->nullable();
             $table->timestamps();
         });
     }

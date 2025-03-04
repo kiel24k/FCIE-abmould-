@@ -9,6 +9,7 @@ use App\Http\Controllers\InventoryManagerController;
 
 
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TlController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -55,6 +56,10 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/category', 'category');
 
     route::get('/low-stock-alert', 'lowStockAlert');
+    route::post('/change-password', 'changePassword');
+    
+    route::get('/stock-category', 'stockCategory');
+    route::get('/get-track-low-stock', 'getTrackLowStock');
 
     Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');
@@ -107,3 +112,5 @@ route::controller(HistoryController::class)->group(function () {
 
 
 Route::post('/low-stock-email', [AnnouncementController::class, 'lowStockAlert']);
+
+route::get('/notification-table', [NotificationController::class, 'getNotificationTable']);

@@ -4,8 +4,7 @@
         <ul>
             <router-link :to="{ name: 'admin-dashboard' }">
                 <li>
-                    <img src="/public/icon/dashboard_icon.png" width="25px" alt="" 
-                         />
+                    <img src="/public/icon/dashboard_icon.png" width="25px" alt="" />
                     <span>Dashboard</span>
                 </li>
             </router-link>
@@ -49,6 +48,55 @@
                 </li>
             </router-link>
 
+            <a @click="stockManagement">
+                <li>
+                    <span>Stock Management</span>
+                    <i class="pi pi-chevron-down"></i>
+                </li>
+            </a>
+
+            <transition name="stock_animation">
+                <div class="stock_class" v-if="isStockManagement">
+                <router-link :to="{name: 'admin-track-low-stock'}">
+                    <li>
+                        <i class="pi pi-ellipsis-v"></i>
+                        <span>Track Low Stock</span>
+                    </li>
+                </router-link>
+                <router-link :to="{name: 'admin-set-stock'}">
+                    <li>
+                        <i class="pi pi-ellipsis-v"></i>
+                        <span>Set Stock</span>
+                    </li>
+                </router-link>
+
+
+            </div>
+              
+            </transition>
+
+            <a @click="userActivityLogs">
+                <li>
+                    <span>User Activity Logs</span>
+                    <i class="pi pi-chevron-down"></i>
+                </li>
+            </a>
+
+            <transition name="user_activity_logs_animation">
+                <a href="" v-if="isUserActivityLogs">
+                    <li>
+                        <i class="pi pi-ellipsis-v"></i>
+                        <span>Stock Adjustments</span>
+                    </li>
+                    <li>
+                        <i class="pi pi-ellipsis-v"></i>
+                        <span>Order Changes</span>
+                    </li>
+                </a>
+
+            </transition>
+
+
             <router-link :to="{ name: 'admin-user-list' }">
                 <li>
                     <img src="/public/icon/user_list_icon.png" width="25px" alt="" />
@@ -65,8 +113,26 @@ import Logout from '@/components/Logout_Modal.vue'
 const logoutModal = ref(false)
 
 const isHideSidebar = ref(false)
+const isStockManagement = ref(false)
+const isUserActivityLogs = ref(false)
 const cancel = () => {
     logoutModal.value = false
+}
+
+function stockManagement() {
+    if (isStockManagement.value === true) {
+        isStockManagement.value = false
+    } else {
+        isStockManagement.value = true
+    }
+}
+
+function userActivityLogs() {
+    if (isUserActivityLogs.value === true) {
+        isUserActivityLogs.value = false
+    } else {
+        isUserActivityLogs.value = true
+    }
 }
 
 
@@ -75,11 +141,11 @@ const cancel = () => {
 aside {
     width: 13.5rem;
     position: fixed;
-    height: 100%;
+    max-height: 100%;
+    overflow-y: scroll;
     overflow-x: hidden;
     background: rgb(255, 255, 255);
     transition: all linear 0.3s;
-
 }
 
 ul {
@@ -90,14 +156,14 @@ ul {
     padding-top: 10px;
 }
 
-a {
+a,.stock_class a {
     text-decoration: none;
     font-weight: 600;
     color: black;
     transition: all linear 0.2s;
 }
 
-a li {
+a li,.stock_class a {
     display: flex;
     align-items: center;
     gap: 20px;
@@ -107,6 +173,9 @@ a li {
 }
 
 a:hover {
+    background: rgb(231, 231, 231);
+}
+.stock_class a:hover{
     background: rgb(231, 231, 231);
 
 }
@@ -126,11 +195,39 @@ span {
     font-weight: 500;
 }
 
-.router-link-active,
-.router-link-exact-active {
-    background: rgb(232, 248, 248);
-    border-radius: 20px;
+.stock_animation-enter-active,
+.stock_animation-leave-active {
+    transition: all 0.5s ease;
+    overflow: hidden;
 }
 
+.stock_animation-enter-from,
+.stock_animation-leave-to {
+    opacity: 0;
+    max-height: 0;
+}
 
+.stock_animation-enter-to,
+.stock_animation-leave-from {
+    opacity: 1;
+    max-height: 100px;
+}
+
+.user_activity_logs_animation-enter-active,
+.user_activity_logs_animation-leave-active {
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+
+.user_activity_logs_animation-enter-from,
+.user_activity_logs_animation-leave-to {
+    opacity: 0;
+    max-height: 0;
+}
+
+.user_activity_logs_animation-enter-to,
+.user_activity_logs_animation-leave-from {
+    opacity: 1;
+    max-height: 100px;
+}
 </style>

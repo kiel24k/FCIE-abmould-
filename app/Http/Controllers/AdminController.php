@@ -9,6 +9,7 @@ use App\Models\ScannedItemsOut;
 use App\Models\Schedule;
 use App\Models\Tool_Inventory;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -128,6 +129,8 @@ class AdminController extends Controller
             'supplier_name' => 'nullable',
             'unit_cost'     => 'numeric',
             'quantity'      => 'numeric',
+            'out_of_stock_notif' => 'required',
+            'treshold' => 'required|numeric',
             'category'      => 'required',
             'description'   => 'required',
         ]);
@@ -139,10 +142,15 @@ class AdminController extends Controller
         $item->unit_cost     = $request->unit_cost;
         $item->quantity      = $request->quantity;
         $item->category      = $request->category;
+        $item->treshold     = $request->treshold;
+        $item->out_of_stock_notif   = Carbon::parse($request->out_of_stock_notif)->format('Y/m/d');
         $item->description   = $request->description;
         $item->brand         = $request->brand;
+        $item->release_date = Carbon::now()->format('y/m/d') .
+            NotificationController::addItemNotification($request->user_id);
         // $item->barcode       = $request->barcode;
         $item->save();
+
         return response()->json($item);
     }
 
@@ -177,6 +185,8 @@ class AdminController extends Controller
                     ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('treshold', 'LIKE', '%' . $searchTerm . '%')
+                    ->orWhere('out_of_stock_notif', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
             })
@@ -190,6 +200,8 @@ class AdminController extends Controller
                         ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
                         ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
                         ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('treshold', 'LIKE', '%' . $searchTerm . '%')
+                        ->orWhere('out_of_stock_notif', 'LIKE', '%' . $searchTerm . '%')
                         ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
                         ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
                 })
@@ -462,15 +474,101 @@ class AdminController extends Controller
         return response()->json($data);
     }
 
-    public function lowStockAlert () {
+    public function lowStockAlert()
+    {
         $data = DB::table('items')->sum('quantity');
         $alert = new AnnouncementController();
-        if($data <= 30){
+        if ($data <= 30) {
             $alert->lowStockAlert();
-        }else{
+        } else {
             return response()->json([
                 'status' => 200
             ]);
         }
     }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', 'string'],
+            'new_password' => ['required', 'string', 'min:8',]
+        ]);
+
+        $currentPasswordStatus = Hash::check($request->current_password, $request->old_password);
+        if (!$currentPasswordStatus) {
+            return response()->json([
+                'message' => "Password Doesn't match!",
+                'status' => 401
+            ]);
+        } else {
+            User::findOrFail($request->id)->update([
+                'password' => Hash::make($request->new_password)
+            ]);
+            return response()->json([
+                'message' => 'Password Update Change',
+                'status' => 200
+            ]);
+        }
+    }
+
+    public function stockCategory()
+    {
+        $data = Item::select('release_date')
+            ->orderBy('release_date', 'ASC')
+            ->get();
+        return response()->json($data);
+    }
+
+    public function getTrackLowStock(Request $request)
+    {
+        $sort = $request->query('sort','ASC');
+        $sortedName = $request->query('sortedName','category');
+        $paginate = 10;
+        if (empty($request->category) && empty($request->search)) {
+            $data = DB::table('items')
+                ->orderBy($sortedName, $sort)   
+                ->paginate($paginate);
+            return response()->json($data);
+        } else if (isset($request->category) && empty($request->search)) {
+            $data = DB::table('items')
+                ->where('release_date', $request->category)
+                ->orderBy($sortedName, $sort)  
+                ->paginate($paginate);
+            return response()->json($data);
+        } else if (empty($request->category) && isset($request->search)) {
+            $data = DB::table('items')
+                ->where('item_code', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('supplier_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('unit_cost', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('treshold', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('category', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('out_of_stock_notif', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('brand', 'LIKE', '%' . $request->search . '%')
+                ->orderBy($sortedName, $sort)  
+                ->paginate($paginate);
+            return response()->json($data);
+        } else if (isset($request->category) && isset($request->search)) {
+            $data = DB::table('items')
+                ->where('release_date', $request->category)
+                ->where(function ($query) use ($request) {
+                    $query->where('supplier_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('item_code', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('unit_cost', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('treshold', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('category', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('out_of_stock_notif', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('brand', 'LIKE', '%' . $request->search . '%');
+                })
+                ->orderBy($sortedName, $sort)  
+                ->paginate($paginate);
+                return response()->json($data);
+        }
+    }
+
+
+   
 }

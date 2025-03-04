@@ -15,9 +15,12 @@ class Item extends Model
         'supplier_name',
         'unit_cost',
         'quantity',
+        'treshold',
+        'out_of_stock_notif',
         'description',
         'category',
         'brand',
+        'release_date'
         // 'barcode'
     ];
 }
