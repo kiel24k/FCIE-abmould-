@@ -59,7 +59,8 @@ Route::controller(AdminController::class)->group(function () {
     route::post('/change-password', 'changePassword');
     
     route::get('/stock-category', 'stockCategory');
-    route::get('/get-track-low-stock', 'getTrackLowStock');
+    route::get('/get-stock', 'getStock');
+
 
     Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');

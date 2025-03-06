@@ -508,7 +508,7 @@ class AdminController extends Controller
         return response()->json($data);
     }
 
-    public function getTrackLowStock(Request $request)
+    public function getStock(Request $request)
     {
         $sort = $request->query('sort','ASC');
         $sortedName = $request->query('sortedName','category');

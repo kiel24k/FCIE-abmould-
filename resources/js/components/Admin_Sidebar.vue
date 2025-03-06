@@ -83,17 +83,22 @@
             </a>
 
             <transition name="user_activity_logs_animation">
-                <a href="" v-if="isUserActivityLogs">
-                    <li>
-                        <i class="pi pi-ellipsis-v"></i>
-                        <span>Stock Adjustments</span>
-                    </li>
-                    <li>
-                        <i class="pi pi-ellipsis-v"></i>
-                        <span>Order Changes</span>
-                    </li>
-                </a>
+           <div class="stock_class"  v-if="isUserActivityLogs">
+            <router-link :to="{name: 'admin-stock-adjustment'}">
+                <li>
+                    <i class="pi pi-ellipsis-v"></i>
+                    <span>Stock Adjustments</span>
+                </li>
+            </router-link>
+               <router-link>
+                <li>
+                    <i class="pi pi-ellipsis-v"></i>
+                    <span>Order Changes</span>
+                </li>
+               </router-link>
+         
 
+           </div>
             </transition>
 
 
