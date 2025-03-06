@@ -34,7 +34,7 @@ const GET_TRACK_LOW_STOCK_CATEGORY_API = async () => {
 const GET_TRACK_LOW_STOCK_API = async (page = pagination.value.page) => {
     await axios({
         method: 'GET',
-        url: `api/get-track-low-stock?page=${page}`,
+        url: `api/get-stock?page=${page}`,
         params: {
             category: selectedCategory.value,
             search: search.value,
