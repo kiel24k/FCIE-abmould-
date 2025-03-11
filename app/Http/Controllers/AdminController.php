@@ -129,7 +129,6 @@ class AdminController extends Controller
             'supplier_name' => 'nullable',
             'unit_cost'     => 'numeric',
             'quantity'      => 'numeric',
-            'out_of_stock_notif' => 'required',
             'treshold' => 'required|numeric',
             'category'      => 'required',
             'description'   => 'required',
@@ -143,7 +142,6 @@ class AdminController extends Controller
         $item->quantity      = $request->quantity;
         $item->category      = $request->category;
         $item->treshold     = $request->treshold;
-        $item->out_of_stock_notif   = Carbon::parse($request->out_of_stock_notif)->format('Y/m/d');
         $item->description   = $request->description;
         $item->brand         = $request->brand;
         $item->release_date = Carbon::now()->format('y/m/d') .
@@ -186,7 +184,6 @@ class AdminController extends Controller
                     ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('treshold', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('out_of_stock_notif', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
                     ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
             })
@@ -201,7 +198,6 @@ class AdminController extends Controller
                         ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
                         ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
                         ->orWhere('treshold', 'LIKE', '%' . $searchTerm . '%')
-                        ->orWhere('out_of_stock_notif', 'LIKE', '%' . $searchTerm . '%')
                         ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
                         ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
                 })
@@ -532,7 +528,6 @@ class AdminController extends Controller
                 ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('treshold', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('category', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('out_of_stock_notif', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('description', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('brand', 'LIKE', '%' . $request->search . '%')
                 ->orderBy($sortedName, $sort)  
@@ -548,7 +543,6 @@ class AdminController extends Controller
                         ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('treshold', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('category', 'LIKE', '%' . $request->search . '%')
-                        ->orWhere('out_of_stock_notif', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('description', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('brand', 'LIKE', '%' . $request->search . '%');
                 })

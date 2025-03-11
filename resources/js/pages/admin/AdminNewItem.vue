@@ -18,7 +18,6 @@ const input = ref({
     quantity: '',
     category: '',
     treshold: '',
-    out_of_stock_notif: '',
     description: '',
     brand: ''
 })
@@ -169,36 +168,17 @@ onMounted(() => {
                                     <label for="">Type: <span class="text-danger" v-if="validation.category">
                                             {{ validation.category[0] }}
                                         </span></label>
-                                    <div class="card flex justify-center">
                                         <FloatLabel variant="on">
                                             <InputText id="label" v-model="input.category"
                                                 :invalid="validation.category" variant="filled" size="medium"
-                                                class="form-control" />
+                                               />
                                             <label for="label">Item type | Category</label>
-                                        </FloatLabel>
-                                    </div>
-                                </div>
-
-                                <div class="col mt-3">
-                                    <label for="">Days until out of stock notif: <span class="text-danger"
-                                            v-if="validation.out_of_stock_notif">{{
-                                                validation.out_of_stock_notif[0] }}</span></label>
-                                    <div class="card flex justify-center">
-                                        <FloatLabel variant="on">
-                                            <DatePicker v-model="input.out_of_stock_notif"
-                                                :invalid="validation.out_of_stock_notif" inputId="in_label" fluid
-                                                showIcon iconDisplay="input" variant="filled" size="medium" />
-                                            <label for="in_label">Date</label>
-                                        </FloatLabel>
-                                    </div>
-
+                                        </FloatLabel>   
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
-
-
                                 <label for="">Description: <span class="text-danger" v-if="validation.description">
                                         {{ validation.description[0] }}
                                     </span></label>

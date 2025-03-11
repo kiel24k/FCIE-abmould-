@@ -83,12 +83,6 @@
                                                     <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
                                                 </div>
                                             </th>
-                                            <th @click="sort('out_of_stock_notif')">
-                                                <div class="head-title">
-                                                    Days of out of stock notif
-                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                                </div>
-                                            </th>
                                             <th @click="sort('description')">
                                                 <div class="head-title">
                                                     Description

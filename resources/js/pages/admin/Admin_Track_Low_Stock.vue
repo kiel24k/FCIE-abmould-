@@ -166,13 +166,6 @@ onMounted(() => {
                                 <i class="pi pi-sort-amount-down" v-else></i>
                             </div>
                         </th>
-                        <th @click="sort('out_of_stock_notif')">
-                            <div class="table-head">
-                                <span>Day Until notif-out-of-stock</span><i class="pi pi-sort-amount-up"
-                                    v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -183,7 +176,6 @@ onMounted(() => {
                         <td>{{ data.item_code }}</td>
                         <td>x{{ data.quantity }}</td>
                         <td>x{{ data.treshold }}</td>
-                        <td>{{ data.out_of_stock_notif }}</td>
                         <td>
                             <Button label="Adjust Treshold" severity="info" icon="pi pi-pencil" raised @click="openAdjustTresholdModal()"  />
                         </td>
