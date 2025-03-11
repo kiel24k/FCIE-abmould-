@@ -35,12 +35,40 @@
                     <span>Schedule Request</span>
                 </li>
             </router-link>
-            <router-link :to="{ name: 'admin-inventory-list' }">
+            <a @click="itemManagement">
                 <li>
-                    <img src="/public/icon/list_icon.png" width="25px" alt="" />
-                    <span>Item List</span>
+                    <span>Items</span>
+                    <i class="pi pi-chevron-down"></i>
                 </li>
-            </router-link>
+            </a>
+            <transition name="item_animation">
+                <div class="stock_class" v-if="isItemManagement">
+                    <router-link :to="{ name: 'admin-inventory-list' }">
+                        <li>
+                           <i class="pi pi-list"></i>
+                            <span>Item List</span>
+                        </li>
+                    </router-link>
+                    <router-link :to="{name: 'admin-set-stock'}">
+                        <li>
+                            <i class="pi pi-plus"></i>
+                            <span>New Item</span>
+                        </li>
+                    </router-link>
+                    <router-link :to="{name: 'admin-set-stock'}">
+                        <li>
+                            <i class="pi pi-list"></i>
+                            <span>Category List</span>
+                        </li>
+                    </router-link>
+                    <router-link :to="{name: 'admin-set-stock'}">
+                        <li>
+                            <i class="pi pi-plus"></i>
+                            <span>New Category</span>
+                        </li>
+                    </router-link>
+                </div>
+            </transition>
             <router-link :to="{ name: 'admin-scheduling' }">
                 <li>
                     <img src="/public/icon/schedulingIcon.svg" width="25px" alt="" />
@@ -120,6 +148,7 @@ const logoutModal = ref(false)
 const isHideSidebar = ref(false)
 const isStockManagement = ref(false)
 const isUserActivityLogs = ref(false)
+const isItemManagement = ref(false)
 const cancel = () => {
     logoutModal.value = false
 }
@@ -140,12 +169,19 @@ function userActivityLogs() {
     }
 }
 
+function itemManagement () {
+    if (isItemManagement.value === true) {
+        isItemManagement.value = false
+    } else {
+        isItemManagement.value = true
+    }
+}
 
 </script>
 <style scoped>
 aside {
     width: 13.5rem;
-    position: fixed;
+    position:fixed;
     max-height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -235,4 +271,26 @@ span {
     opacity: 1;
     max-height: 100px;
 }
+
+
+
+.item_animation-enter-active,
+.item_animation-leave-active {
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+
+.item_animation-enter-from,
+.item_animation-leave-to {
+    opacity: 0;
+    max-height: 0;
+}
+
+.item_animation-enter-to,
+.item_animation-leave-from {
+    opacity: 1;
+    max-height: 200px;
+}
+
+
 </style>

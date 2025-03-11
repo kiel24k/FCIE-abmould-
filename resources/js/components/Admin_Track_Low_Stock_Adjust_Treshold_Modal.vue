@@ -17,7 +17,7 @@ const closeAdjustTresholdModal = () => {
             <fieldset>
                 <form action="">
                         <div class="form-title ">
-                            <h5>Adjust Treshold</h5>
+                            <h5>Adjust Stock</h5>
                         </div>  
                     <div class="row mt-4 ">
                         <div class="col">
