@@ -95,9 +95,18 @@ const routes = [
     {
         path: "/admin-stock-adjustment",
         name: "admin-stock-adjustment",
-        component: () => import("../pages/admin/Admin_Stock_Management.vue")
+        component: () => import("../pages/admin/Admin_Stock_Management.vue"),
     },
-  
+    {
+        path: "/admin-category-list",
+        name: "admin-category-list",
+        component: () => import("../pages/admin/Admin_Category_List.vue"),
+    },
+    {
+        path: "/admin-new-category",
+        name: "admin-new-category",
+        component: () => import("../pages/admin/Admin_New_Category.vue")
+    },
 
     {
         path: "/inventory-manager-dashboard",

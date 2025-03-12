@@ -49,19 +49,19 @@
                             <span>Item List</span>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-set-stock'}">
+                    <router-link :to="{name: 'admin-new-item'}">
                         <li>
                             <i class="pi pi-plus"></i>
                             <span>New Item</span>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-set-stock'}">
+                    <router-link :to="{name: 'admin-category-list'}">
                         <li>
                             <i class="pi pi-list"></i>
                             <span>Category List</span>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-set-stock'}">
+                    <router-link :to="{name: 'admin-new-category'}">
                         <li>
                             <i class="pi pi-plus"></i>
                             <span>New Category</span>
