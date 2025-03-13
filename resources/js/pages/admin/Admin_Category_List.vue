@@ -1,6 +1,13 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
 import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
+const newCategoryBtn = () => {
+router.push("admin-new-category")
+}
+
 </script>
 
 <template>
@@ -29,7 +36,7 @@ import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue
                 <Button label="clear" severity="danger"/>           
             </div>
             <div class="col text-end list-action">
-                <Button label="New Category" icon="pi pi-plus" severity="info"/>
+                <Button label="New Category" icon="pi pi-plus" severity="info" @click="newCategoryBtn()"/>
                 <Button label="Print" icon="pi pi-print" severity="danger"/>
             </div>
         </div>

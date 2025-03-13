@@ -35,7 +35,7 @@
                     <span>Schedule Request</span>
                 </li>
             </router-link>
-            <a @click="itemManagement">
+            <a @click="itemManagement" class="route_option_name">
                 <li>
                     <span>Items</span>
                     <i class="pi pi-chevron-down"></i>
@@ -45,23 +45,23 @@
                 <div class="stock_class" v-if="isItemManagement">
                     <router-link :to="{ name: 'admin-inventory-list' }">
                         <li>
-                           <i class="pi pi-list"></i>
+                            <i class="pi pi-list"></i>
                             <span>Item List</span>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-new-item'}">
+                    <router-link :to="{ name: 'admin-new-item' }">
                         <li>
                             <i class="pi pi-plus"></i>
                             <span>New Item</span>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-category-list'}">
+                    <router-link :to="{ name: 'admin-category-list' }">
                         <li>
                             <i class="pi pi-list"></i>
                             <span>Category List</span>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-new-category'}">
+                    <router-link :to="{ name: 'admin-new-category' }">
                         <li>
                             <i class="pi pi-plus"></i>
                             <span>New Category</span>
@@ -76,7 +76,7 @@
                 </li>
             </router-link>
 
-            <a @click="stockManagement">
+            <a @click="stockManagement" class="route_option_name">
                 <li>
                     <span>Stock Management</span>
                     <i class="pi pi-chevron-down"></i>
@@ -85,57 +85,80 @@
 
             <transition name="stock_animation">
                 <div class="stock_class" v-if="isStockManagement">
-                <router-link :to="{name: 'admin-track-low-stock'}">
-                    <li>
-                        <i class="pi pi-ellipsis-v"></i>
-                        <span>Track Low Stock</span>
-                    </li>
-                </router-link>
-                <router-link :to="{name: 'admin-set-stock'}">
-                    <li>
-                        <i class="pi pi-ellipsis-v"></i>
-                        <span>Set Stock</span>
-                    </li>
-                </router-link>
+                    <router-link :to="{ name: 'admin-track-low-stock' }">
+                        <li>
+                            <i class="pi pi-ellipsis-v"></i>
+                            <span>Track Low Stock</span>
+                        </li>
+                    </router-link>
+                    <router-link :to="{ name: 'admin-set-stock' }">
+                        <li>
+                            <i class="pi pi-ellipsis-v"></i>
+                            <span>Set Stock</span>
+                        </li>
+                    </router-link>
 
 
-            </div>
-              
+                </div>
+
             </transition>
 
-            <a @click="userActivityLogs">
+            <a @click="userActivityLogs" class="route_option_name">
                 <li>
-                    <span>User Activity Logs</span>
+                    <span>Activity Logs</span>
                     <i class="pi pi-chevron-down"></i>
                 </li>
             </a>
 
             <transition name="user_activity_logs_animation">
-           <div class="stock_class"  v-if="isUserActivityLogs">
-            <router-link :to="{name: 'admin-stock-adjustment'}">
-                <li>
-                    <i class="pi pi-ellipsis-v"></i>
-                    <span>Stock Adjustments</span>
-                </li>
-            </router-link>
-               <router-link>
-                <li>
-                    <i class="pi pi-ellipsis-v"></i>
-                    <span>Order Changes</span>
-                </li>
-               </router-link>
-         
+                <div class="stock_class" v-if="isUserActivityLogs">
+                    <router-link :to="{ name: 'admin-stock-adjustment' }">
+                        <li>
+                            <i class="pi pi-ellipsis-v"></i>
+                            <span>Stock Adjustments</span>
+                        </li>
+                    </router-link>
+                    <router-link>
+                        <li>
+                            <i class="pi pi-ellipsis-v"></i>
+                            <span>Order Changes</span>
+                        </li>
+                    </router-link>
 
-           </div>
+
+                </div>
+            </transition>
+            <a @click="userManagement()" class="route_option_name">
+                <li>
+                    <span>User Management</span>
+                    <i class="pi pi-chevron-down"></i>
+                </li>
+            </a>
+
+            <transition name="user_management_animation">
+                <div class="stock_class" v-if="isUserManagement">
+                    <router-link :to="{ name: 'admin-user-list' }">
+                        <li>
+                            <i class="pi pi-users"></i>
+                            <span>All Users</span>
+                        </li>
+                    </router-link>
+                    <router-link>
+                        <li>
+                            <i class="pi pi-plus"></i>
+                            <span>Add New User</span>
+                        </li>
+                    </router-link>
+                    <router-link>
+                        <li>
+                            <i class="pi pi-pencil"></i>
+                            <span>Assign Roles</span>
+                        </li>
+                    </router-link>
+                </div>
             </transition>
 
 
-            <router-link :to="{ name: 'admin-user-list' }">
-                <li>
-                    <img src="/public/icon/user_list_icon.png" width="25px" alt="" />
-                    <span>User List</span>
-                </li>
-            </router-link>
         </ul>
     </aside>
 </template>
@@ -149,6 +172,7 @@ const isHideSidebar = ref(false)
 const isStockManagement = ref(false)
 const isUserActivityLogs = ref(false)
 const isItemManagement = ref(false)
+const isUserManagement = ref(false)
 const cancel = () => {
     logoutModal.value = false
 }
@@ -169,7 +193,7 @@ function userActivityLogs() {
     }
 }
 
-function itemManagement () {
+function itemManagement() {
     if (isItemManagement.value === true) {
         isItemManagement.value = false
     } else {
@@ -177,11 +201,19 @@ function itemManagement () {
     }
 }
 
+function userManagement() {
+    if (isUserManagement.value === true) {
+        isUserManagement.value = false
+    } else {
+        isUserManagement.value = true
+    }
+}
+
 </script>
 <style scoped>
 aside {
     width: 13.5rem;
-    position:fixed;
+    position: fixed;
     max-height: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
@@ -197,26 +229,36 @@ ul {
     padding-top: 10px;
 }
 
-a,.stock_class a {
+a,
+.stock_class a {
     text-decoration: none;
     font-weight: 600;
     color: black;
     transition: all linear 0.2s;
+
 }
 
-a li,.stock_class a {
+
+a li,
+.stock_class a {
     display: flex;
     align-items: center;
     gap: 20px;
     height: 50px;
     padding: 10px;
-    border-radius: 20px;
+  
+}
+
+.route_option_name li {
+    display: flex;
+    justify-content: space-between;
 }
 
 a:hover {
     background: rgb(231, 231, 231);
 }
-.stock_class a:hover{
+
+.stock_class a:hover {
     background: rgb(231, 231, 231);
 
 }
@@ -293,4 +335,22 @@ span {
 }
 
 
+
+.user_management_animation-enter-active,
+.user_management_animation-leave-active {
+    transition: all 0.5s ease;
+    overflow: hidden;
+}
+
+.user_management_animation-enter-from,
+.user_management_animation-leave-to {
+    opacity: 0;
+    max-height: 0;
+}
+
+.user_management_animation-enter-to,
+.user_management_animation-leave-from {
+    opacity: 1;
+    max-height: 200px;
+}
 </style>

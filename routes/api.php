@@ -55,13 +55,16 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/count-status', 'countStatus');
     route::get('/category', 'category');
 
+
+
     route::get('/low-stock-alert', 'lowStockAlert');
     route::post('/change-password', 'changePassword');
-    
+
     route::get('/stock-category', 'stockCategory');
     route::get('/get-stock', 'getStock');
 
-
+    //category list function
+    route::post('/post-category', 'postCategory');
     Route::get('/test', 'test');
     // route::get('/test/{category}/{search}','test');
 });
@@ -86,7 +89,7 @@ Route::controller(InventoryManagerController::class)->group(function () {
 Route::controller(MemberController::class)->group(function () {
     Route::get('/member-get-item', 'getItem');
     Route::get('/member-item-search-list', 'itemSearchList');
-    route::get('/member-category-list','category');
+    route::get('/member-category-list', 'category');
 });
 
 Route::controller(TlController::class)->group(function () {

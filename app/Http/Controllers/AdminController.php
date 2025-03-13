@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Item;
 use App\Models\Material;
 use App\Models\Scanned_Items;
@@ -144,8 +145,8 @@ class AdminController extends Controller
         $item->treshold     = $request->treshold;
         $item->description   = $request->description;
         $item->brand         = $request->brand;
-        $item->release_date = Carbon::now()->format('y/m/d') .
-            NotificationController::addItemNotification($request->user_id);
+        $item->release_date = Carbon::now()->format('y/m/d');
+        NotificationController::addItemNotification($request->user_id);
         // $item->barcode       = $request->barcode;
         $item->save();
 
@@ -506,18 +507,18 @@ class AdminController extends Controller
 
     public function getStock(Request $request)
     {
-        $sort = $request->query('sort','ASC');
-        $sortedName = $request->query('sortedName','category');
+        $sort = $request->query('sort', 'ASC');
+        $sortedName = $request->query('sortedName', 'category');
         $paginate = 10;
         if (empty($request->category) && empty($request->search)) {
             $data = DB::table('items')
-                ->orderBy($sortedName, $sort)   
+                ->orderBy($sortedName, $sort)
                 ->paginate($paginate);
             return response()->json($data);
         } else if (isset($request->category) && empty($request->search)) {
             $data = DB::table('items')
                 ->where('release_date', $request->category)
-                ->orderBy($sortedName, $sort)  
+                ->orderBy($sortedName, $sort)
                 ->paginate($paginate);
             return response()->json($data);
         } else if (empty($request->category) && isset($request->search)) {
@@ -530,7 +531,7 @@ class AdminController extends Controller
                 ->orWhere('category', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('description', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('brand', 'LIKE', '%' . $request->search . '%')
-                ->orderBy($sortedName, $sort)  
+                ->orderBy($sortedName, $sort)
                 ->paginate($paginate);
             return response()->json($data);
         } else if (isset($request->category) && isset($request->search)) {
@@ -546,12 +547,23 @@ class AdminController extends Controller
                         ->orWhere('description', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('brand', 'LIKE', '%' . $request->search . '%');
                 })
-                ->orderBy($sortedName, $sort)  
+                ->orderBy($sortedName, $sort)
                 ->paginate($paginate);
-                return response()->json($data);
+            return response()->json($data);
         }
     }
 
-
-   
+    public function postCategory(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'details' => 'required'
+        ]);
+        $category = new Category();
+        $category->name = $request->name;
+        $category->details = $request->details;
+        $category->release_date = Carbon::now()->format('y/m/d');
+        $category->save();
+        return response()->json($category);
+    }
 }
