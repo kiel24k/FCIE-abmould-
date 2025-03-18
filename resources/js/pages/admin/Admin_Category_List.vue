@@ -14,44 +14,83 @@ const search = ref('')
 const categoryListCategoryData = ref({})
 const categoryListTable = ref({})
 
+//COMPONENTS VARIABLES
+const sortOrder = ref('ASC')
+const sortName = ref('')
+const pagination = ref({
+    current_page: '',
+    last_page: ''
+
+})
 
 //API FUNCTIONS
-const CATEGORY_LIST_CATEGORY= async () => {
+const CATEGORY_LIST_CATEGORY = async () => {
     axios({
         method: 'GET',
         url: 'api/category-list-category'
     })
         .then(response => {
             categoryListCategoryData.value = response.data
+         
+            
         })
 }
 
 const CATEGORY_LIST = async (page = 1) => {
-   await axios({
+    await axios({
         method: 'GET',
         url: `api/category-list-table?page=${page}`,
         params: {
+            sortOrder: sortOrder.value,
+            sortName: sortName.value,
             category: selectedCategory.value,
             search: search.value
         }
     })
         .then(response => {
             categoryListTable.value = response.data
+            pagination.value = {
+                current_page: response.data.current_page,
+                last_page: response.data.last_page
+            }
+
+           
+            console.log(response.data);
+            
         })
         .catch(e => {
             console.log(e);
-            
+
         })
 }
 
-//Hooks
 
-
-
-onMounted(() => {
-    CATEGORY_LIST_CATEGORY()
+//COMPONENTS
+const sort = (val) => {
+    if (sortOrder.value === 'DESC') {
+        sortName.value = val
+        sortOrder.value = 'ASC'
+    } else {
+        sortName.value = val
+        sortOrder.value = 'DESC'
+    }
     CATEGORY_LIST()
-})
+
+}
+
+const prevBtn = () => {
+if(pagination.value.current_page <= pagination.value.last_page){
+    CATEGORY_LIST(pagination.value.current_page - 1)
+}
+}
+
+const nextBtn = () => {
+if(pagination.value.current_page < pagination.value.last_page){
+    CATEGORY_LIST(pagination.value.current_page + 1)
+}
+}
+
+
 
 
 
@@ -67,6 +106,13 @@ watch(search, (oldVal, newVal) => {
     CATEGORY_LIST()
 
 })
+
+//Hooks
+onMounted(() => {
+    CATEGORY_LIST_CATEGORY()
+    CATEGORY_LIST()
+})
+
 
 </script>
 
@@ -110,13 +156,13 @@ watch(search, (oldVal, newVal) => {
                 <table class="table table-bordered table-responsive">
                     <thead>
                         <tr>
-                            <th>
+                            <th @click="sort('name')">
                                 <div class="table_head">
                                     <span>Category Name</span>
                                     <i class="pi pi-sort-amount-down"></i>
                                 </div>
                             </th>
-                            <th>
+                            <th @click="sort('details')">
                                 <div class="table_head">
                                     <span>Details</span>
                                     <i class="pi pi-sort-amount-down"></i>
@@ -139,9 +185,9 @@ watch(search, (oldVal, newVal) => {
             </div>
             <div class="row">
                 <div class="col text-center">
-                    <Button label="Prev" />
-                    <span>1 of 2</span>
-                    <Button label="Next" />
+                    <Button label="Prev" @click="prevBtn()"/>
+                    <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                    <Button label="Next" @click="nextBtn()"/>
                 </div>
             </div>
         </div>

@@ -577,19 +577,20 @@ class AdminController extends Controller
     public function categoryListTable(Request $request)
     {
 
-
+        $sortOrder = $request->query('sortOrder', 'ASC');
+        $sortName = $request->query('sortName', 'name');
         if (empty($request->category) && empty($request->search)) {
-            $data = Category::orderBy('release_date')->paginate(1);
+            $data = Category::orderBy($sortName, $sortOrder)->paginate(5);
             return response()->json($data);
         } else if (isset($request->category) && empty($request->search)) {
             $data = Category::where('release_date', $request->category)
-                ->orderBy('release_date', 'ASC')
+                ->orderBy($sortName, $sortOrder)
                 ->paginate(5);
             return response()->json($data);
         } else if (empty($request->category) && isset($request->search)) {
             $data = Category::where('name', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('details', 'LIKE', '%' . $request->search . '%')
-                ->orderBy('release_date', 'ASC')
+                ->orderBy($sortName, $sortOrder)
                 ->paginate(5);
             return response()->json($data);
         } else if (isset($request->search) && isset($request->category)) {
@@ -598,7 +599,7 @@ class AdminController extends Controller
                     $query->where('name', 'LIKE', '%' . $request->search . '%')
                         ->orWhere('details', 'LIKE',  '%' . $request->search  . '%');
                 })
-                ->orderBy('release_date', 'ASC')
+                ->orderBy($sortName, $sortOrder)
                 ->paginate(5);
             return response()->json($data);
         }
