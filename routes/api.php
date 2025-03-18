@@ -55,6 +55,9 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/count-status', 'countStatus');
     route::get('/category', 'category');
 
+    route::get('category-list-category', 'categoryListCategory');
+    route::get('category-list-table', 'categoryListTable');
+
 
 
     route::get('/low-stock-alert', 'lowStockAlert');

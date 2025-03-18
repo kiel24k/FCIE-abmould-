@@ -566,4 +566,41 @@ class AdminController extends Controller
         $category->save();
         return response()->json($category);
     }
+
+    public function categoryListCategory()
+    {
+        $data = Category::select('release_date')
+            ->orderBy('release_date')->get();
+        return response()->json($data);
+    }
+
+    public function categoryListTable(Request $request)
+    {
+
+
+        if (empty($request->category) && empty($request->search)) {
+            $data = Category::orderBy('release_date')->paginate(1);
+            return response()->json($data);
+        } else if (isset($request->category) && empty($request->search)) {
+            $data = Category::where('release_date', $request->category)
+                ->orderBy('release_date', 'ASC')
+                ->paginate(5);
+            return response()->json($data);
+        } else if (empty($request->category) && isset($request->search)) {
+            $data = Category::where('name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('details', 'LIKE', '%' . $request->search . '%')
+                ->orderBy('release_date', 'ASC')
+                ->paginate(5);
+            return response()->json($data);
+        } else if (isset($request->search) && isset($request->category)) {
+            $data = Category::where('release_date', $request->category)
+                ->where(function ($query) use ($request) {
+                    $query->where('name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('details', 'LIKE',  '%' . $request->search  . '%');
+                })
+                ->orderBy('release_date', 'ASC')
+                ->paginate(5);
+            return response()->json($data);
+        }
+    }
 }

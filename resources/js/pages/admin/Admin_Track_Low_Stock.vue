@@ -43,7 +43,6 @@ const GET_TRACK_LOW_STOCK_API = async (page = pagination.value.page) => {
         }
     })
         .then(function (response) {
-            console.log(response.data);
             pagination.value = {
                 current_page: response.data.current_page,
                 last_page: response.data.last_page
