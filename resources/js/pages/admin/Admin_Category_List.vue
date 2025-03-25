@@ -82,6 +82,7 @@ const prevBtn = () => {
 if(pagination.value.current_page <= pagination.value.last_page){
     CATEGORY_LIST(pagination.value.current_page - 1)
 }
+
 }
 
 const nextBtn = () => {
