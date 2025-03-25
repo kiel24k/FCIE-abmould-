@@ -604,4 +604,25 @@ class AdminController extends Controller
             return response()->json($data);
         }
     }
+
+    public function getUpdateCategoryList (Request $request) {
+        $category = Category::find($request->id);
+        return response()->json($category);
+    }
+
+    public function updateCategoryLIst (Request $request) {
+        $request->validate([
+            'name' => 'required',
+            'details' => 'required'
+        ]);
+        $category = Category::find($request->id);
+        $category->name = $request->name;
+        $category->details = $request->details;
+        $category->update();
+
+        return response()->json($category);
+
+
+
+    }
 }

@@ -58,6 +58,9 @@ Route::controller(AdminController::class)->group(function () {
     route::get('category-list-category', 'categoryListCategory');
     route::get('category-list-table', 'categoryListTable');
 
+    route::get('get-update-category-list', 'getUpdateCategoryList');
+    
+
 
 
     route::get('/low-stock-alert', 'lowStockAlert');
