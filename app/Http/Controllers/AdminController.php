@@ -619,10 +619,6 @@ class AdminController extends Controller
         $category->name = $request->name;
         $category->details = $request->details;
         $category->update();
-
         return response()->json($category);
-
-
-
     }
 }

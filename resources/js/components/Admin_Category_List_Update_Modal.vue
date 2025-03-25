@@ -28,12 +28,25 @@ const getUpdateCategoryList = async () => {
         getUpdateCategoryListData.value = response.data
     }).catch(e => {
         console.log(e);
-        
-
     })
 }
 
  const submit = async () => {
+    axios({
+        method: 'POST',
+        url: 'api/update-category-list',
+        data: {
+            id: getUpdateCategoryListData.value.id,
+            name: getUpdateCategoryListData.value.name,
+            details: getUpdateCategoryListData.value.details
+        }
+    }).then(response => {
+        console.log(response);
+        
+    }).catch(e => {
+        console.log(e.response.data.errors);
+        
+    })
    
 }
 
@@ -55,12 +68,12 @@ onMounted(() => {
         <div class="content">
             <fieldset>
                 <form action="">
+                    <input type="hidden" v-model="getUpdateCategoryListData.id">
                     <div class="form-title ">
                         <h5>Update Category</h5>
                     </div>
                     <div class="row mt-4 ">
                         <div class="col">
-
                             <FloatLabel variant="on">
                                 <InputText id="on_label" fluid v-model="getUpdateCategoryListData.name"/>
                                 <label for="on_label">Category Name</label>
