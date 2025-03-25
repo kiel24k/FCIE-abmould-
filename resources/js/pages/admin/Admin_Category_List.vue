@@ -3,6 +3,7 @@ import Header from '@/components/Admin_Header.vue'
 import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
 import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import AdminCategoryListModal from "@/components/Admin_Category_List_Update_Modal.vue"
 
 const router = useRouter()
 
@@ -15,6 +16,8 @@ const categoryListCategoryData = ref({})
 const categoryListTable = ref({})
 
 //COMPONENTS VARIABLES
+const isCategoryListUpdateModal = ref(false)
+const categoryLIstId = ref(null)
 const sortOrder = ref('ASC')
 const sortName = ref('')
 const pagination = ref({
@@ -31,8 +34,6 @@ const CATEGORY_LIST_CATEGORY = async () => {
     })
         .then(response => {
             categoryListCategoryData.value = response.data
-         
-            
         })
 }
 
@@ -54,9 +55,9 @@ const CATEGORY_LIST = async (page = 1) => {
                 last_page: response.data.last_page
             }
 
-           
+
             console.log(response.data);
-            
+
         })
         .catch(e => {
             console.log(e);
@@ -79,16 +80,26 @@ const sort = (val) => {
 }
 
 const prevBtn = () => {
-if(pagination.value.current_page <= pagination.value.last_page){
-    CATEGORY_LIST(pagination.value.current_page - 1)
-}
+    if (pagination.value.current_page <= pagination.value.last_page) {
+        CATEGORY_LIST(pagination.value.current_page - 1)
+    }
 
 }
 
 const nextBtn = () => {
-if(pagination.value.current_page < pagination.value.last_page){
-    CATEGORY_LIST(pagination.value.current_page + 1)
+    if (pagination.value.current_page < pagination.value.last_page) {
+        CATEGORY_LIST(pagination.value.current_page + 1)
+    }
 }
+
+const editBtn = (val) => {
+    isCategoryListUpdateModal.value = true
+    categoryLIstId.value = val
+    
+}
+
+const closeCategoryListModal = () => {
+    isCategoryListUpdateModal.value = false
 }
 
 
@@ -118,14 +129,12 @@ onMounted(() => {
 </script>
 
 <template>
-
+    <AdminCategoryListModal v-if="isCategoryListUpdateModal" @closeCategoryListModal="closeCategoryListModal" :categoryLIstId="categoryLIstId" />
     <header>
         <Header />
     </header>
-
-
-
     <section>
+       
         <div class="row">
             <div class="col title">
                 <h1>Category List</h1>
@@ -177,7 +186,7 @@ onMounted(() => {
                             <td>{{ data.name }}</td>
                             <td>{{ data.details }}</td>
                             <td class="category_table_action">
-                                <Button icon="pi pi-pencil" severity="info" />
+                                <Button icon="pi pi-pencil" severity="info" @click="editBtn(data.id)" />
                                 <Button icon="pi pi-trash" severity="danger" />
                             </td>
                         </tr>
@@ -186,9 +195,9 @@ onMounted(() => {
             </div>
             <div class="row">
                 <div class="col text-center">
-                    <Button label="Prev" @click="prevBtn()"/>
+                    <Button label="Prev" @click="prevBtn()" />
                     <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                    <Button label="Next" @click="nextBtn()"/>
+                    <Button label="Next" @click="nextBtn()" />
                 </div>
             </div>
         </div>
