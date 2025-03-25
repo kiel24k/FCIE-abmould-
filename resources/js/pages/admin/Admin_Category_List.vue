@@ -100,6 +100,7 @@ const editBtn = (val) => {
 
 const closeCategoryListModal = () => {
     isCategoryListUpdateModal.value = false
+    CATEGORY_LIST()
 }
 
 

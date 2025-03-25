@@ -605,12 +605,14 @@ class AdminController extends Controller
         }
     }
 
-    public function getUpdateCategoryList (Request $request) {
+    public function getUpdateCategoryList(Request $request)
+    {
         $category = Category::find($request->id);
         return response()->json($category);
     }
 
-    public function updateCategoryLIst (Request $request) {
+    public function updateCategoryLIst(Request $request)
+    {
         $request->validate([
             'name' => 'required',
             'details' => 'required'
@@ -621,8 +623,10 @@ class AdminController extends Controller
         $category->update();
 
         return response()->json($category);
+    }
 
-
-
+    public function deleteCategory (Request $request) {
+        $category = Category::find($request->id)->delete();
+        return response()->json($category);
     }
 }
