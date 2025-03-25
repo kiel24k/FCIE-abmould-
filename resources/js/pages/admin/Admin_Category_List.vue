@@ -17,6 +17,7 @@ const categoryListTable = ref({})
 
 //COMPONENTS VARIABLES
 const isCategoryListUpdateModal = ref(false)
+const categoryTableId = ref(null)
 const categoryLIstId = ref(null)
 const sortOrder = ref('ASC')
 const sortName = ref('')
@@ -61,7 +62,6 @@ const CATEGORY_LIST = async (page = 1) => {
         })
         .catch(e => {
             console.log(e);
-
         })
 }
 
@@ -95,11 +95,21 @@ const nextBtn = () => {
 const editBtn = (val) => {
     isCategoryListUpdateModal.value = true
     categoryLIstId.value = val
-    
 }
 
 const closeCategoryListModal = () => {
     isCategoryListUpdateModal.value = false
+    CATEGORY_LIST()
+}
+
+const deleteBtn = (val) => {
+    axios({
+        method: 'GET',
+        url: 'api/delete-category',
+        params: {
+            id: val
+        }
+    })
     CATEGORY_LIST()
 }
 
@@ -188,7 +198,7 @@ onMounted(() => {
                             <td>{{ data.details }}</td>
                             <td class="category_table_action">
                                 <Button icon="pi pi-pencil" severity="info" @click="editBtn(data.id)" />
-                                <Button icon="pi pi-trash" severity="danger" />
+                                <Button icon="pi pi-trash" severity="danger" @click="deleteBtn(data.id)"/>
                             </td>
                         </tr>
                     </tbody>
