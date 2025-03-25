@@ -101,7 +101,7 @@ const closeCategoryListModal = () => {
     isCategoryListUpdateModal.value = false
     CATEGORY_LIST()
 }
-
+//commet
 const deleteBtn = (val) => {
     axios({
         method: 'GET',
