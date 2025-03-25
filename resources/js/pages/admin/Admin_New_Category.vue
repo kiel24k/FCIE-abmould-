@@ -67,8 +67,8 @@ const clicktBtn = () => {
                     <div class="card-body">
                         <div class="row">
                             <div class="col">
-                                <span class="text-danger" v-if="validation.name">{{ validation.name[0]
-                                    }}</span>
+                                <i class="text-danger" v-if="validation.name">{{ validation.name[0]
+                                    }}</i>
                                 <FloatLabel variant="on">
                                     <InputText id="Item Code" :invalid="validation.name" v-model="input.name"
                                         variant="filled" size="large" class="form-control" />
@@ -79,11 +79,15 @@ const clicktBtn = () => {
                        
                         <div class="row">
                             <div class="col">
-                                <label for="">Details: <span class="text-danger" v-if="validation.details">
+                                 <i class="text-danger" v-if="validation.details">
                                         {{ validation.details[0] }}
-                                    </span></label>
-                                <Textarea name="" :invalid="validation.details" id="" cols="30" rows="10" autoResize
-                                    class="form-control" v-model="input.details"></Textarea>
+                                    </i>
+                                    <FloatLabel variant="on">
+                                        <Textarea name="" :invalid="validation.details" id="" cols="30" rows="10" autoResize
+                                        class="form-control" v-model="input.details"></Textarea>
+                                        <label for="Item Code">Details</label>
+                                    </FloatLabel>
+                               
                             </div>
                         </div>
                         <div class="row">

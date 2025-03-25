@@ -4,6 +4,7 @@ import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue
 import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import AdminCategoryListModal from "@/components/Admin_Category_List_Update_Modal.vue"
+import Swal from 'sweetalert2';
 
 const router = useRouter()
 
@@ -103,13 +104,58 @@ const closeCategoryListModal = () => {
 }
 //commetdsadasdas
 const deleteBtn = (val) => {
+
+    const swalWithBootstrapButtons = Swal.mixin({
+  customClass: {
+    confirmButton: "btn btn-success",
+    cancelButton: "btn btn-danger"
+  },
+  buttonsStyling: false
+});
+swalWithBootstrapButtons.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonText: "Yes, delete it!",
+  cancelButtonText: "No, cancel!",
+  reverseButtons: true
+}).then((result) => {
+  if (result.isConfirmed) {
     axios({
         method: 'GET',
         url: 'api/delete-category',
         params: {
             id: val
         }
+    }).then(response => {
+        if (response.status === 200) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Deleted Successfull",   
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
     })
+    CATEGORY_LIST()
+
+    
+  } else if (
+    /* Read more about handling dismissals below */
+    result.dismiss === Swal.DismissReason.cancel
+  ) {
+    swalWithBootstrapButtons.fire({
+      title: "Cancelled",
+      text: "Delete not successfull",
+      icon: "error"
+    });
+  }
+});
+
+
+    
     CATEGORY_LIST()
 }
 
@@ -140,12 +186,13 @@ onMounted(() => {
 </script>
 
 <template>
-    <AdminCategoryListModal v-if="isCategoryListUpdateModal" @closeCategoryListModal="closeCategoryListModal" :categoryLIstId="categoryLIstId" />
+    <AdminCategoryListModal v-if="isCategoryListUpdateModal" @closeCategoryListModal="closeCategoryListModal"
+        :categoryLIstId="categoryLIstId" />
     <header>
         <Header />
     </header>
     <section>
-       
+
         <div class="row">
             <div class="col title">
                 <h1>Category List</h1>
@@ -198,7 +245,7 @@ onMounted(() => {
                             <td>{{ data.details }}</td>
                             <td class="category_table_action">
                                 <Button icon="pi pi-pencil" severity="info" @click="editBtn(data.id)" />
-                                <Button icon="pi pi-trash" severity="danger" @click="deleteBtn(data.id)"/>
+                                <Button icon="pi pi-trash" severity="danger" @click="deleteBtn(data.id)" />
                             </td>
                         </tr>
                     </tbody>
