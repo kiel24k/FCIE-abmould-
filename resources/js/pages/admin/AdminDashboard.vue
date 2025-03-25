@@ -1,51 +1,3 @@
-<template>
-    <header>
-        <Header />
-    </header>
-    <div class="row">
-        <div :class="isSidebarHidden ? 'col-0' : 'col-2'" :key="sidebar">
-            <Sidebar :class="{ hideSidebar: isSidebarHidden }" />
-        </div>
-        <div :class="isSidebarHidden ? 'col-12' : 'col-9'" key="content">
-            <div class="analytics py-3 px-5 border-info rounded">
-                <div class="content">
-                    <section class="item-count">
-                        <div class="text-center no-items">
-                            <b>Items</b>
-                           <div class="item-response">
-                            <h2>{{ dashboardApi.item }}</h2>
-                           </div>
-                        </div>
-                        <div class="text-center no-users">
-                            <b>Users</b>
-                            <div class="item-response">
-                                <h2>{{dashboardApi.user}}</h2>
-                            </div>
-                        </div>
-                    </section>
-                    <section>
-                        <div class="title">
-                            <h1>Dashboard</h1>
-                        </div>
-                        <div class="chart">
-                            <div>
-                                <BarChart />
-                            </div>
-                            <div>
-                                <LineChart />
-                            </div>
-                            <div class="pie">
-                                <Doughnut />
-                            </div>
-                        </div>
-                    </section>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
-
-
 <script setup>
 import { onMounted, ref } from 'vue';
 import Header from '@/components/Admin_Header.vue';
@@ -59,8 +11,8 @@ const dashboardApi = ref({})
 
 const DASHBOARD_COUNT_API = async () => {
     const response = await axios('api/dashboard-count')
-   dashboardApi.value = response.data
-    
+    dashboardApi.value = response.data
+
 }
 
 // const getInHistory = () => {
@@ -86,234 +38,201 @@ onMounted(() => {
 })
 </script>
 
+<template>
+    <header>
+        <Header />
+    </header>
+
+    <section >
+        <div class="row m-1">
+            <div class="summary_content">
+                <div class="title text-center">
+                    <b>Dashboard</b>
+                    <hr>
+                </div>
+                <div class="col total">
+                    <div class="user_total">
+                        <figure>
+                            <i class="pi pi-users"></i>
+                        </figure>
+                        <div class="content">
+                            <b>{{ dashboardApi.user }}</b>
+                            <span>Users</span>
+                        </div>
+                    </div>
+                    <div class="item_total">
+                        <figure>
+                            <i class="pi pi-book"></i>
+                        </figure>
+                        <div class="content">
+                            <b>{{ dashboardApi.item }}</b>
+                            <span>items</span>
+                        </div>
+                    </div>
+
+                    <div class="unit_cost_total">
+                        <figure>
+                            <i class="pi pi-briefcase"></i>
+                        </figure>
+                        <div class="content">
+                            <b>P{{ dashboardApi.user }}.00</b>
+                            <span>unit cost</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section>
+        <div class="row">
+            <div class="col computation">
+                <div class="chart">
+                    <div class="bg-white">
+                        <b>Line Chart</b>
+                        <LineChart />
+                    </div>
+                    <div class="bg-white">
+                        <b>Barchart</b>
+                        <BarChart />
+                    </div>
+                </div>
+                <div class="listing">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Total</th>
+                                <th>q</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Bill Gates</td>
+                                <td>23</td>
+                                <td>34x</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+</template>
+
+
+
+
 
 <style scoped>
-
-@media screen and (max-width: 1116px) {
- 
+section {
+    margin-top: 20px;
+    margin: 10px;
 }
 
-@media screen and (max-width: 768px){
-
-}
-@media screen and (min-width: 601px){
-    
-}
-.hideSidebar {
-    transform: translateX(-100%);
-    transition: transform 0.5s ease;
-}
-
-.sidebarVisible {
-    transform: translateX(0);
-}
-
-.col-0 {
-    width: 0;
-    overflow: hidden;
-    transition: width 0.5s ease;
-}
-.item-count{
-    display: flex;
-    gap:10px;
-    justify-content: start;
-    flex-wrap: wrap;
-}
-.item-count > div{
-    width: 12rem;
-    height: 12rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-.item-response{
+.summary_content {
     display: grid;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    height:10rem;
+    padding: 10px;
+    border: solid 2px rgb(231, 224, 224);
+    border-radius: 5px;
+    background: white;
+  
     
 }
-.no-items{
-    background-color: red; 
-    background-image: linear-gradient(to right, rgb(160, 236, 186) , rgb(91, 155, 8));
-}
-.no-users{
-    background-color: rgb(31, 143, 187); 
-    background-image: linear-gradient(to right, rgb(195, 246, 255) , rgb(10, 150, 185));
+
+.summary_content .title b {
+    color: rgb(139, 157, 165);
+    font-size: 15px;
 }
 
-@media screen and (min-width: 769px) {
-    .analytics {
-        display: flex;
-    }
+.total {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  
 
-    .analytics .content {
-        width: 100%;
-    }
 
-    .analytics .chart {
-        
-        
-    }
+}
+.chart > div{
 
-    .analytics .chart>div {
-       
-    }
-
-    .analytics section {
-        width: fit-content;
-        margin: auto;
-    }
-
-    .analytics .pie {
-        display: grid;
-        justify-content: center;
-        align-content: center;
-    }
-
-    #table {
-        margin: auto;
-        display: grid;
-        justify-content: center;
-
-    }
-
-    table {
-        margin: auto;
-        height: auto;
-        display: block;
-    }
-
-    table th {
-        color: rgb(94, 93, 93);
-        font-weight: 600;
-        position: sticky;
-        top: 0;
-    }
-
-    table td {
-
-        border-bottom: 2px solid white;
-    }
-
-    table .head-title {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .action {
-        display: flex;
-    }
-
-    table tbody button {
-        border-radius: 5px;
-        color: white;
-        border: 0px;
-        font-weight: 600;
-    }
-
-    .btnView {
-        background: none;
-    }
-
-    .btnUpdate {
-        background: none;
-    }
-
-    .btnDelete {
-        background: none;
-    }
-
-    .pagination {
-        display: grid;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .pagination-action button {
-        border-radius: 4px;
-        background-color: black;
-        color: white;
-        font-weight: 550;
-        width: 4rem;
-        text-align: center;
-    }
+}
+.total>div {
+    width: 240px;
+    height: 120px;
+    background: red;
+    display: flex;
+    gap: 10px;
+    justify-content: space-evenly;
+    align-items: center;
+    box-shadow: 0px 0px 2px 0px gray;
 }
 
-/* for small phones */
-@media screen and (max-width: 1116px) {
-    #table {
-        margin: auto;
-        max-width: 80rem;
-    }
-
-    table {
-        border: solid 1px rgb(211, 208, 208);
-        margin: auto;
-        height: 30rem;
-      
-        display: block;
-    }
-
-    table th {
-        color: rgb(94, 93, 93);
-        font-weight: 600;
-        border: solid 2px black;
-        border-bottom: 2px solid white;
-        position: sticky;
-        top: 0;
-    }
-
-    table td {
-        background-color: rgb(247, 243, 243);
-        border: solid 2px black;
-        border-bottom: 2px solid white;
-    }
-
-    table .head-title {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .action {
-        display: flex;
-    }
-
-    table tbody button {
-        border-radius: 5px;
-        color: white;
-        border: 0px;
-        font-weight: 600;
-    }
-
-    .btnView {
-        background: none;
-    }
-
-    .btnUpdate {
-        background: none;
-    }
-
-    .btnDelete {
-        background: none;
-    }
-
-    .pagination {
-        display: grid;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .pagination-action button {
-        border-radius: 4px;
-        background-color: black;
-        color: white;
-        font-weight: 550;
-        width: 4rem;
-        text-align: center;
-    }
+.total>div .content {
+    display: grid;
 }
 
-/* screen and tablets */
-@media screen and (min-width: 601px) {}
+.total>div .content b {
+    font-size: 25px;
+    color: rgb(255, 243, 219);
+}
+
+.total>div .content span {
+    font-weight: 600;
+    color: rgb(255, 243, 219);
+    text-transform: uppercase;
+}
+
+.total>div figure i {
+    font-size: 45px;
+    color: rgb(255, 243, 219);
+}
+
+.total .user_total {
+    background: rgb(250, 84, 91);
+}
+
+.total .item_total {
+    background: rgb(90, 201, 253);
+}
+
+.total .unit_cost_total {
+    background: orange;
+}
+
+.computation {
+    display: flex;
+    gap: 10px;
+
+}
+
+.computation .chart > div {
+    background: white;
+    border: solid 3px rgb(212, 216, 217);
+    padding:5px;
+    color:gray;
+    border-radius: 3px;
+}
+
+.computation .chart {
+    display: grid;
+    gap: 10px;
+
+}
+
+.listing table {
+    width: 45rem;
+    border: solid 3px rgb(212, 216, 217);
+    border-radius: 5px;
+}
+
+.listing table th {
+    font-weight: 200px;
+    color: rgb(138, 143, 148);
+}
 </style>

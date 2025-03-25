@@ -7,7 +7,7 @@
 
 	@vite('resources/css/app.css')
 </head>
-<body style="background-color:#F8F6F6">
+<body>
 	<div id="app"></div>
 
 	@vite('resources/js/app.js')
@@ -17,6 +17,9 @@
 		*{
 			font-size: 14px;
 			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif
+		}
+		body{
+			background: rgb(243, 244, 248);
 		}
 	 </style>
 </body>

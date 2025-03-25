@@ -1,5 +1,6 @@
 <template>
     <div class="lineChart">
+       
         <canvas id="lineChart" ref="lineChart"></canvas>
     </div>
 </template>
@@ -27,8 +28,8 @@ onMounted(async () => {
             datasets: [{
                 label: 'first 10 items newly added',
                 data: lineChartResponse.value.map((el) => el.unit_cost),
-                fill: false,
-                borderColor: 'rgb(75, 192, 192)',
+                fill: true,
+                borderColor: ' green',
                 tension: 0.1
             }]
         }
@@ -38,11 +39,8 @@ onMounted(async () => {
 
 <style scoped>
 #lineChart {
-    width: 100%;
-    max-height: 30rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-    margin-top: 2rem;
-    
+    width: 60rem;
+    max-height: 20rem;
+    background: white;
 }
 </style>

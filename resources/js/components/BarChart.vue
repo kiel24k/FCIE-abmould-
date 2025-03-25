@@ -36,7 +36,7 @@ const chartData = computed(() => ({
     datasets: [{
         label: 'consumed of recent used materials',
         data: dataOfSumCategory.value.map((el) => el.quantity),
-        backgroundColor: ['skyblue'],
+        backgroundColor: ['rgb(218, 71, 69)'],
     },],
     fill: false,
 }));
@@ -92,9 +92,9 @@ onMounted(() => {
 
 <style scoped>
 .bar {
-    width: 90rem;
+    width: 60rem;
     max-height: 30rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    background: white;
 }
 </style>
