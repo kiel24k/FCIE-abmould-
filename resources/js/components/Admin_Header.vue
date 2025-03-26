@@ -105,6 +105,8 @@ onMounted(() => {
         userInformation.value = response.data;
         loader.value = false;
         emit('user', userInformation.value)
+        
+        
     });
     if (!token) {
         router.push('/');
