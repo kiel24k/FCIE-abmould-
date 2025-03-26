@@ -1,37 +1,71 @@
 <script setup>
-import { Button, InputText } from 'primevue';
+import axios from 'axios';
+import { Button, FloatLabel, InputNumber, InputText } from 'primevue';
+import { onMounted, ref } from 'vue';
 
 const emit = defineEmits(['closeAdjustTresholdModal'])
+const props = defineProps(['tableId'])
 
-const submit = () => {
-    alert('Working...')
+//API VARIABLE
+const tresholdData = ref({})
+const validation = ref({})
+
+const GET_TRESHOLD_API = async () => {
+    await axios({
+        method: 'GET',
+        url: 'api/get-treshold',
+        params:{
+            id: props.tableId
+        }
+
+    }).then(response => {
+       tresholdData.value = response.data
+        
+    })
+}
+
+const submit =  async () => {
+    await axios({
+        method: 'POST',
+        url: 'api/update-treshold',
+        data: {
+            id: tresholdData.value.id,
+            treshold:tresholdData.value.treshold
+        }
+    }).then(response => {
+        console.log(response);
+        
+    }).catch(e => {
+       validation.value = e.response.data.errors
+        
+    })
 } 
 
 const closeAdjustTresholdModal = () => {
     emit('closeAdjustTresholdModal')
 }
+
+//HOOKS
+onMounted(() => {
+    GET_TRESHOLD_API()
+})
 </script>
 <template>
     <div class="modal-main">
         <div class="content">
             <fieldset>
                 <form action="">
+                    <input type="hidden" v-model="tresholdData.id">
                         <div class="form-title ">
                             <h5>Adjust Stock</h5>
                         </div>  
-                    <div class="row mt-4 ">
-                        <div class="col">
-                            <InputText placeholder="Current Stock" />
-                        </div>
-                    </div>
                     <div class="row mt-2">
                         <div class="col">
-                            <InputText placeholder="Current Treshold" />
-                        </div>
-                    </div>
-                    <div class="row mt-2">
-                        <div class="col">
-                            <InputText placeholder="Adjust Treshold" />
+                            <i class="text-danger" v-if="validation.treshold">{{ validation.treshold[0] }}</i>
+                            <FloatLabel variant="in">
+                                <InputNumber :useGrouping="false" v-model="tresholdData.treshold" />
+                                <label for="in_label">Adjust Treshold</label>
+                            </FloatLabel>
                         </div>
                     </div>
                     <div class="row mt-2">
