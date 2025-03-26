@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('stock_logs', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("user_id");
+            $table->enum("action", ["treshold","quantity"]);
+            $table->date("date_released");
+            $table->string("time");
             $table->timestamps();
         });
     }
