@@ -88,7 +88,7 @@
                     <router-link :to="{ name: 'admin-track-low-stock' }">
                         <li>
                             <i class="pi pi-ellipsis-v"></i>
-                            <span>Track Low Stock</span>
+                            <span>Set Treshold</span>
                         </li>
                     </router-link>
                     <router-link :to="{ name: 'admin-set-stock' }">
