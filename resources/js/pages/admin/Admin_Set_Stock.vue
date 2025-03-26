@@ -9,6 +9,7 @@ const isModal = ref(false)
 const selectedCategory = ref('')
 const search = ref('')
 
+const userId = ref()
 const tableId = ref()
 const getTrackLowStockCategory = ref({})
 const getTrackLowStockData = ref({})
@@ -19,6 +20,10 @@ const pagination = ref({
     last_page: null,
     page: 1
 })
+
+const user = (data) => {
+    userId.value = data.id
+}
 
 
 const GET_SET_STOCK_CATEGORY_API = async () => {
@@ -72,13 +77,13 @@ const clear = () => {
 }
 
 const prev = () => {
-  if(pagination.value.current_page <= pagination.value.last_page){
-    GET_SET_STOCK_API(pagination.value.current_page - 1)
-  }
+    if (pagination.value.current_page <= pagination.value.last_page) {
+        GET_SET_STOCK_API(pagination.value.current_page - 1)
+    }
 }
 
 const next = () => {
-    if(pagination.value.last_page > pagination.value.current_page){
+    if (pagination.value.last_page > pagination.value.current_page) {
         GET_SET_STOCK_API(pagination.value.current_page + 1)
     }
 }
@@ -110,18 +115,18 @@ onMounted(() => {
 
 <template>
     <header>
-        <Header />
+        <Header @user="user" />
     </header>
-  <SetStockTresholdModal v-if="isModal" @closeSetStockModal="closeSetStockModal"  :tableId="tableId"/>
+    <SetStockTresholdModal v-if="isModal" @closeSetStockModal="closeSetStockModal" :tableId="tableId" :userId="userId" />
 
     <section>
         <div class="row title">
             <Message severity="info" size="large" icon="pi pi-wrench" fluid>
-               SET ITEM STOCK
+                SET ITEM STOCK
             </Message>
         </div>
         <div class="row bg-white p-3">
-          
+
             <div class="col-3 category">
                 <Select v-model="selectedCategory" :options="getTrackLowStockCategory" optionLabel="release_date"
                     size="small" placeholder="Select a Date" class="w-full md:w-56" />
@@ -162,7 +167,7 @@ onMounted(() => {
                                 <i class="pi pi-sort-amount-down" v-else></i>
                             </div>
                         </th>
-                         <th @click="sort('treshold')">
+                        <th @click="sort('treshold')">
                             <div class="table-head">
                                 <span>Treshold</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
                                 <i class="pi pi-sort-amount-down" v-else></i>
@@ -170,12 +175,11 @@ onMounted(() => {
                         </th>
                         <th @click="sort('quantity')">
                             <div class="table-head">
-                                <span>Current Stock</span><i class="pi pi-sort-amount-up"
-                                    v-if="sortType === 'ASC'"></i>
+                                <span>Current Stock</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
                                 <i class="pi pi-sort-amount-down" v-else></i>
                             </div>
                         </th>
-                       
+
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -187,7 +191,8 @@ onMounted(() => {
                         <td>x{{ data.treshold }}</td>
                         <td>x{{ data.quantity }}</td>
                         <td>
-                            <Button label="Adjust Stock" severity="info" icon="pi pi-pencil" raised @click="openAdjustTresholdModal(data.id)"  />
+                            <Button label="Adjust Stock" severity="info" icon="pi pi-pencil" raised
+                                @click="openAdjustTresholdModal(data.id)" />
                         </td>
                     </tr>
                 </tbody>

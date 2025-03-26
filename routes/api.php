@@ -6,8 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\InventoryManagerController;
-
-
+use App\Http\Controllers\LogsController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\TlController;
@@ -68,8 +67,6 @@ Route::controller(AdminController::class)->group(function () {
     route::get('get-quantity', 'getQuantity');
     route::post('update-quantity', 'updateQuantity');
 
-
-
     route::get('/low-stock-alert', 'lowStockAlert');
     route::post('/change-password', 'changePassword');
 
@@ -127,7 +124,17 @@ route::controller(HistoryController::class)->group(function () {
     route::get('/get-in-history', 'getInHistory');
 });
 
+route::controller(LogsController::class)->group(function () {
+    route::post('treshold-logs', 'tresholdLogs');    
+    route::get('get-logs', 'getLogs');
+    route::get('test', 'test' );
+    route::delete('remove-logs', 'removeLogs');
+   
+});
+
+
 
 Route::post('/low-stock-email', [AnnouncementController::class, 'lowStockAlert']);
 
 route::get('/notification-table', [NotificationController::class, 'getNotificationTable']);
+

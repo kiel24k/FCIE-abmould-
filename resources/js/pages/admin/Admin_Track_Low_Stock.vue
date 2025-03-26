@@ -10,6 +10,7 @@ const selectedCategory = ref('')
 const search = ref('')
 
 const tableId = ref()
+const userId = ref()
 const getTrackLowStockCategory = ref({})
 const getTrackLowStockData = ref({})
 const sortType = ref('ASC')
@@ -19,6 +20,10 @@ const pagination = ref({
     last_page: null,
     page: 1
 })
+
+const user = (data) => {
+    userId.value = data.id
+}
 
 
 const GET_TRACK_LOW_STOCK_CATEGORY_API = async () => {
@@ -71,13 +76,13 @@ const clear = () => {
 }
 
 const prev = () => {
-  if(pagination.value.current_page <= pagination.value.last_page){
-    GET_TRACK_LOW_STOCK_API(pagination.value.current_page - 1)
-  }
+    if (pagination.value.current_page <= pagination.value.last_page) {
+        GET_TRACK_LOW_STOCK_API(pagination.value.current_page - 1)
+    }
 }
 
 const next = () => {
-    if(pagination.value.last_page > pagination.value.current_page){
+    if (pagination.value.last_page > pagination.value.current_page) {
         GET_TRACK_LOW_STOCK_API(pagination.value.current_page + 1)
     }
 }
@@ -109,14 +114,14 @@ onMounted(() => {
 
 <template>
     <header>
-        <Header />
+        <Header @user="user" />
     </header>
-    <TrackLowStockModal v-if="isModal" @closeAdjustTresholdModal="closeAdjustTresholdModal" :tableId="tableId"/>
+    <TrackLowStockModal v-if="isModal" @closeAdjustTresholdModal="closeAdjustTresholdModal" :tableId="tableId" :userId="userId" />
 
     <section>
         <div class="row title">
             <Message severity="info" size="large" icon="pi pi-wrench" fluid>
-               ADJUST TRESHOLD ITEM
+                ADJUST TRESHOLD ITEM
             </Message>
         </div>
         <div class="row bg-white p-3">
@@ -162,8 +167,7 @@ onMounted(() => {
                         </th>
                         <th @click="sort('quantity')">
                             <div class="table-head">
-                                <span>Current Stock</span><i class="pi pi-sort-amount-up"
-                                    v-if="sortType === 'ASC'"></i>
+                                <span>Current Stock</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
                                 <i class="pi pi-sort-amount-down" v-else></i>
                             </div>
                         </th>
@@ -184,7 +188,8 @@ onMounted(() => {
                         <td>x{{ data.quantity }}</td>
                         <td>x{{ data.treshold }}</td>
                         <td>
-                            <Button label="Adjust Treshold" severity="info" icon="pi pi-pencil" raised @click="openAdjustTresholdModal(data.id)"  />
+                            <Button label="Adjust Treshold" severity="info" icon="pi pi-pencil" raised
+                                @click="openAdjustTresholdModal(data.id)" />
                         </td>
                     </tr>
                 </tbody>

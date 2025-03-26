@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
 
 const emit = defineEmits(['closeSetStockModal'])
-const props = defineProps(['tableId'])
+const props = defineProps(['tableId','userId'])
 
 //API VARIABLE
 const quantityData = ref({})
@@ -31,6 +31,7 @@ const submit = async () => {
         method: 'POST',
         url: 'api/update-quantity',
         data: {
+            userId: props.userId,
             id: quantityData.value.id,
             quantity: quantityData.value.quantity
         }

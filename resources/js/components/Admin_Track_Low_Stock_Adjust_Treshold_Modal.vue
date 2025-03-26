@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
 
 const emit = defineEmits(['closeAdjustTresholdModal'])
-const props = defineProps(['tableId'])
+const props = defineProps(['tableId', 'userId'])
 
 //API VARIABLE
 const tresholdData = ref({})
@@ -26,10 +26,13 @@ const GET_TRESHOLD_API = async () => {
 }
 
 const submit = async () => {
+   
+    
     await axios({
         method: 'POST',
         url: 'api/update-treshold',
         data: {
+            userId: props.userId,
             id: tresholdData.value.id,
             treshold: tresholdData.value.treshold
         }

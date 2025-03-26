@@ -639,12 +639,14 @@ class AdminController extends Controller
 
     public function updateTreshold(Request $request)
     {
+        $userId = $request->userId;
         $request->validate([
             'treshold' => 'required|numeric'
         ]);
         $treshold = Item::find($request->id);
         $treshold->treshold = $request->treshold;
         $treshold->update();
+        LogsController::tresholdLogs($userId);
         return response()->json($treshold);
     }
 
@@ -656,14 +658,14 @@ class AdminController extends Controller
 
     public function updateQuantity(Request $request)
     {
-
+        $userId = $request->userId;
         $request->validate([
             'quantity' => 'required|numeric'
         ]);
         $stock = Item::find($request->id);
-        
         $stock->quantity = $request->quantity;
         $stock->update();
+        LogsController::quantityLogs($userId);
         return response()->json($stock);
     }
 }
