@@ -9,6 +9,7 @@ const isModal = ref(false)
 const selectedCategory = ref('')
 const search = ref('')
 
+const tableId = ref()
 const getTrackLowStockCategory = ref({})
 const getTrackLowStockData = ref({})
 const sortType = ref('ASC')
@@ -80,7 +81,8 @@ const next = () => {
         GET_TRACK_LOW_STOCK_API(pagination.value.current_page + 1)
     }
 }
-const openAdjustTresholdModal = () => {
+const openAdjustTresholdModal = (id) => {
+    tableId.value = id
     isModal.value = true
 }
 
@@ -108,7 +110,7 @@ onMounted(() => {
     <header>
         <Header />
     </header>
-    <TrackLowStockModal v-if="isModal" @closeAdjustTresholdModal="closeAdjustTresholdModal"/>
+    <TrackLowStockModal v-if="isModal" @closeAdjustTresholdModal="closeAdjustTresholdModal" :tableId="tableId"/>
 
     <section>
         <div class="row bg-white p-3">
@@ -176,7 +178,7 @@ onMounted(() => {
                         <td>x{{ data.quantity }}</td>
                         <td>x{{ data.treshold }}</td>
                         <td>
-                            <Button label="Adjust Treshold" severity="info" icon="pi pi-pencil" raised @click="openAdjustTresholdModal()"  />
+                            <Button label="Adjust Treshold" severity="info" icon="pi pi-pencil" raised @click="openAdjustTresholdModal(data.id)"  />
                         </td>
                     </tr>
                 </tbody>

@@ -62,6 +62,9 @@ Route::controller(AdminController::class)->group(function () {
     route::post('update-category-list', 'updateCategoryList');
     route::get('delete-category', 'deleteCategory');
 
+    route::get('get-treshold', 'getTreshold');
+    route::post('update-treshold', 'updateTreshold');
+
 
 
     route::get('/low-stock-alert', 'lowStockAlert');

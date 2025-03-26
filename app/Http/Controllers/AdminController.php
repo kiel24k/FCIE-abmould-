@@ -629,4 +629,19 @@ class AdminController extends Controller
         $category = Category::find($request->id)->delete();
         return response()->json($category);
     }
+
+    public function getTreshold(Request $request) {
+        $treshold = Item::find($request->id);
+        return response()->json($treshold);
+    }
+
+    public function updateTreshold(Request $request){
+        $request->validate([
+            'treshold' => 'required|numeric'
+        ]);
+        $treshold = Item::find($request->id);
+        $treshold->treshold = $request->treshold;
+        $treshold->update();
+        return response()->json($treshold);
+    }
 }
