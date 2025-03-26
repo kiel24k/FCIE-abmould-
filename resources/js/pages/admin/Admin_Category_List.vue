@@ -1,6 +1,6 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
-import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
+import { Button, InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue';
 import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import AdminCategoryListModal from "@/components/Admin_Category_List_Update_Modal.vue"
@@ -191,14 +191,15 @@ onMounted(() => {
     <header>
         <Header />
     </header>
+    
     <section>
 
-        <div class="row">
-            <div class="col title">
-                <h1>Category List</h1>
-            </div>
+        <div class="row title">
+            <Message severity="info" size="large" icon="pi pi-wrench" fluid>
+               CATEGORY LIST
+            </Message>
         </div>
-        <div class="row">
+        <div class="row mt-3">
             <div class="col-3 table-option">
                 <Select placeholder="Category" v-model="selectedCategory" :options="categoryListCategoryData"
                     optionLabel="release_date" />

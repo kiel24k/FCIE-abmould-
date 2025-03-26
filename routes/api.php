@@ -65,6 +65,9 @@ Route::controller(AdminController::class)->group(function () {
     route::get('get-treshold', 'getTreshold');
     route::post('update-treshold', 'updateTreshold');
 
+    route::get('get-quantity', 'getQuantity');
+    route::post('update-quantity', 'updateQuantity');
+
 
 
     route::get('/low-stock-alert', 'lowStockAlert');
