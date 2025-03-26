@@ -224,6 +224,7 @@ onMounted(() => {
                 <table class="table table-bordered table-responsive">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th @click="sort('name')">
                                 <div class="table_head">
                                     <span>Category Name</span>
@@ -241,6 +242,7 @@ onMounted(() => {
                     </thead>
                     <tbody>
                         <tr v-for="(data, index) in categoryListTable.data" :key="index">
+                            <td>{{ index + 1 }}</td>
                             <td>{{ data.name }}</td>
                             <td>{{ data.details }}</td>
                             <td class="category_table_action">
