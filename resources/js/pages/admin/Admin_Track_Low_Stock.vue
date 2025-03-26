@@ -87,6 +87,7 @@ const openAdjustTresholdModal = (id) => {
 }
 
 const closeAdjustTresholdModal = () => {
+    GET_TRACK_LOW_STOCK_API()
     isModal.value = false
 }
 
