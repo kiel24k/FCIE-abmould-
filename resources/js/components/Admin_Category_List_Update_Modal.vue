@@ -33,7 +33,7 @@ const getUpdateCategoryList = async () => {
 }
 
 const submit = async () => {
-    axios({
+    await axios({
         method: 'POST',
         url: 'api/update-category-list',
         data: {
@@ -54,6 +54,8 @@ const submit = async () => {
        }
 
     }).catch(e => {
+       
+        
         validation.value = e.response.data.errors
     })
 

@@ -54,6 +54,7 @@ const closeAdjustTresholdModal = () => {
     justify-content: center;
     align-items: center;
     z-index: 999;
+    background: rgb(0, 0, 0, 0.5);
 }
 
 form {
