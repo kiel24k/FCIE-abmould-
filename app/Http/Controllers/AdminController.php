@@ -625,17 +625,20 @@ class AdminController extends Controller
         return response()->json($category);
     }
 
-    public function deleteCategory (Request $request) {
+    public function deleteCategory(Request $request)
+    {
         $category = Category::find($request->id)->delete();
         return response()->json($category);
     }
 
-    public function getTreshold(Request $request) {
+    public function getTreshold(Request $request)
+    {
         $treshold = Item::find($request->id);
         return response()->json($treshold);
     }
 
-    public function updateTreshold(Request $request){
+    public function updateTreshold(Request $request)
+    {
         $request->validate([
             'treshold' => 'required|numeric'
         ]);
@@ -643,5 +646,24 @@ class AdminController extends Controller
         $treshold->treshold = $request->treshold;
         $treshold->update();
         return response()->json($treshold);
+    }
+
+    public function getQuantity(Request $request)
+    {
+        $stock = Item::find($request->id);
+        return response()->json($stock);
+    }
+
+    public function updateQuantity(Request $request)
+    {
+
+        $request->validate([
+            'quantity' => 'required|numeric'
+        ]);
+        $stock = Item::find($request->id);
+        
+        $stock->quantity = $request->quantity;
+        $stock->update();
+        return response()->json($stock);
     }
 }

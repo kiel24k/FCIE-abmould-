@@ -1,6 +1,6 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
-import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
+import { Button, InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue';
 import { onMounted, ref, watch } from 'vue';
 import TrackLowStockModal from '@/components/Admin_Track_Low_Stock_Adjust_Treshold_Modal.vue'
 
@@ -114,6 +114,11 @@ onMounted(() => {
     <TrackLowStockModal v-if="isModal" @closeAdjustTresholdModal="closeAdjustTresholdModal" :tableId="tableId"/>
 
     <section>
+        <div class="row title">
+            <Message severity="info" size="large" icon="pi pi-wrench" fluid>
+               ADJUST TRESHOLD ITEM
+            </Message>
+        </div>
         <div class="row bg-white p-3">
             <div class="col-3 category">
                 <Select v-model="selectedCategory" :options="getTrackLowStockCategory" optionLabel="release_date"

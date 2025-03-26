@@ -1,24 +1,25 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
-import { Button, Select } from 'primevue';
+import { Button, Message, Select } from 'primevue';
 </script>
 
 <template>
     <header>
         <Header />
     </header>
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col title">
-                    <h2>Activity Log</h2>
-                </div>
-            </div>
-        </div>
-    </section>
+  
+           
+        
+   
 
     <section>
+        <div class="row">
+            <div class="col title">
+                
+            </div>
+        </div>
         <div class="container bg-white">
+            <Message severity="contrast" icon="pi pi-ellipsis-v" size="large">Stock Adjustment Logs</Message>
             <div class="row p-2">
                 <div class="col">
                     <div class="category">

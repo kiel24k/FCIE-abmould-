@@ -35,6 +35,12 @@
                     <span>Schedule Request</span>
                 </li>
             </router-link>
+            <router-link :to="{ name: 'admin-scheduling' }">
+                <li>
+                    <img src="/public/icon/schedulingIcon.svg" width="25px" alt="" />
+                    <span>Scheduling</span>
+                </li>
+            </router-link>
             <a @click="itemManagement" class="route_option_name">
                 <li>
                     <span>Items</span>
@@ -69,12 +75,6 @@
                     </router-link>
                 </div>
             </transition>
-            <router-link :to="{ name: 'admin-scheduling' }">
-                <li>
-                    <img src="/public/icon/schedulingIcon.svg" width="25px" alt="" />
-                    <span>Scheduling</span>
-                </li>
-            </router-link>
 
             <a @click="stockManagement" class="route_option_name">
                 <li>

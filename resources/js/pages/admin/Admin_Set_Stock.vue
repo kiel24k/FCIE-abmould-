@@ -1,14 +1,15 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
-import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
+import { Button, InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue';
 import { onMounted, ref, watch } from 'vue';
-import TrackLowStockModal from '@/components/Admin_Track_Low_Stock_Adjust_Treshold_Modal.vue'
+import SetStockTresholdModal from '@/components/Admin_Set_Stock_Treshold_Modal.vue'
 
 const isModal = ref(false)
 
 const selectedCategory = ref('')
 const search = ref('')
 
+const tableId = ref()
 const getTrackLowStockCategory = ref({})
 const getTrackLowStockData = ref({})
 const sortType = ref('ASC')
@@ -62,7 +63,7 @@ const sort = (value) => {
         sortedName.value = value
         sortType.value = 'DESC'
     }
-    GET_TRACK_LOW_STOCK_API()
+    GET_SET_STOCK_API()
 }
 
 const clear = () => {
@@ -72,29 +73,31 @@ const clear = () => {
 
 const prev = () => {
   if(pagination.value.current_page <= pagination.value.last_page){
-    GET_TRACK_LOW_STOCK_API(pagination.value.current_page - 1)
+    GET_SET_STOCK_API(pagination.value.current_page - 1)
   }
 }
 
 const next = () => {
     if(pagination.value.last_page > pagination.value.current_page){
-        GET_TRACK_LOW_STOCK_API(pagination.value.current_page + 1)
+        GET_SET_STOCK_API(pagination.value.current_page + 1)
     }
 }
-const openAdjustTresholdModal = () => {
+const openAdjustTresholdModal = (id) => {
+    tableId.value = id
     isModal.value = true
 }
 
-const closeAdjustTresholdModal = () => {
+const closeSetStockModal = () => {
+    GET_SET_STOCK_API()
     isModal.value = false
 }
 
 watch(selectedCategory, (oldVal, newVal) => {
-    GET_TRACK_LOW_STOCK_API();
+    GET_SET_STOCK_API()
 })
 
 watch(search, (oldVal, newVal) => {
-    GET_TRACK_LOW_STOCK_API()
+    GET_SET_STOCK_API()
 })
 
 
@@ -109,10 +112,16 @@ onMounted(() => {
     <header>
         <Header />
     </header>
-    <TrackLowStockModal v-if="isModal" @closeAdjustTresholdModal="closeAdjustTresholdModal"/>
+  <SetStockTresholdModal v-if="isModal" @closeSetStockModal="closeSetStockModal"  :tableId="tableId"/>
 
     <section>
+        <div class="row title">
+            <Message severity="info" size="large" icon="pi pi-wrench" fluid>
+               SET ITEM STOCK
+            </Message>
+        </div>
         <div class="row bg-white p-3">
+          
             <div class="col-3 category">
                 <Select v-model="selectedCategory" :options="getTrackLowStockCategory" optionLabel="release_date"
                     size="small" placeholder="Select a Date" class="w-full md:w-56" />
@@ -153,6 +162,12 @@ onMounted(() => {
                                 <i class="pi pi-sort-amount-down" v-else></i>
                             </div>
                         </th>
+                         <th @click="sort('treshold')">
+                            <div class="table-head">
+                                <span>Treshold</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
+                                <i class="pi pi-sort-amount-down" v-else></i>
+                            </div>
+                        </th>
                         <th @click="sort('quantity')">
                             <div class="table-head">
                                 <span>Current Stock</span><i class="pi pi-sort-amount-up"
@@ -160,19 +175,7 @@ onMounted(() => {
                                 <i class="pi pi-sort-amount-down" v-else></i>
                             </div>
                         </th>
-                        <th @click="sort('treshold')">
-                            <div class="table-head">
-                                <span>Treshold</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
-                        <th @click="sort('out_of_stock_notif')">
-                            <div class="table-head">
-                                <span>Day Until notif-out-of-stock</span><i class="pi pi-sort-amount-up"
-                                    v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
+                       
                         <th>Actions</th>
                     </tr>
                 </thead>
@@ -181,11 +184,10 @@ onMounted(() => {
                         <td>{{ index + 1 }}</td>
                         <td>{{ data.category }}</td>
                         <td>{{ data.item_code }}</td>
-                        <td>x{{ data.quantity }}</td>
                         <td>x{{ data.treshold }}</td>
-                        <td>{{ data.out_of_stock_notif }}</td>
+                        <td>x{{ data.quantity }}</td>
                         <td>
-                            <Button label="Adjust Treshold" severity="info" icon="pi pi-pencil" raised @click="openAdjustTresholdModal()"  />
+                            <Button label="Adjust Stock" severity="info" icon="pi pi-pencil" raised @click="openAdjustTresholdModal(data.id)"  />
                         </td>
                     </tr>
                 </tbody>
