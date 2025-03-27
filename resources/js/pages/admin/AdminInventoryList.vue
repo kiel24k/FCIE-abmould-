@@ -1,8 +1,7 @@
 <template>
     <header>
-        <Header @toggle-sidebar="toggleSidebar" />
+        <Header @toggle-sidebar="toggleSidebar" @user="user" />
     </header>
-    <DeleteItemModal v-if="deleteItemModal" @cancelItem="cancelItem" :deleteId="deleteId" />
     <div class="row justify-content-center">
             <div class="col-9">
                 <div class="admin-inventory-list">
@@ -152,16 +151,20 @@ import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue';
 import { onMounted, ref, watch } from 'vue';
 import AdminViewModal from '@/components/Admin_View_Modal.vue'
-import DeleteItemModal from '@/components/Admin_Delete_Inventory_Modal_Logout.vue'
 import Loading from '@/components/Loading.vue'
 import html2pdf from 'html2pdf.js';
 
 import { Button, InputText, InputGroup, InputGroupAddon } from 'primevue';
+import Swal from 'sweetalert2';
 
 const isSidebarHidden = ref(false);
 const toggleSidebar = () => {
     isSidebarHidden.value = !isSidebarHidden.value;
 };
+const userInformation = ref()
+const user = (val) => {
+    userInformation.value = val
+}
 
 const printContent = ref(null)
 const deleteItemModal = ref(false)
@@ -268,8 +271,39 @@ const view = (id) => {
 }
 //delete item
 const deleteItem = (id) => {
-    deleteItemModal.value = true
-    deleteId.value = id
+
+    Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+  if (result.isConfirmed) {
+    axios({
+        method: 'DELETE',
+        url: `api/delete-item/${id}`,
+        params: {
+            userId: userInformation.value.id
+        }
+    }).then(response => {
+        console.log(response);
+        if (response.status == 200) {
+            category()
+          
+        }
+    })
+    Swal.fire({
+      title: "Deleted!",
+      text: "Your item has been deleted.",
+      icon: "success"
+    });
+  }
+});
+
+   
 }
 
 const cancelItem = () => {

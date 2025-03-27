@@ -207,9 +207,10 @@ class AdminController extends Controller
             return response()->json($item);
         }
     }
-    public function deleteItem($id)
+    public function deleteItem(Request $request, $id)
     {
         $item = Item::find($id)->delete();
+        LogsController::itemDeletedLogs($request->userId);
         return response()->json($item);
     }
     public function updatedItem($id)
@@ -237,6 +238,7 @@ class AdminController extends Controller
         $material->description   = $request->description;
         $material->brand         = $request->brand;
         $material->update();
+        LogsController::updateItemLogs($request->userId);
         return response()->json($material);
     }
 

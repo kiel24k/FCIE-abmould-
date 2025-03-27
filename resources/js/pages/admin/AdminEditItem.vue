@@ -1,6 +1,6 @@
 <template>
     <header>
-        <Header />
+        <Header @user="user" />
     </header>
     <div class="row m-2">
         <div class="col">
@@ -124,6 +124,12 @@ const updatedItemResponse = () => {
         input.value = response.data
     })
 }
+const userInformation = ref()
+const user = (val) => {
+    userInformation.value = val 
+ 
+    
+}
 
 //update the current data
 const validation = ref({})
@@ -132,6 +138,7 @@ const submit = () => {
         method: 'POST',
         url: `/api/update-item/${route.params.id}`,
         data: {
+            userId: userInformation.value.id,
             item_code: input.value.item_code,
             supplier_name: input.value.supplier_name,
             unit_cost: input.value.unit_cost,

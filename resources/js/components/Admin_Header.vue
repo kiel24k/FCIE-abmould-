@@ -101,7 +101,7 @@ onMounted(() => {
     loader.value = true;
     const token = localStorage.getItem('responseTKN');
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    axios.get('api/user').then(response => {
+    axios.get('/api/user').then(response => {
         userInformation.value = response.data;
         loader.value = false;
         emit('user', userInformation.value)
@@ -113,17 +113,17 @@ onMounted(() => {
     }
 });
 
-setTimeout(() => {
-    LOW_STOCK_ALERT_API()
-}, 2000)
+// setTimeout(() => {
+//     LOW_STOCK_ALERT_API()
+// }, 2000)
 
-const LOW_STOCK_ALERT_API = async () => {
-    const response = await axios.get('api/low-stock-alert')
-    if (response.data.status !== 200) {
-        isStockAlertBtn.value = true
+// const LOW_STOCK_ALERT_API = async () => {
+//     const response = await axios.get('api/low-stock-alert')
+//     if (response.data.status !== 200) {
+//         isStockAlertBtn.value = true
        
-    }
-}
+//     }
+// }
 
 const logout = () => {
     Swal.fire({
@@ -177,10 +177,9 @@ const notifs = ref({})
 const NOTIFICATION_TABLE_API = async () => {
   axios({
     method: 'GET',
-    url: 'api/notification-table'
+    url: '/api/notification-table'
   }).then(response => {
     notifs.value = response.data
-    console.log(response.data);
     
   })
 }

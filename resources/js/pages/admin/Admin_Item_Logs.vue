@@ -1,6 +1,25 @@
 <script setup>
 import Header from '@/components/Admin_Header.vue'
+import axios from 'axios';
 import { Button, Message, Select } from 'primevue';
+import { onMounted, ref } from 'vue';
+
+//API VARIABLES
+const itemLogsData = ref({})
+//API FUNCTIONS
+const GET_ITEM_LOGS_API = async () => {
+    await axios({
+        method:"GET",
+        url:'api/get-item-logs'
+    }).then(response => {
+        itemLogsData.value = response.data
+    })
+}
+
+//HOOKS
+onMounted(() => {
+    GET_ITEM_LOGS_API() 
+})
 </script>
 <template>
 <header>
@@ -18,21 +37,22 @@ import { Button, Message, Select } from 'primevue';
             </div>
         </div>
      
-        <div class="row" v-for="(data, index) in getLogsData" :key="index" >
+        <div class="row" v-for="(data, index) in itemLogsData" :key="index" >
             <div class="col notif">
                 <div class="info">
                     <div class="notif-info">
                         <div class="date_and_time d-grid ">
-                            <span>{{ data.date_released }}</span>
+                            <span>{{ data.date_created }}</span>
                             <b>{{ data.time }}</b>
                         </div>
                         <div class="user-info">
-                            <Button icon="pi pi-wrench" severity="contrast" rounded raised class="m-3" v-if="data.action === 'treshold' " />
-                            <Button icon="pi pi-wrench" severity="secondary" rounded raised class="m-3" v-if="data.action === 'quantity'" />
+                            <Button icon="pi pi-check" severity="success" rounded raised class="m-3" v-if="data.action === 'created' " />
+                            <Button icon="pi pi-pencil" severity="info" rounded raised class="m-3" v-if="data.action === 'update'" />
+                            <Button icon="pi pi-trash" severity="danger" rounded raised class="m-3" v-if="data.action === 'deleted'" />
                         </div>
                         <div class="message">
-                            <b>{{ data.action === "treshold" ? "Managing Treshold" : data.action === "quantity" ? "Managing Stocks" : "managing" }}</b>
-                            <p>The User named "{{ data.first_name }}" Successfull <b class="text-primary">{{ data.action === "treshold" ? "Changed the Treshold" : data.action === "quantity" ? "Changed the Stock" : "Changed the Item" }}</b> From Inventory</p>
+                            <b>{{ data.action === "created" ? "Managing Item" : data.action === "update" ? "Changing Item" : data.action === "deleted" ? "Deleting Item " : "" }}</b>
+                            <p>The User named <b>"{{ data.first_name }}"</b> Successfull <b class="text-primary">{{ data.action === "update" ? "Update the item" : data.action === "created" ? "Create the item" : data.action === "deleted" ? "Delete the item" : "Changing Item"}}</b> From Inventory</p>
                         </div>
                     </div>
                     <div class="notif_info_option">
