@@ -65,6 +65,11 @@ class LogsController extends Controller
         return response()->json($logs);
     }
 
+    public function getItemLogs () {
+        $logs = ItemLogs::orderBy('date_created', 'DESC')->get();
+        return response()->json($logs);
+    }
+
     public function updateLogs(Request $request)
     {
         return;
