@@ -134,7 +134,7 @@ class AdminController extends Controller
             'category'      => 'required',
             'description'   => 'required',
         ]);
-
+        $userId = $request->user_id;
         $item = new Item();
         $item->user_id       = $request->user_id;
         $item->item_code     = $request->item_code;
@@ -146,9 +146,10 @@ class AdminController extends Controller
         $item->description   = $request->description;
         $item->brand         = $request->brand;
         $item->release_date = Carbon::now()->format('y/m/d');
-        NotificationController::addItemNotification($request->user_id);
         // $item->barcode       = $request->barcode;
         $item->save();
+        NotificationController::addItemNotification($request->user_id);
+        LogsController::createdLogs($userId);
 
         return response()->json($item);
     }

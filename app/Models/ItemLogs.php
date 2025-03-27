@@ -9,12 +9,12 @@ class ItemLogs extends Model
 {
     use HasFactory;
 
-    protected $fillable = 'item_logs';
-    protected $table = [
+    protected $table = 'item_logs';
+    protected $fillable = [
         'user_id',
         'action',
         'date_created',
         'time'
     ];
-   public $timesptamps = false;
+   public $timesptamps = true;
 }
