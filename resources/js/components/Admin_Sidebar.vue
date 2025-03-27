@@ -118,7 +118,7 @@
                             <span>Stock Adjustments</span>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-item-changes'}">
+                    <router-link :to="{name: 'admin-item-logs'}">
                         <li>
                             <i class="pi pi-ellipsis-v"></i>
                             <span>Item Changes</span>

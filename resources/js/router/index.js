@@ -95,7 +95,7 @@ const routes = [
     {
         path: "/admin-stock-adjustment",
         name: "admin-stock-adjustment",
-        component: () => import("../pages/admin/Admin_Stock_Management.vue"),
+        component: () => import("../pages/admin/Admin_Stock_Logs.vue"),
     },
     {
         path: "/admin-category-list",
@@ -108,9 +108,9 @@ const routes = [
         component: () => import("../pages/admin/Admin_New_Category.vue"),
     },
     {
-        path: "/admin-item-changes",
-        name: "admin-item-changes",
-        component: () => import("../pages/admin/Admin_Item_Changes.vue"),
+        path: "/admin-item-Logs",
+        name: "admin-item-logs",
+        component: () => import("../pages/admin/Admin_Item_Logs.vue"),
     },
 
     {
