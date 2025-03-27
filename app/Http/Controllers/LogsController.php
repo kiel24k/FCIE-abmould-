@@ -65,18 +65,43 @@ class LogsController extends Controller
         return response()->json($logs);
     }
 
-    public function getItemLogs () {
-        $logs = ItemLogs::orderBy('date_created', 'DESC')->get();
+    public function getItemLogs()
+    {
+        $logs = DB::table('item_logs')
+            ->leftJoin('users', 'item_logs.user_id', '=', 'users.id')
+            ->select(
+                'users.first_name',
+                'users.last_name',
+                'users.email',
+                'item_logs.user_id',
+                'item_logs.action',
+                'item_logs.date_created',
+                'item_logs.time'
+            )
+            ->orderBy('item_logs.id', 'DESC')
+            ->get();
         return response()->json($logs);
     }
 
-    public function updateLogs(Request $request)
+    public static function updateItemLogs($id)
     {
-        return;
+        $logs = new ItemLogs();
+        $logs->user_id = $id;
+        $logs->action = 'update';
+        $logs->date_created = Carbon::now()->format('y-m-d');
+        $logs->time = Carbon::now('Asia/Manila')->format('h:i A');
+        $logs->save();
+        return response()->json($logs);
     }
 
-    public function deletedLogs(Request $request)
+    public static function itemDeletedLogs($id)
     {
-        return;
+        $logs = new ItemLogs();
+        $logs->user_id = $id;
+        $logs->action = 'deleted';
+        $logs->date_created = Carbon::now()->format('y-m-d');
+        $logs->time = Carbon::now('Asia/Manila')->format('h:i A');
+        $logs->save();
+        return response()->json($logs);
     }
 }

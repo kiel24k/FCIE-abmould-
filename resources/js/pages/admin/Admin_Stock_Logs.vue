@@ -90,7 +90,7 @@ onMounted(() => {
                             </div>
                             <div class="message">
                                 <b>{{ data.action === "treshold" ? "Managing Treshold" : data.action === "quantity" ? "Managing Stocks" : "managing" }}</b>
-                                <p>The User named "{{ data.first_name }}" Successfull <b class="text-primary">{{ data.action === "treshold" ? "Changed the Treshold" : data.action === "quantity" ? "Changed the Stock" : "Changed the Item" }}</b> From Inventory</p>
+                                <p>The User named <b>"{{ data.first_name }}"</b> Successfull <b class="text-primary">{{ data.action === "treshold" ? "Changed the Treshold" : data.action === "quantity" ? "Changed the Stock" : "Changed the Item" }}</b> From Inventory</p>
                             </div>
                         </div>
                         <div class="notif_info_option">
