@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('action', ['created','update', 'deleted']);
             $table->date('date_created');
             $table->string('time');
-            $table->timestamps();
+       
         });
     }
 

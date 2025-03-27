@@ -16,4 +16,5 @@ class ItemLogs extends Model
         'date_created',
         'time'
     ];
+   public $timesptamps = false;
 }
