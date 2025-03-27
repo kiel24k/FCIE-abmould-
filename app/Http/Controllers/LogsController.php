@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ItemLogs;
 use App\Models\StockLogs;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -37,7 +38,6 @@ class LogsController extends Controller
         ->select('users.first_name','stock_logs.*')
         ->orderBy('id', 'DESC')
         ->get();
-
         return response()->json($logs);
 
     }
@@ -49,5 +49,25 @@ class LogsController extends Controller
     }
     public function test () {
         return date_default_timezone_get(); 
+    }
+
+    //ITEM CHANGES
+
+    public function createdLogs ($id) {
+        $logs = new ItemLogs();
+        $logs->user_id = $id;
+        $logs->action = 'created';
+        $logs->date_created = Carbon::now()->format('y-m-d');
+        $logs->time =  Carbon::now('Asia/Manila')->format('h:i A');
+        $logs->save();
+        return response()->json($logs);
+    }
+
+    public function updateLogs(Request $request) {
+        return;
+    }
+
+    public function deletedLogs(Request $request) {
+        return;
     }
 }
