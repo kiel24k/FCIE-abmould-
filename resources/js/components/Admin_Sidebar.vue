@@ -118,10 +118,10 @@
                             <span>Stock Adjustments</span>
                         </li>
                     </router-link>
-                    <router-link>
+                    <router-link :to="{name: 'admin-item-changes'}">
                         <li>
                             <i class="pi pi-ellipsis-v"></i>
-                            <span>Order Changes</span>
+                            <span>Item Changes</span>
                         </li>
                     </router-link>
 

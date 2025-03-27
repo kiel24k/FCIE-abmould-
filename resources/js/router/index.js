@@ -105,7 +105,12 @@ const routes = [
     {
         path: "/admin-new-category",
         name: "admin-new-category",
-        component: () => import("../pages/admin/Admin_New_Category.vue")
+        component: () => import("../pages/admin/Admin_New_Category.vue"),
+    },
+    {
+        path: "/admin-item-changes",
+        name: "admin-item-changes",
+        component: () => import("../pages/admin/Admin_Item_Changes.vue"),
     },
 
     {
