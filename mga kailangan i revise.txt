@@ -1,7 +1,7 @@
 -ADMIN
 DASHBOARD [
-    data ng table => done
-    unit cost total => done
+    data ng table => DONE
+    unit cost total => DONE
 ]
 BARCODE [
     IN => display from items na mismo =>
@@ -9,11 +9,11 @@ BARCODE [
     VIEW => display from items na mismo =>
 ]
 ITEMS [
-    NEW ITEM, dapat may validation na kapag ang quantity ay lumagpas sa treshold ay may lalabas na warning => done
+    NEW ITEM, dapat may validation na kapag ang quantity ay lumagpas sa treshold ay may lalabas na warning => DONE
 ]
 ACTIVITY LOGS [
    STOCK ADJUSTMENT, makikita ang user kapag pinindot ang track user => DONE
-   ITEM CHANGES, makikita ang user kapag pinindot ang track user  => 
+   ITEM CHANGES, makikita ang user kapag pinindot ang track user  => DONE
 ]
 USER MANAGEMENT [
     ALL USERS, UI design ng table =>

@@ -3,7 +3,12 @@ import Header from '@/components/Admin_Header.vue'
 import axios from 'axios';
 import { Button, Message, Select } from 'primevue';
 import { onMounted, ref } from 'vue';
+import AdminViewUserProfileModal from "@/components/Admin_View_User_Logs_Modal.vue"
+import Swal from 'sweetalert2';
 
+
+const isAdminViewUserProfileModal = ref(false)
+const userId = ref(null)
 //API VARIABLES
 const itemLogsData = ref({})
 //API FUNCTIONS
@@ -16,6 +21,52 @@ const GET_ITEM_LOGS_API = async () => {
     })
 }
 
+//COMPONENTS
+
+const removeLogs =  (data) => {    
+    Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, remove it!"
+}).then((result) => {
+    
+  if (result.isConfirmed) {
+   axios({
+        method: "DELETE",
+        url: "api/remove-item-logs",
+        params: {
+            id: data
+        }
+    }).then(response => {
+        GET_ITEM_LOGS_API() 
+        
+    })
+    Swal.fire({
+      title: "Removed!",
+      text: "Remove successfully.",
+      icon: "success"
+    });
+  }
+});
+
+
+}
+
+const viewUser = (id) => {
+    isAdminViewUserProfileModal.value = true
+    userId.value = id
+
+}
+
+const closeProfileModal = () => {
+    isAdminViewUserProfileModal.value = false
+}
+
+
 //HOOKS
 onMounted(() => {
     GET_ITEM_LOGS_API() 
@@ -23,6 +74,7 @@ onMounted(() => {
 </script>
 <template>
 <header>
+    <AdminViewUserProfileModal v-if="isAdminViewUserProfileModal" @closeProfileModal="closeProfileModal" :userId="userId"/>
     <Header/>
 </header>
 <section>
@@ -57,7 +109,7 @@ onMounted(() => {
                     </div>
                     <div class="notif_info_option">
                         <i class="pi pi-user m-1"></i>
-                        <small class="text-warning">Track User</small> |
+                        <small class="text-warning" @click="viewUser(data.user_id)">Track User</small> |
                         <Button label="remove" icon="pi pi-trash" severity="secondary" @click="removeLogs(data.id)" />
                     </div>
                 </div>

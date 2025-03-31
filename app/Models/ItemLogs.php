@@ -11,6 +11,7 @@ class ItemLogs extends Model
 
     protected $table = 'item_logs';
     protected $fillable = [
+        'id',
         'user_id',
         'action',
         'date_created',

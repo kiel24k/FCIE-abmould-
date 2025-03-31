@@ -129,7 +129,9 @@ route::controller(LogsController::class)->group(function () {
     route::get('get-logs', 'getLogs');
     route::get('test', 'test' );
     route::delete('remove-logs', 'removeLogs');
+
     route::get('get-item-logs', 'getItemLogs');
+    route::delete('remove-item-logs', 'removeItemLogs');
    
 });
 
