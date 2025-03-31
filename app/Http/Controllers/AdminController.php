@@ -129,7 +129,7 @@ class AdminController extends Controller
             'item_code'     => 'required | unique:items,item_code',
             'supplier_name' => 'nullable',
             'unit_cost'     => 'numeric',
-            'quantity'      => 'numeric',
+            'quantity'      => "numeric|max:$request->treshold",
             'treshold' => 'required|numeric',
             'category'      => 'required',
             'description'   => 'required',
