@@ -69,7 +69,7 @@ onMounted(() => {
                             <i class="pi pi-briefcase"></i>
                         </figure>
                         <div class="content">
-                            <b>P{{ dashboardApi.user }}.00</b>
+                            <b>P{{ dashboardApi.unit_cost }}.00</b>
                             <span>unit cost</span>
                         </div>
                     </div>
