@@ -84,9 +84,9 @@ class AdminController extends Controller
         return response()->json($user);
     }
 
-    public function userUpdatedData($id)
+    public function userUpdatedData(Request $request, $id)
     {
-        $user = User::find($id);
+        $user = User::find($request->id);
         return response()->json($user);
     }
     public function userUpdateData(Request $request, $id)

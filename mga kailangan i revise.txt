@@ -12,7 +12,7 @@ ITEMS [
     NEW ITEM, dapat may validation na kapag ang quantity ay lumagpas sa treshold ay may lalabas na warning => done
 ]
 ACTIVITY LOGS [
-   STOCK ADJUSTMENT, makikita ang user kapag pinindot ang track user =>
+   STOCK ADJUSTMENT, makikita ang user kapag pinindot ang track user => DONE
    ITEM CHANGES, makikita ang user kapag pinindot ang track user  => 
 ]
 USER MANAGEMENT [
