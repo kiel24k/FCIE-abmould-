@@ -37,9 +37,12 @@ class ChartController extends Controller
     public function dashboardCount () {
         $item = DB::table('items')->count();
         $user = DB::table('users')->count();
+        $unit_cost = DB::table('items')
+        ->sum('unit_cost');
         return response()->json([
             'item' => $item,
-            'user' => $user
+            'user' => $user,
+            'unit_cost' => $unit_cost
         ]);
     }
 }
