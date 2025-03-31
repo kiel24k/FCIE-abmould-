@@ -3,11 +3,15 @@ import Header from '@/components/Admin_Header.vue'
 import { Button, Message, Select } from 'primevue';
 import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
+import AdminViewUserProfileModal from "@/components/Admin_View_User_Logs_Modal.vue"
 
 //COMPONENTS VARIABLE
+const isAdminViewUserProfileModal = ref(false)
+
 
 //API VARIABLE
 const getLogsData = ref({})
+const userId = ref(null)
 //API FUNCTION
 const API_GET_LOGS = async () => {
     await axios({
@@ -43,16 +47,25 @@ const removeLogs =  (data) => {
     })
     Swal.fire({
       title: "Removed!",
-      text: "Your file has been removed.",
+      text: "Remove successfully.",
       icon: "success"
     });
   }
 });
 
-    
-    
-     
+
 }
+
+const viewUser = (id) => {
+    isAdminViewUserProfileModal.value = true
+    userId.value = id
+
+}
+
+const closeProfileModal = () => {
+    isAdminViewUserProfileModal.value = false
+}
+
 
 //HOOKS
 onMounted(() => {
@@ -62,7 +75,9 @@ onMounted(() => {
 
 <template>
     <header>
+        <AdminViewUserProfileModal v-if="isAdminViewUserProfileModal" @closeProfileModal="closeProfileModal" :userId="userId"/>
         <Header />
+       
     </header>
     <section>
       
@@ -95,7 +110,7 @@ onMounted(() => {
                         </div>
                         <div class="notif_info_option">
                             <i class="pi pi-user m-1"></i>
-                            <small class="text-warning">Track User</small> |
+                            <small class="text-warning" @click="viewUser(data.user_id)">Track User</small> |
                             <Button label="remove" icon="pi pi-trash" severity="secondary" @click="removeLogs(data.id)" />
                         </div>
                     </div>
