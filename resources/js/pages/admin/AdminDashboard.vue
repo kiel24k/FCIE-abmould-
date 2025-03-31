@@ -4,10 +4,12 @@ import Header from '@/components/Admin_Header.vue';
 import Doughnut from '@/components/Pie.vue';
 import LineChart from '@/components/LineChart.vue';
 import BarChart from '@/components/BarChart.vue';
+import { Button } from 'primevue';
 
 const responseData = ref({});
 const isSidebarHidden = ref(false);
 const dashboardApi = ref({})
+const itemCategoryData = ref({})
 
 const DASHBOARD_COUNT_API = async () => {
     const response = await axios('api/dashboard-count')
@@ -15,26 +17,18 @@ const DASHBOARD_COUNT_API = async () => {
 
 }
 
-// const getInHistory = () => {
-//     axios({
-//         method: 'GET',
-//         url: 'api/get-in-history'
-//     }).then(response => {
-//         responseData.value = response.data;
-//         console.log(response);
-//     });
-// };
-
-// const toggleSidebar = () => {
-//     isSidebarHidden.value = !isSidebarHidden.value;
-// };
-
-// onMounted(() => {
-//     getInHistory();
-// });
+const ITEM_CATEGORY_API = async () => {
+    await axios({
+        method: 'GET',
+        url: 'api/item-category'
+    }).then(response => {
+        itemCategoryData.value = response.data
+    })
+}
 
 onMounted(() => {
     DASHBOARD_COUNT_API()
+    ITEM_CATEGORY_API ()
 })
 </script>
 
@@ -102,16 +96,20 @@ onMounted(() => {
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Total</th>
-                                <th>q</th>
+                                <th>Supplier</th>
+                                <th>Quantity</th>
+                                <th>Treshold</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Bill Gates</td>
-                                <td>23</td>
-                                <td>34x</td>
+                            <tr v-for="(data, index) in itemCategoryData.data">
+                                <td>{{ data.supplier_name }}</td>
+                                <td>{{data.quantity}}x</td>
+                                <td>{{data.treshold}}x</td>
+                                <td>
+                                    <Button icon="pi pi-eye" severity="info"/>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
