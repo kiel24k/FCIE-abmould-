@@ -73,6 +73,7 @@ class LogsController extends Controller
                 'users.first_name',
                 'users.last_name',
                 'users.email',
+                'item_logs.id',
                 'item_logs.user_id',
                 'item_logs.action',
                 'item_logs.date_created',
@@ -80,6 +81,12 @@ class LogsController extends Controller
             )
             ->orderBy('item_logs.id', 'DESC')
             ->get();
+        return response()->json($logs);
+    }
+
+    public function removeItemLogs(Request $request)
+    {
+        $logs = ItemLogs::find($request->id)->delete();
         return response()->json($logs);
     }
 
