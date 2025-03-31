@@ -1,0 +1,48 @@
+-ADMIN
+DASHBOARD [
+    data ng table => done
+    unit cost total =>
+]
+BARCODE [
+    IN => display from items na mismo =>
+    OUT => display from items na mismo => 
+    VIEW => display from items na mismo =>
+]
+ITEMS [
+    NEW ITEM, dapat may validation na kapag ang quantity ay lumagpas sa treshold ay may lalabas na warning =>
+]
+ACTIVITY LOGS [
+   STOCK ADJUSTMENT, makikita ang user kapag pinindot ang track user =>
+   ITEM CHANGES, makikita ang user kapag pinindot ang track user  => 
+]
+USER MANAGEMENT [
+    ALL USERS, UI design ng table =>
+    ADD NEW USER, form page ng pag aadd =>
+    ASSIGN ROLES, roles assigning na naka box =>
+]
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;
+
+-INVENTORY MANAGER
+BARCODE [
+    IN,display from items na mismo => 
+    OUT, display from items na mismo => 
+    VIEW, display from items na mismo =>
+]
+DASHBOARD[
+    dapat ang ui ay parehas sa admin => 
+]
+ITEM LIST UI =>
+PROFILE CAN EDIT => 
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+-MEMBER
+ SCAN ITEMS, display from items na mismo =>
+ ITEM LIST, paayos ng UI => 
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+-TL 
+ SCAN ITEMS, display from items na mismo =>
+ ITEM LIST, paayos ng UI => 
