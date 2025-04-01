@@ -125,6 +125,9 @@ onMounted(() => {
                 SET ITEM STOCK
             </Message>
         </div>
+    </section>
+
+    <section>
         <div class="row bg-white p-3">
 
             <div class="col-3 category">
@@ -143,11 +146,8 @@ onMounted(() => {
                 <Button icon="pi pi-print" severity="danger" label="Print" raised />
             </div>
         </div>
-    </section>
-
-    <section>
         <div class="row bg-white p-3">
-            <table class="table table-responsive">
+            <table class="table table-responsive table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>
@@ -198,11 +198,9 @@ onMounted(() => {
                 </tbody>
             </table>
             <div class="pag text-center">
-                <span>
-                    <Button label="prev" severity="contrast" @click="prev()" />
-                    1 of {{ pagination.current_page }}
-                    <Button label="next" severity="contrast" @click="next()" />
-                </span>
+                    <Button label="Prev" severity="contrast" icon="pi pi-angle-left" variant="text" @click="prev()" />
+                  <b>  {{ pagination.last_page }} of {{ pagination.current_page }}</b>
+                    <Button label="Next" severity="contrast" icon="pi pi-angle-right" variant="text"  iconPos="right" @click="next()" />
             </div>
         </div>
 
@@ -224,11 +222,7 @@ section {
     align-content: center;
 }
 
-th {
-    background-color: #ebe9e9;
-    border: white solid 1px;
-    transition: all linear 0.4s;
-}
+
 
 .table-head {
     display: flex;
@@ -237,14 +231,12 @@ th {
     align-items: center;
 }
 
-th:hover {
-    background: #D9D9D9;
-    cursor: pointer;
+
+.pag{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
 }
 
-td {
-    border: white solid 1px;
-    background-color: #D9D9D9;
-    padding: 20px;
-}
 </style>

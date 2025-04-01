@@ -118,9 +118,10 @@ onMounted(() => {
     align-items: center;
     background-color: rgba(0, 0, 0, 0.2);
     backdrop-filter: blur(10px);
-    height: 100%;
     width: 100%;
     z-index: 999;
+    top:0;
+    bottom:0;
 }
 
 .card-header {
