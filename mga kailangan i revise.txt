@@ -16,9 +16,9 @@ ACTIVITY LOGS [
    ITEM CHANGES, makikita ang user kapag pinindot ang track user  => DONE
 ]
 USER MANAGEMENT [
-    ALL USERS, UI design ng table =>
-    ADD NEW USER, form page ng pag aadd =>
-    ASSIGN ROLES, roles assigning na naka box =>
+    ALL USERS, UI design ng table => DONE
+    ADD NEW USER, form page ng pag aadd => DONE
+    ASSIGN ROLES, roles assigning na naka box => 
 ]
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;

@@ -106,56 +106,56 @@ const closeCategoryListModal = () => {
 const deleteBtn = (val) => {
 
     const swalWithBootstrapButtons = Swal.mixin({
-  customClass: {
-    confirmButton: "btn btn-success",
-    cancelButton: "btn btn-danger"
-  },
-  buttonsStyling: false
-});
-swalWithBootstrapButtons.fire({
-  title: "Are you sure?",
-  text: "You won't be able to revert this!",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonText: "Yes, delete it!",
-  cancelButtonText: "No, cancel!",
-  reverseButtons: true
-}).then((result) => {
-  if (result.isConfirmed) {
-    axios({
-        method: 'GET',
-        url: 'api/delete-category',
-        params: {
-            id: val
-        }
-    }).then(response => {
-        if (response.status === 200) {
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Deleted Successfull",   
-                showConfirmButton: false,
-                timer: 1500
+        customClass: {
+            confirmButton: "btn btn-success",
+            cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+    });
+    swalWithBootstrapButtons.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios({
+                method: 'GET',
+                url: 'api/delete-category',
+                params: {
+                    id: val
+                }
+            }).then(response => {
+                if (response.status === 200) {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Deleted Successfull",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                }
+            })
+            CATEGORY_LIST()
+
+
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            swalWithBootstrapButtons.fire({
+                title: "Cancelled",
+                text: "Delete not successfull",
+                icon: "error"
             });
         }
-    })
-    CATEGORY_LIST()
-
-    
-  } else if (
-    /* Read more about handling dismissals below */
-    result.dismiss === Swal.DismissReason.cancel
-  ) {
-    swalWithBootstrapButtons.fire({
-      title: "Cancelled",
-      text: "Delete not successfull",
-      icon: "error"
     });
-  }
-});
 
 
-    
+
     CATEGORY_LIST()
 }
 
@@ -191,12 +191,12 @@ onMounted(() => {
     <header>
         <Header />
     </header>
-    
+
     <section>
 
         <div class="row title">
             <Message severity="info" size="large" icon="pi pi-wrench" fluid>
-               CATEGORY LIST
+                CATEGORY LIST
             </Message>
         </div>
         <div class="row mt-3">
@@ -222,7 +222,7 @@ onMounted(() => {
     <section>
         <div class="row">
             <div class="col">
-                <table class="table table-bordered table-responsive">
+                <table class="table table-bordered table-responsive table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -255,10 +255,10 @@ onMounted(() => {
                 </table>
             </div>
             <div class="row">
-                <div class="col text-center">
-                    <Button label="Prev" @click="prevBtn()" />
+                <div class="col pagination_button">
+                    <Button label="Prev" variant="text" icon="pi pi-angle-left" severity="contrast" @click="prevBtn()" />
                     <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                    <Button label="Next" @click="nextBtn()" />
+                    <Button label="Next" icon="pi pi-angle-right" variant="text" iconPos="right" severity="contrast" @click="nextBtn()" />
                 </div>
             </div>
         </div>
@@ -285,7 +285,6 @@ section {
 
 th {
     background-color: #ebe9e9;
-    border: white solid 1px;
     transition: all linear 0.4s;
 }
 
@@ -301,20 +300,21 @@ th:hover {
     cursor: pointer;
 }
 
-td {
-    border: white solid 1px;
-    background-color: #D9D9D9;
-    padding: 20px;
-}
+
 
 .table_head {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
-.catagory_table_action>button {
-    margin: 2px;
-
+.category_table_action{
+    display: flex;
+    gap:5px;
 }
+.pagination_button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 </style>

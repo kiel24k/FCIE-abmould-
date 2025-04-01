@@ -141,15 +141,15 @@
                         <li>
                             <i class="pi pi-users"></i>
                             <span>All Users</span>
-                        </li>
+                    </li>
                     </router-link>
-                    <router-link>
+                    <router-link :to="{name: 'create-user'}">
                         <li>
                             <i class="pi pi-plus"></i>
                             <span>Add New User</span>
                         </li>
                     </router-link>
-                    <router-link>
+                    <router-link :to="{name: 'admin-assign-role'}">
                         <li>
                             <i class="pi pi-pencil"></i>
                             <span>Assign Roles</span>

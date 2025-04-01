@@ -37,6 +37,11 @@ const routes = [
         component: () => import("../pages/admin/AdminCreateUser.vue"),
     },
     {
+        path: "/admin-assign-role",
+        name: "admin-assign-role",
+        component: () => import("../pages/admin/Admin_Assign_Role.vue"),
+    },
+    {
         path: "/admin-new-item",
         name: "admin-new-item",
         component: () => import("../pages/admin/AdminNewItem.vue"),
@@ -112,6 +117,7 @@ const routes = [
         name: "admin-item-logs",
         component: () => import("../pages/admin/Admin_Item_Logs.vue"),
     },
+   
 
     {
         path: "/inventory-manager-dashboard",

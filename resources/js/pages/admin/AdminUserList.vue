@@ -7,11 +7,11 @@
                 <div class="user-list-table">
                     <div class="row">
                         <div class="col title">
-                            <h2>User List</h2>
+                           <Message severity="info"> <h2>User List</h2></Message>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col table-category">
+                        <div class="col table-category p-2" style="background: white">
                             <select class="form-select" style="width:max-content" v-model="selected">
                                 <option value="selected" disabled>Select</option>
                                 <option value="">all</option>
@@ -33,10 +33,8 @@
                           
                         </div>
                         
-                    </div>
-                    <div class="row">
                        <figure class="table-main">
-                        <table class="table table-striped table-hover table-responsive mt-3" ref="printContent">
+                        <table class="table table-hover table-responsive mt-3" ref="printContent">
                             <thead>
                                 <tr>
                                     <th @click="sort('first_name')">
@@ -83,18 +81,19 @@
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="paginator text-center">
+
+                            <nav class="btnPaginate">
+                                <Button icon="pi pi-chevron-left" variant="text"  label="prev" severity="contrast" @click="previousPage"
+                                    :disabled="!pagination.prev_page_url" rounded />
+                                <b>Page {{ pagination.current_page }} of {{ pagination.last_page }}</b>
+                                <Button icon="pi pi-chevron-right" iconPos="right" label="next" variant="text" severity="contrast" @click="nextPage"
+                                    :disabled="!pagination.next_page_url" />
+                            </nav>
+                        </div>
                        </figure>
                         
-                            <div class="paginator text-center">
-
-                                <nav class="btnPaginate">
-                                    <Button icon="pi pi-chevron-left" severity="primary" @click="previousPage"
-                                        :disabled="!pagination.prev_page_url" rounded raised />
-                                    <span>Page {{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                                    <Button icon="pi pi-chevron-right" rounded raised @click="nextPage"
-                                        :disabled="!pagination.next_page_url" />
-                                </nav>
-                            </div>
+                           
                       
                     </div>
 
@@ -115,6 +114,7 @@ import Loading from '@/components/Loading.vue'
 import Button from 'primevue/button';
 import html2pdf from 'html2pdf.js';
 import Swal from 'sweetalert2';
+import { Message } from 'primevue';
 
 const isSidebarHidden = ref(false);
 const toggleSidebar = () => {
@@ -312,6 +312,15 @@ align-items: center;
     display: flex;
     gap: 10px;
 }
+figure{
+    background-color: #fff;
+}
+.btnPaginate{
+    display: flex;
+   justify-content: center;
+   align-items: center;
+   align-content: center;
+}
 </style>
 
 
@@ -374,7 +383,7 @@ th {
     align-items: center;
     gap: 5px;
 }
-
+.pagin
 .paginator {
     display: grid;
     justify-content: center;
