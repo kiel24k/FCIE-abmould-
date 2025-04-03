@@ -1,7 +1,8 @@
 <template>
 
-  <Sidebar v-if="showSidebar" @hideSidebar="hideSidebar" :class="{ hideSidebarActive: hideSidebarIsActive }" />
   <header>
+    
+  <Sidebar v-if="showSidebar" @hideSidebar="hideSidebar" :class="{ hideSidebarActive: hideSidebarIsActive }" />
     <div class="row">
       <div class="col-2">
         <ul class="navbar nav">
@@ -56,7 +57,7 @@ const items = [
 
 const logout = () => {
 
- 
+
   Swal.fire({
     title: "Are you sure?",
     text: "Do you want to logout?",
@@ -67,9 +68,9 @@ const logout = () => {
     confirmButtonText: "Logout"
   }).then((result) => {
     if (result.isConfirmed) {
-         localStorage.removeItem("responseTKN")
-   localStorage.removeItem("inventoryManagerPermission")
-   router.push("/")
+      localStorage.removeItem("responseTKN")
+      localStorage.removeItem("inventoryManagerPermission")
+      router.push("/")
       Swal.fire({
         title: "Logout Success!",
         text: "Thank You.",
@@ -127,6 +128,10 @@ const hideSidebar = () => {
 }
 
 header {
+  position: fixed;
+  top: 0;
+  z-index:999;
+  width: 100%;
   background-color: #f8f7f7;
   box-shadow: 1px 1px 10px 0px gray;
 }

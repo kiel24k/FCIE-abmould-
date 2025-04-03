@@ -9,18 +9,47 @@ use Illuminate\Support\Facades\DB;
 
 class InventoryManagerController extends Controller
 {
+    public function itemCategory()
+    {
+        $category = Item::select('release_date')->orderBy('id', 'DESC')->get();
+        return response()->json($category);
+    }
     public function getItemList(Request $request)
     {
+        $sortName = $request->query('sortName', 'id');
+        $sortBy = $request->query('sortBy', 'ASC');
 
-        $sort_column_name = $request->query('sort_column_name', 'item_code');
-        $sort_order = $request->query('sort_order', 'asc');
-        if (!$request->category) {
-            $allitem = Item::orderBy($sort_column_name, $sort_order)->paginate(5);
-            return response()->json($allitem);
-        } else if ($request->category) {
-            $item = Item::where('category', '=', $request->category)
-                ->orderBy($sort_column_name, $sort_order)->paginate(5);
-            return response()->json($item);
+        if (empty($request->category) && empty($request->search)) {
+            $data = Item::orderBy($sortName, $sortBy)->paginate(10);
+            return response()->json($data);
+        } else if (isset($request->category) && empty($request->search)) {
+            $data = Item::where('release_date', $request->category)
+                ->orderBy($sortName, $sortBy)
+                ->paginate(10);
+            return response()->json($data);
+        } else if (empty($request->category) && isset($request->search)) {
+            $data = Item::where('category', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('item_code', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('unit_cost', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('treshold', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->search . '%')
+                ->orderBy($sortName, $sortBy)
+                ->paginate(10);
+            return response()->json($data);
+        } else if (isset($request->category) && isset($request->search)) {
+            $data = Item::where('release_date', $request->category)
+                ->where(function ($query) use ($request) {
+                    $query->where('category', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('item_code', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('unit_cost', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('treshold', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $request->search . '%');
+                })
+                ->orderBy($sortName, $sortBy)
+                ->paginate(10);
+            return response()->json($data);
         }
     }
 
@@ -82,10 +111,11 @@ class InventoryManagerController extends Controller
     }
 
 
-    public function category () {
+    public function category()
+    {
         $items = Item::select('category')
-        ->orderBy('id', 'DESC')
-        ->get();
+            ->orderBy('id', 'DESC')
+            ->get();
         return response()->json($items);
     }
 
@@ -168,10 +198,10 @@ class InventoryManagerController extends Controller
     public function statusCount()
     {
         $status = DB::table('schedules')
-        ->select('status')
-        ->selectRaw('COUNT(*) as statusCount')
-        ->groupBy('status')
-        ->get();
+            ->select('status')
+            ->selectRaw('COUNT(*) as statusCount')
+            ->groupBy('status')
+            ->get();
         return response()->json($status);
     }
 }

@@ -80,7 +80,8 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 Route::controller(InventoryManagerController::class)->group(function () {
-    Route::get('/IM_get_item_list', 'getItemList');
+    route::get('/IM_item_category', 'itemCategory');
+    Route::get('/IM-get-item-list', 'getItemList');
     Route::get('/IM_item-search-list', 'itemSearchList');
     Route::get('/IM_update-item/{id}', 'getUpdatedItem');
     Route::post('/IM_submit-updated-item/{id}', 'submitUpdatedItem');
