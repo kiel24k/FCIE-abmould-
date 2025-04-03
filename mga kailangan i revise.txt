@@ -18,7 +18,7 @@ ACTIVITY LOGS [
 USER MANAGEMENT [
     ALL USERS, UI design ng table => DONE
     ADD NEW USER, form page ng pag aadd => DONE
-    ASSIGN ROLES, roles assigning na naka box => 
+    ASSIGN ROLES, roles assigning na naka box => DONE
 ]
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;
@@ -30,7 +30,7 @@ BARCODE [
     VIEW, display from items na mismo =>
 ]
 DASHBOARD[
-    dapat ang ui ay parehas sa admin => 
+    dapat ang ui ay parehas sa admin => DONE
 ]
 ITEM LIST UI =>
 PROFILE CAN EDIT => 
