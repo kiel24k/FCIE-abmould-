@@ -1,6 +1,9 @@
 <template>
     <div style="height: 4rem;">
         <header>
+            <Transition name="sidebar-transition">
+                <Sidebar v-if="isSidebar" :class="{ hideSidebarActive: isSidebarActive }" />
+            </Transition>
             <div class="row">
                 <div class="col" style="max-width: 250px;">
                     <ul class="navbar nav d-flex justify-content-center">
@@ -48,9 +51,7 @@
                     </ul>
                 </div>
             </div>
-            <Transition name="sidebar-transition">
-                <Sidebar v-if="isSidebar" :class="{ hideSidebarActive: isSidebarActive }" />
-            </Transition>
+         
             <Loader v-if="loader" />
         </header>
     </div>
