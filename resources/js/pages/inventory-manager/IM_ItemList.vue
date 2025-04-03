@@ -5,6 +5,7 @@ import UpdateModal from '../../components/IM_UpdateItemModal.vue'
 import itemModal from '@/components/IM_View_Modal.vue'
 import html2pdf from 'html2pdf.js';
 import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
+import Swal from 'sweetalert2';
 
 
 
@@ -58,6 +59,34 @@ const GET_ITEM_LIST_API = async (page = 1) => {
     itemList.value = response.data
 
   })
+}
+
+const daleteBtn =  (id) => {
+  Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+  if (result.isConfirmed) {
+    axios({
+      method: 'DELETE',
+      url: 'api/delete-item',
+      data: {
+        id: id
+      }
+    })
+    Swal.fire({
+      title: "Deleted!",
+      text: "Item has been deleted.",
+      icon: "success"
+    });
+  }
+  GET_ITEM_LIST_API()
+});
 
 }
 
@@ -81,13 +110,15 @@ const prevBtn = () => {
   if(pagination.value.last_page >= pagination.value.current_page){
     GET_ITEM_LIST_API(pagination.value.last_page - 1)
   }
-
 }
+
 const nextBtn = () => {
   if(pagination.value.current_page < pagination.value.last_page){
   GET_ITEM_LIST_API(pagination.value.current_page + 1)
   }
 }
+
+
 
 //HOOKDS
 watch(category, (oldVal, newVal) => {
@@ -183,13 +214,11 @@ onMounted(() => {
               <td>{{ data.description }}</td>
               <td class="table-action">
                 <Button severity="info" icon="pi pi-pen-to-square" @click="updateBtn(data.id)" raised />
-                <Button severity="danger" icon="pi pi-trash" @click="viewData(data.id)" raised />
+                <Button severity="danger" icon="pi pi-trash" @click="daleteBtn(data.id)" raised />
                 <Button severity="success" icon="pi pi-eye" raised />
               </td>
             </tr>
           </tbody>
-
-
         </table>
         <div class="pagination_btn ">
           <Button label="Prev" variant="text" severity="contrast" icon="pi pi-chevron-left" @click="prevBtn()" />

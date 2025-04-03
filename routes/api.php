@@ -85,6 +85,7 @@ Route::controller(InventoryManagerController::class)->group(function () {
     Route::get('/IM_item-search-list', 'itemSearchList');
     Route::get('/IM_update-item/{id}', 'getUpdatedItem');
     Route::post('/IM_submit-updated-item/{id}', 'submitUpdatedItem');
+    route::delete('/delete-item', 'deleteItem');
 
 
     route::get('/IM-get-item', 'getItem');

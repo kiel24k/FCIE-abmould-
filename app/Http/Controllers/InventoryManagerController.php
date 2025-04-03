@@ -53,36 +53,36 @@ class InventoryManagerController extends Controller
         }
     }
 
-    public function itemSearchList(Request $request)
-    {
-        $searchTerm = $request->search;
-        if (empty($request->category)) {
-            $allItem = Item::where(function ($query) use ($searchTerm) {
-                $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
-                    ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
-            })
-                ->paginate(10);
-            return response()->json($allItem);
-        } else if ($searchTerm) {
-            $item = Item::where('category', '=', $request->category)
-                ->where(function ($query) use ($searchTerm) {
-                    $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
-                        ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
-                        ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
-                        ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
-                        ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
-                        ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
-                        ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
-                })
-                ->paginate(10);
-            return response()->json($item);
-        }
-    }
+    // public function itemSearchList(Request $request)
+    // {
+    //     $searchTerm = $request->search;
+    //     if (empty($request->category)) {
+    //         $allItem = Item::where(function ($query) use ($searchTerm) {
+    //             $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
+    //                 ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
+    //                 ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
+    //                 ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
+    //                 ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
+    //                 ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
+    //                 ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+    //         })
+    //             ->paginate(10);
+    //         return response()->json($allItem);
+    //     } else if ($searchTerm) {
+    //         $item = Item::where('category', '=', $request->category)
+    //             ->where(function ($query) use ($searchTerm) {
+    //                 $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
+    //                     ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
+    //                     ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
+    //                     ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
+    //                     ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
+    //                     ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
+    //                     ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
+    //             })
+    //             ->paginate(10);
+    //         return response()->json($item);
+    //     }
+    // }
     public function getUpdatedItem($id)
     {
         $item = Item::find($id);
@@ -108,6 +108,10 @@ class InventoryManagerController extends Controller
         $item->brand = $request->brand;
         $item->update();
         return response()->json($item);
+    }
+
+    public function deleteItem (Request $request) {
+        Item::find($request->id)->delete();
     }
 
 
