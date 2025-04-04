@@ -53,36 +53,7 @@ class InventoryManagerController extends Controller
         }
     }
 
-    // public function itemSearchList(Request $request)
-    // {
-    //     $searchTerm = $request->search;
-    //     if (empty($request->category)) {
-    //         $allItem = Item::where(function ($query) use ($searchTerm) {
-    //             $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
-    //                 ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
-    //                 ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
-    //                 ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
-    //                 ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
-    //                 ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
-    //                 ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
-    //         })
-    //             ->paginate(10);
-    //         return response()->json($allItem);
-    //     } else if ($searchTerm) {
-    //         $item = Item::where('category', '=', $request->category)
-    //             ->where(function ($query) use ($searchTerm) {
-    //                 $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
-    //                     ->orWhere('supplier_name', 'LIKE', '%' . $searchTerm . '%')
-    //                     ->orWhere('unit_cost', 'LIKE', '%' . $searchTerm . '%')
-    //                     ->orWhere('quantity', 'LIKE', '%' . $searchTerm . '%')
-    //                     ->orWhere('category', 'LIKE', '%' . $searchTerm . '%')
-    //                     ->orWhere('brand', 'LIKE', '%' . $searchTerm . '%')
-    //                     ->orWhere('description', 'LIKE', '%' . $searchTerm . '%');
-    //             })
-    //             ->paginate(10);
-    //         return response()->json($item);
-    //     }
-    // }
+
     public function getUpdatedItem($id)
     {
         $item = Item::find($id);
@@ -110,7 +81,8 @@ class InventoryManagerController extends Controller
         return response()->json($item);
     }
 
-    public function deleteItem (Request $request) {
+    public function deleteItem(Request $request)
+    {
         Item::find($request->id)->delete();
     }
 
@@ -123,73 +95,48 @@ class InventoryManagerController extends Controller
         return response()->json($items);
     }
 
-    public function getItem(Request $request)
-    {
-        if (!$request->category) {
-            $allItem = Item::latest()
-                ->paginate(10);
-            return response()->json($allItem);
-        } else if ($request->category) {
-            $item = Item::where('category', '=', $request->category)
-                ->latest()
-                ->paginate(10);
-            return response()->json($item);
-        }
-    }
-    public function itemSearchlists(Request $request)
-    {
-        if (!$request->category) {
-            $allItem = Item::where('item_code', 'LIKE', '%' . $request->search . '%')
-                ->latest()
-                ->paginate(10);
-            return response()->json($allItem);
-        } else if ($request->category) {
-            $item = Item::where('category', '=', $request->category)
-                ->where('item_code', 'LIKE', '%' . $request->search . '%')
-                ->latest()
-                ->paginate(10);
-            return response()->json($item);
-        }
-    }
 
 
-    public function getDateSchedule()
+
+
+    public function getDateScheduleCategory()
     {
         $data = Schedule::select('date_schedule')->get();
-        $data->prepend(['date_schedule' => 'all']); // Add 'all' at the beginning
-
         return response()->json($data);
     }
 
     public function scheduleList(Request $request)
     {
-        $search = $request->search;
-        $category = $request->category;
-        if ((empty($category) || $category == 'all') && empty($search)) {
-            $item = Schedule::get();
-            return response()->json($item);
-        } else if ((empty($category) || $category == 'all' && !empty($search))) {
-            $item = Schedule::where(function ($query) use ($search) {
-                $query->where('supplier_name', 'LIKE', '%' . $search . '%')
-                    ->orWhere('item_code', 'LIKE', '%' .  $search . '%')
-                    ->orWhere('quantity', 'LIKE', '%' .  $search . '%')
-                    ->orWhere('status', 'LIKE', '%' .  $search . '%')
-                    ->orWhere('date_schedule', 'LIKE', '%' .  $search . '%');
-            })->get();
-            return response()->json($item);
-        } else if ((!empty($category) && empty($search))) {
-            $item = Schedule::where('date_schedule', $category)->get();
-            return response()->json($item);
-        } else if ((!empty($category) && !empty($search))) {
-            $item = Schedule::where('date_schedule', '=', $category)
-                ->where(function ($query) use ($search) {
-                    $query->where('supplier_name', 'LIKE', '%' . $search . '%')
-                        ->orWhere('item_code', 'LIKE', '%' .  $search . '%')
-                        ->orWhere('quantity', 'LIKE', '%' .  $search . '%')
-                        ->orWhere('status', 'LIKE', '%' .  $search . '%')
-                        ->orWhere('date_schedule', 'LIKE', '%' .  $search . '%');
-                })->get();
-            return response()->json($item);
+        $sortName = $request->query('sortName', 'id');
+        $sortBy = $request->query('sortBy', 'DESC');
+        if (empty($request->category) && empty($request->search)) {
+            $data = Schedule::orderBy($sortName, $sortBy)->paginate(10);
+            return response()->json($data);
+        }
+        if (isset($request->category) && empty($request->search)) {
+            $data = Schedule::where('date_schedule', $request->category)
+                ->orderBy($sortName, $sortBy)
+                ->paginate(10);
+            return response()->json($data);
+        } else if (empty($request->category) && isset($request->search)) {
+            $data = Schedule::where('supplier_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('item_code', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('status', 'LIKE', '%' . $request->search . '%')
+                ->orderBy($sortName, $sortBy)
+                ->paginate(10);
+            return response()->json($data);
+        } else if (isset($request->category) && isset($request->search)) {
+            $data = Schedule::where('date_schedule', $request->category)
+                ->where(function ($query) use ($request) {
+                    $query->where('supplier_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('item_code', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('status', 'LIKE', '%' . $request->search . '%');
+                })
+                ->orderBy($sortName, $sortBy)
+                ->paginate(10);
+            return response()->json($data);
         }
     }
     public function updateScheduleStatus(Request $request)

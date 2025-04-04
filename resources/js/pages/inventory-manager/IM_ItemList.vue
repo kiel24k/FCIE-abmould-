@@ -2,17 +2,18 @@
 import Header from '@/components/IM_Header.vue'
 import { onMounted, ref, watch } from 'vue';
 import UpdateModal from '../../components/IM_UpdateItemModal.vue'
-import itemModal from '@/components/IM_View_Modal.vue'
+import ViewModal from '@/components/IM_View_Item_Modal.vue'
 import html2pdf from 'html2pdf.js';
-import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
+import { Button, InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue';
 import Swal from 'sweetalert2';
+
 
 
 
 const printContent = ref(null)
 const viewModal = ref(false)
-const itemId = ref('')
-const updateModal = ref(false)
+const itemId = ref(null)
+const isUpdateModal = ref(false)
 
 //COMPONENTS VARIABLE
 const category = ref('')
@@ -22,8 +23,8 @@ const sortBy = ref('ASC')
 const pagination = ref({
   current_page: null,
   last_page: null
-
 })
+const isViewModal = ref(false)
 
 //API VARIABLE
 const itemCategory = ref({})
@@ -60,6 +61,8 @@ const GET_ITEM_LIST_API = async (page = 1) => {
 
   })
 }
+
+
 
 const daleteBtn =  (id) => {
   Swal.fire({
@@ -118,6 +121,28 @@ const nextBtn = () => {
   }
 }
 
+const updateBtn = (id) => {
+  itemId.value = id
+  isUpdateModal.value = true
+}
+
+const closeBtn = () => {
+  isUpdateModal.value = false
+  GET_ITEM_LIST_API()
+}
+
+const viewBtn = (id) => {
+  itemId.value = id
+  isViewModal.value = true
+}
+
+const closeViewModal = () => {
+  isViewModal.value = false
+
+}
+
+
+
 
 
 //HOOKDS
@@ -146,8 +171,11 @@ onMounted(() => {
   <div class="row item_list">
     <div class="col">
       <div class="table-list">
+        <Message severity="info" size="small" icon="pi pi-database" variant="outlined">
+          <b>ITEM LIST</b>
+        </Message>
         <!-- Filter -->
-        <div class="table-filter">
+        <div class="table-filter mt-3">
           <div class="category">
             <Select placeholder="Date" :options="itemCategory" optionLabel="release_date" v-model="category" />
             <InputGroup>
@@ -215,7 +243,7 @@ onMounted(() => {
               <td class="table-action">
                 <Button severity="info" icon="pi pi-pen-to-square" @click="updateBtn(data.id)" raised />
                 <Button severity="danger" icon="pi pi-trash" @click="daleteBtn(data.id)" raised />
-                <Button severity="success" icon="pi pi-eye" raised />
+                <Button severity="success" icon="pi pi-eye"  @click="viewBtn(data.id)" raised  />
               </td>
             </tr>
           </tbody>
@@ -230,7 +258,8 @@ onMounted(() => {
     <Loading v-if="loading" />
     <itemModal v-if="viewModal" :viewModalId="itemId" @exit="viewModal = false" />
   </div>
-  <UpdateModal v-if="updateModal" @closeBtn="updateModal = false" :itemId="itemId" :getItem="getItem" />
+  <UpdateModal v-if="isUpdateModal" @closeBtn="closeBtn" :itemId="itemId" :getItem="getItem" />
+  <ViewModal v-if="isViewModal" :itemId="itemId" @closeViewModal="closeViewModal"/>
 
 
 </template>
