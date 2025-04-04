@@ -20,9 +20,8 @@ return new class extends Migration
             $table->integer('quantity')->nullable();
             $table->integer('treshold')->nullable();
             $table->string('category');
-            $table->string('out_of_stock_notif')->nullable();
             $table->string('description');
-            $table->string('brand')->nuillable();
+            $table->string('brand')->nullable();
             $table->date('release_date')->nullable();
             $table->timestamps();
         });

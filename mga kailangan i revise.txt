@@ -9,14 +9,19 @@ BARCODE [
     VIEW => display from items na mismo =>
 ]
 ITEMS [
-    NEW ITEM, dapat may validation na kapag ang quantity ay lumagpas sa treshold ay may lalabas na warning => DONE
+    UI NG ITEM LIST =>DONE
+    UI NG NEW ITEM => done
+    DYNAMIC SELECT CATEGORY =>  done
+    UI NG CATEGORY => DONE
+    LAGYAN NG VIEW ACTION ANG CATEGORY TABLE =>
 ]
 ACTIVITY LOGS [
    STOCK ADJUSTMENT, makikita ang user kapag pinindot ang track user => DONE
    ITEM CHANGES, makikita ang user kapag pinindot ang track user  => DONE
+   
 ]
 USER MANAGEMENT [
-    ALL USERS, UI design ng table => DONE
+    ALL USERS, UI design ng table => 
     ADD NEW USER, form page ng pag aadd => DONE
     ASSIGN ROLES, roles assigning na naka box => DONE
 ]

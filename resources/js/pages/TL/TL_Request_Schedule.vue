@@ -5,97 +5,82 @@ import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue
 import { computed, onMounted, ref, watch } from 'vue';
 import StatusModal from '@/components/TL_Change_Status_Modal.vue'
 
-const dateCategory = ref(null);
+const category = ref("");
 const search = ref('')
-const dateSchedule = ref([])
-const schedule = ref({})
+const dateSchedule = ref({})
+const scheduleListData = ref({})
 const statusModal = ref(false)
 const statusData = ref({})
 const statusCount = ref({})
 
+//COMPONENTS VARIABLE
+const scheduleListCategoryData = ref({})
+
+//API VARIABLES
 const changeStatusBtn = (data) => {
     statusData.value = data
     statusModal.value = true
 }
 const closeModal = () => {
     statusModal.value = false
-    SCHEDULE_LIST_API()
+    GET_SCHEDULE_LIST_API()
     STATUS_COUNT_API()
 }
 
+//API FUNCTIONS
 
+const GET_SCHEDULE_LIST_CATEGORY_API = async () => {
+    await axios({
+        method: 'GET',
+        url: 'api/tl-schedule-list-category'
+    }).then(response => {
+        scheduleListCategoryData.value = response.data
+    })
+}
 
-
-const SCHEDULE_LIST_API = async () => {
-    const response = await axios.get('api/tl-schedule-list', {
+const GET_SCHEDULE_LIST_API = async () => {
+    await axios({
+        method: 'GET',
+        url: 'api/tl-schedule-list',
         params: {
-            category: dateCategory.value,
+            category: category.value.date_schedule,
             search: search.value
         }
+    }).then(response => {
+        scheduleListData.value = response.data
     })
-    schedule.value = response.data
 }
 
-
-watch(dateCategory, async (oldVal, newVal) => {
-    try {
-        const response = await axios.get('api/tl-schedule-list',
-            {
-                params: {
-                    category: dateCategory.value.name,
-                    search: search.value
-                }
-            }
-        )
-        schedule.value = response.data
-
-    } catch (error) {
-
-    }
-    if(dateCategory.value.name === 'all'){
-        dateCategory.value = ''
-    }
-
-})
-
-watch(search, async (oldVal, newVal) => {
-    try {
-        const response = await axios.get('api/tl-schedule-list',
-            {
-                params: {
-                    category: dateCategory.value,
-                    search: search.value
-                }
-            }
-        )
-        schedule.value = response.data
-        
-
-    } catch (error) {
-
-    }
-})
-
-const GET_DATE_SCHEDULE_API = async () => {
-    const response = await axios.get('api/tl-get-date-schedule')
-    const test = response.data.map((el) => ({ name: el.date_schedule }))
-    dateSchedule.value = test
-}
 const STATUS_COUNT_API = async () => {
     const response = await axios('api/tl-status-count')
     statusCount.value = response.data
     console.log(statusCount.value);
-    
+
+}
+
+//COMPONENTS FUNCTIONS
+const clear = () => {
+    search.value = ""
+    category.value = ""
 }
 
 
+//HOOKS
+watch(category, async (oldVal, newVal) => {
+    GET_SCHEDULE_LIST_API()
+
+})
+
+watch(search, (oldVal, newVal) => {
+    GET_SCHEDULE_LIST_API()
+})
 
 onMounted(() => {
-    GET_DATE_SCHEDULE_API()
-    SCHEDULE_LIST_API()
+    GET_SCHEDULE_LIST_CATEGORY_API()
+    GET_SCHEDULE_LIST_API()
     STATUS_COUNT_API()
 
-    
+
 })
 
 
@@ -111,11 +96,11 @@ onMounted(() => {
     </header>
     <section>
         <article class="box">
-            <div class="text-center"  v-for="(data) in statusCount">
-                <b>{{data.status}}</b>
+            <div class="text-center" v-for="(data) in statusCount">
+                <b>{{ data.status }}</b>
                 <h2>{{ data.status_count }}</h2>
             </div>
-            
+
         </article>
     </section>
 
@@ -124,8 +109,8 @@ onMounted(() => {
             <figure class="table-action">
                 <div class="select-category">
                     <div class="flex justify-center">
-                        <Select v-model="dateCategory" :options="dateSchedule" optionLabel="name" placeholder="Schedule Date"
-                            checkmark />
+                        <Select v-model="category" :options="scheduleListCategoryData" optionLabel="date_schedule"
+                            placeholder="Schedule Date" checkmark />
                     </div>
                     <br>
                 </div>
@@ -135,6 +120,7 @@ onMounted(() => {
                         <InputGroupAddon>
                             <Button icon="pi pi-search" severity="secondary" variant="text" @click="toggle" />
                         </InputGroupAddon>
+                        <Button label="Clear" icon="pi pi-eraser" severity="secondary" raised @click="clear()" v-if="category || search" />
                     </InputGroup>
                 </div>
 
@@ -144,7 +130,7 @@ onMounted(() => {
 
             </figure>
             <figure class="table-main ">
-                <table class="table table-striped table-responsive table-hover">
+                <table class="table table-bordered table-responsive table-hover">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -160,10 +146,6 @@ onMounted(() => {
                                 <i class="pi pi-sort-amount-down" />
                                 <!-- <i class="pi pi-sort-amount-up"/> -->
                             </th>
-                            <th>Date Schedule
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
                             <th>Status
                                 <i class="pi pi-sort-amount-down" />
                                 <!-- <i class="pi pi-sort-amount-up"/> -->
@@ -172,24 +154,30 @@ onMounted(() => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(data, index) in schedule" :key="index">
+                        <tr v-for="(data, index) in scheduleListData.data" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td>{{ data.supplier_name }}</td>
                             <td>{{ data.item_code }}</td>
                             <td>{{ data.quantity }}</td>
-                            <td>{{ data.date_schedule }}</td>
                             <td>
-                                <span :style="{'background-color': data.status === 'pending' ? 'rgb(253,217,216)' :
-                                                        data.status === 'approved' ? 'rgb(215,229,254)' :
-                                                        data.status === 'not-approved' ? 'rgb(252,222,192)':
-                                                        data.status === 'released' ? 'rgb(198,240,219)' :
-                                                        'iherit'
-                            }">{{ data.status }}</span>
+                                <span :style="{
+                                    'background-color': data.status === 'pending' ? 'rgb(253,217,216)' :
+                                        data.status === 'approved' ? 'rgb(215,229,254)' :
+                                            data.status === 'not-approved' ? 'rgb(252,222,192)' :
+                                                data.status === 'released' ? 'rgb(198,240,219)' :
+                                                    'iherit'
+                                }">{{ data.status }}</span>
                             </td>
-                            <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded raised severity="info" :disabled="data.status === 'approved'"/></td>
+                            <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded raised
+                                    severity="info" :disabled="data.status === 'approved'" /></td>
                         </tr>
                     </tbody>
                 </table>
+                <div class="paginate_class">
+                    <Button label="Prev" icon="pi pi-chevron-left" variant="text" severity="contrast"/>
+                    <span>1 of 2</span>
+                    <Button label="Prev" icon="pi pi-chevron-right" iconPos="right" variant="text" severity="contrast"/>
+                </div>
             </figure>
         </div>
 
@@ -198,15 +186,11 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.table-main{
-    overflow-y: scroll;
-   
-}
 section {
     width: 75%;
     margin: auto;
     padding: 10px;
-    
+
 }
 
 .box {
@@ -233,13 +217,14 @@ section {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.paginate {
+.paginate_class {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
 }
-.changeStatusModal-leave-active{
+
+.changeStatusModal-leave-active {
     transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
@@ -250,25 +235,29 @@ section {
 
 @keyframes bounce-in {
     0% {
-      transform: scale(0);
+        transform: scale(0);
     }
+
     50% {
-      transform: scale(1.25);
+        transform: scale(1.25);
     }
+
     100% {
-      transform: scale(1);
+        transform: scale(1);
     }
-  }
- td{
-    text-align: start;       
+}
+
+td {
+    text-align: start;
     vertical-align: middle;
- }
-  td span{
-    padding:8px;
+}
+
+td span {
+    padding: 8px;
     border-radius: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(126, 126, 126, 0.2);
     font-weight: 600;
     text-transform: capitalize;
-  }
+}
 </style>

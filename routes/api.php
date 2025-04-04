@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\InventoryManagerController;
@@ -27,8 +28,8 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/updated-user-data/{id}', 'userUpdatedData');
     Route::post('/update-user-data/{id}', 'userUpdateData');
     Route::post('/new-item', 'newItem');
-    Route::get('/get-items', 'getItems');
-    Route::get('/item-category', 'itemCategory');
+    Route::get('/get-item-list', 'getItemList');
+    Route::get('/item-list-category', 'itemListCategory');
     Route::get('/items-search', 'itemsSearch');
     Route::delete('/delete-item/{id}', 'deleteItem');
     Route::get('/updated-item/{id}', 'updatedItem');
@@ -99,14 +100,17 @@ Route::controller(InventoryManagerController::class)->group(function () {
 
 
 Route::controller(MemberController::class)->group(function () {
-    Route::get('/member-get-item', 'getItem');
-    Route::get('/member-item-search-list', 'itemSearchList');
-    route::get('/member-category-list', 'category');
+    Route::get('/member-item-category', 'itemCategory');
+    route::get('/member-item-list', 'itemList');
+    // route::get('/member-category-list', 'category');
 });
 
 Route::controller(TlController::class)->group(function () {
-    route::get('tl-item-category', 'itemCategory');
-    Route::get('/tl-items', 'items');
+    Route::get('/tl-item-category', 'itemCategory');
+    route::get('/tl-item-list', 'itemList');
+
+    route::get('/tl-schedule-list-category','scheduleListCategory');
+    route::get('/tl-schedule-list', 'scheduleList');
     route::get('tl-get-date-schedule', 'getDateSchedule');
     route::get('/tl-schedule-list', 'scheduleList');
     route::post('/tl-update-schedule-status', 'updateScheduleStatus');
@@ -127,14 +131,17 @@ route::controller(HistoryController::class)->group(function () {
 });
 
 route::controller(LogsController::class)->group(function () {
-    route::post('treshold-logs', 'tresholdLogs');    
+    route::post('treshold-logs', 'tresholdLogs');
     route::get('get-logs', 'getLogs');
-    route::get('test', 'test' );
+    route::get('test', 'test');
     route::delete('remove-logs', 'removeLogs');
 
     route::get('get-item-logs', 'getItemLogs');
     route::delete('remove-item-logs', 'removeItemLogs');
-   
+});
+
+route::controller(CategoryController::class)->group(function () {
+ route::get('all-item-category', 'allItemCategory');
 });
 
 
@@ -142,4 +149,3 @@ route::controller(LogsController::class)->group(function () {
 Route::post('/low-stock-email', [AnnouncementController::class, 'lowStockAlert']);
 
 route::get('/notification-table', [NotificationController::class, 'getNotificationTable']);
-
