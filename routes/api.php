@@ -80,15 +80,17 @@ Route::controller(AdminController::class)->group(function () {
 });
 
 Route::controller(InventoryManagerController::class)->group(function () {
-    Route::get('/IM_get_item_list', 'getItemList');
+    route::get('/IM_item_category', 'itemCategory');
+    Route::get('/IM-get-item-list', 'getItemList');
     Route::get('/IM_item-search-list', 'itemSearchList');
     Route::get('/IM_update-item/{id}', 'getUpdatedItem');
     Route::post('/IM_submit-updated-item/{id}', 'submitUpdatedItem');
+    route::delete('/delete-item', 'deleteItem');
 
 
     route::get('/IM-get-item', 'getItem');
     Route::get('/IM-item-search-list', 'itemSearchlists');
-    route::get('/IM-get-date-schedule', 'getDateSchedule');
+    route::get('/IM-get-date-schedule-category', 'getDateScheduleCategory');
     route::get('/IM-schedule-list', 'scheduleList');
     route::post('/IM-update-schedule-status', 'updateScheduleStatus');
     route::get('status-count', 'statusCount');

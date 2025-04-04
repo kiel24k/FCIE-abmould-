@@ -106,7 +106,7 @@ const updateBtn = async (id) => {
 </template>
 <style scoped>
 .modal {
-    position: absolute;
+    position: fixed;
     display: grid;
     justify-content: center;
     align-items: center;
@@ -115,6 +115,7 @@ const updateBtn = async (id) => {
     z-index: 999;
     overflow: hidden;
     background: rgb(236, 236, 236, 0.5);
+    
 
 }
 

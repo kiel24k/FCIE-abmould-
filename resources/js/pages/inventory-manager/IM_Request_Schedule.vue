@@ -2,14 +2,12 @@
 import Header from '@/components/IM_Header.vue'
 
 import axios from 'axios';
-import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
+import { Button, InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue';
 import { computed, onMounted, ref, watch } from 'vue';
 import StatusModal from '@/components/IM_Change_Status_Modal.vue'
 import html2pdf from 'html2pdf.js';
 
-const dateCategory = ref(null);
-const search = ref('')
-const dateSchedule = ref([])
+
 const schedule = ref({})
 const statusModal = ref(false)
 const statusData = ref({})
@@ -22,68 +20,62 @@ const changeStatusBtn = (data) => {
 }
 const closeModal = () => {
     statusModal.value = false
-    SCHEDULE_LIST_API()
+    GET_SCHEDULE_LIST_API()
+    STATUS_COUNT_API()
 }
 
+//COMPONENTS VARIABLE 
+const search = ref('')
+const category = ref('')
+const sortName = ref('')
+const sortBy = ref('ASC')
+const pagination = ref({
+    current_page: null,
+    last_page: null
+})
 
 
+//API VARIABLE
+const dateScheduleData = ref({})
+const scheduleListData = ref({})
 
-const SCHEDULE_LIST_API = async () => {
-    const response = await axios.get('api/IM-schedule-list', {
-        params: {
-            category: dateCategory.value,
-            search: search.value
-        }
+//API FUNCTION
+const GET_DATE_SCHEDULE_CATEGORY_API = async () => {
+    await axios({
+        method: 'GET',
+        url: 'api/IM-get-date-schedule-category'
+    }).then(response => {
+        dateScheduleData.value = response.data
     })
-    schedule.value = response.data
 }
 
+const GET_SCHEDULE_LIST_API = async (page = 1) => {
+    await axios({
+        method: 'GET',
+        url: `api/IM-schedule-list?page=${page}`,
+        params: {
+            category: category.value,
+            search: search.value,
+            sortName: sortName.value,
+            sortBy: sortBy.value
+        }
+    }).then(response => {
+        console.log(response.data);
 
-watch(dateCategory, async (oldVal, newVal) => {
-    try {
-        const response = await axios.get('api/IM-schedule-list',
-            {
-                params: {
-                    category: dateCategory.value.name,
-                    search: search.value
-                }
-            }
-        )
-        schedule.value = response.data
-
-    } catch (error) {
-
-    }
-    if (dateCategory.value.name === 'all') {
-        dateCategory.value = ''
-    }
-
-})
-
-watch(search, async (oldVal, newVal) => {
-    try {
-        const response = await axios.get('api/IM-schedule-list',
-            {
-                params: {
-                    category: dateCategory.value,
-                    search: search.value
-                }
-            }
-        )
-        schedule.value = response.data
-
-
-    } catch (error) {
-
-    }
-})
-
-const GET_DATE_SCHEDULE_API = async () => {
-    const response = await axios.get('api/IM-get-date-schedule')
-    const test = response.data.map((el) => ({ name: el.date_schedule }))
-    dateSchedule.value = test
+        pagination.value = {
+            current_page: response.data.current_page,
+            last_page: response.data.last_page
+        }
+        scheduleListData.value = response.data
+    })
 }
 
+const STATUS_COUNT_API = async () => {
+    const response = await axios('api/status-count')
+    statusCountApi.value = response.data
+}
+
+//COMPONENTS FUNCTION
 const generatePdf = () => {
     const elem = printTable.value
     const options = {
@@ -100,15 +92,49 @@ const generatePdf = () => {
 
 }
 
-const STATUS_COUNT_API = async () => {
-    const response = await axios('api/status-count')
-    statusCountApi.value = response.data
-    console.log(response.data);
+const clear = () => {
+    search.value = ""
+    category.value = ""
 }
 
+const sort = (data) => {
+    sortName.value = data
+    if (sortBy.value === 'ASC') {
+        sortBy.value = 'DESC'
+    } else {
+        sortBy.value = 'ASC'
+    }
+    GET_SCHEDULE_LIST_API()
+}
+
+const prevBtn = () => {
+    if (pagination.value.last_page >= pagination.value.current_page) {
+        GET_SCHEDULE_LIST_API(pagination.value.last_page - 1)
+    }
+
+}
+
+const nextBtn = () => {
+    if (pagination.value.current_page < pagination.value.last_page) {
+        GET_SCHEDULE_LIST_API(pagination.value.current_page + 1)
+    }
+
+}
+
+
+
+//hookds
+
+watch(category, (oldVal, newVal) => {
+    GET_SCHEDULE_LIST_API()
+})
+
+watch(search, (oldVal, newVal) => {
+    GET_SCHEDULE_LIST_API()
+})
 onMounted(() => {
-    GET_DATE_SCHEDULE_API()
-    SCHEDULE_LIST_API()
+    GET_DATE_SCHEDULE_CATEGORY_API()
+    GET_SCHEDULE_LIST_API()
     STATUS_COUNT_API()
 
 })
@@ -124,7 +150,13 @@ onMounted(() => {
     <header>
         <Header />
     </header>
+    <section class="mt-5">
+        <Message severity="info" icon="pi pi-calendar">
+            <h3>SCHEDULE REQUEST</h3>
+        </Message>
+    </section>
     <section>
+
         <article class="box">
             <div class="text-center" v-for="(data) in statusCountApi">
                 <b>{{ data.status }}</b>
@@ -135,66 +167,65 @@ onMounted(() => {
 
     <section>
         <div class="">
-            <figure class="table-action">
-                <div class="select-category">
-                    <div class="flex justify-center">
-                        <Select v-model="dateCategory" :options="dateSchedule" optionLabel="name"
-                            placeholder="Schedule Date" checkmark />
+           
+            <figure class="table-main p-3 ">
+                <figure class="table-action">
+                    <div class="select-category">
+                        <div class="flex justify-center">
+                            <Select v-model="category" :options="dateScheduleData" optionLabel="date_schedule"
+                                placeholder="Date schedule" checkmark />
+                        </div>
+    
+                        <br>
+    
                     </div>
+    
+                    <div class="search">
+                        <InputGroup>
+                            <InputText v-model="search" placeholder="Keyword" raised />
+                            <InputGroupAddon>
+                                <Button icon="pi pi-search" severity="secondary" variant="text" @click="toggle" />
+                                <Button @click="clear()" label="Clear" severity="secondary" icon="pi pi-eraser" raised
+                                    v-if="search || category" />
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                    <div class="print">
+                        <Button label="Print" severity="danger" icon="pi pi-file-pdf" raised @click="generatePdf" />
+                    </div>
+    
+                </figure>
 
-                    <br>
-
-                </div>
-
-                <div class="search">
-                    <InputGroup>
-                        <InputText v-model="search" placeholder="Keyword" raised />
-                        <InputGroupAddon>
-                            <Button icon="pi pi-search" severity="secondary" variant="text" @click="toggle" />
-                        </InputGroupAddon>
-                    </InputGroup>
-                </div>
-
-                <div class="print">
-                    <Button label="Print" severity="danger" icon="pi pi-file-pdf" raised @click="generatePdf" />
-                </div>
-
-            </figure>
-            <figure class="table-main ">
-                <table class="table table-striped table-responsive table-hover" ref="printTable">
+                <table class="table table-bordered table-responsive table-hover" ref="printTable">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Supplier Name
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
+                            <th @click="sort('supplier_name')">Supplier Name
+                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'DESC'" />
+                                <i class="pi pi-sort-amount-up" v-else />
                             </th>
-                            <th>Item Code
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
+                            <th @click="sort('item_code')">Item Code
+                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'DESC'" />
+                                <i class="pi pi-sort-amount-up" v-else />
                             </th>
-                            <th>Quantity
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
+                            <th @click="sort('quantity')">Quantity
+                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'DESC'" />
+                                <i class="pi pi-sort-amount-up" v-else />
                             </th>
-                            <th>Date Schedule
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
-                            <th>Status
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
+
+                            <th @click="sort('status')">Status
+                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'DESC'" />
+                                <i class="pi pi-sort-amount-up" v-else />
                             </th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(data, index) in schedule" :key="index">
+                        <tr v-for="(data, index) in scheduleListData.data" :key="index">
                             <td>{{ index + 1 }}</td>
                             <td>{{ data.supplier_name }}</td>
                             <td>{{ data.item_code }}</td>
-                            <td>{{ data.quantity }}</td>
-                            <td>{{ data.date_schedule }}</td>
+                            <td>{{ data.quantity }}x</td>
                             <td>
                                 <span :style="{
                                     'background-color': data.status === 'pending' ? 'rgb(253,217,216)' :
@@ -204,21 +235,25 @@ onMounted(() => {
                                                     'iherit'
                                 }">{{ data.status }}</span>
                             </td>
-                            <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded raised
+                            <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" raised
                                     severity="info" :disabled="data.status === 'approved'" /></td>
                         </tr>
                     </tbody>
                 </table>
+                <figcaption>
+                    <div class="paginate">
+
+                        <Button severity="contrast" variant="text" label="Prev" icon="pi pi-chevron-left"
+                            @click="prevBtn()" /> <span> {{ pagination.current_page }} of {{ pagination.last_page
+                            }}</span>
+                        <Button severity="contrast" variant="text" iconPos="right" label="Next"
+                            icon="pi pi-chevron-right" @click="nextBtn()" />
+                    </div>
+
+                </figcaption>
+
             </figure>
         </div>
-        <figcaption>
-            <div class="paginate">
-
-                <Button severity="secondary" rounded raised label="Prev" /> <span> 1 of 2</span> <Button
-                    severity="secondary" rounded raised label="Next" />
-            </div>
-
-        </figcaption>
 
     </section>
 
@@ -227,7 +262,7 @@ onMounted(() => {
 
 <style scoped>
 .table-main {
-    overflow-y: scroll;
+    overflow-y: auto;
 
 }
 
@@ -243,12 +278,13 @@ section {
     flex-wrap: wrap;
     gap: 15px;
     justify-content: center;
+
 }
 
 .box>div {
     width: 12rem;
     height: 12rem;
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -258,7 +294,7 @@ section {
 }
 
 .table-main {
-    border-radius: 10px;
+    border-radius: 5px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
@@ -307,7 +343,7 @@ td span {
 }
 
 table th {
-    background: rgba(165, 164, 164, 0.5);
+
     backdrop-filter: blur(15);
 }
 </style>

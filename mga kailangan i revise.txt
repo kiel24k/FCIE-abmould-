@@ -32,8 +32,8 @@ BARCODE [
 DASHBOARD[
     dapat ang ui ay parehas sa admin => DONE
 ]
-ITEM LIST UI =>
-PROFILE CAN EDIT => 
+ITEM LIST UI => DONE
+
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
