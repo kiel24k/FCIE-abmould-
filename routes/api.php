@@ -21,8 +21,8 @@ Route::get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::controller(AdminController::class)->group(function () {
+    route::get('/user-list-category', 'userListCategory');
     Route::get('/user-list', 'userList');
-    Route::get('/user-list-search', 'userListSearch');
     Route::post('/add-user', 'addUser');
     Route::delete('/delete-user/{id}', 'deleteUser');
     Route::get('/updated-user-data/{id}', 'userUpdatedData');

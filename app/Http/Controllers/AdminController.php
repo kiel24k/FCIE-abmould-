@@ -20,34 +20,48 @@ use Illuminate\Support\Facades\Schema;
 
 class AdminController extends Controller
 {
-    public function userList(Request $request)
+
+    public function userListCategory()
     {
-        $sortName = $request->query('sort', 'first_name');
-        $sortOrder = $request->query('order', 'asc');
-        if ($request->role) {
-            $table = User::where('role', '=', $request->role)
-                ->orderBy($sortName, $sortOrder)
-                ->paginate(3);
-            return response()->json($table);
-        } else if (!$request->category) {
-            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(10));
-        } else if ($request->category) {
-            return response()->json(User::orderBy($sortName, $sortOrder)->paginate(10));
+        $category = User::select('role')->distinct()->get();
+        return response()->json($category);
+    }
+    public function userList(Request $request) {
+        $sortName = $request->query('sortName', 'id');
+        $sortOrder = $request->query('sortOrder', 'DESC');
+        if(empty($request->category) && empty($request->search)){
+            $data = User::orderBy($sortName, $sortOrder)
+            ->paginate(9);
+            return response()->json($data);
+        }else if(isset($request->category) && empty($request->search)){
+            $data = User::where('role', $request->category)
+            ->orderBy($sortName, $sortOrder)
+            ->paginate(9);
+            return response()->json($data);
+        }else if(empty($request->category) && isset($request->search)){
+            $data = User::where('first_name' , 'LIKE', '%' . $request->search . '%')
+            ->orWhere('last_name' , 'LIKE', '%' . $request->search . '%')
+            ->orWhere('middle_name' , 'LIKE', '%' . $request->search . '%')
+            ->orWhere('email' , 'LIKE', '%' . $request->search . '%')
+            ->orWhere('tel_no' , 'LIKE', '%' . $request->search . '%')
+            ->orderBy($sortName, $sortOrder)
+            ->paginate(9);
+            return response()->json($data);
+        }else if(isset($request->category) && isset($request->search)){
+            $data = User::where('role', $request->category)
+            ->where(function ($query) use ($request){
+                $query->where('first_name' , 'LIKE', '%' . $request->search . '%')
+                ->orWhere('last_name' , 'LIKE', '%' . $request->search . '%')
+                ->orWhere('middle_name' , 'LIKE', '%' . $request->search . '%')
+                ->orWhere('email' , 'LIKE', '%' . $request->search . '%')
+                ->orWhere('tel_no' , 'LIKE', '%' . $request->search . '%');
+            })
+            ->orderBy($sortName, $sortOrder)
+            ->paginate(9);
+            return response()->json($data);
         }
     }
-    public function userListSearch(Request $request)
-    {
-        if (!$request->role) {
-            $allUser = User::where('first_name', 'LIKE', '%' . $request->search . '%')
-                ->latest()->paginate(10);
-            return response()->json($allUser);
-        } else if ($request->role) {
-            $user = User::where('role', '=', $request->role)
-                ->where('first_name', 'LIKE', '%' . $request->search . '%')
-                ->latest()->paginate(10);
-            return response()->json($user);
-        }
-    }
+
     public function deleteUser($id)
     {
         $deleteUser = User::find($id);

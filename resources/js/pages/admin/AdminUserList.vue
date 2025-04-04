@@ -1,110 +1,3 @@
-<template>
-    <header>
-        <Header @toggle-sidebar="toggleSidebar" />
-    </header>
-    <div class="row justify-content-center mt-5">
-            <div class="col-9">
-                <div class="user-list-table">
-                    <div class="row">
-                        <div class="col title">
-                           <Message severity="info"> <h2>User List</h2></Message>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col table-category p-2" style="background: white">
-                            <select class="form-select" style="width:max-content" v-model="selected">
-                                <option value="selected" disabled>Select</option>
-                                <option value="">all</option>
-                                <option value="admin">admin</option>
-                                <option value="member">member</option>
-                                <option value="inventory-manager">inventory-manager</option>
-                            </select>
-                            <div class="search">
-                                <input type="text" placeholder="search" v-model="search">
-                                <Button disabled icon="pi pi-search" severity="contrast" variant="outlined" />
-                            </div>
-                            <div class="table-action">
-                                <Button icon="pi pi-file-pdf" severity="danger" label="print" raised @click="generatePdf"></Button>
-                                <router-link :to="{ name: 'create-user' }">
-                                    <Button icon="pi pi-plus-circle" label="New" severity="info" />
-                                </router-link>
-                              
-                            </div>
-                          
-                        </div>
-                        
-                       <figure class="table-main">
-                        <table class="table table-hover table-responsive mt-3" ref="printContent">
-                            <thead>
-                                <tr>
-                                    <th @click="sort('first_name')">
-                                        Name
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </th>
-                                    <th @click="sort('email')">
-                                        Email
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </th>
-                                    <th @click="sort('tel_no')">
-                                        Tel Number
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </th>
-                                    <th @click="sort('role')">
-                                        Role
-                                        <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                    </th>
-
-                                    <th class="text-center">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(data, index) in userList.data" :key="index">
-                                    <td>
-                                        <img :src="`/UserImage/${data.image}`" width="50px"
-                                            height="50px" alt="">
-                                        {{ data.first_name }} {{ data.last_name }}
-                                    </td>
-                                    <td>{{ data.email }}</td>
-                                    <td>{{ data.tel_no }}</td>
-                                    <td>{{ data.role }}</td>
-                                    <td class="text-center">
-                                        <span class="action">
-                                            <router-link class="btnUpdate"
-                                                :to="{ name: 'admin-update-user', params: { id: data.id } }">
-                                                <Button icon="pi pi-pen-to-square" severity="success" rounded
-                                                    raised />
-                                            </router-link>
-                                            <Button @click="deleteUser(data.id)" icon="pi pi-trash"
-                                                severity="danger" rounded raised />
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="paginator text-center">
-
-                            <nav class="btnPaginate">
-                                <Button icon="pi pi-chevron-left" variant="text"  label="prev" severity="contrast" @click="previousPage"
-                                    :disabled="!pagination.prev_page_url" rounded />
-                                <b>Page {{ pagination.current_page }} of {{ pagination.last_page }}</b>
-                                <Button icon="pi pi-chevron-right" iconPos="right" label="next" variant="text" severity="contrast" @click="nextPage"
-                                    :disabled="!pagination.next_page_url" />
-                            </nav>
-                        </div>
-                       </figure>
-                        
-                           
-                      
-                    </div>
-
-                    
-                </div>
-            </div>
-        
-    </div>
-    <Loading v-if="loading" />
-</template>
-
 <script setup>
 import Sidebar from '@/components/Admin_Sidebar.vue'
 import Header from '@/components/Admin_Header.vue'
@@ -114,7 +7,7 @@ import Loading from '@/components/Loading.vue'
 import Button from 'primevue/button';
 import html2pdf from 'html2pdf.js';
 import Swal from 'sweetalert2';
-import { Message } from 'primevue';
+import { InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue';
 
 const isSidebarHidden = ref(false);
 const toggleSidebar = () => {
@@ -123,123 +16,57 @@ const toggleSidebar = () => {
 
 const printContent = ref()
 const loading = ref(false)
-//user list pagination
-const selected = ref('')
-const userList = ref({})
-const sortDefault = ref('first_name')
-const sortOrder = ref('asc')
-const pagination = ref({
-    current_page: 1,
-    last_page: 1,
-    next_page_url: null,
-    prev_page_url: null,
-})
-
-const page = (page) => {
-    axios.get(`api/user-list?role=${selected.value}&page=${page}`, {
-        params: {
-            order: sortOrder.value,
-            sort: sortDefault.value
-        }
-    }).then(response => {
-        pagination.value = {
-            current_page: response.data.current_page,
-            last_page: response.data.last_page,
-            next_page_url: response.data.next_page_url,
-            prev_page_url: response.data.prev_page_url
-        }
-        userList.value = response.data
-    })
-}
-
-const sort = (sortValue) => {
-    console.log(sortValue);
-    if (sortDefault.value === sortValue) {
-        sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
-    } else {
-        sortDefault.value = sortValue
-        sortOrder.value = 'asc'
-    }
-    page()
-}
 
 
 
-watch(selected, (oldVal, newVal) => {
-    page()
-})
 
-const search = ref('')
-watch(search, (oldVal, newVal) => {
-    axios({
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//COMPONENTS VARIABLE
+const category = ref("")
+const search = ref("")
+
+//API VARIABLE
+const userListCategoryData = ref({})
+const userListData = ref({})
+//API FUNCTION
+const GET_USER_LIST_CATEGORY_API = async () => {
+    await axios({
         method: 'GET',
-        url: `/api/user-list-search?role=${selected.value}&search=${search.value}`
+        url: 'api/user-list-category'
     }).then(response => {
-        userList.value = response.data
+        userListCategoryData.value = response.data
     })
+}
 
-    if (search.value === '') {
-        page()
-    }
-})
+const GET_USER_LIST_API = async (page = 1) => {
+    await axios({
+        method: 'GET',
+        url: `api/user-list?page=${page}`,
+        params: {
+            category: category.value,
+            search: search.value
+        }
+    }).then(response => {
+        userListData.value = response.data
 
-//delete user
-const deleteUser = async (id) => {
-    const swalWithBootstrapButtons = Swal.mixin({
-  customClass: {
-    confirmButton: "btn btn-success m-2",
-    cancelButton: "btn btn-danger m-2"
-  },
-  buttonsStyling: false
-});
-swalWithBootstrapButtons.fire({
-  title: "Are you sure?",
-  text: "You won't be able to revert this!",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonText: "Yes, delete it!",
-  cancelButtonText: "No, cancel!",
-  reverseButtons: true
-}).then((result) => {
-  if (result.isConfirmed) {
-       axios.delete(`api/delete-user/${id}`).then(response => {
-        page()
     })
-    swalWithBootstrapButtons.fire({
-      title: "Deleted!",
-      text: "Delete Successful",
-      icon: "success"
-    });
-  } else if (
-    /* Read more about handling dismissals below */
-    result.dismiss === Swal.DismissReason.cancel
-  ) {
-    swalWithBootstrapButtons.fire({
-      title: "Cancelled",
-      text: "Delete Not Successful",
-      icon: "error"
-    });
-  }
-});
-   
-    // await axios.delete(`api/delete-user/${id}`).then(response => {
-    //     page()
-        
-    // })
-}
-const prevBtn = () => {
-    if (pagination.value.prev_page_url) {
-        page(pagination.value.current_page - 1)
-
-    }
-}
-const nextBtn = () => {
-    if (pagination.value.next_page_url) {
-        page(pagination.value.current_page + 1)
-    }
-
 }
 
+//COMPONENTS FUNCTION
 const generatePdf = () => {
     const elem = printContent.value
     const options = {
@@ -254,17 +81,121 @@ const generatePdf = () => {
         .set(options)
         .save();
 };
+//HOOKS
+watch(category, (oldVaL, newVal) => {
+    GET_USER_LIST_API()
+})
 
+watch(search, (oldVal, newVal) => {
+    GET_USER_LIST_API()
+})
 
 onMounted(() => {
-    page()
+    GET_USER_LIST_CATEGORY_API()
+    GET_USER_LIST_API()
+
 })
+
 </script>
 
+<template>
+    <header>
+        <Header @toggle-sidebar="toggleSidebar" />
+    </header>
+    <div class="row justify-content-center mt-5">
+        <div class="col-9">
+            <div class="user-list-table">
+                <div class="row">
+                    <div class="col title">
+                        <Message severity="info">
+                            <h2>User List</h2>
+                        </Message>
+                    </div>
+                </div>
+                <div class="row bg-white p-2">
+                    <div class="col table_filter_action">
+                        <div class="list_filter">
+                            <Select placeholder="Select role" :options="userListCategoryData" optionLabel="role"
+                                v-model="category" />
+                            <InputGroup>
+                                <InputText placeholder="Search..." v-model="search" />
+                                <InputGroupAddon>
+                                    <Button icon="pi pi-search" severity="secondary" variant="text" @click="toggle" />
+                                </InputGroupAddon>
+                            </InputGroup>
+                        </div>
+                        <div class="list_action">
+                            <Button label="Add user" icon="pi pi-plus" severity="info" />
+                            <Button label="print" icon="pi pi-file-pdf" severity="danger" raised />
+                        </div>
+                    </div>
+
+                    <figure class="table-main">
+                        <table class="table table-hover table-bordered table-responsive mt-3" ref="printContent">
+                            <thead>
+                                <tr>
+                                    <th @click="sort('first_name')">
+                                        Name
+                                        <i class="pi pi-sort-amount-down-alt"></i>
+                                        <i class="pi pi-sort-amount-up"></i>
+                                    </th>
+                                    <th @click="sort('email')">
+                                        Email
+                                        <i class="pi pi-sort-amount-down-alt"></i>
+                                        <i class="pi pi-sort-amount-up"></i>
+                                    </th>
+                                    <th @click="sort('tel_no')">
+                                        Tel Number
+                                        <i class="pi pi-sort-amount-down-alt"></i>
+                                        <i class="pi pi-sort-amount-up"></i>
+                                    </th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(data, index) in userListData.data" :key="index">
+                                    <td>
+                                        <img :src="`/UserImage/${data.image}`" width="50px" height="50px" alt="">
+                                        {{ data.first_name }} {{ data.last_name }}
+                                    </td>
+                                    <td>{{ data.email }}</td>
+                                    <td>{{ data.tel_no }}</td>
+                                    <td class="text-center">
+                                        <span class="action">
+                                            <router-link class="btnUpdate"
+                                                :to="{ name: 'admin-update-user', params: { id: data.id } }">
+                                                <Button icon="pi pi-pen-to-square" severity="success" rounded raised />
+                                            </router-link>
+                                            <Button @click="deleteUser(data.id)" icon="pi pi-trash" severity="danger"
+                                                rounded raised />
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="paginate_class">
+                            <Button label="Prev" icon="pi pi-chevron-left" variant="text" severity="contrast" />
+                            <span>1 of 2</span>
+                            <Button label="Next" icon="pi pi-chevron-right" iconPos="right" variant="text"
+                                severity="contrast" />
+                        </div>
+                    </figure>
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+    <Loading v-if="loading" />
+</template>
+
+
+
 <style scoped>
-.table-main{
-    overflow-x: scroll;
-}
 .user-list-table {
     display: grid;
     gap: 20px;
@@ -291,12 +222,14 @@ onMounted(() => {
     border: solid 1px rgb(221, 219, 219);
     background: white;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
 }
-.table-category{
-display: flex;
-align-items: center;
+
+.table-category {
+    display: flex;
+    align-items: center;
 }
+
 .table-category select:focus {
     outline: none;
     box-shadow: none;
@@ -312,14 +245,39 @@ align-items: center;
     display: flex;
     gap: 10px;
 }
-figure{
+
+figure {
     background-color: #fff;
 }
-.btnPaginate{
+
+.btnPaginate {
     display: flex;
-   justify-content: center;
-   align-items: center;
-   align-content: center;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+}
+
+.table_filter_action {
+    display: flex;
+    justify-content: space-between;
+}
+
+.list_filter {
+    display: flex;
+    gap: 5px;
+
+}
+
+.list_action {
+    display: flex;
+    gap: 10px;
+
+}
+
+.paginate_class {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 </style>
 
