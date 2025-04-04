@@ -199,6 +199,10 @@ onMounted(() => {
                 CATEGORY LIST
             </Message>
         </div>
+      
+    </section>
+
+    <section>
         <div class="row mt-3">
             <div class="col-3 table-option">
                 <Select placeholder="Category" v-model="selectedCategory" :options="categoryListCategoryData"
@@ -209,7 +213,7 @@ onMounted(() => {
                         <Button icon="pi pi-search" severity="contrast" size="small" variant="text" @click="toggle" />
                     </InputGroupAddon>
                 </InputGroup>
-                <Button label="clear" severity="danger" />
+                <Button label="clear" severity="secondary" icon="pi pi-erased" raised  />
             </div>
             <div class="col text-end list-action">
                 <Button label="New Category" icon="pi pi-plus" severity="info"
@@ -217,10 +221,7 @@ onMounted(() => {
                 <Button label="Print" icon="pi pi-print" severity="danger" />
             </div>
         </div>
-    </section>
-
-    <section>
-        <div class="row">
+        <div class="row mt-2">
             <div class="col">
                 <table class="table table-bordered table-responsive table-hover">
                     <thead>
@@ -247,8 +248,9 @@ onMounted(() => {
                             <td>{{ data.name }}</td>
                             <td>{{ data.details }}</td>
                             <td class="category_table_action">
-                                <Button icon="pi pi-pencil" severity="info" @click="editBtn(data.id)" />
-                                <Button icon="pi pi-trash" severity="danger" @click="deleteBtn(data.id)" />
+                                <Button icon="pi pi-pencil" severity="info" raised @click="editBtn(data.id)"  />
+                                <Button icon="pi pi-eye" raised/>
+                                <Button icon="pi pi-trash" severity="danger" raised @click="deleteBtn(data.id)" />
                             </td>
                         </tr>
                     </tbody>

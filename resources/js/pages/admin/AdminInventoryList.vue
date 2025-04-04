@@ -1,151 +1,3 @@
-<template>
-    <header>
-        <Header @toggle-sidebar="toggleSidebar" @user="user" />
-    </header>
-    <div class="row justify-content-center">
-            <div class="col-9">
-                <div class="admin-inventory-list">
-                    <div class="row">
-                        <div class="col title">
-                            <h2>Item List</h2>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col table-category">
-                            <select class="form-select" v-model="selected">
-                                <option value="" >all</option>
-                                <option :value="data.category" v-for="(data) in categoryList">
-                                    {{ data.category }}
-                                </option>
-                            </select>
-                            <InputGroup>
-                                <InputText placeholder="Search Item" v-model="search" />
-                                <InputGroupAddon>
-                                    <Button icon="pi pi-search" severity="secondary" variant="text" disabled />
-                                </InputGroupAddon>
-                            </InputGroup>
-                        </div>
-                        <div class="col table-action">
-                            <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised
-                                @click="generatePdf"></Button>
-                            <router-link :to="{ name: 'admin-new-item' }">
-                                <Button icon="pi pi-plus-circle" severity="info" label="New" raised />
-                            </router-link>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <figure class="table-main">
-                                <table class="table table-hover table-responsive" ref="printContent">
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th class="" @click="sort('category')">
-                                                <div class="head-title">
-                                                    Category
-                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                                </div>
-                                            </th>
-                                            <th @click="sort('barcode')">
-                                                <div class="head-title">
-                                                    item_code
-                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                                </div>
-                                            </th>
-                                            <th @click="sort('brand')">
-                                                <div class="head-title">
-                                                    Brand
-                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                                </div>
-                                            </th>
-                                            <th @click="sort('supplier_name')">
-                                                <div class="head-title">
-                                                    Supplier Name
-                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                                </div>
-                                            </th>
-                                            <th @click="sort('unit_cost')">
-                                                <div class="head-title">
-                                                    Unit_Cost
-                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                                </div>
-                                            </th>
-                                            <th @click="sort('quantity')">
-                                                <div class="head-title">
-                                                    Quantity
-                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                                </div>
-                                            </th>
-                                            <th @click="sort('treshold')">
-                                                <div class="head-title">
-                                                    Treshold
-                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                                </div>
-                                            </th>
-                                            <th @click="sort('description')">
-                                                <div class="head-title">
-                                                    Description
-                                                    <span>{{ sortOrder === 'asc' ? '▲' : '▼' }}</span>
-                                                </div>
-                                            </th>
-                                            <th>
-                                                <div class="head-title">
-                                                    Action
-                                                </div>
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr v-for="(data, index) in responseData.data" :key="index">
-                                            <td>{{ index + 1 }}</td>
-                                            <td>{{ data.category }}</td>
-                                            <td> <i class="pi pi-barcode"></i> {{ data.item_code }}</td>
-                                            <td>{{ data.brand }}</td>
-                                            <td>{{ data.supplier_name }}</td>
-                                            <td class="text-success">{{ data.unit_cost }}</td>
-                                            <td>x{{ data.quantity }}</td>
-                                            <td>x{{ data.treshold }}</td>
-                                            <td>{{ data.out_of_stock_notif }}</td>
-                                            <td>{{ data.description }}</td>
-                                            <td>
-                                                <span class="action">
-                                                    <Button @click="view(data.id)" icon="pi pi-eye" severity="info" rounded
-                                                        raised />
-                                                    <router-link class="btnUpdate"
-                                                        :to="{ name: 'admin-edit-item', params: { id: data.id } }">
-                                                        <Button icon="pi pi-pen-to-square" severity="success" rounded
-                                                            raised />
-                                                    </router-link>
-                                                    <Button @click="deleteItem(data.id)" icon="pi pi-trash"
-                                                        severity="danger" rounded raised />
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </figure>
-                          
-                            <div class="paginator text-center">
-                                <nav class="btnPaginate">
-                                    <Button icon="pi pi-chevron-left" severity="primary" @click="previousPage"
-                                        :disabled="!pagination.prev_page_url" rounded raised />
-                                    <span>Page {{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                                    <Button icon="pi pi-chevron-right" rounded raised @click="nextPage"
-                                        :disabled="!pagination.next_page_url" />
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <Loading v-if="loading" />
-        <AdminViewModal v-if="viewModal" :viewModalId="viewModalId" @exit="viewModal = false" />
-    </div>
-
-
-
-</template>
-
 <script setup>
 import Header from '@/components/Admin_Header.vue'
 import Sidebar from '@/components/Admin_Sidebar.vue';
@@ -154,7 +6,7 @@ import AdminViewModal from '@/components/Admin_View_Modal.vue'
 import Loading from '@/components/Loading.vue'
 import html2pdf from 'html2pdf.js';
 
-import { Button, InputText, InputGroup, InputGroupAddon } from 'primevue';
+import { Button, InputText, InputGroup, InputGroupAddon, Message, Select } from 'primevue';
 import Swal from 'sweetalert2';
 
 const isSidebarHidden = ref(false);
@@ -167,24 +19,18 @@ const user = (val) => {
 }
 
 const printContent = ref(null)
-const deleteItemModal = ref(false)
-const deleteId = ref()
 
-const selected = ref('')
+
 const loading = ref(false)
-const responseData = ref({})
-const search = ref('')
+
+
 const viewModal = ref(false)
 const viewModalId = ref(null)
-const sortColumn = ref('brand');
-const sortOrder = ref('asc');
-const categoryList = ref({})
 
-const CATEGORY_LIST_API = async () => {
-    const response = await axios('api/category')
-    categoryList.value = response.data
 
-}
+
+
+
 
 const generatePdf = () => {
     const elem = printContent.value
@@ -203,159 +49,294 @@ const generatePdf = () => {
 };
 
 
-const pagination = ref({
-    current_page: 1,
-    last_page: 1,
-    next_page_url: null,
-    prev_page_url: null,
-});
 
-// sddata per categordsd
-const category = async (page) => {
 
-    if (page < 1 || page > pagination.value.last_page) return;
-    axios({
+
+
+//COMPONENTS VARIABLES
+const sortName = ref('')
+const sortBy = ref('ASC')
+const category = ref("")
+const search = ref("")
+
+
+
+//API VARIABLES
+const itemListCategory = ref({})
+const itemListData = ref({})
+
+//API FUNCTIONS
+const GET_ITEM_LIST_CATEGORY_API = async () => {
+    await axios({
         method: 'GET',
-        url: `/api/item-category?category=${selected.value}&page=${page}`,
-        params: {
-            sort_by: sortColumn.value,
-            sort_order: sortOrder.value
-        }
+        url: 'api/item-list-category'
     }).then(response => {
-        loading.value = false
-        pagination.value = {
-            current_page: response.data.current_page,
-            last_page: response.data.last_page,
-            next_page_url: response.data.next_page_url,
-            prev_page_url: response.data.prev_page_url,
-        };
-        responseData.value = response.data
+        itemListCategory.value = response.data
     })
-
 }
 
-const sort = (column) => {
-    if (sortColumn.value === column) {
-        sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
-    } else {
-        sortColumn.value = column;
-        sortOrder.value = 'asc';
-    }
-    category()
-};
-watch(selected, (oldVal, newVal) => {
-    if (selected.value) {
-        category()
-    }
-    category()
-})
-
-watch(search, (oldVal, newVal) => {
-    axios({
+const GET_ITEM_LIST_API = async (page = 1) => {
+    await axios({
         method: 'GET',
-        url: `/api/items-search?category=${selected.value}&search=${search.value}`
+        url: `api/get-item-list?page=${page}`,
+        params: {
+            sortName: sortName.value,
+            sortBy:sortBy.value,
+            category: category.value,
+            search: search.value
+        }
     }).then(response => {
-        responseData.value = response.data
-        console.log(response);
+        itemListData.value = response.data
     })
-    if (search.value === '') {
-        category()
-    }
+}
 
-})
+const deleteItem = (id) => {
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios({
+                method: 'DELETE',
+                url: `api/delete-item/${id}`,
+                params: {
+                    userId: userInformation.value.id
+                }
+            }).then(response => {
+                console.log(response);
+                if (response.status == 200) {
+                    GET_ITEM_LIST_API()
+                }
+            })
+            Swal.fire({
+                title: "Deleted!",
+                text: "Your item has been deleted.",
+                icon: "success"
+            });
+        }
+    })
 
+
+
+
+}
+// COMPONENTS FUNCTION
 const view = (id) => {
     viewModal.value = true
     viewModalId.value = id
 
 }
-//delete item
-const deleteItem = (id) => {
-
-    Swal.fire({
-  title: "Are you sure?",
-  text: "You won't be able to revert this!",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Yes, delete it!"
-}).then((result) => {
-  if (result.isConfirmed) {
-    axios({
-        method: 'DELETE',
-        url: `api/delete-item/${id}`,
-        params: {
-            userId: userInformation.value.id
-        }
-    }).then(response => {
-        console.log(response);
-        if (response.status == 200) {
-            category()
-          
-        }
-    })
-    Swal.fire({
-      title: "Deleted!",
-      text: "Your item has been deleted.",
-      icon: "success"
-    });
-  }
-});
-
-   
+const sort = (data) => {
+    sortName.value = data
+if(sortBy.value === "ASC"){
+ sortBy.value = 'DESC'
+}else{
+    sortBy.value = 'ASC'
 }
-
-const cancelItem = () => {
-    deleteItemModal.value = false
-    category()
+GET_ITEM_LIST_API()
 }
+//HOOKS
 
-const previousPage = () => {
-    if (pagination.value.prev_page_url) {
-        category(pagination.value.current_page - 1);
-    }
-};
+watch(category, (oldVal, newVal) => {
+    GET_ITEM_LIST_API()
+})
 
-const nextPage = () => {
-    if (pagination.value.next_page_url) {
-        category(pagination.value.current_page + 1);
-    }
-};
-
-
-
+watch(search, (oldVal, newVal) => {
+    GET_ITEM_LIST_API()
+})
 
 onMounted(() => {
-    category()
-    CATEGORY_LIST_API()
+    GET_ITEM_LIST_CATEGORY_API()
+    GET_ITEM_LIST_API()
 
 })
 
 </script>
 
+<template>
+    <header>
+        <Header @toggle-sidebar="toggleSidebar" @user="user" />
+    </header>
+    <div class="row justify-content-center">
+        <div class="col-9">
+            <div class="admin-inventory-list">
+                <div class="row">
+                    <div class="col title">
+                        <Message icon="pi pi-list">
+                            <h2>ITEM LIST</h2>
+                        </Message>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col table-category">
+                        <Select placeholder="Select Date" :options="itemListCategory" optionLabel="release_date" v-model="category" />
+                        <InputGroup>
+                            <InputText placeholder="Search Item" v-model="search"  />
+                            <InputGroupAddon>
+                                <Button icon="pi pi-search" severity="secondary" variant="text" disabled />
+                            </InputGroupAddon>
+                        </InputGroup>
+                    </div>
+                    <div class="col table-action">
+                        <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised
+                            @click="generatePdf"></Button>
+                        <router-link :to="{ name: 'admin-new-item' }">
+                            <Button icon="pi pi-plus-circle" severity="info" label="New" raised />
+                        </router-link>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col bg-white">
+                        <figure class="table-main">
+                            <table class="table table-bordered  table-hover table-responsive" ref="printContent">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th class="" @click="sort('category')">
+                                            <div class="head-title">
+                                                Category
+                                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'ASC'"></i>
+                                                <i class="pi pi-sort-amount-up" v-else></i>
+                                            </div>
+                                        </th>
+                                        <th @click="sort('item_code')">
+                                            <div class="head-title">
+                                                item_code
+                                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'ASC'"></i>
+                                                <i class="pi pi-sort-amount-up" v-else></i>
+                                            </div>
+                                        </th>
+                                        <th @click="sort('brand')">
+                                            <div class="head-title">
+                                                Brand
+                                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'ASC'"></i>
+                                                <i class="pi pi-sort-amount-up" v-else></i>
+                                            </div>
+                                        </th>
+                                        <th @click="sort('supplier_name')">
+                                            <div class="head-title">
+                                                Supplier Name
+                                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'ASC'"></i>
+                                                <i class="pi pi-sort-amount-up" v-else></i>
+                                            </div>
+                                        </th>
+                                        <th @click="sort('unit_cost')">
+                                            <div class="head-title">
+                                                Unit_Cost
+                                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'ASC'"></i>
+                                                <i class="pi pi-sort-amount-up" v-else></i>
+                                            </div>
+                                        </th>
+                                        <th @click="sort('quantity')">
+                                            <div class="head-title">
+                                                Quantity
+                                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'ASC'"></i>
+                                                <i class="pi pi-sort-amount-up" v-else></i>
+                                            </div>
+                                        </th>
+                                        <th @click="sort('treshold')">
+                                            <div class="head-title">
+                                                Treshold
+                                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'ASC'"></i>
+                                                <i class="pi pi-sort-amount-up" v-else></i>
+                                            </div>
+                                        </th>
+                                        <th @click="sort('description')">
+                                            <div class="head-title">
+                                                Description
+                                                <i class="pi pi-sort-amount-down-alt" v-if="sortBy === 'ASC'"></i>
+                                                <i class="pi pi-sort-amount-up" v-else></i>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="head-title">
+                                                Action
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(data, index) in itemListData.data" :key="index">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>{{ data.category }}</td>
+                                        <td> <i class="pi pi-barcode"></i> {{ data.item_code }}</td>
+                                        <td>{{ data.brand }}</td>
+                                        <td>{{ data.supplier_name }}</td>
+                                        <td class="text-success">{{ data.unit_cost }}</td>
+                                        <td>x{{ data.quantity }}</td>
+                                        <td>x{{ data.treshold }}</td>
+                                        <td>{{ data.description }}</td>
+                                        <td>
+                                            <span class="action">
+                                                <Button @click="view(data.id)" icon="pi pi-eye" severity="info"
+                                                    raised />
+                                                <router-link class="btnUpdate"
+                                                    :to="{ name: 'admin-edit-item', params: { id: data.id } }">
+                                                    <Button icon="pi pi-pen-to-square" severity="success" raised />
+                                                </router-link>
+                                                <Button @click="deleteItem(data.id)" icon="pi pi-trash"
+                                                    severity="danger" raised />
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <div class="paginator text-center">
+                                    <nav class="btnPaginate">
+                                        <Button label="Prev" icon="pi pi-chevron-left" severity="contrast" variant="text" @click="previousPage"
+                                            :disabled="!pagination.prev_page_url" />
+                                        <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                                        <Button label="Next" icon="pi pi-chevron-right" iconPos="right" @click="nextPage" severity="contrast" variant="text"
+                                            :disabled="!pagination.next_page_url" />
+                                    </nav>
+                                </div> -->
+
+                        </figure>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <Loading v-if="loading" />
+        <AdminViewModal v-if="viewModal" :viewModalId="viewModalId" @exit="viewModal = false" />
+    </div>
+
+
+
+</template>
+
+
+
 
 <style scoped>
-@media  screen and (max-width:1019px) {
-    .table-main{
+@media screen and (max-width:1019px) {
+    .table-main {
         max-width: 50rem;
         overflow-y: scroll;
         margin: auto;
     }
-    
+
 }
-@media screen and (max-width:888px){
-    .table-main{
+
+@media screen and (max-width:888px) {
+    .table-main {
         max-width: 30rem;
         overflow-y: scroll;
         margin: auto;
     }
- 
+
 }
+
 .admin-inventory-list {
     display: grid;
     gap: 20px;
- 
+
 }
 
 .table-action {
@@ -375,11 +356,10 @@ onMounted(() => {
 
 .table {
     padding: 10px;
-    border: solid 1px rgb(221, 219, 219);
-    background: white;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+
 }
+
 .table-category {
     display: flex;
 }
@@ -391,9 +371,7 @@ onMounted(() => {
 
 }
 
-.table table th {
-    background: rgb(206, 206, 206);
-}
+
 
 .table table .action {
     display: flex;
@@ -403,6 +381,7 @@ onMounted(() => {
 .action {
     display: flex;
     justify-content: start;
+    gap: 10px;
 }
 </style>
 

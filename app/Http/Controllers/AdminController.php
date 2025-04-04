@@ -127,9 +127,8 @@ class AdminController extends Controller
     {
         $request->validate([
             'item_code'     => 'required | unique:items,item_code',
-            'supplier_name' => 'nullable',
             'unit_cost'     => 'numeric',
-            'quantity'      => "numeric|max:$request->treshold",
+            'quantity'      => "numeric|max:$request->treshold ",
             'treshold' => 'required|numeric',
             'category'      => 'required',
             'description'   => 'required',
@@ -370,42 +369,59 @@ class AdminController extends Controller
 
     //////testsraasesaeae///////////////
 
-    public function category()
+    public function itemListCategory()
     {
-        $items = Item::select('category')
+        $data = Item::select('release_date')
             ->orderBy('id', 'DESC')
             ->get();
 
-        return response()->json($items);
+        return response()->json($data);
     }
-    public function getItem(Request $request)
+    public function getItemList(Request $request)
     {
-        if (!$request->category) {
-            $allItem = Item::latest()
-                ->paginate(10);
-            return response()->json($allItem);
-        } else if ($request->category) {
-            $item = Item::where('category', '=', $request->category)
-                ->latest()
-                ->paginate(10);
-            return response()->json($item);
+        $sortName = $request->query('sortName', 'id');
+        $sortBy = $request->query('sortBy', 'DESC');
+        if (empty($request->category) && empty($request->search)) {
+            $data = Item::orderBy($sortName, $sortBy)->paginate(9);
+            return response()->json($data);
+        } else if (isset($request->category) && empty($request->search)) {
+            $data = Item::where('release_date', $request->category)
+                ->orderBy($sortName, $sortBy)
+                ->paginate(9);
+            return response()->json($data);
+        } else if (empty($request->category) && isset($request->search)) {
+            $data = Item::where('item_code', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('category', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('item_code', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('brand', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('supplier_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('unit_cost', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('treshold', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('description', 'LIKE', '%' . $request->search . '%')
+                ->orderBy($sortName, $sortBy)
+                ->paginate(9);
+            return response()->json($data);
+        } else if (isset($request->category) && isset($request->search)) {
+            $data = Item::where('release_date', $request->category)
+                ->where(function ($query) use ($request) {
+                    $query->where('item_code', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('category', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('item_code', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('brand', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('supplier_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('unit_cost', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('quantity', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('treshold', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('description', 'LIKE', '%' . $request->search . '%');
+                })
+                ->orderBy($sortName, $sortBy)
+                ->paginate(9);
+            return response()->json($data);
         }
     }
-    public function itemSearchlist(Request $request)
-    {
-        if (!$request->category) {
-            $allItem = Item::where('item_code', 'LIKE', '%' . $request->search . '%')
-                ->latest()
-                ->paginate(10);
-            return response()->json($allItem);
-        } else if ($request->category) {
-            $item = Item::where('category', '=', $request->category)
-                ->where('item_code', 'LIKE', '%' . $request->search . '%')
-                ->latest()
-                ->paginate(10);
-            return response()->json($item);
-        }
-    }
+
+
 
     public function getDateSchedule()
     {
@@ -559,7 +575,7 @@ class AdminController extends Controller
     public function postCategory(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name' => 'required|unique:categories,name',
             'details' => 'required'
         ]);
         $category = new Category();
