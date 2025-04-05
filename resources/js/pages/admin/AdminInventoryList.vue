@@ -81,7 +81,7 @@ const GET_ITEM_LIST_API = async (page = 1) => {
         url: `api/get-item-list?page=${page}`,
         params: {
             sortName: sortName.value,
-            sortBy:sortBy.value,
+            sortBy: sortBy.value,
             category: category.value,
             search: search.value
         }
@@ -133,12 +133,17 @@ const view = (id) => {
 }
 const sort = (data) => {
     sortName.value = data
-if(sortBy.value === "ASC"){
- sortBy.value = 'DESC'
-}else{
-    sortBy.value = 'ASC'
+    if (sortBy.value === "ASC") {
+        sortBy.value = 'DESC'
+    } else {
+        sortBy.value = 'ASC'
+    }
+    GET_ITEM_LIST_API()
 }
-GET_ITEM_LIST_API()
+
+const clear = () => {
+    search.value = ""
+    category.value = ""
 }
 //HOOKS
 
@@ -174,12 +179,15 @@ onMounted(() => {
                 </div>
                 <div class="row">
                     <div class="col table-category">
-                        <Select placeholder="Select Date" :options="itemListCategory" optionLabel="release_date" v-model="category" />
+                        <Select placeholder="Select Date" :options="itemListCategory" optionLabel="release_date"
+                            v-model="category" />
                         <InputGroup>
-                            <InputText placeholder="Search Item" v-model="search"  />
+                            <InputText placeholder="Search Item" v-model="search" />
                             <InputGroupAddon>
                                 <Button icon="pi pi-search" severity="secondary" variant="text" disabled />
                             </InputGroupAddon>
+                            <Button label="clear" severity="secondary" raised @click="clear"
+                                v-if="search || category" />
                         </InputGroup>
                     </div>
                     <div class="col table-action">

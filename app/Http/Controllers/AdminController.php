@@ -26,45 +26,52 @@ class AdminController extends Controller
         $category = User::select('role')->distinct()->get();
         return response()->json($category);
     }
-    public function userList(Request $request) {
+    public function userList(Request $request)
+    {
         $sortName = $request->query('sortName', 'id');
         $sortOrder = $request->query('sortOrder', 'DESC');
-        if(empty($request->category) && empty($request->search)){
+        if (empty($request->category) && empty($request->search)) {
             $data = User::orderBy($sortName, $sortOrder)
-            ->paginate(9);
+                ->paginate(9);
             return response()->json($data);
-        }else if(isset($request->category) && empty($request->search)){
+        } else if (isset($request->category) && empty($request->search)) {
             $data = User::where('role', $request->category)
-            ->orderBy($sortName, $sortOrder)
-            ->paginate(9);
+                ->orderBy($sortName, $sortOrder)
+                ->paginate(9);
             return response()->json($data);
-        }else if(empty($request->category) && isset($request->search)){
-            $data = User::where('first_name' , 'LIKE', '%' . $request->search . '%')
-            ->orWhere('last_name' , 'LIKE', '%' . $request->search . '%')
-            ->orWhere('middle_name' , 'LIKE', '%' . $request->search . '%')
-            ->orWhere('email' , 'LIKE', '%' . $request->search . '%')
-            ->orWhere('tel_no' , 'LIKE', '%' . $request->search . '%')
-            ->orderBy($sortName, $sortOrder)
-            ->paginate(9);
+        } else if (empty($request->category) && isset($request->search)) {
+            $data = User::where('first_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('middle_name', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('email', 'LIKE', '%' . $request->search . '%')
+                ->orWhere('tel_no', 'LIKE', '%' . $request->search . '%')
+                ->orderBy($sortName, $sortOrder)
+                ->paginate(9);
             return response()->json($data);
-        }else if(isset($request->category) && isset($request->search)){
+        } else if (isset($request->category) && isset($request->search)) {
             $data = User::where('role', $request->category)
-            ->where(function ($query) use ($request){
-                $query->where('first_name' , 'LIKE', '%' . $request->search . '%')
-                ->orWhere('last_name' , 'LIKE', '%' . $request->search . '%')
-                ->orWhere('middle_name' , 'LIKE', '%' . $request->search . '%')
-                ->orWhere('email' , 'LIKE', '%' . $request->search . '%')
-                ->orWhere('tel_no' , 'LIKE', '%' . $request->search . '%');
-            })
-            ->orderBy($sortName, $sortOrder)
-            ->paginate(9);
+                ->where(function ($query) use ($request) {
+                    $query->where('first_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('last_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('middle_name', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('email', 'LIKE', '%' . $request->search . '%')
+                        ->orWhere('tel_no', 'LIKE', '%' . $request->search . '%');
+                })
+                ->orderBy($sortName, $sortOrder)
+                ->paginate(9);
             return response()->json($data);
         }
     }
 
-    public function deleteUser($id)
+    public function viewUser(Request $request)
     {
-        $deleteUser = User::find($id);
+        $data = User::find($request->id);
+        return response()->json($data);
+    }
+
+    public function deleteUser(Request $request)
+    {
+        $deleteUser = User::find($request->id);
         $deleteUser->delete();
         return response()->json($deleteUser);
     }
@@ -387,6 +394,7 @@ class AdminController extends Controller
     {
         $data = Item::select('release_date')
             ->orderBy('id', 'DESC')
+            ->distinct()
             ->get();
 
         return response()->json($data);
@@ -439,7 +447,7 @@ class AdminController extends Controller
 
     public function getDateSchedule()
     {
-        $data = Schedule::select('date_schedule')->get();
+        $data = Schedule::select('date_schedule')->distinct()->get();
         $data->prepend(['date_schedule' => 'all']); // Add 'all' at the beginning
 
         return response()->json($data);
@@ -534,6 +542,7 @@ class AdminController extends Controller
     {
         $data = Item::select('release_date')
             ->orderBy('release_date', 'ASC')
+            ->distinct()
             ->get();
         return response()->json($data);
     }

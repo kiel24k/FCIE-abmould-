@@ -2,6 +2,17 @@
     <Logout v-if="logoutModal" @cancel="cancel" />
     <aside :class="{ hideSidebar: isHideSidebar }">
         <ul>
+            <div class="title text-center">
+                <img src="/public/background/abMouldLogo.png" width="130px" height="45px" alt="">
+                <img
+                    src="/public/icon/menu.png"
+                    width="30px"
+                    height="30px"
+                    alt=""
+                    class="menu"
+                    @click="menu()"
+                />
+            </div>
             <router-link :to="{ name: 'admin-dashboard' }">
                 <li>
                     <img src="/public/icon/dashboard_icon.png" width="25px" alt="" />
@@ -168,7 +179,7 @@ import { ref } from "vue";
 import Logout from '@/components/Logout_Modal.vue'
 const logoutModal = ref(false)
 
-const isHideSidebar = ref(false)
+const emit = defineEmits(["hideSidebar"]);
 const isStockManagement = ref(false)
 const isUserActivityLogs = ref(false)
 const isItemManagement = ref(false)
@@ -209,17 +220,39 @@ function userManagement() {
     }
 }
 
+
+const menu = () => {
+    emit("hideSidebar");
+};
+
 </script>
 <style scoped>
 aside {
-    width: 13.5rem;
+    width: 15rem;
     position: fixed;
-    max-height: 100%;
-    overflow-y: scroll;
+    height: 100%;
+    overflow: scroll;
     overflow-x: hidden;
+    z-index: 999;
     background: rgb(255, 255, 255);
+    box-shadow: 0px 0px 15px 0px gray;
     transition: all linear 0.3s;
 }
+aside::-webkit-scrollbar {
+    width: 5px;
+}
+
+aside::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background-color: #cfe8f7;
+    border: 1px solid #ffffff;
+}
+
+aside::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: #888a8b;
+}
+
 
 ul {
     list-style: none;

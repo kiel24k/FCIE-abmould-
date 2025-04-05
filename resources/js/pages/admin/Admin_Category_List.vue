@@ -98,13 +98,16 @@ const editBtn = (val) => {
     categoryLIstId.value = val
 }
 
+const clear = () => {
+    search.value = ""
+    categoryLIstId.value = ""
+}
 const closeCategoryListModal = () => {
     isCategoryListUpdateModal.value = false
     CATEGORY_LIST()
 }
 //commetdsadasdas
 const deleteBtn = (val) => {
-
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
             confirmButton: "btn btn-success",
@@ -213,7 +216,7 @@ onMounted(() => {
                         <Button icon="pi pi-search" severity="contrast" size="small" variant="text" @click="toggle" />
                     </InputGroupAddon>
                 </InputGroup>
-                <Button label="clear" severity="secondary" icon="pi pi-erased" raised  />
+                <Button label="clear" severity="secondary" icon="pi pi-erased" raised  @click="clear" v-if="search || category"  />
             </div>
             <div class="col text-end list-action">
                 <Button label="New Category" icon="pi pi-plus" severity="info"
@@ -249,7 +252,6 @@ onMounted(() => {
                             <td>{{ data.details }}</td>
                             <td class="category_table_action">
                                 <Button icon="pi pi-pencil" severity="info" raised @click="editBtn(data.id)"  />
-                                <Button icon="pi pi-eye" raised/>
                                 <Button icon="pi pi-trash" severity="danger" raised @click="deleteBtn(data.id)" />
                             </td>
                         </tr>

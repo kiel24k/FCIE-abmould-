@@ -17,7 +17,7 @@
                                 <label for="on_label">First Name</label>
                             </FloatLabel>
                             <small class="text-danger" v-if="validation.first_name">{{ validation.first_name[0]
-                                }}</small>
+                            }}</small>
                         </div>
                         <div class="col">
                             <FloatLabel variant="on">
@@ -26,7 +26,7 @@
                                 <label for="on_label">Middle Name</label>
                             </FloatLabel>
                             <small class="text-danger" v-if="validation.middle_name">{{ validation.middle_name[0]
-                                }}</small>
+                            }}</small>
                         </div>
                     </div>
                     <div class="row">
@@ -37,7 +37,7 @@
                                 <label for="on_label">Last Name</label>
                             </FloatLabel>
                             <small class="text-danger" v-if="validation.first_name">{{ validation.last_name[0]
-                                }}</small>
+                            }}</small>
                         </div>
                         <div class="col">
                             <FloatLabel variant="on">
@@ -67,16 +67,17 @@
                             </FloatLabel>
                             <small class="text-danger" v-if="validation.password">{{ validation.password[0] }}</small>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-2">
-                            <label for="">Role</label>
+                        <div class="col">
                             <div class="card flex justify-center">
                                 <Select v-model="userData.role" :options="userRole" optionLabel="name"
-                                    placeholder="Select Role" class="w-full md:w-56" />
+                                    :placeholder="userData.role" class="w-full md:w-56" />
                             </div>
                             <small class="text-danger" v-if="validation.role">{{ validation.role[0] }}</small>
                         </div>
+
+                    </div>
+                    <div class="row">
+
                     </div>
                     <div class="row">
                         <div class="col-3">
@@ -107,11 +108,13 @@ import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
 import { Button, FloatLabel, InputNumber, InputText, Select } from 'primevue';
+import Swal from 'sweetalert2';
 
 const userRole = ref([
     { name: 'admin' },
     { name: 'inventory-manager' },
-    { name: 'member' }
+    { name: 'member' },
+    { name: 'TL' }
 ])
 const route = useRoute()
 const router = useRouter()
@@ -160,6 +163,13 @@ const updateUser = () => {
         }
     }).then(response => {
         if (response.status == 200) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Data has been updated",
+                showConfirmButton: false,
+                timer: 1500
+            });
             router.push('/admin-user-list')
         }
     }).catch(err => {

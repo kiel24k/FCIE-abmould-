@@ -24,7 +24,8 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/user-list-category', 'userListCategory');
     Route::get('/user-list', 'userList');
     Route::post('/add-user', 'addUser');
-    Route::delete('/delete-user/{id}', 'deleteUser');
+    route::get('/view-user', 'viewUser');
+    Route::delete('/delete-user', 'deleteUser');
     Route::get('/updated-user-data/{id}', 'userUpdatedData');
     Route::post('/update-user-data/{id}', 'userUpdateData');
     Route::post('/new-item', 'newItem');

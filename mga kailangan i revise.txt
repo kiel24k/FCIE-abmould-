@@ -10,10 +10,10 @@ BARCODE [
 ]
 ITEMS [
     UI NG ITEM LIST =>DONE
-    UI NG NEW ITEM => done
+    UI NG NEW ITEM => DONE
     DYNAMIC SELECT CATEGORY =>  done
     UI NG CATEGORY => DONE
-    LAGYAN NG VIEW ACTION ANG CATEGORY TABLE =>
+    
 ]
 ACTIVITY LOGS [
    STOCK ADJUSTMENT, makikita ang user kapag pinindot ang track user => DONE
@@ -21,7 +21,7 @@ ACTIVITY LOGS [
    
 ]
 USER MANAGEMENT [
-    ALL USERS, UI design ng table => 
+    ALL USERS, UI design ng table => DONE
     ADD NEW USER, form page ng pag aadd => DONE
     ASSIGN ROLES, roles assigning na naka box => DONE
 ]
