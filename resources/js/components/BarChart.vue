@@ -34,7 +34,7 @@ const sumOfCategory = () => {
 const chartData = computed(() => ({
     labels: dataOfSumCategory.value.map((el) => el.category),
     datasets: [{
-        label: 'consumed of recent used materials',
+        label: 'Top 10 Categories',
         data: dataOfSumCategory.value.map((el) => el.quantity),
         backgroundColor: ['rgb(218, 71, 69)'],
     },],

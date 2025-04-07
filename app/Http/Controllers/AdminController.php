@@ -197,7 +197,6 @@ class AdminController extends Controller
     public function itemsSearch(Request $request)
     {
         $searchTerm = $request->search;
-
         if (empty($request->category)) {
             $allItem = Item::where(function ($query) use ($searchTerm) {
                 $query->where('item_code', 'LIKE', '%' . $searchTerm . '%')
@@ -483,9 +482,15 @@ class AdminController extends Controller
             return response()->json($item);
         }
     }
-    public function updateScheduleStatus(Request $request)
+    public function updateSchedule(Request $request)
     {
+
+
         $schedule = Schedule::find($request->id);
+        $schedule->supplier_name = $request->supplier_name;
+        $schedule->item_code = $request->item_code;
+        $schedule->quantity = $request->quantity;
+        $schedule->date_schedule = Carbon::create($request->date_schedule)->format('Y-m-d');
         $schedule->status = $request->status;
         $schedule->update();
         return response()->json($schedule);
@@ -612,7 +617,9 @@ class AdminController extends Controller
     public function categoryListCategory()
     {
         $data = Category::select('release_date')
-            ->orderBy('release_date')->get();
+            ->orderBy('release_date')
+            ->distinct()
+            ->get();
         return response()->json($data);
     }
 

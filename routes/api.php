@@ -52,7 +52,7 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin-item-search-list', 'itemSearchlist');
     route::get('admin-get-date-schedule', 'getDateSchedule');
     route::get('/admin-schedule-list', 'scheduleList');
-    route::post('/admin-update-schedule-status', 'updateScheduleStatus');
+    route::post('/admin-update-schedule', 'updateSchedule');
     route::get('/count-status', 'countStatus');
     route::get('/category', 'category');
 
@@ -123,6 +123,7 @@ Route::controller(ChartController::class)->group(function () {
     route::get('/linegraph', 'lineGraph');
     route::get('/piegraph', 'pieGraph');
     route::get('/dashboard-count', 'dashboardCount');
+    route::get('/table-data-dashboard', 'tableDataDashboard');
 });
 
 route::controller(HistoryController::class)->group(function () {

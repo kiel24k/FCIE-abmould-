@@ -18,9 +18,9 @@ class ChartController extends Controller
     }
     public function lineGraph () {
         $data = DB::table('items')
-        ->select('item_code','unit_cost')
-        ->where('id' ,'<=', 10)
-        ->orderBy('id', 'DESC')
+        ->select('item_code','quantity')
+        ->orderBy('quantity', 'DESC')
+        ->limit(10)
         ->get();
         return response()->json($data);
     }
@@ -44,5 +44,14 @@ class ChartController extends Controller
             'user' => $user,
             'unit_cost' => $unit_cost
         ]);
+    }
+
+    public function tableDataDashboard () {
+        $data = Item::select('id','supplier_name', 'quantity','treshold')
+        ->orderBy('id', 'DESC')
+        ->limit(15)
+        ->get();
+        return response()->json($data);
+
     }
 }

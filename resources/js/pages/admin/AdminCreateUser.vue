@@ -3,10 +3,7 @@
         <Header @toggle-sidebar="toggleSidebar" />
     </header>
     <div class="row" :style="{ marginTop: headerHeight + 'px' }">
-        <div :class="isSidebarHidden ? 'col-0' : 'col-2'" :key="sidebar" style="z-index: 1001;">
-            <Sidebar :class="{ hideSidebar: isSidebarHidden, sidebarVisible: !isSidebarHidden }" />
-        </div>
-        <div :class="isSidebarHidden ? 'col-12' : 'col-9'" key="content">
+        <div  key="content">
             <div class="col">
                 <div class="create-user">
                     <form @submit.prevent enctype="multipart/form-data">
