@@ -98,8 +98,8 @@ onMounted(() => {
                     </div>
                     <div class="row">
                         <div class="col justify-content-end">
-                            <Button icon="pi pi-pencil" severity="info" raised label="edit"/>
-                            <Button  icon="pi pi-list" raised label="User list"/>
+                            <!-- <Button icon="pi pi-pencil" severity="info" raised label="edit"/>
+                            <Button  icon="pi pi-list" raised label="User list"/> -->
                         </div>
                     </div>
                 </div>

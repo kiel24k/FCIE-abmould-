@@ -1,10 +1,3 @@
-<template>
-    <div class="lineChart">
-       
-        <canvas id="lineChart" ref="lineChart"></canvas>
-    </div>
-</template>
-
 <script setup>
 import Chart from 'chart.js/auto';
 import { onMounted, ref } from 'vue';
@@ -13,9 +6,9 @@ import { onMounted, ref } from 'vue';
 const lineChart = ref()
 const lineChartResponse = ref({})
 
-const LINE_CHART_API = async() => {
+const LINE_CHART_API = async () => {
     const response = await axios.get('api/linegraph')
-   lineChartResponse.value = response.data
+    lineChartResponse.value = response.data
 }
 
 
@@ -24,18 +17,27 @@ onMounted(async () => {
     new Chart(lineChart.value, {
         type: 'line',
         data: {
-            labels:lineChartResponse.value.map((el) => el.item_code),
+            labels: lineChartResponse.value.map((el) => el.item_code),
             datasets: [{
-                label: 'first 10 items newly added',
-                data: lineChartResponse.value.map((el) => el.unit_cost),
+                label: 'Top 10 Stock Levels',
+                data: lineChartResponse.value.map((el) => el.quantity),
                 fill: true,
                 borderColor: ' green',
-                tension: 0.1
+                tension: 0.1,
+                pointStyle: 'circle',
+                pointRadius: 5,
+                pointHoverRadius: 1
             }]
         }
     })
 })
 </script>
+<template>
+    <div class="lineChart">
+        <canvas id="lineChart" ref="lineChart"></canvas>
+    </div>
+</template>
+
 
 <style scoped>
 #lineChart {

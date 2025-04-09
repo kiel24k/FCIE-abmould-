@@ -81,13 +81,13 @@ onMounted(() => {
       
     <div class="container bg-white">
         <Message severity="contrast" icon="pi pi-ellipsis-v" size="large">Item Logs</Message>
-        <div class="row p-2">
+        <!-- <div class="row p-2">
             <div class="col">
                 <div class="category">
                     <Select placeholder="Filter" />
                 </div>
             </div>
-        </div>
+        </div> -->
      
         <div class="row" v-for="(data, index) in itemLogsData" :key="index" >
             <div class="col notif">

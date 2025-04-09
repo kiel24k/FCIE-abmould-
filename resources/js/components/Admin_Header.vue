@@ -1,15 +1,13 @@
 <template>
     <div style="height: 4rem;">
         <header>
-            <Transition name="sidebar-transition">
-                <Sidebar v-if="isSidebar" :class="{ hideSidebarActive: isSidebarActive }" />
-            </Transition>
+            <Sidebar v-if="showSidebar" @hideSidebar="hideSidebar" :class="{ hideSidebarActive: hideSidebarIsActive }" />
             <div class="row">
                 <div class="col" style="max-width: 250px;">
                     <ul class="navbar nav d-flex justify-content-center">
-                        <li>
-                            <i class="pi pi-bars" style="font-size: 35px;" @click="sidebarBtn"></i>
-                        </li>
+                        <li class="nav-item">
+                            <img src="/public/icon/menu.png" width="40px" alt="" @click="menu()" style="cursor:pointer">
+                          </li>
                         <router-link :to="{ name: 'admin-dashboard' }">
                             <li class="nav-item">
                                 <img src="/public/background/abMouldLogo.png" width="150px" style="cursor:pointer">
@@ -68,8 +66,6 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
 
 // Modal logic
 const emit = defineEmits(['user'])
-const isSidebar = ref(true)
-const isSidebarActive = ref(true)
 const isStockAlertBtn = ref(false)
 
 
@@ -114,18 +110,6 @@ onMounted(() => {
     }
 });
 
-// setTimeout(() => {
-//     LOW_STOCK_ALERT_API()
-// }, 2000)
-
-// const LOW_STOCK_ALERT_API = async () => {
-//     const response = await axios.get('api/low-stock-alert')
-//     if (response.data.status !== 200) {
-//         isStockAlertBtn.value = true
-       
-//     }
-// }
-
 const logout = () => {
     Swal.fire({
         title: "Do you want to logout?",
@@ -158,17 +142,20 @@ const showStockAlert = () => {
             icon: "warning"
         }); 
 }
-
-const sidebarBtn = () => {
-    if (isSidebar.value === true) {
-        isSidebar.value = false
-        isSidebarActive.value = false
-    } else if (isSidebar.value === false) {
-        isSidebar.value = true
-        isSidebarActive.value = true
-    }
-
+const hideSidebarIsActive = ref(false)
+const hideSidebar = () => {
+    hideSidebarIsActive.value = true
+  showSidebar.value = false
 }
+
+const showSidebar = ref(true)
+const menu = () => {
+  hideSidebarIsActive.value = false
+  showSidebar.value = true
+}
+
+
+
 //NOTIFICATION SECTION HERE!
 
 const op = ref();
@@ -232,7 +219,7 @@ header {
 
 .hideSidebarActive {
     transform: translate(-100%);
-}
+  }
 .pop{
     max-height: 20rem;
     overflow-y: scroll;

@@ -24,7 +24,8 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/user-list-category', 'userListCategory');
     Route::get('/user-list', 'userList');
     Route::post('/add-user', 'addUser');
-    Route::delete('/delete-user/{id}', 'deleteUser');
+    route::get('/view-user', 'viewUser');
+    Route::delete('/delete-user', 'deleteUser');
     Route::get('/updated-user-data/{id}', 'userUpdatedData');
     Route::post('/update-user-data/{id}', 'userUpdateData');
     Route::post('/new-item', 'newItem');
@@ -51,7 +52,7 @@ Route::controller(AdminController::class)->group(function () {
     Route::get('/admin-item-search-list', 'itemSearchlist');
     route::get('admin-get-date-schedule', 'getDateSchedule');
     route::get('/admin-schedule-list', 'scheduleList');
-    route::post('/admin-update-schedule-status', 'updateScheduleStatus');
+    route::post('/admin-update-schedule', 'updateSchedule');
     route::get('/count-status', 'countStatus');
     route::get('/category', 'category');
 
@@ -122,6 +123,7 @@ Route::controller(ChartController::class)->group(function () {
     route::get('/linegraph', 'lineGraph');
     route::get('/piegraph', 'pieGraph');
     route::get('/dashboard-count', 'dashboardCount');
+    route::get('/table-data-dashboard', 'tableDataDashboard');
 });
 
 route::controller(HistoryController::class)->group(function () {

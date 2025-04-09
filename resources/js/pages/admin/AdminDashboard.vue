@@ -6,10 +6,9 @@ import LineChart from '@/components/LineChart.vue';
 import BarChart from '@/components/BarChart.vue';
 import { Button } from 'primevue';
 
-const responseData = ref({});
-const isSidebarHidden = ref(false);
+
 const dashboardApi = ref({})
-const itemCategoryData = ref({})
+const tableDataDashboardData = ref({})
 
 const DASHBOARD_COUNT_API = async () => {
     const response = await axios('api/dashboard-count')
@@ -17,18 +16,20 @@ const DASHBOARD_COUNT_API = async () => {
 
 }
 
-const ITEM_CATEGORY_API = async () => {
+const GET_TABLE_DATA_DASHBOARD_API = async () => {
     await axios({
         method: 'GET',
-        url: 'api/item-category'
+        url: 'api/table-data-dashboard'
     }).then(response => {
-        itemCategoryData.value = response.data
+        tableDataDashboardData.value = response.data
+        console.log(tableDataDashboardData.value);
+        
     })
 }
 
 onMounted(() => {
     DASHBOARD_COUNT_API()
-    ITEM_CATEGORY_API ()
+    GET_TABLE_DATA_DASHBOARD_API()
 })
 </script>
 
@@ -92,10 +93,14 @@ onMounted(() => {
                         <BarChart />
                     </div>
                 </div>
-                <div class="listing">
+                <div class="listing bg-white">
+                  <div class="table_title p-1">
+                    <b>top 15 newly added materials</b>
+                  </div>
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>#</th>
                                 <th>Supplier</th>
                                 <th>Quantity</th>
                                 <th>Treshold</th>
@@ -103,8 +108,12 @@ onMounted(() => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(data, index) in itemCategoryData.data">
-                                <td>{{ data.supplier_name }}</td>
+                            <tr v-for="(data, index) in tableDataDashboardData">
+                                <td>{{ index + 1 }}</td>
+                                <td>
+                                    <i v-if="data.supplier_name === null" class="pi pi-user"></i>
+                                    <p v-else>{{ data.supplier_name }}</p>
+                                </td>
                                 <td>{{data.quantity}}x</td>
                                 <td>{{data.treshold}}x</td>
                                 <td>
@@ -143,7 +152,7 @@ section {
     
 }
 
-.summary_content .title b {
+.summary_content .title b, .listing b {
     color: rgb(139, 157, 165);
     font-size: 15px;
 }
@@ -192,11 +201,12 @@ section {
 }
 
 .total .user_total {
-    background: rgb(250, 84, 91);
+  
+    background: rgb(34, 197, 94);
 }
 
 .total .item_total {
-    background: rgb(90, 201, 253);
+    background: rgb(182, 178, 178);
 }
 
 .total .unit_cost_total {

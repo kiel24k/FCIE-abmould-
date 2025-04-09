@@ -124,6 +124,10 @@ onMounted(() => {
                 ADJUST TRESHOLD ITEM
             </Message>
         </div>
+       
+    </section>
+
+    <section>
         <div class="row bg-white p-3">
             <div class="col-3 category">
                 <Select v-model="selectedCategory" :options="getTrackLowStockCategory" optionLabel="release_date"
@@ -131,21 +135,19 @@ onMounted(() => {
                 <InputGroup>
                     <InputText placeholder="Search" v-model="search" size="small" />
                     <InputGroupAddon>
-                        <Button icon="pi pi-search" severity="contrast" size="small" variant="text" @click="toggle" />
+                        <Button icon="pi pi-search" severity="contrast" size="small" variant="text" @click="toggle"  />
                     </InputGroupAddon>
+                    <Button label="Clear" severity="secondary" icon="pi pi-eraser" raised size="small" @click="clear()" v-if="search || category" />
                 </InputGroup>
-                <Button label="Clear" severity="danger" raised size="small" @click="clear()" />
+                
 
             </div>
             <div class="col text-end search">
                 <Button icon="pi pi-print" severity="danger" label="Print" raised />
             </div>
         </div>
-    </section>
-
-    <section>
         <div class="row bg-white p-3">
-            <table class="table table-responsive">
+            <table class="table table-responsive table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>
@@ -194,12 +196,10 @@ onMounted(() => {
                     </tr>
                 </tbody>
             </table>
-            <div class="pag text-center">
-                <span>
-                    <Button label="prev" severity="contrast" @click="prev()" />
-                    1 of {{ pagination.current_page }}
-                    <Button label="next" severity="contrast" @click="next()" />
-                </span>
+            <div class="pag">
+                    <Button label="prev" severity="contrast" variant="text" icon="pi pi-angle-left" @click="prev()" />
+                   <span> {{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                    <Button label="next" severity="contrast"  variant="text" icon="pi pi-angle-right" iconPos="right" @click="next()" />
             </div>
         </div>
 
@@ -221,11 +221,7 @@ section {
     align-content: center;
 }
 
-th {
-    background-color: #ebe9e9;
-    border: white solid 1px;
-    transition: all linear 0.4s;
-}
+
 
 .table-head {
     display: flex;
@@ -234,14 +230,13 @@ th {
     align-items: center;
 }
 
-th:hover {
-    background: #D9D9D9;
-    cursor: pointer;
-}
 
-td {
-    border: white solid 1px;
-    background-color: #D9D9D9;
-    padding: 20px;
+
+
+.pag{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
 }
 </style>

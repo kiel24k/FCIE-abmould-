@@ -58,6 +58,10 @@ const sortName = ref('')
 const sortBy = ref('ASC')
 const category = ref("")
 const search = ref("")
+const pagination = ref({
+    current_page: null,
+    last_page: null
+})
 
 
 
@@ -81,11 +85,15 @@ const GET_ITEM_LIST_API = async (page = 1) => {
         url: `api/get-item-list?page=${page}`,
         params: {
             sortName: sortName.value,
-            sortBy:sortBy.value,
+            sortBy: sortBy.value,
             category: category.value,
             search: search.value
         }
     }).then(response => {
+        pagination.value = {
+            current_page: response.data.current_page,
+            last_page: response.data.last_page
+        }
         itemListData.value = response.data
     })
 }
@@ -133,12 +141,28 @@ const view = (id) => {
 }
 const sort = (data) => {
     sortName.value = data
-if(sortBy.value === "ASC"){
- sortBy.value = 'DESC'
-}else{
-    sortBy.value = 'ASC'
+    if (sortBy.value === "ASC") {
+        sortBy.value = 'DESC'
+    } else {
+        sortBy.value = 'ASC'
+    }
+    GET_ITEM_LIST_API()
 }
-GET_ITEM_LIST_API()
+
+const clear = () => {
+    search.value = ""
+    category.value = ""
+}
+
+const prev = () => {
+if(pagination.value.last_page >= pagination.value.current_page){
+    GET_ITEM_LIST_API(pagination.value.last_page - 1)
+}
+}
+const next = () => {
+    if(pagination.value.current_page < pagination.value.last_page){
+        GET_ITEM_LIST_API(pagination.value.current_page + 1)
+    }
 }
 //HOOKS
 
@@ -174,12 +198,15 @@ onMounted(() => {
                 </div>
                 <div class="row">
                     <div class="col table-category">
-                        <Select placeholder="Select Date" :options="itemListCategory" optionLabel="release_date" v-model="category" />
+                        <Select placeholder="Select Date" :options="itemListCategory" optionLabel="release_date"
+                            v-model="category" />
                         <InputGroup>
-                            <InputText placeholder="Search Item" v-model="search"  />
+                            <InputText placeholder="Search Item" v-model="search" />
                             <InputGroupAddon>
                                 <Button icon="pi pi-search" severity="secondary" variant="text" disabled />
                             </InputGroupAddon>
+                            <Button label="clear" severity="secondary" raised @click="clear"
+                                v-if="search || category" />
                         </InputGroup>
                     </div>
                     <div class="col table-action">
@@ -286,16 +313,11 @@ onMounted(() => {
                                     </tr>
                                 </tbody>
                             </table>
-                            <!-- <div class="paginator text-center">
-                                    <nav class="btnPaginate">
-                                        <Button label="Prev" icon="pi pi-chevron-left" severity="contrast" variant="text" @click="previousPage"
-                                            :disabled="!pagination.prev_page_url" />
-                                        <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                                        <Button label="Next" icon="pi pi-chevron-right" iconPos="right" @click="nextPage" severity="contrast" variant="text"
-                                            :disabled="!pagination.next_page_url" />
-                                    </nav>
-                                </div> -->
-
+                            <div class="paginator">
+                             <Button label="Prev" icon="pi pi-chevron-left" severity="contrast" variant="text" @click="prev()"/>
+                             <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                             <Button label="Next" icon="pi pi-chevron-right" iconPos="right" severity="contrast" variant="text" @click="next()"/>
+                                </div>
                         </figure>
 
 
@@ -382,6 +404,11 @@ onMounted(() => {
     display: flex;
     justify-content: start;
     gap: 10px;
+}
+.paginator{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>
 

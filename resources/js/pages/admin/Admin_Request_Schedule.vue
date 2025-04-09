@@ -133,7 +133,7 @@ onMounted(() => {
         <section>
             <article class="box">
                 <div class="text-center" v-for="(data) in statusCount">
-                    <b>{{data.status}}</b>
+                    <b>{{ data.status }}</b>
                     <h2>{{ data.status_count }}</h2>
                 </div>
             </article>
@@ -200,7 +200,7 @@ onMounted(() => {
                                 <td>{{ data.quantity }}</td>
                                 <td>{{ data.date_schedule }}</td>
                                 <td>
-                                    <span :style="{
+                                    <span style="border-radius:20px; color:green" class="p-2" :style="{
                                         'background-color': data.status === 'pending' ? 'rgb(253,217,216)' :
                                             data.status === 'approved' ? 'rgb(215,229,254)' :
                                                 data.status === 'not-approved' ? 'rgb(252,222,192)' :
@@ -271,6 +271,4 @@ section {
     transform: translateY(20px);
     opacity: 0;
 }
-
-
 </style>

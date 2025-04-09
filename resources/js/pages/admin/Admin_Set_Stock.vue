@@ -202,6 +202,7 @@ onMounted(() => {
                   <b>  {{ pagination.last_page }} of {{ pagination.current_page }}</b>
                     <Button label="Next" severity="contrast" icon="pi pi-angle-right" variant="text"  iconPos="right" @click="next()" />
             </div>
+            
         </div>
 
     </section>

@@ -1,6 +1,6 @@
 <script setup>
-import { Button, FloatLabel, InputText, Message, Select } from 'primevue';
-import { ref } from 'vue';
+import { Button, DatePicker, FloatLabel, InputText, Message, Select } from 'primevue';
+import { ref, watch } from 'vue';
 import Swal from 'sweetalert2';
 
 const selectStatus = ref()
@@ -15,11 +15,20 @@ const closeModal = () => {
     emit('closeModal')
 }
 
+
 const updateBtn = async (id) => {
-    const response = await axios.post('api/admin-update-schedule-status', {
+   
+    
+    const response = await axios.post('api/admin-update-schedule', {
         id: id,
+        supplier_name: props.statusData.supplier_name,
+        item_code: props.statusData.item_code,
+        quantity: props.statusData.quantity,
+        date_schedule: props.statusData.date_schedule,
         status: selectStatus.value.name
     })
+    console.log(response.data);
+    
     if (response.status === 200) {
         Swal.fire({
             position: "top-end",
@@ -31,8 +40,11 @@ const updateBtn = async (id) => {
         emit('closeModal')
 
     }
-
 }
+watch(props.statusData.date_schedule, (oldVal, newVal) => {
+    console.log(props.statusData.date_schedule);
+    
+})
 </script>
 
 <template>
@@ -48,16 +60,17 @@ const updateBtn = async (id) => {
                 <div class="row mt-3">
                     <div class="col">
                         <FloatLabel variant="in">
-                            <InputText id="in_label" v-model="statusData.supplier_name" variant="filled" disabled
+                            <InputText id="in_label" v-model="statusData.supplier_name" variant="filled"
                                 fluid />
-                            <label for="in_label">Supplier Name</label>
+                            <label for="in_label">Supplier Name
+                            </label>
                         </FloatLabel>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col">
                         <FloatLabel variant="in">
-                            <InputText id="in_label" v-model="statusData.item_code" variant="filled" disabled fluid />
+                            <InputText id="in_label" v-model="statusData.item_code" variant="filled"  fluid />
                             <label for="in_label">Item Code</label>
                         </FloatLabel>
                     </div>
@@ -65,23 +78,23 @@ const updateBtn = async (id) => {
                 <div class="row mt-3">
                     <div class="col">
                         <FloatLabel variant="in">
-                            <InputText id="in_label" v-model="statusData.quantity" variant="filled" disabled fluid />
+                            <InputText id="in_label" v-model="statusData.quantity" variant="filled"  fluid />
                             <label for="in_label">Quantity</label>
                         </FloatLabel>
                     </div>
                     <div class="col">
                         <FloatLabel variant="in">
-                            <InputText id="in_label" v-model="statusData.date_schedule" variant="filled" disabled
+                            <DatePicker  id="in_label" dateFormat="y/m/d" v-model="statusData.date_schedule" variant="filled" 
                                 fluid />
-                            <label for="in_label">Supplier Name</label>
+                            <label for="in_label">Date scheduled</label>
                         </FloatLabel>
                     </div>
                 </div>
                 <div class="row mt-3">
                     <div class="col">
                         <FloatLabel variant="in">
-                            <InputText id="in_label" v-model="statusData.status" variant="filled" disabled fluid />
-                            <label for="in_label">Quantity</label>
+                            <InputText id="in_label" v-model="statusData.status" variant="filled"  fluid />
+                            <label for="in_label">Status</label>
                         </FloatLabel>
                     </div>
                     <div class="col">

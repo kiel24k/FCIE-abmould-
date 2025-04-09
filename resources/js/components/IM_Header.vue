@@ -116,8 +116,6 @@ const menu = () => {
 const hideSidebarIsActive = ref(false)
 const hideSidebar = () => {
   hideSidebarIsActive.value = true
-
-
 }
 
 </script>
