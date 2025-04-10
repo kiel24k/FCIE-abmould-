@@ -85,7 +85,7 @@ onMounted(() => {
                         <tr v-for="(data,index) in userListData.data">
                             <td class="figure_class">
                                <figure>
-                                
+                                s
                                 <img :src="`/UserImage/${data.image}`" width="30px" height="30px" alt="">
                                </figure>
                                <div class="figure_content">
