@@ -57,7 +57,7 @@ onMounted(() => {
     </header>
 
     <section>
-        <div class="row">
+        <div class="row mt-5">
             <div class="col title">
                 <Message severity="white">
                     <h1>Team Members</h1>

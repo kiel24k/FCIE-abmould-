@@ -186,11 +186,11 @@ onMounted(() => {
     <header>
         <Header @toggle-sidebar="toggleSidebar" @user="user" />
     </header>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
         <div class="col-9">
             <div class="admin-inventory-list">
                 <div class="row">
-                    <div class="col title">
+                    <div class="col title mt-4">
                         <Message icon="pi pi-list">
                             <h2>ITEM LIST</h2>
                         </Message>

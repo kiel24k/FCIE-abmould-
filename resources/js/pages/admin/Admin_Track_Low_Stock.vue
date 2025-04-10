@@ -239,4 +239,7 @@ section {
     justify-content: center;
     align-content: center;
 }
+.title{
+    margin-top: 5rem;
+}
 </style>

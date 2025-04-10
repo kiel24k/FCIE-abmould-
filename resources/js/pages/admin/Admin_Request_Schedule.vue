@@ -129,7 +129,7 @@ onMounted(() => {
     <header>
         <Header />
     </header>
-    <div class="row">
+    <div class="row mt-5">
         <section>
             <article class="box">
                 <div class="text-center" v-for="(data) in statusCount">

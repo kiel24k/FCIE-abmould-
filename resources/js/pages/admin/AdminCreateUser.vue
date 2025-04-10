@@ -2,7 +2,7 @@
     <header class="header">
         <Header @toggle-sidebar="toggleSidebar" />
     </header>
-    <div class="row" :style="{ marginTop: headerHeight + 'px' }">
+    <div class="row mt-5" :style="{ marginTop: headerHeight + 'px' }">
         <div  key="content">
             <div class="col">
                 <div class="create-user">

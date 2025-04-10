@@ -3,7 +3,7 @@
         <Header @user="user" />
     </header>
    <div style="display:grid; justify-content: center;align-content: center;">
-    <div class="row">
+    <div class="row mt-5">
         <InModal v-if="inModal" :barcodeValue="barcodeValue" :inModalId="inModalId" @exit="exit" />
         <div>
             <Scanner @barcodeValue="barcodeValue" />

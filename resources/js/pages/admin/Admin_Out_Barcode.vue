@@ -3,7 +3,7 @@
         <Header @toggle-sidebar="toggleSidebar" @user="user" />
     </header>
     <div style="display:grid; justify-content: center;align-content: center;">
-        <div class="row">
+        <div class="row mt-5">
             <AdminOutModal v-if="OutModal" :reduceItemId="reduceItemId" @exit="exit" />
             <div>
             

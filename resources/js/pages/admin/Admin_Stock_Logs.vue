@@ -132,6 +132,7 @@ section {
 }
 .container{
     box-shadow: 2px 10px 15px 2px gray;
+    margin-top: 5rem;
 }
 
 .notif-info {
