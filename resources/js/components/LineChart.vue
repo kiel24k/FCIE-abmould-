@@ -28,7 +28,9 @@ onMounted(async () => {
                 pointRadius: 5,
                 pointHoverRadius: 1
             }]
-        }
+            
+        },
+        
     })
 })
 </script>

@@ -47,7 +47,7 @@ class ChartController extends Controller
     }
 
     public function tableDataDashboard () {
-        $data = Item::select('id','supplier_name', 'quantity','treshold')
+        $data = Item::select('id','item_code','supplier_name', 'quantity','treshold')
         ->orderBy('id', 'DESC')
         ->limit(15)
         ->get();

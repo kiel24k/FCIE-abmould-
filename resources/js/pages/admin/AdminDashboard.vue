@@ -102,6 +102,7 @@ onMounted(() => {
                             <tr>
                                 <th>#</th>
                                 <th>Supplier</th>
+                                <th>Item code</th>
                                 <th>Quantity</th>
                                 <th>Treshold</th>
                                 <th>Action</th>
@@ -114,6 +115,7 @@ onMounted(() => {
                                     <i v-if="data.supplier_name === null" class="pi pi-user"></i>
                                     <p v-else>{{ data.supplier_name }}</p>
                                 </td>
+                                <td>{{data.item_code}}x</td>
                                 <td>{{data.quantity}}x</td>
                                 <td>{{data.treshold}}x</td>
                                 <td>

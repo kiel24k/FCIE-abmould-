@@ -61,8 +61,8 @@
                     <div class="row">
                         <div class="col">
                             <FloatLabel variant="on">
-                                <InputText id="on_label" class="form-control" :invalid="validation.password"
-                                    :size="large" v-model="userData.password" />
+                                <Password id="on_label"  :invalid="validation.password"
+                                    :size="large" v-model="userData.password" fluid :feedback="false" />
                                 <label for="on_label">Password</label>
                             </FloatLabel>
                             <small class="text-danger" v-if="validation.password">{{ validation.password[0] }}</small>
@@ -107,7 +107,7 @@ import { useRoute } from 'vue-router';
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
 import axios from 'axios';
-import { Button, FloatLabel, InputNumber, InputText, Select } from 'primevue';
+import { Button, FloatLabel, InputNumber, InputText, Password, Select } from 'primevue';
 import Swal from 'sweetalert2';
 
 const userRole = ref([
