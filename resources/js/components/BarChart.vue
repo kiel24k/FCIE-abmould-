@@ -10,6 +10,18 @@ import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
+const barColor = ref([
+    {bgColor: 'rgb(255, 0, 0, 0.5)'},
+    {bgColor: 'rgb(255, 255, 0, 0.5)'},
+    {bgColor: 'rgb(0, 0, 255,0.5)'},
+    {bgColor: 'rgb(0, 128, 0,0.5)'},
+    {bgColor: 'pink'},
+    {bgColor: 'violet'},
+    {bgColor: 'brown'},
+    {bgColor: 'skyblue'},
+    {bgColor: 'black'},
+    {bgColor: 'red'},
+])
 
 const dataOfSumCategory = ref([])
 
@@ -36,9 +48,9 @@ const chartData = computed(() => ({
     datasets: [{
         label: 'Top 10 Categories',
         data: dataOfSumCategory.value.map((el) => el.quantity),
-        backgroundColor: ['rgb(218, 71, 69)'],
+        backgroundColor: barColor.value.map(el => el.bgColor),
     },],
-    fill: false,
+    fill: true,
 }));
 
 // const chartData = ref({
