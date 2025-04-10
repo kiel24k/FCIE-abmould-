@@ -197,7 +197,7 @@ onMounted(() => {
 
     <section>
 
-        <div class="row title">
+        <div class="row title mt-5">
             <Message severity="info" size="large" icon="pi pi-wrench" fluid>
                 CATEGORY LIST
             </Message>

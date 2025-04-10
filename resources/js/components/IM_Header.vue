@@ -1,7 +1,6 @@
 <template>
 
   <header>
-    
   <Sidebar v-if="showSidebar" @hideSidebar="hideSidebar" :class="{ hideSidebarActive: hideSidebarIsActive }" />
     <div class="row">
       <div class="col-2">

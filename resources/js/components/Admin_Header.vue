@@ -1,59 +1,3 @@
-<template>
-    <div style="height: 4rem;">
-        <header>
-            <Sidebar v-if="showSidebar" @hideSidebar="hideSidebar" :class="{ hideSidebarActive: hideSidebarIsActive }" />
-            <div class="row">
-                <div class="col" style="max-width: 250px;">
-                    <ul class="navbar nav d-flex justify-content-center">
-                        <li class="nav-item">
-                            <img src="/public/icon/menu.png" width="40px" alt="" @click="menu()" style="cursor:pointer">
-                          </li>
-                        <router-link :to="{ name: 'admin-dashboard' }">
-                            <li class="nav-item">
-                                <img src="/public/background/abMouldLogo.png" width="150px" style="cursor:pointer">
-                            </li>
-                        </router-link>
-                    </ul>
-                </div>
-                <div class="col">
-                    <ul class="navbar nav justify-content-end" style="margin-right:20px;">
-                        <Button icon="pi pi-exclamation-triangle" severity="danger" raised rounded class="m-2" v-if="isStockAlertBtn"
-                            @click="showStockAlert" />
-                            <li class="nav-item">
-                                    <Button type="button" icon="pi pi-bell" severity="secondary" @click="toggle" class="min-w-48" />
-                            
-                                    <Popover ref="op">
-                                        <div class="pop flex flex-col gap-4">
-                                            <div>
-                                                <span class="font-medium block mb-2">Notification</span>
-                                                <ul class="list-none p-0 m-0 flex flex-col">
-                                                    <div v-for="notif in notifs" :key="notif.name" class="flex items-center gap-2 px-2 py-3 hover:bg-emphasis cursor-pointer rounded-border" @click="selectMember(member)">
-                                                       <b></b>
-                                                        <div>
-                                                            <b class="font-medium">{{ notif.message }}</b>
-                                                            <div class="text-sm text-surface-500 dark:text-surface-400">{{ notif.email }}</div>
-                                                            <div><small>{{ notif.role }}</small></div>
-                                                        </div>
-                                                    </div>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </Popover>
-                            </li>
-                        <li class="nav-item profile">
-                            <div class="card flex justify-center">
-                                <SplitButton :label="userInformation.first_name" severity="secondary" text @click="save"
-                                    :model="items" />
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-         
-            <Loader v-if="loader" />
-        </header>
-    </div>
-</template>
 <script setup>
 import { ref, onMounted } from 'vue';
 
@@ -66,7 +10,7 @@ import Sidebar from '@/components/Admin_Sidebar.vue'
 
 // Modal logic
 const emit = defineEmits(['user'])
-const isStockAlertBtn = ref(false)
+const isSidebar = ref(false)
 
 
 const items = [
@@ -102,8 +46,8 @@ onMounted(() => {
         userInformation.value = response.data;
         loader.value = false;
         emit('user', userInformation.value)
-        
-        
+
+
     });
     if (!token) {
         router.push('/');
@@ -135,56 +79,70 @@ const logout = () => {
 
 };
 
-const showStockAlert = () => {
-    Swal.fire({
-            title: "Low Stock Alert",
-            text: "Kindly Check All Items",
-            icon: "warning"
-        }); 
-}
-const hideSidebarIsActive = ref(false)
-const hideSidebar = () => {
-    hideSidebarIsActive.value = true
-  showSidebar.value = false
-}
-
-const showSidebar = ref(true)
-const menu = () => {
-  hideSidebarIsActive.value = false
-  showSidebar.value = true
-}
 
 
 
 //NOTIFICATION SECTION HERE!
 
-const op = ref();
-const selectedMember = ref(null);
+
 const notifs = ref({})
 
 const NOTIFICATION_TABLE_API = async () => {
-  axios({
-    method: 'GET',
-    url: '/api/notification-table'
-  }).then(response => {
-    notifs.value = response.data
-    
-  })
+    axios({
+        method: 'GET',
+        url: '/api/notification-table'
+    }).then(response => {
+        notifs.value = response.data
+
+    })
+}
+const menu = () => {
+    // isSidebar.value = true
+    alert("dsds")
 }
 
-const toggle = (event) => {
-    op.value.toggle(event);
+const showSidebar = () => {
+    isSidebar.value = true
 }
 
-const selectMember = (member) => {
-    selectedMember.value = member;
-    op.value.hide();
+const hideSidebar = () => {
+    isSidebar.value = false
 }
+
 
 onMounted(() => {
     NOTIFICATION_TABLE_API();
 })
 </script>
+
+<template>
+ 
+    <Sidebar :isSidebar="isSidebar" @showSidebar="showSidebar" @hideSidebar="hideSidebar"  />
+  
+    <header>
+        <div class="row">
+            <div class="col-2">
+                <ul class="navbar nav">
+                    <li class="nav-item">
+                        <img src="/public/icon/menu.png" width="40px" alt="" @click="menu" style="cursor:pointer">
+                        <img src="/public/background/abMouldLogo.png" width="120px" alt="">
+                    </li>
+                </ul>
+            </div>
+            <div class="col">
+                <ul class="navbar nav justify-content-end" style="margin-right:50px;">
+                    <div class="card flex justify-center">
+                        <SplitButton :label="userInformation.first_name" severity="secondary"
+                            dropdownIcon="pi pi-chevron-down" @click="save" :model="items" />
+                    </div>
+                </ul>
+            </div>
+        </div>
+        <Loader v-if="loader" />
+    </header>
+
+</template>
+
 <style scoped>
 header {
     background-color: #fff;
@@ -217,11 +175,10 @@ header {
     gap: 10px;
 }
 
-.hideSidebarActive {
-    transform: translate(-100%);
-  }
-.pop{
+.pop {
     max-height: 20rem;
     overflow-y: scroll;
 }
+
+
 </style>

@@ -174,7 +174,7 @@ onMounted(() => {
         <Header @toggle-sidebar="toggleSidebar" />
     </header>
     <div class="row justify-content-center mt-5">
-        <div class="col-9">
+        <div class="col-9 mt-4">
             <div class="user-list-table">
                 <div class="row">
                     <div class="col title">

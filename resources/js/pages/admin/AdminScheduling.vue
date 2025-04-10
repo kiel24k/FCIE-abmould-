@@ -4,7 +4,7 @@
             @data="addScheduleModal = false" />
     </transition>
     <Header @toggle-sidebar="toggleSidebar" />
-    <div class="row justify-content-center">
+    <div class="row justify-content-center mt-5">
         <div class="col-8">
             <div class="col">
                 <div class="row scheduling">

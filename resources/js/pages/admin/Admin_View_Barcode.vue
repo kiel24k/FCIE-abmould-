@@ -2,7 +2,7 @@
     <header>
         <Header @toggle-sidebar="toggleSidebar" />
     </header>
-    <div class="row">
+    <div class="row mt-5">
             <div id="scanner">
                 <Scanner @barcodeValue="barcodeValue" />
             <div class="data-table mt-4">

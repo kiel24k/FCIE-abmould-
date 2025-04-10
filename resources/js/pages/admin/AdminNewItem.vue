@@ -96,7 +96,7 @@ onMounted(() => {
     <header>
         <Header @user="user" />
     </header>
-    <div class="row m-2">
+    <div class="row m-5">
         <div class="col">
             <form @submit.prevent enctype="multipart/form-data">
                 <div class="card card-main">
