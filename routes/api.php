@@ -146,8 +146,10 @@ route::controller(CategoryController::class)->group(function () {
  route::get('all-item-category', 'allItemCategory');
 });
 
+route::controller(NotificationController::class)->group(function () {
+    route::get('low-stock-alert', 'lowStockAlert');
+
+});
 
 
-Route::post('/low-stock-email', [AnnouncementController::class, 'lowStockAlert']);
 
-route::get('/notification-table', [NotificationController::class, 'getNotificationTable']);
