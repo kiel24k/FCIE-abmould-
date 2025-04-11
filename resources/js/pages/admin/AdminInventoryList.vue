@@ -196,29 +196,31 @@ onMounted(() => {
                         </Message>
                     </div>
                 </div>
+            
                 <div class="row">
-                    <div class="col table-category">
-                        <Select placeholder="Select Date" :options="itemListCategory" optionLabel="release_date"
-                            v-model="category" />
-                        <InputGroup>
-                            <InputText placeholder="Search Item" v-model="search" />
-                            <InputGroupAddon>
-                                <Button icon="pi pi-search" severity="secondary" variant="text" disabled />
-                            </InputGroupAddon>
-                            <Button label="clear" severity="secondary" raised @click="clear"
-                                v-if="search || category" />
-                        </InputGroup>
-                    </div>
-                    <div class="col table-action">
-                        <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised
-                            @click="generatePdf"></Button>
-                        <router-link :to="{ name: 'admin-new-item' }">
-                            <Button icon="pi pi-plus-circle" severity="info" label="New" raised />
-                        </router-link>
-                    </div>
-                </div>
-                <div class="row">
+                    
                     <div class="col bg-white">
+                        <div class="row p-3">
+                            <div class="col table-category">
+                                <Select placeholder="Select Date" :options="itemListCategory" optionLabel="release_date"
+                                    v-model="category" />
+                                <InputGroup>
+                                    <InputText placeholder="Search Item" v-model="search" />
+                                    <InputGroupAddon>
+                                        <Button icon="pi pi-search" severity="secondary" variant="text" disabled />
+                                    </InputGroupAddon>
+                                    <Button label="clear" severity="secondary" raised @click="clear"
+                                        v-if="search || category" />
+                                </InputGroup>
+                            </div>
+                            <div class="col table-action">
+                                <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised
+                                    @click="generatePdf"></Button>
+                                <router-link :to="{ name: 'admin-new-item' }">
+                                    <Button icon="pi pi-plus-circle" severity="info" label="New" raised />
+                                </router-link>
+                            </div>
+                        </div>
                         <figure class="table-main">
                             <table class="table table-bordered  table-hover table-responsive" ref="printContent">
                                 <thead>

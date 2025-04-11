@@ -249,7 +249,7 @@ aside {
     background: rgb(204, 202, 202);
     box-shadow: 0px 0px 15px 0px gray;
     top:0;
-    transition: all linear 0.9s;
+    transition: all linear 0.4s;
 }
 .shortSidebar{
     width: 15rem;

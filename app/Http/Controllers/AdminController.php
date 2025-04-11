@@ -80,7 +80,6 @@ class AdminController extends Controller
     {
         $request->validate([
             'first_name'  => 'required|string',
-            'middle_name' => 'required|string',
             'last_name'   => 'required|string',
             'tel_no'      => 'required|numeric',
             'email'       => 'required|email|unique:users',
@@ -168,7 +167,6 @@ class AdminController extends Controller
         $item->release_date = Carbon::now()->format('y/m/d');
         // $item->barcode       = $request->barcode;
         $item->save();
-        NotificationController::addItemNotification($request->user_id);
         LogsController::createdLogs($userId);
 
         return response()->json($item);
@@ -239,21 +237,23 @@ class AdminController extends Controller
     }
     public function updateItem(Request $request, $id)
     {
+        $material = Item::find($id);
         $request->validate([
             'item_code'     => 'required',
             'supplier_name' => 'nullable',
             'unit_cost'     => 'numeric',
-            'quantity'      => 'numeric',
+            'quantity'      => "numeric|max:$request->treshold",
             'category'      => 'required',
             'description'   => 'required',
         ]);
 
-        $material = Item::find($id);
+
         $material->item_code     = $request->item_code;
         $material->supplier_name = $request->supplier_name;
         $material->unit_cost     = $request->unit_cost;
         $material->quantity      = $request->quantity;
         $material->category      = $request->category;
+        $material->treshold   = $request->treshold;
         $material->description   = $request->description;
         $material->brand         = $request->brand;
         $material->update();
@@ -604,7 +604,7 @@ class AdminController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:categories,name',
-            'details' => 'required'
+            // 'details' => 'required'
         ]);
         $category = new Category();
         $category->name = $request->name;

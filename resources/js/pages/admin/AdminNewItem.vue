@@ -96,7 +96,7 @@ onMounted(() => {
     <header>
         <Header @user="user" />
     </header>
-    <div class="row m-5">
+    <div class="row main_form">
         <div class="col">
             <form @submit.prevent enctype="multipart/form-data">
                 <div class="card card-main">
@@ -259,5 +259,8 @@ label {
 .category_input{
 display: flex;
 gap:10px;
+}
+.main_form{
+    margin-top: 5rem;
 }
 </style>
