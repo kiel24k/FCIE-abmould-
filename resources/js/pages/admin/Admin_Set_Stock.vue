@@ -119,6 +119,7 @@ onMounted(() => {
     </header>
     <SetStockTresholdModal v-if="isModal" @closeSetStockModal="closeSetStockModal" :tableId="tableId" :userId="userId" />
 
+   <div id="main">
     <section >
         <div class="row title">
             <Message severity="info" size="large" icon="pi pi-wrench" fluid>
@@ -206,6 +207,7 @@ onMounted(() => {
         </div>
 
     </section>
+   </div>
 
 
 </template>
@@ -241,6 +243,10 @@ section {
 }
 .title{
     margin-top:5rem;
+}
+
+#main{
+    margin-left: 3rem;
 }
 
 </style>

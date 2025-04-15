@@ -38,97 +38,98 @@ onMounted(() => {
         <Header />
     </header>
 
-    <section >
-        <div class="row m-1">
-            <div class="summary_content">
-                <div class="title text-center">
-                    <b>Dashboard</b>
-                    <hr>
-                </div>
-                <div class="col total">
-                    <div class="user_total">
-                        <figure>
-                            <i class="pi pi-users"></i>
-                        </figure>
-                        <div class="content">
-                            <b>{{ dashboardApi.user }}</b>
-                            <span>Users</span>
+    <div id="content">
+        <section >
+            <div class="row m-1 main">
+                <div class="summary_content">
+                    <div class="title text-center">
+                        <b>Dashboard</b>
+                        <hr>
+                    </div>
+                    <div class="col total">
+                        <div class="user_total">
+                            <figure>
+                                <i class="pi pi-users"></i>
+                            </figure>
+                            <div class="content">
+                                <b>{{ dashboardApi.user }}</b>
+                                <span>Users</span>
+                            </div>
+                        </div>
+                        <div class="item_total">
+                            <figure>
+                                <i class="pi pi-book"></i>
+                            </figure>
+                            <div class="content">
+                                <b>{{ dashboardApi.item }}</b>
+                                <span>items</span>
+                            </div>
+                        </div>
+    
+                        <div class="unit_cost_total">
+                            <figure>
+                                <i class="pi pi-briefcase"></i>
+                            </figure>
+                            <div class="content">
+                                <b>₱{{ dashboardApi.unit_cost }}</b>
+                                <span>unit cost</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="item_total">
-                        <figure>
-                            <i class="pi pi-book"></i>
-                        </figure>
-                        <div class="content">
-                            <b>{{ dashboardApi.item }}</b>
-                            <span>items</span>
-                        </div>
-                    </div>
-
-                    <div class="unit_cost_total">
-                        <figure>
-                            <i class="pi pi-briefcase"></i>
-                        </figure>
-                        <div class="content">
-                            <b>P{{ dashboardApi.unit_cost }}.00</b>
-                            <span>unit cost</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section>
-        <div class="row">
-            <div class="col computation">
-                <div class="chart">
-                    <div class="bg-white">
-                        <b>Line Chart</b>
-                        <LineChart />
-                    </div>
-                    <div class="bg-white">
-                        <b>Barchart</b>
-                        <BarChart />
-                    </div>
-                </div>
-                <div class="listing bg-white">
-                  <div class="table_title p-1">
-                    <b>top 15 newly added materials</b>
-                  </div>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Supplier</th>
-                                <th>Item code</th>
-                                <th>Quantity</th>
-                                <th>Treshold</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(data, index) in tableDataDashboardData">
-                                <td>{{ index + 1 }}</td>
-                                <td>
-                                    <i v-if="data.supplier_name === null" class="pi pi-user"></i>
-                                    <p v-else>{{ data.supplier_name }}</p>
-                                </td>
-                                <td>{{data.item_code}}x</td>
-                                <td>{{data.quantity}}x</td>
-                                <td>{{data.treshold}}x</td>
-                                <td>
-                                    <Button icon="pi pi-eye" severity="info"/>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-
+    
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    
+        <section>
+            <div class="row">
+                <div class="col computation">
+                    <div class="chart">
+                        <div class="bg-white">
+                            <b>Line Chart</b>
+                            <LineChart />
+                        </div>
+                        <div class="bg-white">
+                            <b>Barchart</b>
+                            <BarChart />
+                        </div>
+                    </div>
+                    <div class="listing bg-white">
+                      <div class="table_title p-1">
+                        <b>top 15 newly added materials</b>
+                      </div>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Supplier</th>
+                                    <th>Item code</th>
+                                    <th>Quantity</th>
+                                    <th>Treshold</th>
+                                    <!-- <th>Action</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(data, index) in tableDataDashboardData">
+                                    <td>{{ index + 1 }}</td>
+                                    <td>
+                                        <i v-if="data.supplier_name === null" class="pi pi-user"></i>
+                                        <p v-else>{{ data.supplier_name }}</p>
+                                    </td>
+                                    <td>{{data.item_code}}</td>
+                                    <td>{{data.quantity}}x</td>
+                                    <td>{{data.treshold}}x</td>
+                                    <!-- <td>
+                                        <Button icon="pi pi-eye" severity="info"/>
+                                    </td> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
 
 
@@ -245,4 +246,8 @@ section {
     font-weight: 200px;
     color: rgb(138, 143, 148);
 }
+#content{
+    margin-left:4rem;
+}
+
 </style>

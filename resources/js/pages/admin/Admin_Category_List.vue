@@ -195,78 +195,78 @@ onMounted(() => {
         <Header />
     </header>
 
-    <section>
-
-        <div class="row title mt-5">
-            <Message severity="info" size="large" icon="pi pi-wrench" fluid>
-                CATEGORY LIST
-            </Message>
-        </div>
-      
-    </section>
-
-    <section>
-        <div class="row mt-3">
-            <div class="col-3 table-option">
-                <Select placeholder="Category" v-model="selectedCategory" :options="categoryListCategoryData"
-                    optionLabel="release_date" />
-                <InputGroup>
-                    <InputText placeholder="Search" v-model="search" size="small" />
-                    <InputGroupAddon>
-                        <Button icon="pi pi-search" severity="contrast" size="small" variant="text" @click="toggle" />
-                    </InputGroupAddon>
-                </InputGroup>
-                <Button label="clear" severity="secondary" icon="pi pi-erased" raised  @click="clear" v-if="search || category"  />
+    <div id="main">
+        <section>
+            <div class="row title mt-5">
+                <Message severity="info" size="large" icon="pi pi-wrench" fluid>
+                    CATEGORY LIST
+                </Message>
             </div>
-            <div class="col text-end list-action">
-                <Button label="New Category" icon="pi pi-plus" severity="info"
-                    @click="router.push('admin-new-category')" />
-                <Button label="Print" icon="pi pi-print" severity="danger" />
-            </div>
-        </div>
-        <div class="row mt-2">
-            <div class="col">
-                <table class="table table-bordered table-responsive table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th @click="sort('name')">
-                                <div class="table_head">
-                                    <span>Category Name</span>
-                                    <i class="pi pi-sort-amount-down"></i>
-                                </div>
-                            </th>
-                            <th @click="sort('details')">
-                                <div class="table_head">
-                                    <span>Details</span>
-                                    <i class="pi pi-sort-amount-down"></i>
-                                </div>
-                            </th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(data, index) in categoryListTable.data" :key="index">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ data.name }}</td>
-                            <td>{{ data.details }}</td>
-                            <td class="category_table_action">
-                                <Button icon="pi pi-pencil" severity="info" raised @click="editBtn(data.id)"  />
-                                <Button icon="pi pi-trash" severity="danger" raised @click="deleteBtn(data.id)" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="row">
-                <div class="col pagination_button">
-                    <Button label="Prev" variant="text" icon="pi pi-angle-left" severity="contrast" @click="prevBtn()" />
-                    <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                    <Button label="Next" icon="pi pi-angle-right" variant="text" iconPos="right" severity="contrast" @click="nextBtn()" />
+        </section>
+    
+        <section>
+            <div class="row mt-3">
+                <div class="col-3 table-option">
+                    <Select placeholder="Category" v-model="selectedCategory" :options="categoryListCategoryData"
+                        optionLabel="release_date" />
+                    <InputGroup>
+                        <InputText placeholder="Search" v-model="search" size="small" />
+                        <InputGroupAddon>
+                            <Button icon="pi pi-search" severity="contrast" size="small" variant="text" @click="toggle" />
+                        </InputGroupAddon>
+                    </InputGroup>
+                    <Button label="clear" severity="secondary" icon="pi pi-erased" raised  @click="clear" v-if="search || category"  />
+                </div>
+                <div class="col text-end list-action">
+                    <Button label="New Category" icon="pi pi-plus" severity="info"
+                        @click="router.push('admin-new-category')" />
+                    <Button label="Print" icon="pi pi-print" severity="danger" />
                 </div>
             </div>
-        </div>
-    </section>
+            <div class="row mt-2">
+                <div class="col">
+                    <table class="table table-bordered table-responsive table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th @click="sort('name')">
+                                    <div class="table_head">
+                                        <span>Category Name</span>
+                                        <i class="pi pi-sort-amount-down"></i>
+                                    </div>
+                                </th>
+                                <th @click="sort('details')">
+                                    <div class="table_head">
+                                        <span>Details</span>
+                                        <i class="pi pi-sort-amount-down"></i>
+                                    </div>
+                                </th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(data, index) in categoryListTable.data" :key="index">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ data.name }}</td>
+                                <td>{{ data.details }}</td>
+                                <td class="category_table_action">
+                                    <Button icon="pi pi-pencil" severity="info" raised @click="editBtn(data.id)"  />
+                                    <Button icon="pi pi-trash" severity="danger" raised @click="deleteBtn(data.id)" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col pagination_button">
+                        <Button label="Prev" variant="text" icon="pi pi-angle-left" severity="contrast" @click="prevBtn()" />
+                        <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                        <Button label="Next" icon="pi pi-angle-right" variant="text" iconPos="right" severity="contrast" @click="nextBtn()" />
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 </template>
 
 <style scoped>
@@ -319,6 +319,9 @@ th:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+#main{
+    margin-left: 3rem;
 }
 
 </style>

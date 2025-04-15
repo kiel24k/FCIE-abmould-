@@ -10,11 +10,12 @@ class ChartController extends Controller
 {
     public function bargraph()
     {
-        $label = DB::table('items')
-            ->select('category', 'quantity')
-            ->orderBy('id', 'DESC')
-            ->get();
-        return response()->json($label);
+        $categories = DB::table('items')
+        ->select('category', DB::raw('SUM(quantity) as total_value'))
+        ->groupBy('category')
+        ->get();
+    
+        return response()->json($categories);
     }
     public function lineGraph () {
         $data = DB::table('items')

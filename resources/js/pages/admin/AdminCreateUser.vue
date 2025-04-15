@@ -2,7 +2,7 @@
     <header class="header">
         <Header @toggle-sidebar="toggleSidebar" />
     </header>
-    <div class="row mt-5" :style="{ marginTop: headerHeight + 'px' }">
+    <div  class="row main" >
         <div  key="content">
             <div class="col">
                 <div class="create-user">
@@ -132,9 +132,9 @@ import Swal from 'sweetalert2';
 const isSidebarHidden = ref(false);
 const headerHeight = ref(0);
 const optionRole = ref([
-    { name: 'admin' },
-    { name: 'inventory-manager' },
-    { name: 'member' },
+    { name: 'ADMIN' },
+    { name: 'INVENTORY-MANAGER' },
+    { name: 'MEMBER' },
     {name: 'TL'}
 ])
 
@@ -262,5 +262,8 @@ form {
     justify-content: end;
     align-items: center;
 
+}
+.main{
+    margin-top: 5rem;
 }
 </style>

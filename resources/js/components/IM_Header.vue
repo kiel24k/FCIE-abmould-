@@ -144,4 +144,8 @@ header {
   padding: 4px;
 
 }
+.p-popover{
+ z-index:999;
+ position:absolute;
+}
 </style>

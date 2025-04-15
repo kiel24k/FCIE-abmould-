@@ -87,9 +87,9 @@ onMounted(() => {
             <Message severity="contrast" icon="pi pi-ellipsis-v" size="large">Stock Adjustment Logs</Message>
             <div class="row p-2">
                 <div class="col">
-                    <div class="category">
+                    <!-- <div class="category">
                         <Select placeholder="Filter" />
-                    </div>
+                    </div> -->
                 </div>
             </div>
          
