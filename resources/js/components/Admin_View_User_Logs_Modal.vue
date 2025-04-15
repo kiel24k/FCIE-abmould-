@@ -112,7 +112,7 @@ onMounted(() => {
 <style scoped>
 
 .view-modal {
-    position: absolute;
+    position: fixed;
     display: grid;
     justify-content: center;
     align-items: center;
@@ -122,6 +122,7 @@ onMounted(() => {
     z-index: 999;
     top:0;
     bottom:0;
+   
 }
 
 .card-header {

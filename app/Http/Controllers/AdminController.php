@@ -113,7 +113,6 @@ class AdminController extends Controller
     {
         $request->validate([
             'first_name'  => 'required|string',
-            'middle_name' => 'required|string',
             'last_name'   => 'required|string',
             'tel_no'      => 'required|numeric',
             'email'       => 'required|email',
@@ -716,5 +715,15 @@ class AdminController extends Controller
         $stock->update();
         LogsController::quantityLogs($userId);
         return response()->json($stock);
+    }
+
+    public function assignRole (Request $request) {
+        $request->validate([
+            'role' => 'required'
+        ]);
+        $user = User::find($request->id);
+        $user->role = $request->role;
+        $user->save();
+
     }
 }

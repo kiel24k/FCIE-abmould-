@@ -45,28 +45,21 @@ function userManagement() {
 
 
 const menu = () => {
-   emit('hideSidebar')
+    emit('hideSidebar')
 }
 
 const showSidebar = () => {
- emit('showSidebar')
+    emit('showSidebar')
 }
 
 </script>
 
 <template>
-    <aside :class="{shortSidebar: isSidebar}">
+    <aside :class="{ shortSidebar: isSidebar }">
         <ul>
             <div class="title text-center" v-if="isSidebar">
                 <img src="/public/background/abMouldLogo.png" width="130px" height="45px" alt="">
-                <img
-                    src="/public/icon/menu.png"
-                    width="30px"
-                    height="30px"
-                    alt=""
-                    class="menu"
-                    @click="menu()"
-                />
+                <img src="/public/icon/menu.png" width="30px" height="30px" alt="" class="menu" @click="menu()" />
             </div>
             <router-link :to="{ name: 'admin-dashboard' }">
                 <li @click="showSidebar()">
@@ -75,7 +68,7 @@ const showSidebar = () => {
                 </li>
             </router-link>
             <hr>
-     
+
             <h5 class="text-center" v-if="isSidebar">Barcode</h5>
             <router-link v-else>
                 <li @click="showSidebar">
@@ -83,7 +76,7 @@ const showSidebar = () => {
                 </li>
             </router-link>
             <router-link :to="{ name: 'admin-in-barcode' }">
-                <li> 
+                <li>
                     <i class="pi pi-barcode"></i>
                     <span>In</span>
                 </li>
@@ -96,7 +89,7 @@ const showSidebar = () => {
             </router-link>
             <router-link :to="{ name: 'admin-view-barcode' }">
                 <li>
-                  <i class="pi pi-barcode"></i>
+                    <i class="pi pi-barcode"></i>
                     <span>View</span>
                 </li>
             </router-link>
@@ -115,8 +108,10 @@ const showSidebar = () => {
             </router-link>
             <a @click="itemManagement" class="route_option_name">
                 <li>
-                    <i class="pi pi-ellipsis-h"></i>
-                    <span>Items</span>
+                    <div class="list_option">
+                        <i class="pi pi-ellipsis-h"></i>
+                        <span>Items</span>
+                    </div>
                     <i class="pi pi-chevron-down"></i>
                 </li>
             </a>
@@ -151,8 +146,10 @@ const showSidebar = () => {
 
             <a @click="stockManagement" class="route_option_name">
                 <li>
-                    <i class="pi pi-ellipsis-h"></i>
+                    <div class="list_option">
+                        <i class="pi pi-ellipsis-h"></i>
                     <span>Stock Management</span>
+                    </div>
                     <i class="pi pi-chevron-down"></i>
                 </li>
             </a>
@@ -179,8 +176,10 @@ const showSidebar = () => {
 
             <a @click="userActivityLogs" class="route_option_name">
                 <li>
-                    <i class="pi pi-ellipsis-h"></i>
+                    <div class="list_option">
+                        <i class="pi pi-ellipsis-h"></i>
                     <span>Activity Logs</span>
+                    </div>
                     <i class="pi pi-chevron-down"></i>
                 </li>
             </a>
@@ -193,7 +192,7 @@ const showSidebar = () => {
                             <span>Stock Adjustments</span>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-item-logs'}">
+                    <router-link :to="{ name: 'admin-item-logs' }">
                         <li>
                             <i class="pi pi-ellipsis-v"></i>
                             <span>Item Changes</span>
@@ -203,8 +202,10 @@ const showSidebar = () => {
             </transition>
             <a @click="userManagement()" class="route_option_name">
                 <li>
+                   <div class="list_option">
                     <i class="pi pi-ellipsis-h"></i>
                     <span>User Management</span>
+                   </div>
                     <i class="pi pi-chevron-down"></i>
                 </li>
             </a>
@@ -215,15 +216,15 @@ const showSidebar = () => {
                         <li>
                             <i class="pi pi-users"></i>
                             <span>All Users</span>
-                    </li>
+                        </li>
                     </router-link>
-                    <router-link :to="{name: 'create-user'}">
+                    <router-link :to="{ name: 'create-user' }">
                         <li>
                             <i class="pi pi-plus"></i>
                             <span>Add New User</span>
                         </li>
                     </router-link>
-                    <router-link :to="{name: 'admin-assign-role'}">
+                    <router-link :to="{ name: 'admin-assign-role' }">
                         <li>
                             <i class="pi pi-pencil"></i>
                             <span>Assign Roles</span>
@@ -240,22 +241,24 @@ const showSidebar = () => {
 
 <style scoped>
 aside {
-    width: 3.5rem;
+    width: 2.8rem;
     position: fixed;
     height: 100%;
     overflow: scroll;
     overflow-x: hidden;
-    z-index: 9999;
-    background: rgb(204, 202, 202);
+    z-index: 998;
+    background: rgb(255, 255, 255);
     box-shadow: 0px 0px 15px 0px gray;
-    top:0;
+    top: 0;
     transition: all linear 0.4s;
 }
-.shortSidebar{
+
+.shortSidebar {
     width: 15rem;
     background: rgb(255, 255, 255);
-    
+
 }
+
 aside::-webkit-scrollbar {
     width: 5px;
 }
@@ -297,7 +300,7 @@ a li,
     gap: 20px;
     height: 50px;
     padding: 10px;
-  
+
 }
 
 .route_option_name li {
@@ -404,5 +407,10 @@ span {
 .user_management_animation-leave-from {
     opacity: 1;
     max-height: 200px;
+}
+.list_option{
+    display: flex;
+    align-items: center;
+    gap:10px;
 }
 </style>

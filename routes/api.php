@@ -75,6 +75,8 @@ Route::controller(AdminController::class)->group(function () {
     route::get('/stock-category', 'stockCategory');
     route::get('/get-stock', 'getStock');
 
+    route::post('/assign-role', 'assignRole');
+
     //category list function
     route::post('/post-category', 'postCategory');
     Route::get('/test', 'test');

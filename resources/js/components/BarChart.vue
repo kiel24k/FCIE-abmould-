@@ -46,11 +46,13 @@ const sumOfCategory = () => {
 const chartData = computed(() => ({
     labels: dataOfSumCategory.value.map((el) => el.category),
     datasets: [{
-        label: 'Top 10 Categories',
-        data: dataOfSumCategory.value.map((el) => el.quantity),
+        label: 'Top 10 Most-used Categories',
+        labelColor: 'blue',
+        data: dataOfSumCategory.value.map((el) => el.total_value),
         backgroundColor: barColor.value.map(el => el.bgColor),
-    },],
-    fill: true,
+    },
+    
+]
 }));
 
 // const chartData = ref({
@@ -68,7 +70,12 @@ const chartOptions = ref({
     responsive: true,
     plugins: {
         legend: {
-            position: 'top'
+            position: 'top',
+            display: true,
+                labels: {
+                    color: 'black', // Change the legend label color
+                },
+
         },
         tooltip: {
             callbacks: {
@@ -82,13 +89,13 @@ const chartOptions = ref({
         x: {
             title: {
                 display: true,
-                text: 'test'
+                // text: 'test'
             }
         },
         y: {
             title: {
                 display: true,
-                text: 'test'
+                // text: 'test'
             }
         }
     }

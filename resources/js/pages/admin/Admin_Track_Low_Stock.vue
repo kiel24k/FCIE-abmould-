@@ -118,92 +118,94 @@ onMounted(() => {
     </header>
     <TrackLowStockModal v-if="isModal" @closeAdjustTresholdModal="closeAdjustTresholdModal" :tableId="tableId" :userId="userId" />
 
-    <section>
-        <div class="row title">
-            <Message severity="info" size="large" icon="pi pi-wrench" fluid>
-                ADJUST TRESHOLD ITEM
-            </Message>
-        </div>
-       
-    </section>
-
-    <section>
-        <div class="row bg-white p-3">
-            <div class="col-3 category">
-                <Select v-model="selectedCategory" :options="getTrackLowStockCategory" optionLabel="release_date"
-                    size="small" placeholder="Select a Date" class="w-full md:w-56" />
-                <InputGroup>
-                    <InputText placeholder="Search" v-model="search" size="small" />
-                    <InputGroupAddon>
-                        <Button icon="pi pi-search" severity="contrast" size="small" variant="text" @click="toggle"  />
-                    </InputGroupAddon>
-                    <Button label="Clear" severity="secondary" icon="pi pi-eraser" raised size="small" @click="clear()" v-if="search || category" />
-                </InputGroup>
-                
-
+    <div id="main">
+        <section>
+            <div class="row title">
+                <Message severity="info" size="large" icon="pi pi-wrench" fluid>
+                    ADJUST TRESHOLD ITEM
+                </Message>
             </div>
-            <div class="col text-end search">
-                <Button icon="pi pi-print" severity="danger" label="Print" raised />
+           
+        </section>
+    
+        <section>
+            <div class="row bg-white p-3">
+                <div class="col-3 category">
+                    <Select v-model="selectedCategory" :options="getTrackLowStockCategory" optionLabel="release_date"
+                        size="small" placeholder="Select a Date" class="w-full md:w-56" />
+                    <InputGroup>
+                        <InputText placeholder="Search" v-model="search" size="small" />
+                        <InputGroupAddon>
+                            <Button icon="pi pi-search" severity="contrast" size="small" variant="text" @click="toggle"  />
+                        </InputGroupAddon>
+                        <Button label="Clear" severity="secondary" icon="pi pi-eraser" raised size="small" @click="clear()" v-if="search || category" />
+                    </InputGroup>
+                    
+    
+                </div>
+                <div class="col text-end search">
+                    <Button icon="pi pi-print" severity="danger" label="Print" raised />
+                </div>
             </div>
-        </div>
-        <div class="row bg-white p-3">
-            <table class="table table-responsive table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            <div class="table-head">
-                                <span>#</span>
-                            </div>
-                        </th>
-                        <th @click="sort('category')">
-                            <div class="table-head">
-                                <span>Category</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
-                        <th @click="sort('item_code')">
-                            <div class="table-head">
-                                <span>Item Code</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
-                        <th @click="sort('quantity')">
-                            <div class="table-head">
-                                <span>Current Stock</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
-                        <th @click="sort('treshold')">
-                            <div class="table-head">
-                                <span>Treshold</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(data, index) in getTrackLowStockData.data" :key="index">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ data.category }}</td>
-                        <td>{{ data.item_code }}</td>
-                        <td>x{{ data.quantity }}</td>
-                        <td>x{{ data.treshold }}</td>
-                        <td>
-                            <Button label="Adjust Treshold" severity="info" icon="pi pi-pencil" raised
-                                @click="openAdjustTresholdModal(data.id)" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="pag">
-                    <Button label="prev" severity="contrast" variant="text" icon="pi pi-angle-left" @click="prev()" />
-                   <span> {{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                    <Button label="next" severity="contrast"  variant="text" icon="pi pi-angle-right" iconPos="right" @click="next()" />
+            <div class="row bg-white p-3">
+                <table class="table table-responsive table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="table-head">
+                                    <span>#</span>
+                                </div>
+                            </th>
+                            <th @click="sort('category')">
+                                <div class="table-head">
+                                    <span>Category</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else></i>
+                                </div>
+                            </th>
+                            <th @click="sort('item_code')">
+                                <div class="table-head">
+                                    <span>Item Code</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else></i>
+                                </div>
+                            </th>
+                            <th @click="sort('quantity')">
+                                <div class="table-head">
+                                    <span>Current Stock</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else></i>
+                                </div>
+                            </th>
+                            <th @click="sort('treshold')">
+                                <div class="table-head">
+                                    <span>Treshold</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
+                                    <i class="pi pi-sort-amount-down" v-else></i>
+                                </div>
+                            </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(data, index) in getTrackLowStockData.data" :key="index">
+                            <td>{{ index + 1 }}</td>
+                            <td>{{ data.category }}</td>
+                            <td>{{ data.item_code }}</td>
+                            <td>x{{ data.quantity }}</td>
+                            <td>x{{ data.treshold }}</td>
+                            <td>
+                                <Button label="Adjust Treshold" severity="info" icon="pi pi-pencil" raised
+                                    @click="openAdjustTresholdModal(data.id)" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pag">
+                        <Button label="prev" severity="contrast" variant="text" icon="pi pi-angle-left" @click="prev()" />
+                       <span> {{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                        <Button label="next" severity="contrast"  variant="text" icon="pi pi-angle-right" iconPos="right" @click="next()" />
+                </div>
             </div>
-        </div>
-
-    </section>
+    
+        </section>
+    </div>
 
 
 </template>
@@ -241,5 +243,9 @@ section {
 }
 .title{
     margin-top: 5rem;
+}
+
+#main{
+    margin-left: 3rem;
 }
 </style>

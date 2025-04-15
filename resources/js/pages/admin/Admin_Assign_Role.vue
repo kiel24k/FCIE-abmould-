@@ -2,16 +2,14 @@
 import Header from "@/components/Admin_Header.vue"
 import { Button, Message, Select } from "primevue";
 import { onMounted, ref, watch } from "vue";
+import UpdateUserRoleModal from '@/components/Admin_Update_User_Role_Modal.vue'
 
-const roles = ref([
-    {role: 'admin'},
-    {role: 'inventory-manager'},
-    {role: 'member'},
-    {role: 'TL'}
-])
+
 
 //COMPONENTS VARIABLE
 const select = ref({})
+const isUpdateUserRoleModal = ref(false)
+const tableData = ref('')
 
 //API VARIABLE
 const userListData = ref({})
@@ -25,17 +23,18 @@ const GET_USER_LIST = async () => {
     })
 }
 
-
-
-// const UPDATE_ROLE_USER =  () => {
-//     axios({
-//         method: 'POST',
-//         url:
-//     })
-    
-// }
-
 //COMPONENTS FUNCTION
+const asignRoleBtn = (data) => {
+    tableData.value = data
+    isUpdateUserRoleModal.value = true
+}
+
+const closeUpdateUserRoleModal = () => {
+    isUpdateUserRoleModal.value = false
+    GET_USER_LIST()
+}
+
+
 
 
 
@@ -53,11 +52,12 @@ onMounted(() => {
 
 <template>
     <header>
+        <UpdateUserRoleModal v-if="isUpdateUserRoleModal" @closeUpdateUserRoleModal="closeUpdateUserRoleModal" :tableData="tableData"/>
         <Header />
     </header>
 
-    <section>
-        <div class="row mt-5">
+    <section id="main">
+        <div class="row">
             <div class="col title">
                 <Message severity="white">
                     <h1>Team Members</h1>
@@ -75,7 +75,6 @@ onMounted(() => {
                     <div class="table_add_member">
                        <router-link :to="{name: 'create-user'}">
                         <Button label="Add member" variant="text" icon="pi pi-plus" severity="contrast"/>
-                        <Button label="Save"/>
                        </router-link>
                     </div>
                 </div>
@@ -93,10 +92,11 @@ onMounted(() => {
                                </div>
                             </td>
                             <td class="table_role_select">
-                                <Select :placeholder="data.role"  :options="roles" optionLabel="role" fluid  v-model="data.role"  />
+                                {{data.role.toUpperCase()}}
                             </td>
                             <td>
-                                <Button icon="pi pi-trash" severity="danger" rounded  variant="text" />
+                                <Button icon="pi pi-cog" severity="info" variant="text" @click="asignRoleBtn(data)"/>
+                                <!-- <Button icon="pi pi-trash" severity="danger" rounded  variant="text" /> -->
                             </td>
                         </tr>
                     </tbody>
@@ -153,7 +153,9 @@ section > div{
 .table .p-select:hover{
     background: none;
 }
-.table_role_select{
-    width: 20px;
+
+
+#main{
+    margin-top: 5rem;
 }
 </style>

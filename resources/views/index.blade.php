@@ -21,6 +21,7 @@
 		body{
 			background: rgb(243, 244, 248);
 		}
+	
 	 </style>
 </body>
 </html>

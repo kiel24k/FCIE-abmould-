@@ -111,9 +111,9 @@ import { Button, FloatLabel, InputNumber, InputText, Password, Select } from 'pr
 import Swal from 'sweetalert2';
 
 const userRole = ref([
-    { name: 'admin' },
-    { name: 'inventory-manager' },
-    { name: 'member' },
+    { name: 'ADMIN' },
+    { name: 'INVENTORY-MANAGER' },
+    { name: 'MEMBER' },
     { name: 'TL' }
 ])
 const route = useRoute()
