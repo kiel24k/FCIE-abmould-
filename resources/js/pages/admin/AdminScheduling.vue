@@ -4,7 +4,7 @@
             @data="addScheduleModal = false" />
     </transition>
     <Header @toggle-sidebar="toggleSidebar" />
-    <div class="row justify-content-center mt-5">
+    <div class="row justify-content-center main">
         <div class="col-8">
             <div class="col">
                 <div class="row scheduling">
@@ -114,5 +114,8 @@ const addSchedule = () => {
 .addScheduleTransition-leave-to {
     transform: translateY(-100%);
     opacity: 0;
+}
+.main{
+    margin-top: 5rem;
 }
 </style>
