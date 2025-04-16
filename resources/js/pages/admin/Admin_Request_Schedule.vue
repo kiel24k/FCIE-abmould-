@@ -129,10 +129,10 @@ onMounted(() => {
     <header>
         <Header />
     </header>
-    <div class="row mt-5">
+    <div class="row main">
         <section>
             <article class="box">
-                <div class="text-center" v-for="(data) in statusCount">
+                <div class="text-center bg-white" v-for="(data) in statusCount">
                     <b>{{ data.status }}</b>
                     <h2>{{ data.status_count }}</h2>
                 </div>
@@ -206,7 +206,7 @@ onMounted(() => {
                                                 data.status === 'not-approved' ? 'rgb(252,222,192)' :
                                                     data.status === 'released' ? 'rgb(198,240,219)' :
                                                         'iherit'
-                                    }">{{ data.status }}</span>
+                                    }"><b>{{ data.status }}</b></span>
                                 </td>
                                 <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded
                                         raised severity="info" /></td>
@@ -270,5 +270,9 @@ section {
 .changeStatusModal-leave-to {
     transform: translateY(20px);
     opacity: 0;
+}
+
+.main{
+    margin-top: 5rem;
 }
 </style>

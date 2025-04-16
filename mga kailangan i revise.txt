@@ -1,5 +1,8 @@
 -ADMIN[
-SIDEBAR ANIMATION =>
+
+1, yung sa secdulling hindi makita ang pedding paki babanaman  nalang => 
+2,yung sa side bar raw kung mas oky na lagayan nalang ng icon yun para hindi puro dot lng => 
+
 ]
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;

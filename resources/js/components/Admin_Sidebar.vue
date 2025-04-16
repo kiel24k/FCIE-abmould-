@@ -147,7 +147,7 @@ const showSidebar = () => {
             <a @click="stockManagement" class="route_option_name">
                 <li>
                     <div class="list_option">
-                        <i class="pi pi-ellipsis-h"></i>
+                        <i class="pi pi-th-large"></i>
                     <span>Stock Management</span>
                     </div>
                     <i class="pi pi-chevron-down"></i>
@@ -158,13 +158,13 @@ const showSidebar = () => {
                 <div class="stock_class" v-if="isStockManagement">
                     <router-link :to="{ name: 'admin-track-low-stock' }">
                         <li>
-                            <i class="pi pi-ellipsis-v"></i>
+                            <i class="pi pi-pen-to-square"></i>
                             <span>Set Treshold</span>
                         </li>
                     </router-link>
                     <router-link :to="{ name: 'admin-set-stock' }">
                         <li>
-                            <i class="pi pi-ellipsis-v"></i>
+                            <i class="pi pi-calculator"></i>
                             <span>Set Stock</span>
                         </li>
                     </router-link>
@@ -177,7 +177,7 @@ const showSidebar = () => {
             <a @click="userActivityLogs" class="route_option_name">
                 <li>
                     <div class="list_option">
-                        <i class="pi pi-ellipsis-h"></i>
+                        <i class="pi pi-book"></i>
                     <span>Activity Logs</span>
                     </div>
                     <i class="pi pi-chevron-down"></i>
@@ -203,7 +203,7 @@ const showSidebar = () => {
             <a @click="userManagement()" class="route_option_name">
                 <li>
                    <div class="list_option">
-                    <i class="pi pi-ellipsis-h"></i>
+                    <i class="pi pi-user-edit"></i>
                     <span>User Management</span>
                    </div>
                     <i class="pi pi-chevron-down"></i>
@@ -241,7 +241,7 @@ const showSidebar = () => {
 
 <style scoped>
 aside {
-    width: 2.8rem;
+    width: 2.9rem;
     position: fixed;
     height: 100%;
     overflow: scroll;
@@ -260,7 +260,7 @@ aside {
 }
 
 aside::-webkit-scrollbar {
-    width: 5px;
+    width: 2px;
 }
 
 aside::-webkit-scrollbar-track {
@@ -278,7 +278,7 @@ aside::-webkit-scrollbar-thumb {
 ul {
     list-style: none;
     display: grid;
-    gap: px;
+    gap: 10px;
     padding: 0;
     padding-top: 10px;
 }
@@ -297,7 +297,7 @@ a li,
 .stock_class a {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 25px;
     height: 50px;
     padding: 10px;
 
@@ -411,6 +411,6 @@ span {
 .list_option{
     display: flex;
     align-items: center;
-    gap:10px;
+    gap:20px;
 }
 </style>
