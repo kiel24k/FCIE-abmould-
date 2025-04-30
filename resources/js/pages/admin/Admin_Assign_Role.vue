@@ -25,6 +25,8 @@ const GET_USER_LIST = async () => {
 
 //COMPONENTS FUNCTION
 const asignRoleBtn = (data) => {
+
+    
     tableData.value = data
     isUpdateUserRoleModal.value = true
 }

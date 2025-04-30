@@ -17,7 +17,7 @@
                                 <label for="on_label">First Name</label>
                             </FloatLabel>
                             <small class="text-danger" v-if="validation.first_name">{{ validation.first_name[0]
-                            }}</small>
+                                }}</small>
                         </div>
                         <div class="col">
                             <FloatLabel variant="on">
@@ -26,7 +26,7 @@
                                 <label for="on_label">Middle Name</label>
                             </FloatLabel>
                             <small class="text-danger" v-if="validation.middle_name">{{ validation.middle_name[0]
-                            }}</small>
+                                }}</small>
                         </div>
                     </div>
                     <div class="row">
@@ -37,7 +37,7 @@
                                 <label for="on_label">Last Name</label>
                             </FloatLabel>
                             <small class="text-danger" v-if="validation.first_name">{{ validation.last_name[0]
-                            }}</small>
+                                }}</small>
                         </div>
                         <div class="col">
                             <FloatLabel variant="on">
@@ -61,16 +61,21 @@
                     <div class="row">
                         <div class="col">
                             <FloatLabel variant="on">
-                                <Password id="on_label"  :invalid="validation.password"
-                                    :size="large" v-model="userData.password" fluid :feedback="false" />
+                                <Password id="on_label" :invalid="validation.password" :size="large"
+                                    v-model="userData.password" fluid :feedback="false" />
                                 <label for="on_label">Password</label>
                             </FloatLabel>
                             <small class="text-danger" v-if="validation.password">{{ validation.password[0] }}</small>
                         </div>
                         <div class="col">
                             <div class="card flex justify-center">
-                                <Select v-model="userData.role" :options="userRole" optionLabel="name"
-                                    :placeholder="userData.role" class="w-full md:w-56" />
+
+                                <select class="form-select" v-model="userData.role">
+                                    <option value="admin">ADMIN</option>
+                                    <option value="TL">TL</option>
+                                    <option value="inventory-manager">INVENTORY MANAGER</option>
+                                    <option value="member">MEMBER</option>
+                                </select>
                             </div>
                             <small class="text-danger" v-if="validation.role">{{ validation.role[0] }}</small>
                         </div>
@@ -110,12 +115,7 @@ import axios from 'axios';
 import { Button, FloatLabel, InputNumber, InputText, Password, Select } from 'primevue';
 import Swal from 'sweetalert2';
 
-const userRole = ref([
-    { name: 'ADMIN' },
-    { name: 'INVENTORY-MANAGER' },
-    { name: 'MEMBER' },
-    { name: 'TL' }
-])
+const selectRole = ref({})
 const route = useRoute()
 const router = useRouter()
 const input = ref({})
@@ -155,7 +155,7 @@ const updateUser = () => {
             tel_no: userData.value.tel_no,
             email: userData.value.email,
             password: userData.value.password,
-            role: userData.value.role.name,
+            role: userData.value.role,
             image: newImage.value
         },
         headers: {

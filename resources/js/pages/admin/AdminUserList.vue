@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 import { InputGroup, InputGroupAddon, InputText, Message, Select } from 'primevue';
 import ViewUserModal from '@/components/Admin_View_User_Modal.vue'
+import PrintUserList from '@/components/Print_User_List.vue'
 
 
 const router = useRouter()
@@ -28,6 +29,8 @@ const sortName = ref("")
 const sortOrder = ref("ASC")
 const isViewUserModal = ref(false)
 const viewUserModalId = ref(null)
+const isPrintModal = ref(false)
+const tableData = ref({})
 
 //API VARIABLE
 const userListCategoryData = ref({})
@@ -77,20 +80,15 @@ const DELETE_USER_API = async (id) => {
 }
 
 //COMPONENTS FUNCTION
-const generatePdf = () => {
-    const elem = printContent.value
-    const options = {
-        margin: 1,
-        filename: 'document.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-    };
-    html2pdf()
-        .from(elem)
-        .set(options)
-        .save();
-};
+
+const print = () => {
+    isPrintModal.value = true
+tableData.value = userListData.value.data
+}
+
+const closeUserListModal = () => {
+    isPrintModal.value = false
+}
 
 const sort = (data) => {
     sortName.value = data
@@ -169,6 +167,7 @@ onMounted(() => {
 </script>
 
 <template>
+    <PrintUserList v-if="isPrintModal" :tableData="tableData" @closeUserListModal="closeUserListModal"/>
     <header>
         <ViewUserModal v-if="isViewUserModal" :viewUserModalId="viewUserModalId" @closeViewUserModal="closeViewUserModal"/>
         <Header @toggle-sidebar="toggleSidebar" />
@@ -199,7 +198,7 @@ onMounted(() => {
                             <router-link :to="{name: 'create-user'}">
                                 <Button label="Add user" icon="pi pi-plus" severity="info" />
                             </router-link>
-                            <Button label="print" icon="pi pi-file-pdf" severity="danger" raised />
+                            <Button label="Export" icon="pi pi-file-pdf" severity="danger" raised @click="print()" />
                         </div>
                     </div>
 

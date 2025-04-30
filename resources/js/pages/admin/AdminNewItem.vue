@@ -35,7 +35,7 @@ const GET_ALL_CATEGORY_API = async () => {
         allCategoryData.value = response.data
     })
 }
-
+ 
 
 const submit = () => {
     axios({

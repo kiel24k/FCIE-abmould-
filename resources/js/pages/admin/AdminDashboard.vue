@@ -12,7 +12,13 @@ const tableDataDashboardData = ref({})
 
 const DASHBOARD_COUNT_API = async () => {
     const response = await axios('api/dashboard-count')
-    dashboardApi.value = response.data
+    dashboardApi.value = {
+        user: response.data.user.toLocaleString(),
+        item: response.data.item.toLocaleString(),
+        unit_cost: response.data.unit_cost.toLocaleString()
+    }
+    
+    
 
 }
 
@@ -40,7 +46,7 @@ onMounted(() => {
 
     <div id="content">
         <section >
-            <div class="row m-1 main">
+            <div class="row main">
                 <div class="summary_content">
                     <div class="title text-center">
                         <b>Dashboard</b>
@@ -62,7 +68,7 @@ onMounted(() => {
                             </figure>
                             <div class="content">
                                 <b>{{ dashboardApi.item }}</b>
-                                <span>items</span>
+                                <span>Items</span>
                             </div>
                         </div>
     
@@ -71,8 +77,8 @@ onMounted(() => {
                                 <i class="pi pi-briefcase"></i>
                             </figure>
                             <div class="content">
-                                <b>₱{{ dashboardApi.unit_cost }}</b>
-                                <span>unit cost</span>
+                                <b>₱{{ dashboardApi.unit_cost }}.00</b>
+                                <span>total cost</span>
                             </div>
                         </div>
                     </div>
@@ -90,9 +96,10 @@ onMounted(() => {
                             <LineChart />
                         </div>
                         <div class="bg-white">
-                            <b>Barchart</b>
+                            <b>Bar Graph</b>
                             <BarChart />
                         </div>
+                        {{ dashboardApi.unit_cost }}
                     </div>
                     <div class="listing bg-white">
                       <div class="table_title p-1">
@@ -105,7 +112,7 @@ onMounted(() => {
                                     <th>Supplier</th>
                                     <th>Item code</th>
                                     <th>Quantity</th>
-                                    <th>Treshold</th>
+                                    <th>Unit Cost</th>
                                     <!-- <th>Action</th> -->
                                 </tr>
                             </thead>
@@ -118,7 +125,7 @@ onMounted(() => {
                                     </td>
                                     <td>{{data.item_code}}</td>
                                     <td>{{data.quantity}}x</td>
-                                    <td>{{data.treshold}}x</td>
+                                    <td>₱{{data.unit_cost}}</td>
                                     <!-- <td>
                                         <Button icon="pi pi-eye" severity="info"/>
                                     </td> -->
@@ -140,6 +147,9 @@ onMounted(() => {
 
 
 <style scoped>
+.main{
+    margin-top: 5rem;
+}
 section {
     margin-top: 20px;
     margin: 10px;

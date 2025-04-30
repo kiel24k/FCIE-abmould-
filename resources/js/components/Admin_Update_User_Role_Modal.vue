@@ -9,13 +9,8 @@ const props = defineProps(['tableData', 'userId'])
 
 //API VARIABLE
 
-const role = ref([
-    { name: 'INVENTORY-MANAGER' },
-    { name: 'ADMIN' },
-    { name: 'TL' },
-    { name: 'MEMBER' }
-])
-const selectRole = ref('')
+
+const selectRole = ref(props.tableData.role)
 const validation = ref({})
 
 
@@ -26,7 +21,7 @@ const submit = async () => {
         url: 'api/assign-role',
         data: {
             id: props.tableData.id,
-            role: selectRole.value.name
+            role: selectRole.value
         }
     }).then(response => {
         if (response.status === 200) {
@@ -50,6 +45,7 @@ const submit = async () => {
 const closeUpdateUserRoleModal = () => {
     emit('closeUpdateUserRoleModal')
 }
+
 
 //HOOKS
 
@@ -76,12 +72,17 @@ const closeUpdateUserRoleModal = () => {
                                 <small>{{ tableData.email }}</small>
                             </Message> -->
                             <span class="text-danger" v-if="validation.role">{{ validation.role[0] }}</span>
-                            <Select fluid :options="role" optionLabel="name" v-model="selectRole" />
+                            <select class="form-select" v-model="selectRole">
+                                <option value="admin">ADMIN</option>
+                                <option value="TL">TL</option>
+                                <option value="inventory-manager">INVENTORY MANAGER</option>
+                                <option value="member">MEMBER</option>
+                            </select>
                         </div>
                     </div>
                     <div class="row mt-2">
                         <div class="col text-end form-action">
-                            <Button label="Cancel" severity="danger" @click="closeUpdateUserRoleModal()" />
+                            <Button label="Cancel" severity="danger" raised @click="closeUpdateUserRoleModal()" />
                             <Button severity="info" label="Save" raised @click="submit()" />
                         </div>
                     </div>

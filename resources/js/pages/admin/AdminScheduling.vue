@@ -1,9 +1,9 @@
 <template>
     <transition name="addScheduleTransition">
         <AddSchedule class="addSchedule" v-if="addScheduleModal" :addScheduleModal="addScheduleModal"
-            @data="addScheduleModal = false" />
+            @data="addScheduleModal = false" :userData="userData" />
     </transition>
-    <Header @toggle-sidebar="toggleSidebar" />
+    <Header @toggle-sidebar="toggleSidebar" @user="user" />
     <div class="row justify-content-center main">
         <div class="col-8">
             <div class="col">
@@ -13,7 +13,7 @@
                     </div>
                     <div class="col-3">
                         <div class="add-sched">
-                            <button class="btn" @click="addSchedule">
+                            <button class="btn" @click="addSchedule()">
                                 Add schedule
                             </button>
                         </div>
@@ -32,6 +32,11 @@ import Sidebar from '@/components/Admin_Sidebar.vue';
 import ScheduledItems from '@/components/ScheduledMaterials.vue'
 import { onMounted, ref, watch } from 'vue';
 import AddSchedule from '../../components/AddSchedule.vue';
+const userData = ref({})
+
+const user = (data) => {
+    userData.value = data
+}
 
 const selectedDate = ref({})
 const masks = ref({

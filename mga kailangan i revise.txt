@@ -1,32 +1,22 @@
 -ADMIN[
-
-1, yung sa secdulling hindi makita ang pedding paki babanaman  nalang => 
-2,yung sa side bar raw kung mas oky na lagayan nalang ng icon yun para hindi puro dot lng => 
+DASHBOARD, Barchart to bargraph 
+SCHEDULE REQUEST, baguhin ang action at ito ay approved at not approved
+SCHEDULE, autofill or search or dropdown para sa pagpipilian ng mga existing items
 
 ]
 
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::;
 
 -INVENTORY MANAGER
-BARCODE [
-    IN,display from items na mismo => 
-    OUT, display from items na mismo => 
-    VIEW, display from items na mismo =>
-]
-DASHBOARD[
-    dapat ang ui ay parehas sa admin => DONE
-]
-ITEM LIST UI => DONE
+
 
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 -MEMBER
- SCAN ITEMS, display from items na mismo =>
- ITEM LIST, paayos ng UI => 
+
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 -TL 
- SCAN ITEMS, display from items na mismo =>
- ITEM LIST, paayos ng UI => 
+

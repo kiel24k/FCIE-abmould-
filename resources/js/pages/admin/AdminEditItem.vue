@@ -61,7 +61,7 @@ const submit = () => {
             supplier_name: input.value.supplier_name,
             unit_cost: input.value.unit_cost,
             quantity: input.value.quantity,
-            category: input.value.category.name,
+            category: input.value.category,
             description: input.value.description,
             treshold: input.value.treshold,
             brand: input.value.brand
@@ -185,8 +185,9 @@ onMounted(() => {
                                     {{ validation.category[0] }}
                                 </span></label>
                             <div class="card flex justify-center">
-                                <Select :invalid="validation.category" :options="itemCategoryData" optionLabel="name"
-                                    :placeholder="input.category" class="w-full md:w-56" v-model="input.category" />
+                                <select class="form-select" v-model="input.category">
+                                    <option :value="data.name" v-for="data in itemCategoryData">{{ data.name }}</option>
+                                </select>
                             </div>
                         </div>
                     </div>

@@ -5,6 +5,7 @@ import { onMounted, ref, watch } from 'vue';
 import AdminViewModal from '@/components/Admin_View_Modal.vue'
 import Loading from '@/components/Loading.vue'
 import html2pdf from 'html2pdf.js';
+import PrintItemList from '@/components/Print_Item_List.vue'
 
 import { Button, InputText, InputGroup, InputGroupAddon, Message, Select } from 'primevue';
 import Swal from 'sweetalert2';
@@ -19,11 +20,7 @@ const user = (val) => {
 }
 
 const printContent = ref(null)
-
-
 const loading = ref(false)
-
-
 const viewModal = ref(false)
 const viewModalId = ref(null)
 
@@ -32,26 +29,15 @@ const viewModalId = ref(null)
 
 
 
-const generatePdf = () => {
-    const elem = printContent.value
-
-    const options = {
-        margin: 1,
-        filename: 'document.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2 },
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
-    };
-    html2pdf()
-        .from(elem)
-        .set(options)
-        .save();
+const print = (data) => {
+    isPrintModal.value = true
+    tableData.value = itemListData.value.data
 };
 
 
-
-
-
+const closeItemListModal = () => {
+    isPrintModal.value = false
+}
 
 //COMPONENTS VARIABLES
 const sortName = ref('')
@@ -62,6 +48,8 @@ const pagination = ref({
     current_page: null,
     last_page: null
 })
+const isPrintModal = ref(false)
+const tableData = ref({})
 
 
 
@@ -164,6 +152,8 @@ const next = () => {
         GET_ITEM_LIST_API(pagination.value.current_page + 1)
     }
 }
+
+
 //HOOKS
 
 watch(category, (oldVal, newVal) => {
@@ -183,6 +173,7 @@ onMounted(() => {
 </script>
 
 <template>
+    <PrintItemList v-if="isPrintModal" :tableData="tableData" @closeItemListModal="closeItemListModal"/>
     <header>
         <Header @toggle-sidebar="toggleSidebar" @user="user" />
     </header>
@@ -215,14 +206,14 @@ onMounted(() => {
                             </div>
                             <div class="col table-action">
                                 <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised
-                                    @click="generatePdf"></Button>
+                                    @click="print()"></Button>
                                 <router-link :to="{ name: 'admin-new-item' }">
                                     <Button icon="pi pi-plus-circle" severity="info" label="New" raised />
                                 </router-link>
                             </div>
                         </div>
                         <figure class="table-main">
-                            <table class="table table-bordered  table-hover table-responsive" ref="printContent">
+                            <table class="table table-bordered  table-hover table-responsive">
                                 <thead>
                                     <tr>
                                         <th>#</th>
