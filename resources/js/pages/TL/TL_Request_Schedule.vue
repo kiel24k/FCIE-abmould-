@@ -1,263 +1,224 @@
 <script setup>
 import Header from '@/components/TL_Header.vue'
-import axios from 'axios';
-import { Button, InputGroup, InputGroupAddon, InputText, Select } from 'primevue';
-import { computed, onMounted, ref, watch } from 'vue';
-import StatusModal from '@/components/TL_Change_Status_Modal.vue'
+import { Button, Message, Select } from 'primevue'
+import { onMounted, ref, watch } from 'vue'
+import AdminApproveModal from '@/components/Admin_Approve_Modal.vue'
+import AdminNotApproveModal from '@/components/Admin_Not_Approve_Modal.vue'
+import Swal from 'sweetalert2'
 
-const category = ref("");
-const search = ref('')
-const dateSchedule = ref({})
-const scheduleListData = ref({})
-const statusModal = ref(false)
-const statusData = ref({})
-const statusCount = ref({})
 
-//COMPONENTS VARIABLE
-const scheduleListCategoryData = ref({})
+//COMPONENTS VARIABLES 
+const categoryStatus = ref('')
+const isAdminApprovalModal = ref(false)
+const isAdminNotApproveModal = ref(false)
+const notApproveData = ref({})
+const approveData = ref({})
 
 //API VARIABLES
-const changeStatusBtn = (data) => {
-    statusData.value = data
-    statusModal.value = true
-}
-const closeModal = () => {
-    statusModal.value = false
-    GET_SCHEDULE_LIST_API()
-    STATUS_COUNT_API()
-}
-
+const scheduleRequestData = ref({})
+const category = ref({})
 //API FUNCTIONS
-
-const GET_SCHEDULE_LIST_CATEGORY_API = async () => {
+const GET_SCHEDULE_REQUEST_API = async () => {
     await axios({
         method: 'GET',
-        url: 'api/tl-schedule-list-category'
-    }).then(response => {
-        scheduleListCategoryData.value = response.data
-    })
-}
-
-const GET_SCHEDULE_LIST_API = async () => {
-    await axios({
-        method: 'GET',
-        url: 'api/tl-schedule-list',
+        url: '/api/get-schedule-request',
         params: {
-            category: category.value.date_schedule,
-            search: search.value
+            category: categoryStatus.value.status
         }
     }).then(response => {
-        scheduleListData.value = response.data
+        category.value = response.data.status
+        console.log(response.data);
+        scheduleRequestData.value = response.data.data
     })
 }
 
-const STATUS_COUNT_API = async () => {
-    const response = await axios('api/tl-status-count')
-    statusCount.value = response.data
-    console.log(statusCount.value);
-
+//COMPONENTS FUNCTION
+const approve = (data) => {
+    isAdminApprovalModal.value = true
+    approveData.value = data
 }
 
-//COMPONENTS FUNCTIONS
-const clear = () => {
-    search.value = ""
-    category.value = ""
+const closeApproveModal = () => {
+    isAdminApprovalModal.value = false
+    GET_SCHEDULE_REQUEST_API()
 }
 
+const notApprove = (data) => {
+    isAdminNotApproveModal.value = true
+    notApproveData.value = data
+}
+const closeNotApproveModal = () => {
+    isAdminNotApproveModal.value = false
+    GET_SCHEDULE_REQUEST_API()
+}
+
+const deleteBtn = (id) => {
+
+    Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios({
+                method: 'DELETE',
+                url: '/api/delete-schedule-request',
+                params: {
+                    schedule_id: id
+                }
+            }).then(response => {
+                if (response.status === 200) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Data has been deleted.",
+                        icon: "success"
+                    });
+                    GET_SCHEDULE_REQUEST_API()
+                }
+
+            })
+
+        }
+    });
+
+}
 
 //HOOKS
-watch(category, async (oldVal, newVal) => {
-    GET_SCHEDULE_LIST_API()
-
+watch(categoryStatus, (oldVal, newVal) => {
+    GET_SCHEDULE_REQUEST_API()
 })
-
-watch(search, (oldVal, newVal) => {
-    GET_SCHEDULE_LIST_API()
-})
-
 onMounted(() => {
-    GET_SCHEDULE_LIST_CATEGORY_API()
-    GET_SCHEDULE_LIST_API()
-    STATUS_COUNT_API()
-
-
+    GET_SCHEDULE_REQUEST_API()
 })
-
 
 
 </script>
 
 <template>
-    <transition name="changeStatusModal">
-        <StatusModal v-if="statusModal" @closeModal="closeModal" :statusData="statusData" />
-    </transition>
+    
+    <AdminNotApproveModal v-if="isAdminNotApproveModal" @closeNotApproveModal="closeNotApproveModal"
+        :notApproveData="notApproveData" />
+    <AdminApproveModal v-if="isAdminApprovalModal" @closeApproveModal="closeApproveModal" :approveData="approveData" />
     <header>
         <Header />
     </header>
-    <section>
-        <article class="box">
-            <div class="text-center" v-for="(data) in statusCount">
-                <b>{{ data.status }}</b>
-                <h2>{{ data.status_count }}</h2>
-            </div>
 
-        </article>
-    </section>
 
-    <section>
-        <div class="">
-            <figure class="table-action">
-                <div class="select-category">
-                    <div class="flex justify-center">
-                        <Select v-model="category" :options="scheduleListCategoryData" optionLabel="date_schedule"
-                            placeholder="Schedule Date" checkmark />
-                    </div>
-                    <br>
-                </div>
-                <div class="search">
-                    <InputGroup>
-                        <InputText v-model="search" placeholder="Keyword" raised />
-                        <InputGroupAddon>
-                            <Button icon="pi pi-search" severity="secondary" variant="text" @click="toggle" />
-                        </InputGroupAddon>
-                        <Button label="Clear" icon="pi pi-eraser" severity="secondary" raised @click="clear()" v-if="category || search" />
-                    </InputGroup>
-                </div>
+    <div class="main">
+        <section>
+            <Select placeholder="Select status" :options="category" optionLabel="status" v-model="categoryStatus" />
+            <Button severity="secondary" label="Clear filter" raised @click="categoryStatus = ''" />
+        </section>
+        <section>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Item</th>
+                        <th>Schedule date</th>
+                        <th>Request quantity</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(data, index) in scheduleRequestData">
+                        <td>
+                            <figure>
+                                <img :src="`/UserImage/${data.image}`" alt="">
+                                <div class="user_name">
+                                    <span>{{ data.first_name }} {{ data.middle_name }} {{ data.last_name }}</span>
+                                    <b>{{ data.role }}</b>
+                                </div>
+                            </figure>
+                        </td>
+                        <td>
+                            <div class="table_item">
+                                <span>{{ data.category }}</span>
+                                <span>{{ data.item_code }}</span>
+                                <span>{{ data.brand }}</span>
+                            </div>
+                        </td>
+                        <td>{{ data.schedule_date }}</td>
+                        <td>{{ data.schedule_quantity }}x</td>
+                        <td class="table_status">
+                            <span :style="data.status === 'pending' ? 'background-color: orange'
+                             : data.status === 'released' ? 'background-color: rgb(37, 102, 235)' 
+                             :data.status === 'not-release' ? 'background-color: rgb(221, 48, 41)'
+                             : 'background-color: white;'
+                             ">
+                                {{ data.status }}
+                            </span>
+                        </td>
+                        <td class="table_data_action">
+                            <div class="table_action">
+                                <Button label="Approve" severity="success" icon="pi pi-check" raised
+                                    @click="approve(data)" v-if="data.status === 'pending'" />
+                                <Message severity="error" v-if="data.status === 'not-release'">Not approve</Message>
+                                <Message v-if="data.status === 'released'">Approved</Message>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
 
-                <div class="print">
-                    <Button label="Print" severity="danger" icon="pi pi-file-pdf" raised />
-                </div>
+    </div>
 
-            </figure>
-            <figure class="table-main ">
-                <table class="table table-bordered table-responsive table-hover">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Supplier Name
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
-                            <th>Item Code
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
-                            <th>Quantity
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
-                            <th>Status
-                                <i class="pi pi-sort-amount-down" />
-                                <!-- <i class="pi pi-sort-amount-up"/> -->
-                            </th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="(data, index) in scheduleListData.data" :key="index">
-                            <td>{{ index + 1 }}</td>
-                            <td>{{ data.supplier_name }}</td>
-                            <td>{{ data.item_code }}</td>
-                            <td>{{ data.quantity }}</td>
-                            <td>
-                                <span :style="{
-                                    'background-color': data.status === 'pending' ? 'rgb(253,217,216)' :
-                                        data.status === 'approved' ? 'rgb(215,229,254)' :
-                                            data.status === 'not-approved' ? 'rgb(252,222,192)' :
-                                                data.status === 'released' ? 'rgb(198,240,219)' :
-                                                    'iherit'
-                                }">{{ data.status }}</span>
-                            </td>
-                            <td><Button @click="changeStatusBtn(data)" label="Change" icon="pi pi-wrench" rounded raised
-                                    severity="info" :disabled="data.status === 'approved'" /></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="paginate_class">
-                    <Button label="Prev" icon="pi pi-chevron-left" variant="text" severity="contrast"/>
-                    <span>1 of 2</span>
-                    <Button label="Prev" icon="pi pi-chevron-right" iconPos="right" variant="text" severity="contrast"/>
-                </div>
-            </figure>
-        </div>
 
-    </section>
 
 </template>
 
 <style scoped>
-section {
-    width: 75%;
-    margin: auto;
-    padding: 10px;
-
-}
-
-.box {
-    display: flex;
-    flex-wrap: wrap;
+.main {
+    margin-top: 5rem;
+    margin-left: 3.5rem;
+    display: grid;
     gap: 15px;
-    justify-content: center;
 }
 
-.box>div {
-    width: 12rem;
-    height: 12rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-.table-action {
+.table figure {
     display: flex;
-    gap: 10px;
+    gap: 5px;
 }
 
-.table-main {
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+.table figure img {
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
 }
 
-.paginate_class {
+.user_name {
+    display: grid;
+}
+
+.table_item {
+    display: grid;
+}
+
+.table_data_action {
+    width: 20rem;
+}
+
+.table_item a{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+
+    
+}
+.table_action {
+    display: flex;
     gap: 10px;
 }
-
-.changeStatusModal-leave-active {
-    transition: all 0.1s cubic-bezier(1, 0.5, 0.8, 1);
-}
-
-.changeStatusModal-leave-to {
-    transform: translateY(20px);
-    opacity: 0;
-}
-
-@keyframes bounce-in {
-    0% {
-        transform: scale(0);
-    }
-
-    50% {
-        transform: scale(1.25);
-    }
-
-    100% {
-        transform: scale(1);
-    }
-}
-
-td {
-    text-align: start;
-    vertical-align: middle;
-}
-
-td span {
-    padding: 8px;
-    border-radius: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(126, 126, 126, 0.2);
-    font-weight: 600;
-    text-transform: capitalize;
+.table_status span{
+    padding: 7px;
+    border-radius: 50px;
+    font-weight: bold;
+    color:rgb(241, 239, 239);
 }
 </style>

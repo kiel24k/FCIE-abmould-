@@ -2,6 +2,7 @@
 import { onMounted, ref } from 'vue';
 import Loading from '@/components/Loading.vue'
 import Swal from 'sweetalert2';
+import { Message } from 'primevue';
 
 
 const emit = defineEmits(['closeBtn'])
@@ -116,6 +117,12 @@ onMounted(() => {
                 </div>
                 <div class="row">
                     <div class="col">
+                        <span>Treshold: </span>
+                        <Message>{{ responseData.treshold }}x</Message>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
                         <label for="">Description: <span class="text-danger" v-if="validation.description">
                                 {{ validation.description[0] }}
                             </span></label>
@@ -123,6 +130,7 @@ onMounted(() => {
                             v-model="responseData.description"></textarea>
                     </div>
                 </div>
+               
                 <div class="row">
                     <div class="col">
                         <button class="btn btn-danger" @click="closeBtn()">Close</button>

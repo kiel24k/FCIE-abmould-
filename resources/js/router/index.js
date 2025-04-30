@@ -117,7 +117,6 @@ const routes = [
         name: "admin-item-logs",
         component: () => import("../pages/admin/Admin_Item_Logs.vue"),
     },
-   
 
     {
         path: "/inventory-manager-dashboard",
@@ -162,6 +161,11 @@ const routes = [
         path: "/member-dashboard",
         name: "member-dashboard",
         component: () => import("../pages/member/MemberDashboard.vue"),
+    },
+    {
+        path: "/member-schedule-request",
+        name: "member-schedule-request",
+        component: () => import("../pages/member/Member_Schedule_Request.vue"),
     },
     {
         path: "/nav",

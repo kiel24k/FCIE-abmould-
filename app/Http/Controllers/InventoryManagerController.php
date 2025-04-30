@@ -61,15 +61,16 @@ class InventoryManagerController extends Controller
     }
     public function submitUpdatedItem(Request $request, $id)
     {
+        $item =  Item::find($id);
         $request->validate([
             'item_code' => 'required',
             'supplier_name' => 'nullable',
             'unit_cost' => 'numeric',
-            'quantity' => 'numeric',
+            'quantity' => "numeric|max:$item->treshold",
             'category' => 'required',
             'description' => 'required',
         ]);
-        $item =  Item::find($id);
+       
         $item->item_code = $request->item_code;
         $item->supplier_name = $request->supplier_name;
         $item->unit_cost = $request->unit_cost;

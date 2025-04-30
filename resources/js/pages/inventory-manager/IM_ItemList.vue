@@ -38,7 +38,7 @@ const GET_ITEM_CATEGORY_LIST = async () => {
     url: 'api/IM_item_category'
   }).then(response => {
     itemCategory.value = response.data
-   
+
   })
 }
 
@@ -64,32 +64,32 @@ const GET_ITEM_LIST_API = async (page = 1) => {
 
 
 
-const daleteBtn =  (id) => {
+const daleteBtn = (id) => {
   Swal.fire({
-  title: "Are you sure?",
-  text: "You won't be able to revert this!",
-  icon: "warning",
-  showCancelButton: true,
-  confirmButtonColor: "#3085d6",
-  cancelButtonColor: "#d33",
-  confirmButtonText: "Yes, delete it!"
-}).then((result) => {
-  if (result.isConfirmed) {
-    axios({
-      method: 'DELETE',
-      url: 'api/delete-item',
-      data: {
-        id: id
-      }
-    })
-    Swal.fire({
-      title: "Deleted!",
-      text: "Item has been deleted.",
-      icon: "success"
-    });
-  }
-  GET_ITEM_LIST_API()
-});
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, delete it!"
+  }).then((result) => {
+    if (result.isConfirmed) {
+      axios({
+        method: 'DELETE',
+        url: 'api/delete-item',
+        data: {
+          id: id
+        }
+      })
+      Swal.fire({
+        title: "Deleted!",
+        text: "Item has been deleted.",
+        icon: "success"
+      });
+    }
+    GET_ITEM_LIST_API()
+  });
 
 }
 
@@ -110,14 +110,14 @@ const sort = (val) => {
 }
 
 const prevBtn = () => {
-  if(pagination.value.last_page >= pagination.value.current_page){
+  if (pagination.value.last_page >= pagination.value.current_page) {
     GET_ITEM_LIST_API(pagination.value.last_page - 1)
   }
 }
 
 const nextBtn = () => {
-  if(pagination.value.current_page < pagination.value.last_page){
-  GET_ITEM_LIST_API(pagination.value.current_page + 1)
+  if (pagination.value.current_page < pagination.value.last_page) {
+    GET_ITEM_LIST_API(pagination.value.current_page + 1)
   }
 }
 
@@ -243,7 +243,7 @@ onMounted(() => {
               <td class="table-action">
                 <Button severity="info" icon="pi pi-pen-to-square" @click="updateBtn(data.id)" raised />
                 <Button severity="danger" icon="pi pi-trash" @click="daleteBtn(data.id)" raised />
-                <Button severity="success" icon="pi pi-eye"  @click="viewBtn(data.id)" raised  />
+                <Button severity="success" icon="pi pi-eye" @click="viewBtn(data.id)" raised />
               </td>
             </tr>
           </tbody>
@@ -251,7 +251,8 @@ onMounted(() => {
         <div class="pagination_btn ">
           <Button label="Prev" variant="text" severity="contrast" icon="pi pi-chevron-left" @click="prevBtn()" />
           <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
-          <Button label="Next" variant="text" severity="contrast" icon="pi pi-chevron-right" iconPos="right" @click="nextBtn()" />
+          <Button label="Next" variant="text" severity="contrast" icon="pi pi-chevron-right" iconPos="right"
+            @click="nextBtn()" />
         </div>
       </div>
     </div>
@@ -259,7 +260,7 @@ onMounted(() => {
     <itemModal v-if="viewModal" :viewModalId="itemId" @exit="viewModal = false" />
   </div>
   <UpdateModal v-if="isUpdateModal" @closeBtn="closeBtn" :itemId="itemId" :getItem="getItem" />
-  <ViewModal v-if="isViewModal" :itemId="itemId" @closeViewModal="closeViewModal"/>
+  <ViewModal v-if="isViewModal" :itemId="itemId" @closeViewModal="closeViewModal" />
 
 
 </template>

@@ -59,7 +59,7 @@ import Sidebar from '@/components/Member_Sidebar.vue'
 import Loader from '@/components/Loading.vue'
 import { SplitButton } from 'primevue';
 import Swal from 'sweetalert2';
-
+const emit = defineEmits(['user'])
 const items = [
   {
     label: 'Profile',
@@ -128,6 +128,7 @@ onMounted(() => {
   axios.get('api/user').then(response => {
     userInformation.value = response.data
     loader.value = false
+    emit('user', userInformation.value)
   })
   if (!token) {
     router.push('/')

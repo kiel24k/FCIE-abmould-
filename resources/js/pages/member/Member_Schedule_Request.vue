@@ -1,5 +1,5 @@
 <script setup>
-import Header from '@/components/IM_Header.vue'
+import Header from '@/components/Member_Header.vue'
 import { Button, Message, Select } from 'primevue'
 import { onMounted, ref, watch } from 'vue'
 import AdminApproveModal from '@/components/Admin_Approve_Modal.vue'
@@ -121,8 +121,8 @@ onMounted(() => {
                         <th>Item</th>
                         <th>Schedule date</th>
                         <th>Request quantity</th>
+                        <th>Message</th>
                         <th>Status</th>
-                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -141,15 +141,12 @@ onMounted(() => {
                                 <span>{{ data.category }}</span>
                                 <span>{{ data.item_code }}</span>
                                 <span>{{ data.brand }}</span>
-                                <router-link :to="{ name: 'admin-edit-item', params: { id: data.id } } ">
-                                    <span>View this item</span>
-                                    <i class="pi pi-arrow-right" style="font-size: 10px"></i>
-                                </router-link>
-                                
                             </div>
                         </td>
+                 
                         <td>{{ data.schedule_date }}</td>
                         <td>{{ data.schedule_quantity }}x</td>
+                        <td><span>{{ data.message }}</span></td>
                         <td class="table_status">
                             <span :style="data.status === 'pending' ? 'background-color: orange'
                              : data.status === 'released' ? 'background-color: rgb(37, 102, 235)' 
@@ -158,19 +155,6 @@ onMounted(() => {
                              ">
                                 {{ data.status }}
                             </span>
-                        </td>
-                        <td class="table_data_action">
-                            <div class="table_action">
-                                <Button label="Not approve" severity="danger" icon="pi pi-times" raised
-                                    @click="notApprove(data)" v-if="data.status === 'pending'" />
-                                <Button icon="pi pi-trash" raised severity="danger"
-                                    v-if="data.status === 'not-release' || data.status === 'released'"
-                                    @click="deleteBtn(data.schedule_id)" />
-                                <Button label="Approve" severity="success" icon="pi pi-check" raised
-                                    @click="approve(data)" v-if="data.status === 'pending'" />
-                                <Message severity="error" v-if="data.status === 'not-release'">Not approve</Message>
-                                <Message v-if="data.status === 'released'">Approved</Message>
-                            </div>
                         </td>
                     </tr>
                 </tbody>

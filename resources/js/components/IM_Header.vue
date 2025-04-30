@@ -87,7 +87,7 @@ const target = ref(null)
 onClickOutside(target, event => showModal.value = false)
 
 const showModal = ref(false)
-
+const emit = defineEmits(['user'])
 
 const router = useRouter()
 const userInformation = ref({})
@@ -100,6 +100,7 @@ onMounted(() => {
   axios.get('api/user').then(response => {
     userInformation.value = response.data
     loader.value = false
+    emit('user', userInformation.value)
   })
   if (!token) {
     router.push('/')

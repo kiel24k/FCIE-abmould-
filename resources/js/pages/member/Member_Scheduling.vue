@@ -1,5 +1,5 @@
 <template>
-     <Header/>
+     <Header @user="user"/>
     <div class="row m-2">
         <div class="col">
             <div class="row scheduling">
@@ -24,7 +24,9 @@
             <AddSchedule class="addSchedule"
               v-if="addScheduleModal"
              :addScheduleModal="addScheduleModal"
-              @data="addScheduleModal = false"/>
+              @data="addScheduleModal = false"
+              :userData="userData"
+              />
         </transition>
        </div>
 </template>
@@ -33,6 +35,12 @@ import Header from '@/components/Member_Header.vue'
 import ScheduledItems from '@/components/ScheduledMaterials.vue'
 import { onMounted, ref, watch } from 'vue';
 import AddSchedule from '../../components/AddSchedule.vue';
+
+const userData = ref({})
+
+const user = (data) => {
+    userData.value = data
+}
 
 const selectedDate = ref({})
 const masks = ref({

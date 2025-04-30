@@ -411,10 +411,14 @@ class AdminController extends Controller
         $item->update();
         return response()->json($item);
     }
-    public function reduceQuantity(Request $request, $id)
+    public function reduceQuantity(Request $request)
     {
-        $item = Item::find($id);
-        $item->quantity = $request->quantity;
+        $item = Item::find($request->item_id);
+        $request->validate([
+            'quantity' => "required|integer|max:$item->quantity"
+        ]);
+        $item->quantity =$item->quantity - $request->quantity ;
+        $item->total_cost = $item->quantity * $item->unit_cost;
         $item->update();
         return response()->json($item);
     }
