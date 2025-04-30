@@ -1,11 +1,11 @@
 <template>
-  <div class="mt-4">
+  <div class="">
     <div ref="scanner" class="scanner"></div>
-    <div v-if="scanning" class="status">Scanning...</div>
-    <div v-else class="status">Not Scanning</div>
-    <div class="action text-center">
-      <button @click="startScanning" class="btn btn-dark">Start Scanning</button>
-      <button @click="stopScanning" class="btn btn-danger">Stop Scanning</button>
+    <Message v-if="scanning" severity="success"  icon="pi pi-barcode">Scanning...</Message>
+    <Message v-else severity="error" icon="pi pi-barcode" >Not Scanning</Message>
+    <div class="action">
+      <Button @click="startScanning" severity="primary" label="Start Scan" />
+      <Button @click="stopScanning" severity="danger" label="Stop Scan"/>
     </div>
   </div>
 
@@ -15,6 +15,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue';
 import Quagga from 'quagga';
+import { Button, Message } from 'primevue';
 
 const scanner = ref(null);
 const scanning = ref(false);
@@ -58,6 +59,8 @@ const startScanning = () => {
   Quagga.onDetected((result) => {
       const code = result.codeResult.code;
       barcode.value = code;     
+      console.log(code);
+      
       emitBarcodeValue('barcodeValue', barcode.value)
       stopScanning()
   });
@@ -82,85 +85,27 @@ onMounted(() => {
 });
 </script>
 
-<style>
-
-@media screen and (max-width: 1116px) {
-  .scanner {
-    width: 40rem;
-    height: 500px;
-    box-shadow: 0px 0px 10px 0px gray;
-    margin: auto;
-    display: block;
-  }
-  
-  .status {
-    text-align: center;
-    margin: 10px 0;
-  }
-  
-  .result {
-    text-align: center;
-    font-weight: bold;
-  }
-  
-  .action {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-
-}
-
-@media screen and (max-width: 568px){
-  .scanner {
-    max-width: 30rem;
-    height: 500px;
-    box-shadow: 0px 0px 10px 0px gray;
-    margin: auto;
-    display: block;
-  }
-  
-  .status {
-    text-align: center;
-    margin: 10px 0;
-  }
-  
-  .result {
-    text-align: center;
-    font-weight: bold;
-  }
-  
-  .action {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
-
-}
+<style scoped>
 @media screen and (min-width: 887px){
   .scanner {
-    width: 40rem;
+    width: 604px;
     height: 500px;
-    box-shadow: 0px 0px 10px 0px gray;
-    margin: auto;
-    display: block;
+    border:rgb(0, 0, 0) 2px solid;
+    background: rgb(0, 0, 0);
+   
   }
-  
-  .status {
-    text-align: center;
-    margin: 10px 0;
-  }
-  
-  .result {
-    text-align: center;
-    font-weight: bold;
-  }
-  
-  .action {
+  .action{
     display: flex;
-    gap: 10px;
+    gap:10px;
     justify-content: center;
+    flex-wrap: wrap;
   }
+  
+ 
+  
+ 
+  
+ 
 
 }
 </style>

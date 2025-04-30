@@ -8,6 +8,7 @@ use App\Models\Material;
 use App\Models\Scanned_Items;
 use App\Models\ScannedItemsOut;
 use App\Models\Schedule;
+use App\Models\ScheduleRequest;
 use App\Models\Tool_Inventory;
 use App\Models\User;
 use Carbon\Carbon;
@@ -161,6 +162,7 @@ class AdminController extends Controller
         $item->quantity      = $request->quantity;
         $item->category      = $request->category;
         $item->treshold     = $request->treshold;
+        $item->total_cost   = $request->quantity * $request->unit_cost;
         $item->description   = $request->description;
         $item->brand         = $request->brand;
         $item->release_date = Carbon::now()->format('y/m/d');
@@ -253,6 +255,7 @@ class AdminController extends Controller
         $material->quantity      = $request->quantity;
         $material->category      = $request->category;
         $material->treshold   = $request->treshold;
+        $material->total_cost = $request->unit_cost * $request->quantity;
         $material->description   = $request->description;
         $material->brand         = $request->brand;
         $material->update();
@@ -272,22 +275,106 @@ class AdminController extends Controller
             'message' => '200'
         ]);
     }
+
+
+    public function getScheduleDataPerCategory(Request $request)
+    {
+        if (empty($request->category) && empty($request->item_code) && empty($request->supplier_name)) {
+            return response()->json([
+                'message' => 'data not found'
+            ], 404);
+        } else {
+            $item = Item::query()
+                ->when($request->category, function ($query) use ($request) {
+                    $query->where('category', $request->category);
+                })
+                ->when($request->item_code, function ($query) use ($request) {
+                    $query->where('item_code', $request->item_code);
+                })
+                ->when($request->supplier_name, function ($query) use ($request) {
+                    $query->where('supplier_name', $request->supplier_name);
+                })
+                ->get();
+            return response()->json($item);
+        }
+
+        // return response()->json($item);
+    }
     public function addSchedule(Request $request)
     {
         $request->validate([
-            'supplier_name' => 'required',
-            'item_code'     => 'required',
-            'quantity'      => 'required',
-            'date_schedule' => 'required'
+            'schedule_quantity' => 'required|integer',
+            'schedule_date' => 'required'
         ]);
-        $schedule = new Schedule();
-        $schedule->supplier_name = $request->supplier_name;
-        $schedule->item_code     = $request->item_code;
-        $schedule->quantity      = $request->quantity;
-        $schedule->date_schedule = $request->date_schedule;
-        $schedule->status        = 'pending';
-        $schedule->save();
-        return response()->json($schedule);
+        $scheduleRequest = new ScheduleRequest();
+        $scheduleRequest->user_id = $request->user_id;
+        $scheduleRequest->item_id = $request->item_id;
+        $scheduleRequest->schedule_quantity = $request->schedule_quantity;
+        $scheduleRequest->schedule_date = Carbon::parse($request->schedule_date)->format('Y-m-d');
+        $scheduleRequest->status = 'pending';
+        $scheduleRequest->message = $request->message;
+        $scheduleRequest->save();
+    }
+    public function getScheduleRequest(Request $request)
+    {
+        $status = ScheduleRequest::select('status')->distinct()->get();
+        if (empty($request->category)) {
+            $data = DB::table('schedule_requests')
+                ->leftJoin('users', 'schedule_requests.user_id', '=', 'users.id')
+                ->leftJoin('items', 'schedule_requests.item_id', '=', 'items.id')
+                ->select('users.*', 'schedule_requests.*', 'items.*')
+                ->orderBy('schedule_requests.schedule_id', 'DESC')
+                ->get();
+            return response()->json([
+                'status' => $status,
+                'data' => $data
+            ]);
+        } else if (isset($request->category)) {
+            $data = DB::table('schedule_requests')
+                ->leftJoin('users', 'schedule_requests.user_id', '=', 'users.id')
+                ->leftJoin('items', 'schedule_requests.item_id', '=', 'items.id')
+                ->select('users.*', 'schedule_requests.*', 'items.*')
+                ->where('status', $request->category)
+                ->orderBy('schedule_requests.status', 'DESC')
+                ->get();
+            return response()->json([
+                'status' => $status,
+                'data' => $data
+            ]);
+        }
+    }
+
+    public function notApproveSchedule(Request $request)
+    {
+        $schedule = ScheduleRequest::find($request->schedule_id);
+        $schedule->status = 'not-release';
+        $schedule->message = $request->message;
+        $schedule->update();
+        return $schedule;
+    }
+
+    public function approveSchedule(Request $request)
+    {
+        $item = Item::find($request->item_id);
+        $schedule = ScheduleRequest::find($request->schedule_id);
+        $item->quantity = $item->quantity - $schedule->schedule_quantity;
+        $schedule->status = 'released';
+        $schedule->message = $request->message;
+        $item->update();
+        $schedule->update();
+        return response()->json([
+            'item' => $item,
+            'schedule' => $schedule
+        ]);
+    }
+
+    public function deleteScheduleRequest (Request $request) {
+       ScheduleRequest::find($request->schedule_id)->delete();
+        return response()->json([
+            'message' => 'delete success',
+        ], 200);
+        
+
     }
     // public function generateBarcode()
     // {
@@ -303,9 +390,9 @@ class AdminController extends Controller
         $number = Item::where('barcode', $number)->exists();
         return $number;
     }
-    public function viewScanBarcode($barcode)
+    public function viewScanBarcode(Request $request)
     {
-        $item = Item::where('item_code', '=', $barcode)->get();
+        $item = Item::where('item_code', '=', $request->barcode)->get();
         return response()->json($item);
     }
     public function editQuantity($id)
@@ -313,10 +400,14 @@ class AdminController extends Controller
         $item = Item::find($id);
         return response()->json($item);
     }
-    public function addQuantitySubmit(Request $request, $id)
+    public function addQuantitySubmit(Request $request)
     {
-        $item = Item::find($id);
-        $item->quantity = $request->quantity;
+        $item = Item::find($request->item_id);
+        $request->validate([
+            'quantity' => "required|integer|max:$item->treshold"
+        ]);
+        $item->quantity = $request->quantity + $item->quantity;
+        $item->total_cost = $item->quantity * $item->unit_cost ;
         $item->update();
         return response()->json($item);
     }
@@ -483,8 +574,6 @@ class AdminController extends Controller
     }
     public function updateSchedule(Request $request)
     {
-
-
         $schedule = Schedule::find($request->id);
         $schedule->supplier_name = $request->supplier_name;
         $schedule->item_code = $request->item_code;
@@ -717,13 +806,13 @@ class AdminController extends Controller
         return response()->json($stock);
     }
 
-    public function assignRole (Request $request) {
+    public function assignRole(Request $request)
+    {
         $request->validate([
             'role' => 'required'
         ]);
         $user = User::find($request->id);
         $user->role = $request->role;
         $user->save();
-
     }
 }

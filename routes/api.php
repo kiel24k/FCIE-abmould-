@@ -37,11 +37,17 @@ Route::controller(AdminController::class)->group(function () {
     Route::post('/update-item/{id}', 'updateitem');
     Route::get('/view-item/{id}', 'viewItem');
     Route::get('/scheduled-date/{date}', 'scheduledDate');
+    route::get('/choose-item-for-schedule', 'chooseItemForSchedule');
+    route::get('/schedule-data-per-category', 'getScheduleDataPerCategory');
     Route::post('/add-schedule', 'addSchedule');
+    route::get('/get-schedule-request', 'getScheduleRequest');
+    route::post('/not-approved-schedule', 'notApproveSchedule');
+    route::post('/approve-schedule', 'approveSchedule');
+    route::delete('/delete-schedule-request', 'deleteScheduleRequest');
     // Route::get('/generate-barcode', 'generateBarcode');
-    Route::get('/view-scan-barcode/{barcode}', 'viewScanBarcode');
+    Route::get('/view-scan-barcode', 'viewScanBarcode');
     Route::get('/edit-quantity/{id}', 'editQuantity');
-    Route::post('/add-quantity-submit/{id}', 'addQuantitySubmit');
+    Route::post('/add-quantity-submit', 'addQuantitySubmit');
     Route::post('/reduce-quantity-submit/{id}', 'reduceQuantity');
     route::post('/save-scanned-items', 'saveScannedItems');
     route::get('/get-scanned-items/{id}', 'getScannedItems');
@@ -146,10 +152,14 @@ route::controller(LogsController::class)->group(function () {
 
 route::controller(CategoryController::class)->group(function () {
  route::get('all-item-category', 'allItemCategory');
+ route::get('schedule-item-category', 'scheduleItemCategory');
+
+ 
 });
 
 route::controller(NotificationController::class)->group(function () {
-    route::get('low-stock-alert', 'lowStockAlert');
+    route::get('/low-stock-alert', 'lowStockAlert');
+ 
 
 });
 

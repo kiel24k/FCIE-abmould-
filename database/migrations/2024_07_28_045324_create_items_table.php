@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('unit_cost', 10, 2)->nullable();
             $table->integer('quantity')->nullable();
             $table->integer('treshold')->nullable();
+            $table->integer('total_cost');
             $table->string('category');
             $table->string('description');
             $table->string('brand')->nullable();

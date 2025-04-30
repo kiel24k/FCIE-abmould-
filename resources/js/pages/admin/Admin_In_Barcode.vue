@@ -1,262 +1,264 @@
-<template>
-    <header>
-        <Header @user="user" />
-    </header>
-   <div style="display:grid; justify-content: center;align-content: center;">
-    <div class="row mt-5">
-        <InModal v-if="inModal" :barcodeValue="barcodeValue" :inModalId="inModalId" @exit="exit" />
-        <div>
-            <Scanner @barcodeValue="barcodeValue" />
-        </div>
-    </div>
-   </div>
-   <div class="data-table">
-    <div class="text-start">
-        <router-link :to="{ name: 'admin-inventory-list' }" class="btn btn-primary mb-2">Item
-            List</router-link>
-    </div>
-    <div class="row">
-        <div class="col text-center">
-            <b>Scanned Items</b>
-        </div>
-    </div>
-    <table class="table table-hover table-responsive">
-        <thead>
-            <tr>
-                <th>Category</th>
-                <th>Item Code</th>
-                <th>Brand</th>
-                <th>Supplier Name</th>
-                <th>Unit Cost</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(data, index) in getScannedItems" :key="index">
-                <td>{{ data.category }}</td>
-                <td>{{ data.item_code }}</td>
-                <td>{{ data.brand }}</td>
-                <td>{{ data.supplier_name }}</td>
-                <td>{{ data.unit_cost }}</td>
-                <td>{{ data.description }}</td>
-                <td>
-                    <span>
-                        <Button label="Add" severity="contrast" icon="pi pi-plus" @click="addQuantityModal(data.item_id)"/>
-                    </span>
-                </td>
-            </tr>
-
-        </tbody>
-    </table>
-    <div class="text-center" v-if="notFound">
-        <h4>No data found</h4>
-    </div>
-</div>
-</template>
-
 <script setup>
 import Header from '@/components/Admin_Header.vue'
-import Sidebar from '@/components/Admin_Sidebar.vue';
+
 import Scanner from '@/components/Barcode_Scanner.vue'
-import InModal from '@/components/Barcode_In_Modal.vue'
-import { computed, onMounted, ref, watch } from 'vue';
-import Swal from 'sweetalert2';
-import Button from 'primevue/button';
+import BarcodeView from '@/components/BarcodeView.vue'
+import { Button, FloatLabel, InputNumber, Message } from 'primevue'
+import Swal from 'sweetalert2'
+import { onMounted, ref, watch } from 'vue'
+//COMPONENTS VARIABLE
+const barcodeData = ref({})
+const quantity = ref()
+const validation = ref({})
+const barcodeItem = ref('')
 
-const inModal = ref(false)
-const inModalId = ref()
-const notFound = ref(false)
-const barcodeResponse = ref([])
-const userInformation = ref({})
-const getScannedItems = ref()
-const newItem = ref([])
-
-const isSidebarHidden = ref(false);
-const toggleSidebar = () => {
-    isSidebarHidden.value = !isSidebarHidden.value;
-};
-
-// Function to add only unique items to barcodeResponse
+//API FUNCTIONS
 const barcodeValue = (data) => {
-    axios({
+    barcodeItem.value = data
+}
+
+const GET_SCAN_BARCODE_API = async () => {
+    await axios({
         method: 'GET',
-        url: `/api/view-scan-barcode/${data}`
+        url: '/api/view-scan-barcode',
+        params: {
+            barcode: barcodeItem.value
+        }
     }).then(response => {
-        console.log("data:", data);
-
-        newItem.value = response.data[0];
-        if (newItem.value && !barcodeResponse.value.some(item => item.item_code === newItem.value.item_code)) {
-            barcodeResponse.value.push(newItem.value);
-            console.log("barcodeRespone:", barcodeResponse.value);
-            console.log("newItem: ", newItem.value);
-        }
-        notFound.value = barcodeResponse.value.length === 0;
-    }).catch(error => {
-        console.error("Error fetching barcode data:", error);
-        notFound.value = true;
-    });
-};
-
-const user = (data) => {
-    userInformation.value = data
-    GET_SCANNED_ITEMS_API()
+        barcodeData.value = response.data
+    })
 }
 
-const GET_SCANNED_ITEMS_API = async () => {
-    const response = await axios.get(`/api/get-scanned-items/${userInformation.value.id}`);
-    getScannedItems.value = Array.from(new Set(response.data.map(item => item.item_code)))
-        .map(code => response.data.find(item => item.item_code === code));
-    // console.log("getScannedItems", getScannedItems.value);     
-};
-watch(newItem, async () => {
-    try {
-        const response = await axios.post('api/save-scanned-items', {
-            user_id: userInformation.value.id,
-            item_id: newItem.value.id,
-            category: newItem.value.category,
-            item_code: newItem.value.item_code,
-            brand: newItem.value.brand,
-            supplier_name: newItem.value.supplier_name,
-            unit_cost: newItem.value.unit_cost,
-            quantity: newItem.value.quantity,
-            description: newItem.value.description
-        });
-
-        GET_SCANNED_ITEMS_API();
-    } catch (error) {
-        if (error.response.status === 422) {
+//COMPONENTS FUNCTIONS
+const submit = async () => {
+    await axios({
+        method: 'POST',
+        url: '/api/add-quantity-submit',
+        data: {
+            item_id: barcodeData.value[0].id,
+            quantity: quantity.value
+        }
+    }).then(response => {
+        if (response.status === 200) {
             Swal.fire({
-                title: "Item Existed",
-                text: "Please use other Item",
-                icon: "question"
+                position: "top-end",
+                icon: "success",
+                title: "Data has been saved",
+                showConfirmButton: false,
+                timer: 1500
             });
+            GET_SCAN_BARCODE_API()
+            validation.value = ''
         }
-    }
+    }).catch(e => {
+        validation.value = e.response.data.errors
 
-});
-
-
-const addQuantityModal = (id) => {
-    inModal.value = true
-    inModalId.value = id
-
+    })
 }
 
-const exit = () => {
-    inModal.value = false
-    GET_SCANNED_ITEMS_API()
 
-}
-
-onMounted(async () => {
-    GET_SCANNED_ITEMS_API()
-
+//HOOKS
+watch(barcodeItem, (oldVal, newVal) => {
+    GET_SCAN_BARCODE_API()
 })
-
+onMounted(() => {
+    GET_SCAN_BARCODE_API()
+})
 </script>
 
+<template>
+    <header>
+        <Header />
+    </header>
+    <div id="main">
+        <section>
+            <div class="page_title">
+                <Message icon="pi pi-list" severity="secondary">
+                    <h4>In Item</h4>
+                </Message>
+            </div>
+            <div class="page mt-2">
+                <div class="scanner">
+                    <Scanner @barcodeValue="barcodeValue" />
+                </div>
+                <div class="barcode_data bg-white p-4">
+                    <div class="barcode_header">
+                        <h4>Barcode Data</h4>
+                        <hr>
+                    </div>
+                    <div class="barcode_item" v-if="barcodeData[0]">
+                        <div class="name">
+                            <ul>
+                                <li>
+                                    <div class="li_data">
+                                        <b>Types:</b>
+                                    </div>
+                                    <div class="li_info">
+                                        <span>{{ barcodeData[0].category }}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="li_data">
+                                        <b>Supplier name:</b>
+                                    </div>
+                                    <div class="li_info">
+                                        <span>{{ barcodeData[0].supplier_name }}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="li_data">
+                                        <b>Brand:</b>
+                                    </div>
+                                    <div class="li_info">
+                                        <span>{{ barcodeData[0].brand }}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="li_data">
+                                        <b>Quantity:</b>
+                                    </div>
+                                    <div class="li_info">
+                                        <span>{{ barcodeData[0].quantity.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                                            ',')
+                                            }}x</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="li_data">
+                                        <b>Treshold:</b>
+                                    </div>
+                                    <div class="li_info">
+                                        <span>{{ barcodeData[0].treshold.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                                            ',')
+                                            }}x</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="li_data">
+                                        <b>Unit cost:</b>
+                                    </div>
+                                    <div class="li_info">
+                                        <span>₱{{ barcodeData[0].unit_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                                            ',')
+                                            }}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="li_data">
+                                        <b>Total cost:</b>
+                                    </div>
+                                    <div class="li_info">
+                                        <span>₱{{ barcodeData[0].total_cost.toString().replace(/\B(?=(\d{3})+(?!\d))/g,
+                                            ',')
+                                            }}.00</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="li_data">
+                                        <b>Description:</b>
+                                    </div>
+                                    <div class="li_info">
+                                        <span>{{ barcodeData[0].description }}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="barcode_photo" v-if="barcodeData[0]">
+                                        <BarcodeView :barcodeValue="barcodeData[0].item_code" />
+                                    </div>
+                                </li>
+                                <li>
+                                  <div class="list_action">
+                                   <span class="text-danger" v-if="validation.quantity">{{ validation.quantity[0] }}
+                                   </span>
+                                    <div class="list_field">
+                                        <div class="field">
+                                            <Button icon="pi pi-plus" />
+                                            <FloatLabel variant="on">
+                                                <InputNumber v-model="quantity"/>
+                                                <label for="on_label">Enter Qty</label>
+                                            </FloatLabel>
+                                            <Button icon="pi pi-minus" />
+                                        </div>
+                                        <div class="list_submit">
+                                            <Button label="Add / In" severity="info" raised @click="submit()" />
+                                        </div>
+                                    </div>
+                                  </div>
+                                   
+                                </li>
+                                <hr>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+</template>
+
+
+
 <style scoped>
-
-@media screen and (max-width: 1116px) {
-    .hideSidebar {
-        transform: translateX(-100%);
-        transition: transform 0.5s ease;
-    }
-    
-    .sidebarVisible {
-        transform: translateX(0);
-    }
-    
-    .col-0 {
-        width: 0;
-        overflow: hidden;
-        transition: width 0.5s ease;
-    }
-    
-    .data-table {
-        overflow-x: auto;
-        width: 40rem;
-        margin: auto;
-    }
-    
-    table {
-        width: 40rem;
-    }
-    
-    .table th {
-        color: rgb(255, 255, 255);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        background: rgb(90, 90, 90);
-    }
-}
-
-@media screen and (max-width: 584px){
-    .hideSidebar {
-        transform: translateX(-100%);
-        transition: transform 0.5s ease;
-    }
-    
-    .sidebarVisible {
-        transform: translateX(0);
-    }
-    
-    .col-0 {
-        width: 0;
-        overflow: hidden;
-        transition: width 0.5s ease;
-    }
-    
-    .data-table {
-        overflow-x: auto;
-        width: 25rem;
-        margin: auto;
-    }
-    
-    table {
-        width: 25rem;
-    }
-    
-    .table th {
-        color: rgb(255, 255, 255);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        background: rgb(90, 90, 90);
-    }
+#main {
+    margin-top: 5rem;
 
 }
-@media screen and (min-width: 962px){
-    .hideSidebar {
-        transform: translateX(-100%);
-        transition: transform 0.5s ease;
-    }
-    
-    .sidebarVisible {
-        transform: translateX(0);
-    }
-    
-    .col-0 {
-        width: 0;
-        overflow: hidden;
-        transition: width 0.5s ease;
-    }
-    
-    .data-table {
-        overflow-x: auto;
-        width: 69rem;
-        margin: auto;
-    }
-    
-    table {
-        width: 69rem;
-    }
-    
-    .table th {
-        color: rgb(255, 255, 255);
-        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-        background: rgb(90, 90, 90);
-    }
-    
+
+section {
+    display: grid;
+    justify-content: center;
 }
 
+.page {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
 
+.barcode_data {
+    width: 40rem;
+}
+
+.barcode_item {
+    display: flex;
+    gap: 10px;
+}
+
+.barcode_item ul {
+    display: grid;
+    gap: 20px;
+}
+
+.barcode_item li {
+    display: flex;
+}
+
+.barcode_item .li_data {
+    width: 10rem;
+    display: grid;
+    gap: 10px;
+}
+
+.barcode_item .li_info {
+    width: 20rem;
+
+}
+
+.list_field {
+    display: flex;
+    gap:10px;
+}
+
+.list_action {
+    display: grid;
+    gap: 10px;
+}
+
+.field {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
 </style>

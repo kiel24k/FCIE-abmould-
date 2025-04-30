@@ -16,6 +16,7 @@ class Item extends Model
         'unit_cost',
         'quantity',
         'treshold',
+        'total_cost',
         'out_of_stock_notif',
         'description',
         'category',

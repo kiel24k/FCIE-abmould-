@@ -21,7 +21,7 @@ const GET_STOCK_API = async () => {
 
     }).then(response => {
         quantityData.value = response.data
-console.log(response.data);
+
 
     })
 }
@@ -48,7 +48,7 @@ const submit = async () => {
         }
 
     }).catch(e => {
-        console.log(e);
+
         
         validation.value = e.response.data.errors
 

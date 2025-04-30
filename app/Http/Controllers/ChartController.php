@@ -36,19 +36,19 @@ class ChartController extends Controller
     }
 
     public function dashboardCount () {
-        $item = DB::table('items')->count();
+        $item = DB::table('items')->sum('quantity');
         $user = DB::table('users')->count();
         $unit_cost = DB::table('items')
-        ->sum('unit_cost');
+        ->sum('total_cost');
         return response()->json([
-            'item' => $item,
-            'user' => $user,
-            'unit_cost' => $unit_cost
+            'item' => intVal($item),
+            'user' => intVal($user),
+            'unit_cost' => intVal($unit_cost)
         ]);
     }
 
     public function tableDataDashboard () {
-        $data = Item::select('id','item_code','supplier_name', 'quantity','treshold')
+        $data = Item::select('id','item_code','supplier_name', 'quantity','unit_cost')
         ->orderBy('id', 'DESC')
         ->limit(15)
         ->get();

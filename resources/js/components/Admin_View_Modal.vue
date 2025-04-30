@@ -8,11 +8,9 @@
           <div class="card-body">
             <div class="item">
                 <div class="row">
-                  <div class="col">
-                    <h4>{{ item.item_code }}</h4>
-                  </div>
-                  <div class="col text-end">
-                    <h4>{{ item.unit_cost }}</h4>
+                  <div class="col text-start">
+                    <b>Unit cost</b>
+                    <h4>₱{{ item.unit_cost }}</h4>
                   </div>
                 </div>
                 <div class="row">
@@ -27,9 +25,13 @@
                 </div>
                 <div class="row">
                   <b>Quantity:</b>
-                  <small>{{ item.quantity }}</small>
+                  <small>{{ item.quantity }}x</small>
                 </div>
                 <div class="row">
+                  <b>Total cost:</b>
+                  <small>₱{{ item.total_cost }}.00</small>
+                </div>
+                <div class="row" v-if="item.supplier_name">
                   <b>Supplier Name:</b>
                   <small>{{ item.supplier_name }}</small>
                 </div>
@@ -68,14 +70,15 @@ onMounted(() => {
 
 <style scoped>
 .view-modal {
-    position: absolute;
+    position: fixed;
+    top:0;
     display: grid;
     justify-content: center;
     align-items: center;
-    background-color: rgb(221, 216, 216,0.5);
-    backdrop-filter: blur(10px);
+    background-color: rgb(0, 0, 0,0.5);
     height: 100%;
     width: 100%;
+    z-index:999;
   }
   .card-header{
     display: flex;
@@ -83,7 +86,7 @@ onMounted(() => {
     align-items: center;
   }
   .card-body{
-    height: 30rem;
+    height: auto;
   }
 
   .item {
