@@ -108,7 +108,6 @@ onMounted(() => {
     <transition name="transition">
         
         <div class="add-schedule">
-           
             <div class="schedule">
                 <form @submit.prevent enctype="multipart/form-data">
                     <h4>Schedule | <span style="color:gray;font-size:15px; font-weight:400">Schedule Information</span>

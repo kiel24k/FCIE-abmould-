@@ -8,7 +8,7 @@ import Swal from 'sweetalert2'
 import { onMounted, ref, watch } from 'vue'
 //COMPONENTS VARIABLE
 const barcodeData = ref({})
-const quantity = ref()
+const quantity = ref(1)
 const validation = ref({})
 const barcodeItem = ref('')
 
@@ -48,6 +48,7 @@ const submit = async () => {
                 timer: 1500
             });
             GET_SCAN_BARCODE_API()
+            quantity.value = 1
             validation.value = ''
         }
     }).catch(e => {
@@ -172,12 +173,14 @@ onMounted(() => {
                                    </span>
                                     <div class="list_field">
                                         <div class="field">
-                                            <Button icon="pi pi-plus" />
-                                            <FloatLabel variant="on">
-                                                <InputNumber v-model="quantity"/>
-                                                <label for="on_label">Enter Qty</label>
-                                            </FloatLabel>
-                                            <Button icon="pi pi-minus" />
+                                            <InputNumber v-model="quantity" showButtons buttonLayout="horizontal" style="width: 3rem" :min="1">
+                                                <template #incrementbuttonicon>
+                                                    <span class="pi pi-plus" />
+                                                </template>
+                                                <template #decrementbuttonicon>
+                                                    <span class="pi pi-minus" />
+                                                </template>
+                                            </InputNumber>
                                         </div>
                                         <div class="list_submit">
                                             <Button label="Add / In" severity="info" raised @click="submit()" />
@@ -247,7 +250,7 @@ section {
 }
 
 .list_field {
-    display: flex;
+    display: grid;
     gap:10px;
 }
 
