@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { Button, DatePicker, FloatLabel, InputNumber, Message } from 'primevue';
 import Swal from 'sweetalert2';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const emits = defineEmits(['closeScheduleRequestModal'])
-const props = defineProps(['userData', 'itemId'])
+const props = defineProps(['userData', 'itemId','quantityVal'])
+
+const minDate = ref(new Date()) // January 1, 2023
+const maxDate = ref(new Date())
+maxDate.value.setFullYear(maxDate.value.getFullYear() + 1)
 
 const closeModal = () => {
     emits('closeScheduleRequestModal')
@@ -23,10 +27,13 @@ const save = async () => {
         data: {
             user_id: props.userData.id,
             item_id: props.itemId,
+            quantityVal: props.quantityVal,
             schedule_quantity: quantity.value,
             schedule_date: date.value,
         }
     }).then(response => {
+        console.log(response);
+
         if (response.status === 200) {
             Swal.fire({
                 position: "top-end",
@@ -40,10 +47,15 @@ const save = async () => {
     }).catch(e => {
         validation.value = e.response.data.errors
         console.log(e);
-        
+
 
     })
 }
+
+onMounted(() => {
+    console.log(maxDate.value);
+    
+})
 
 </script>
 
@@ -57,9 +69,11 @@ const save = async () => {
                 <hr>
             </div>
             <form action="" @submit.prevent>
-                <span class="text-danger" v-if="validation.quantity">{{ validation.quantity[0] }}</span>
+                <span class="text-danger validation" v-if="validation.quantity">{{ validation.quantity[0] }}</span>
+                <p class="text-danger validation" v-if="validation.schedule_quantity">{{ validation.schedule_quantity[0]}}</p>
                 <div class="row">
                     <div class="col quantity">
+                        
                         <Button icon="pi pi-minus" @click="quantity > 1 ? quantity = quantity - 1 : 1" />
                         <FloatLabel variant="in">
                             <InputNumber inputId="in_label" fluid variant="filled" v-model="quantity" />
@@ -71,10 +85,10 @@ const save = async () => {
 
                 <div class="row mt-3">
                     <div class="col">
-                        <span class="text-danger" v-if="validation.schedule_date">{{ validation.schedule_date[0]
-                            }}</span>
-                        <DatePicker showIcon fluid iconDisplay="input" placeholder="Choose Schedule" v-model="date"
-                            dateFormat="yy/mm/dd" />
+                        <p class="text-danger validation" v-if="validation.schedule_date">{{ validation.schedule_date[0]
+                        }}</p>
+                        <DatePicker showIcon fluid iconDisplay="input" placeholder="Choose Schedule" :minDate="minDate"
+                            :maxDate="maxDate" v-model="date" dateFormat="yy/mm/dd" />
                     </div>
                 </div>
                 <div class="row ">
@@ -99,7 +113,8 @@ const save = async () => {
     z-index: 1000;
     justify-content: center;
     align-items: center;
-  
+    top: 0;
+
 }
 
 .main {
@@ -119,5 +134,9 @@ const save = async () => {
     justify-content: end;
     gap: 5px;
     margin-top: 1rem;
+}
+
+form .validation {
+    width: 18rem;
 }
 </style>

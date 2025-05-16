@@ -15,7 +15,6 @@ const closeModal = () => {
 
 const print = () => {
     const elem = printContent.value
-
     const options = {
         margin: 1,
         filename: 'document.pdf',
@@ -115,7 +114,6 @@ figure {
 figure img {
     width: 90%;
     height: 90%;
-
 }
 
 figcaption {

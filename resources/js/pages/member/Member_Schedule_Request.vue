@@ -169,7 +169,7 @@ onMounted(() => {
 
 <style scoped>
 .main {
-    margin-top: 5rem;
+    margin-top: 1rem;
     margin-left: 3.5rem;
     display: grid;
     gap: 15px;

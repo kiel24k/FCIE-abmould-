@@ -36,7 +36,7 @@
                                     :size="large" v-model="userData.last_name" />
                                 <label for="on_label">Last Name</label>
                             </FloatLabel>
-                            <small class="text-danger" v-if="validation.first_name">{{ validation.last_name[0]
+                            <small class="text-danger" v-if="validation.last_name">{{ validation.last_name[0]
                                 }}</small>
                         </div>
                         <div class="col">

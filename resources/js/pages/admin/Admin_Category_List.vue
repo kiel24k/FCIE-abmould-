@@ -220,7 +220,6 @@ onMounted(() => {
                 <div class="col text-end list-action">
                     <Button label="New Category" icon="pi pi-plus" severity="info"
                         @click="router.push('admin-new-category')" />
-                    <Button label="Print" icon="pi pi-print" severity="danger" />
                 </div>
             </div>
             <div class="row mt-2">

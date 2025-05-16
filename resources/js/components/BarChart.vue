@@ -10,6 +10,8 @@ import { Bar } from 'vue-chartjs';
 import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js';
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
 
+const props = defineProps(['date_one','date_two'])
+
 const barColor = ref([
     {bgColor: 'rgb(255, 0, 0, 0.5)'},
     {bgColor: 'rgb(255, 255, 0, 0.5)'},
@@ -29,7 +31,11 @@ const dataOfSumCategory = ref([])
 const sumOfCategory = () => {
     axios({
         method: 'GET',
-        url: '/api/bargraph'
+        url: '/api/bargraph',
+        params: {
+            date_one: date_one.value,
+            date_two: date_two.value
+        }
     }).then(response => {
         dataOfSumCategory.value = response.data
         // chartData.value.datasets[0].data[1] = 30
@@ -46,7 +52,7 @@ const sumOfCategory = () => {
 const chartData = computed(() => ({
     labels: dataOfSumCategory.value.map((el) => el.category),
     datasets: [{
-        label: 'Top 10 Most-used Categories',
+        label: "",
         labelColor: 'blue',
         data: dataOfSumCategory.value.map((el) => el.total_value),
         backgroundColor: barColor.value.map(el => el.bgColor),
@@ -101,9 +107,17 @@ const chartOptions = ref({
     }
 });
 
+const date_one = computed(() => {
+    return props.date_one
+})
+const date_two = computed(() => {
+    return props.date_two
+})
 
+watch([date_one,date_two], (oldVal, newVal) => {
+    sumOfCategory()
+})
 onMounted(() => {
-
     sumOfCategory()
 
 })

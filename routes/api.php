@@ -10,6 +10,7 @@ use App\Http\Controllers\InventoryManagerController;
 use App\Http\Controllers\LogsController;
 use App\Http\Controllers\MemberController;
 use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\PrintReportController;
 use App\Http\Controllers\TlController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -118,7 +119,7 @@ Route::controller(TlController::class)->group(function () {
     Route::get('/tl-item-category', 'itemCategory');
     route::get('/tl-item-list', 'itemList');
 
-    route::get('/tl-schedule-list-category','scheduleListCategory');
+    route::get('/tl-schedule-list-category', 'scheduleListCategory');
     route::get('/tl-schedule-list', 'scheduleList');
     route::get('tl-get-date-schedule', 'getDateSchedule');
     route::get('/tl-schedule-list', 'scheduleList');
@@ -151,17 +152,15 @@ route::controller(LogsController::class)->group(function () {
 });
 
 route::controller(CategoryController::class)->group(function () {
- route::get('all-item-category', 'allItemCategory');
- route::get('schedule-item-category', 'scheduleItemCategory');
-
- 
+    route::get('all-item-category', 'allItemCategory');
+    route::get('schedule-item-category', 'scheduleItemCategory');
 });
 
 route::controller(NotificationController::class)->group(function () {
     route::get('/low-stock-alert', 'lowStockAlert');
- 
-
 });
 
-
-
+route::controller(PrintReportController::class)->group(function () {
+    route::get('/print-item-list', 'printItemList');
+    route::get('/print-user-list', 'printUserList');
+});

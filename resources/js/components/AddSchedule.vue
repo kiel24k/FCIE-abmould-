@@ -14,6 +14,7 @@ const selectSupplierName = ref('')
 
 const isAdminScheduleRequestModal = ref(false)
 const itemId = ref()
+const quantityVal = ref()
 
 
 //API toVariables
@@ -72,9 +73,10 @@ const clearSupplierName = () => {
     GET_SCHEDULE_DATA_PER_CATEGORY_API()
 }
 
-const request = (id) => {
+const request = (id,quantity) => {
     isAdminScheduleRequestModal.value = true
     itemId.value = id
+    quantityVal.value = quantity
     
 }
 
@@ -104,7 +106,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <AdminScheduleRequestModal v-if="isAdminScheduleRequestModal" @closeScheduleRequestModal="closeScheduleRequestModal" :userData="userData" :itemId="itemId"/>
+    <AdminScheduleRequestModal v-if="isAdminScheduleRequestModal" @closeScheduleRequestModal="closeScheduleRequestModal" :userData="userData" :itemId="itemId" :quantityVal="quantityVal"/>
     <transition name="transition">
         
         <div class="add-schedule">
@@ -215,7 +217,7 @@ onMounted(() => {
                                         <td>{{ data.quantity }}x</td>
                                         <td>
                                             <Button label="Request" severity="info" icon="pi pi-send"
-                                                @click="request(data.id)" />
+                                                @click="request(data.id,data.quantity)" />
                                         </td>
                                     </tr>
                                 </tbody>

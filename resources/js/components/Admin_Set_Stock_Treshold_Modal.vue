@@ -67,8 +67,10 @@ onMounted(() => {
 <template>
     <div class="modal-main">
         <div class="content">
+          
             <fieldset>
                 <form action="">
+                    
                     <input type="hidden" v-model="quantityData.id">
                     <div class="form-title ">
                         <h5>Adjust Stock</h5>

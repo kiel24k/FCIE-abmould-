@@ -12,6 +12,7 @@ class StockLogs extends Model
     protected $table = "stock_logs";
     protected $fillable = [
         'user_id',
+        'item_id',
         'action',
         'date_released',
         'time'

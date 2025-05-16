@@ -99,11 +99,10 @@ onMounted(() => {
                             <b>Bar Graph</b>
                             <BarChart />
                         </div>
-                        {{ dashboardApi.unit_cost }}
                     </div>
                     <div class="listing bg-white">
                       <div class="table_title p-1">
-                        <b>top 15 newly added materials</b>
+                        <b>top 15 newly added items</b>
                       </div>
                         <table class="table">
                             <thead>

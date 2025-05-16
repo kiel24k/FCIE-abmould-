@@ -168,7 +168,7 @@ class AdminController extends Controller
         $item->release_date = Carbon::now()->format('y/m/d');
         // $item->barcode       = $request->barcode;
         $item->save();
-        LogsController::createdLogs($userId);
+        LogsController::createdLogs($userId,$item->id);
 
         return response()->json($item);
     }
@@ -259,7 +259,7 @@ class AdminController extends Controller
         $material->description   = $request->description;
         $material->brand         = $request->brand;
         $material->update();
-        LogsController::updateItemLogs($request->userId);
+        LogsController::updateItemLogs($request->userId,$request->item_id);
         return response()->json($material);
     }
 
@@ -302,9 +302,10 @@ class AdminController extends Controller
     }
     public function addSchedule(Request $request)
     {
+        $dateNow = Carbon::now()->format('Y-m-d');
         $request->validate([
-            'schedule_quantity' => 'required|integer',
-            'schedule_date' => 'required'
+            'schedule_quantity' => "required|integer|max:$request->quantityVal",
+            'schedule_date' => "required|date|after_or_equal:$dateNow",
         ]);
         $scheduleRequest = new ScheduleRequest();
         $scheduleRequest->user_id = $request->user_id;
@@ -314,6 +315,7 @@ class AdminController extends Controller
         $scheduleRequest->status = 'pending';
         $scheduleRequest->message = $request->message;
         $scheduleRequest->save();
+       
     }
     public function getScheduleRequest(Request $request)
     {
@@ -781,14 +783,15 @@ class AdminController extends Controller
     public function updateTreshold(Request $request)
     {
         $userId = $request->userId;
+        $itemId = $request->item_id;
         $request->validate([
             'treshold' => 'required|numeric'
         ]);
         $treshold = Item::find($request->id);
         $treshold->treshold = $request->treshold;
+        LogsController::tresholdLogs($userId, $itemId);
         $treshold->update();
-        LogsController::tresholdLogs($userId);
-        return response()->json($treshold);
+       
     }
 
     public function getQuantity(Request $request)
