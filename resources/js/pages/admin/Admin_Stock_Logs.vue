@@ -18,14 +18,14 @@ const API_GET_LOGS = async () => {
         method: 'GET',
         url: 'api/get-logs',
     }).then(response => {
+        console.log(response);
+        
         getLogsData.value = response.data
     })
 }
 
 //COMPONENTS FUNCTION
 const removeLogs =  (data) => {
-    console.log(data);
-    
     Swal.fire({
   title: "Are you sure?",
   text: "You won't be able to revert this!",
@@ -111,8 +111,9 @@ onMounted(() => {
                             </div>
                         </div>
                         <div class="notif_info_option">
+                            <router-link :to="{name: 'admin-edit-item', params: {id: data.item_id} }">Edit/View this item</router-link> |
                             <i class="pi pi-user m-1"></i>
-                            <small class="text-warning" @click="viewUser(data.user_id)">Track User</small> |
+                             <small class="text-warning" @click="viewUser(data.user_id)">Track User</small> |
                             <Button label="remove" icon="pi pi-trash" severity="secondary" @click="removeLogs(data.id)" />
                         </div>
                     </div>

@@ -117,6 +117,11 @@ const routes = [
         name: "admin-item-logs",
         component: () => import("../pages/admin/Admin_Item_Logs.vue"),
     },
+    {
+        path: '/admin-print-and-report',
+        name: 'admin-print-and-report',
+        component: () => import("../pages/admin/Admin_Print_Report.vue")
+    },
 
     {
         path: "/inventory-manager-dashboard",

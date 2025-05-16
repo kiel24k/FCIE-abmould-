@@ -183,7 +183,7 @@ onMounted(() => {
 
 <style scoped>
 #main {
-    margin-top: 5rem;
+    margin-top: 1rem;
 
 }
 

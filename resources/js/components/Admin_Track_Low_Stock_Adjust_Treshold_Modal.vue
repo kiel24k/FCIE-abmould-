@@ -26,13 +26,12 @@ const GET_TRESHOLD_API = async () => {
 }
 
 const submit = async () => {
-   
-    
     await axios({
         method: 'POST',
         url: 'api/update-treshold',
         data: {
             userId: props.userId,
+            item_id: props.tableId,
             id: tresholdData.value.id,
             treshold: tresholdData.value.treshold
         }
@@ -49,6 +48,8 @@ const submit = async () => {
         }
 
     }).catch(e => {
+        console.log(e);
+        
         validation.value = e.response.data.errors
 
     })
@@ -94,7 +95,7 @@ onMounted(() => {
 </template>
 <style scoped>
 .modal-main {
-    position: absolute;
+    position: fixed;
     height: 100%;
     width: 100%;
     display: flex;
@@ -102,6 +103,7 @@ onMounted(() => {
     align-items: center;
     z-index: 999;
     background: rgb(0, 0, 0, 0.5);
+    top:0;
 }
 
 form {

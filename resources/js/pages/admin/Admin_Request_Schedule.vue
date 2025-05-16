@@ -93,6 +93,7 @@ watch(categoryStatus, (oldVal, newVal) => {
 })
 onMounted(() => {
     GET_SCHEDULE_REQUEST_API()
+
 })
 
 

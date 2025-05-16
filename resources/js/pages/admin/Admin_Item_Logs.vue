@@ -108,12 +108,13 @@ onMounted(() => {
                         </div>
                     </div>
                     <div class="notif_info_option">
+                        
+                        <router-link :to="{name: 'admin-edit-item', params: {id: data.item_id} }">View/Edit this item</router-link> |
                         <i class="pi pi-user m-1"></i>
                         <small class="text-warning" @click="viewUser(data.user_id)">Track User</small> |
                         <Button label="remove" icon="pi pi-trash" severity="secondary" @click="removeLogs(data.id)" />
                     </div>
                 </div>
-
                 <div />
             </div>
         </div>

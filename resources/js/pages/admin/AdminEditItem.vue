@@ -57,6 +57,7 @@ const submit = () => {
         url: `/api/update-item/${route.params.id}`,
         data: {
             userId: userInformation.value.id,
+            item_id: input.value.id,
             item_code: input.value.item_code,
             supplier_name: input.value.supplier_name,
             unit_cost: input.value.unit_cost,
@@ -210,6 +211,7 @@ onMounted(() => {
                             <div class="col action">
                                 <Button label="Back" icon="pi pi-arrow-circle-left" iconPos="left" severity="danger"
                                     raised @click="back" />
+                                    
                                 <Button label="Update" icon="pi pi-refresh" iconPos="right" severity="success" raised
                                     @click.enter="submit" />
                             </div>

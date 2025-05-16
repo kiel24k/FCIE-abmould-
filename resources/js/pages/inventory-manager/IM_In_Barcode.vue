@@ -183,7 +183,7 @@ onMounted(() => {
                                             </InputNumber>
                                         </div>
                                         <div class="list_submit">
-                                            <Button label="Add / In" severity="info" raised @click="submit()" />
+                                            <Button label="Increase / In" severity="info" raised @click="submit()" />
                                         </div>
                                     </div>
                                   </div>

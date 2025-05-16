@@ -232,8 +232,12 @@ const showSidebar = () => {
                     </router-link>
                 </div>
             </transition>
-
-
+            <router-link :to="{ name: 'admin-print-and-report' }">
+                <li>
+                    <i class="pi pi-receipt"></i>
+                    <span>Print & Report</span>
+                </li>
+            </router-link>
         </ul>
     </aside>
 </template>

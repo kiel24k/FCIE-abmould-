@@ -13,6 +13,7 @@ class ItemLogs extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'item_id',
         'action',
         'date_created',
         'time'

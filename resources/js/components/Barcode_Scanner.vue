@@ -4,8 +4,8 @@
     <Message v-if="scanning" severity="success"  icon="pi pi-barcode">Scanning...</Message>
     <Message v-else severity="error" icon="pi pi-barcode" >Not Scanning</Message>
     <div class="action">
-      <Button @click="startScanning" severity="primary" label="Start Scan" />
-      <Button @click="stopScanning" severity="danger" label="Stop Scan"/>
+      <Button @click="startScanning" severity="primary" label="Start Scan" v-if="scanning == false" />
+      <Button @click="stopScanning" severity="danger" label="Stop Scan" v-else/>
     </div>
   </div>
 

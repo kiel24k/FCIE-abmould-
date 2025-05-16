@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('item_logs', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('item_id');
             $table->enum('action', ['created','update', 'deleted']);
             $table->date('date_created');
             $table->string('time');
