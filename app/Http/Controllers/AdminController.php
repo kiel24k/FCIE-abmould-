@@ -165,7 +165,7 @@ class AdminController extends Controller
         $item->total_cost   = $request->quantity * $request->unit_cost;
         $item->description   = $request->description;
         $item->brand         = $request->brand;
-        $item->release_date = Carbon::now()->format('y/m/d');
+        $item->release_date = Carbon::now()->timezone('Asia/Manila')->format('Y-m-d');
         // $item->barcode       = $request->barcode;
         $item->save();
         LogsController::createdLogs($userId,$item->id);
