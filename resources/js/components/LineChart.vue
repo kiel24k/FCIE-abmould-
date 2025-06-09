@@ -58,6 +58,40 @@ const chart = () => {
         pointRadius: 5,
         pointHoverRadius: 1
       }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        x: {
+          responsive: true,
+          ticks: {
+            maxRotation: 45,
+            minRotation: 0
+          }
+        },
+        y: {
+          responsive: true,
+          beginAtZero: true
+        }
+      },
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      elements: {
+        point: {
+          radius: function(context) {
+            const width = context.chart.width;
+            return width < 400 ? 3 : 5;
+          },
+          hoverRadius: function(context) {
+            const width = context.chart.width;
+            return width < 400 ? 5 : 8;
+          }
+        }
+      }
     }
   });
 };
@@ -75,6 +109,7 @@ onMounted(() => {
     LINE_CHART_API();
 });
 </script>
+
 <template>
     <div class="lineChart">
         <canvas id="lineChart" ref="lineChart"></canvas>
@@ -82,9 +117,51 @@ onMounted(() => {
 </template>
 
 <style scoped>
-#lineChart {
-    width: 60rem;
-    max-height: 20rem;
+.lineChart {
+    width: 100%;
+    height: 300px;
+    position: relative;
     background: white;
+}
+
+#lineChart {
+    width: 100% !important;
+    height: 100% !important;
+    background: white;
+}
+
+/* Desktop Styles */
+@media (min-width: 1025px) {
+    .lineChart {
+        height: 320px;
+    }
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .lineChart {
+        height: 280px;
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .lineChart {
+        height: 250px;
+    }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+    .lineChart {
+        height: 220px;
+    }
+}
+
+/* Very Small Screens */
+@media (max-width: 360px) {
+    .lineChart {
+        height: 200px;
+    }
 }
 </style>

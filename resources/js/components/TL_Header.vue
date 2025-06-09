@@ -63,13 +63,13 @@ import Swal from 'sweetalert2';
 
 const emit = defineEmits(['user'])
 const items = [
-    {
-        label: 'Profile',
-        icon: 'pi pi-user',
-        command: () => {
+    // {
+    //     label: 'Profile',
+    //     icon: 'pi pi-user',
+    //     command: () => {
 
-        }
-    },
+    //     }
+    // },
     {
         separator: true
     },

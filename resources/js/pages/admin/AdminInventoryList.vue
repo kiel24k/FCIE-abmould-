@@ -205,7 +205,7 @@ onMounted(() => {
                                 </InputGroup>
                             </div>
                             <div class="col table-action">
-                                <Button icon="pi pi-file-pdf" severity="danger" label="Export" raised
+                                <Button icon="pi pi-file-pdf" severity="contrast" label="Export" raised
                                     @click="print()"></Button>
                                 <router-link :to="{ name: 'admin-new-item' }">
                                     <Button icon="pi pi-plus-circle" severity="info" label="New" raised />

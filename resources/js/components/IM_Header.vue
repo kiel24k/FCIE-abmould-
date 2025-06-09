@@ -37,13 +37,13 @@ import Swal from 'sweetalert2';
 
 
 const items = [
-  {
-    label: 'Profile',
-    icon: 'pi pi-user',
-    command: () => {
+  // {
+  //   label: 'Profile',
+  //   icon: 'pi pi-user',
+  //   command: () => {
 
-    }
-  },
+  //   }
+  // },
   {
     label: 'Logout',
     icon: 'pi pi-sign-out',

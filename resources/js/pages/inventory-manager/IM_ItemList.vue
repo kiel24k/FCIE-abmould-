@@ -187,11 +187,11 @@ onMounted(() => {
                 v-if="search || category" />
             </InputGroup>
           </div>
-          <div class="search">
+          <!-- <div class="search">
             <div class="input-group">
               <Button @click="generatePdf" label="Print" severity="danger" icon="pi pi-file-pdf" />
             </div>
-          </div>
+          </div> -->
         </div>
         <table class="table table-hover table-bordered  mt-3" ref="printContent">
           <thead>

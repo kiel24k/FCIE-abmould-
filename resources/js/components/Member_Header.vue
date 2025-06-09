@@ -61,13 +61,13 @@ import { SplitButton } from 'primevue';
 import Swal from 'sweetalert2';
 const emit = defineEmits(['user'])
 const items = [
-  {
-    label: 'Profile',
-    icon: 'pi pi-user',
-    command: () => {
+  // {
+  //   label: 'Profile',
+  //   icon: 'pi pi-user',
+  //   command: () => {
 
-    }
-  },
+  //   }
+  // },
   {
     label: 'Logout',
     icon: 'pi pi-sign-out',
@@ -156,8 +156,11 @@ const hideSidebar = () => {
 }
 
 header {
+  position: sticky;
+  top:0;
   background-color: #f8f7f7;
   box-shadow: 1px 1px 10px 0px gray;
+  width: 100%;
 }
 
 .nav-link {

@@ -73,8 +73,8 @@ const print = () => {
             <section>
                 <div class="row">
                     <div class="col table_action">
-                        <Button label="Close" severity="contrast" @click="closeModal()" />
-                        <Button label="Print" severity="danger" @click="print()" />
+                        <Button label="Close" severity="danger" @click="closeModal()" />
+                        <Button label="Print" severity="contrast" @click="print()" />
                     </div>
                 </div>
             </section>

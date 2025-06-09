@@ -219,6 +219,7 @@ onMounted(() => {
                                     @click.enter="submit" />
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </form>
@@ -230,14 +231,13 @@ onMounted(() => {
 
 <style scoped>
 form {
-    width: 70rem;
+    max-width: 70rem;
+    width: 100%;
     margin: auto;
     display: grid;
     gap: 25px;
     border-radius: 10px;
     padding: 10px;
-
-
 }
 
 .card-main {
@@ -245,22 +245,34 @@ form {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-
 label {
     font-weight: 500;
 }
 
-
-
 .action {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
-.category_input{
-display: flex;
-gap:10px;
+
+.category_input {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
 }
-.main_form{
+
+.main_form {
     margin-top: 5rem;
+    padding: 0 1rem;
 }
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .action {
+        justify-content: center;
+    }
+}
+
 </style>

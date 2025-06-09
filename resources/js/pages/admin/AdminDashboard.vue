@@ -104,51 +104,48 @@ onMounted(() => {
                       <div class="table_title p-1">
                         <b>top 15 newly added items</b>
                       </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Supplier</th>
-                                    <th>Item code</th>
-                                    <th>Quantity</th>
-                                    <th>Unit Cost</th>
-                                    <!-- <th>Action</th> -->
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr v-for="(data, index) in tableDataDashboardData">
-                                    <td>{{ index + 1 }}</td>
-                                    <td>
-                                        <i v-if="data.supplier_name === null" class="pi pi-user"></i>
-                                        <p v-else>{{ data.supplier_name }}</p>
-                                    </td>
-                                    <td>{{data.item_code}}</td>
-                                    <td>{{data.quantity}}x</td>
-                                    <td>₱{{data.unit_cost}}</td>
-                                    <!-- <td>
-                                        <Button icon="pi pi-eye" severity="info"/>
-                                    </td> -->
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-container">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Supplier</th>
+                                        <th>Item code</th>
+                                        <th>Quantity</th>
+                                        <th>Unit Cost</th>
+                                        <!-- <th>Action</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="(data, index) in tableDataDashboardData">
+                                        <td>{{ index + 1 }}</td>
+                                        <td>
+                                            <i v-if="data.supplier_name === null" class="pi pi-user"></i>
+                                            <p v-else>{{ data.supplier_name }}</p>
+                                        </td>
+                                        <td>{{data.item_code}}</td>
+                                        <td>{{data.quantity}}x</td>
+                                        <td>₱{{data.unit_cost}}</td>
+                                        <!-- <td>
+                                            <Button icon="pi pi-eye" severity="info"/>
+                                        </td> -->
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
                 </div>
             </div>
         </section>
     </div>
 
-
-
 </template>
 
-
-
-
-
 <style scoped>
-.main{
+.main {
     margin-top: 5rem;
 }
+
 section {
     margin-top: 20px;
     margin: 10px;
@@ -160,8 +157,6 @@ section {
     border: solid 2px rgb(231, 224, 224);
     border-radius: 5px;
     background: white;
-  
-    
 }
 
 .summary_content .title b, .listing b {
@@ -174,14 +169,9 @@ section {
     justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
-  
-
-
 }
-.chart > div{
 
-}
-.total>div {
+.total > div {
     width: 240px;
     height: 120px;
     background: red;
@@ -190,30 +180,30 @@ section {
     justify-content: space-evenly;
     align-items: center;
     box-shadow: 0px 0px 2px 0px gray;
+    min-width: 200px;
 }
 
-.total>div .content {
+.total > div .content {
     display: grid;
 }
 
-.total>div .content b {
+.total > div .content b {
     font-size: 25px;
     color: rgb(255, 243, 219);
 }
 
-.total>div .content span {
+.total > div .content span {
     font-weight: 600;
     color: rgb(255, 243, 219);
     text-transform: uppercase;
 }
 
-.total>div figure i {
+.total > div figure i {
     font-size: 45px;
     color: rgb(255, 243, 219);
 }
 
 .total .user_total {
-  
     background: rgb(34, 197, 94);
 }
 
@@ -228,35 +218,202 @@ section {
 .computation {
     display: flex;
     gap: 10px;
-
-}
-
-.computation .chart > div {
-    background: white;
-    border: solid 3px rgb(212, 216, 217);
-    padding:5px;
-    color:gray;
-    border-radius: 3px;
+    flex-wrap: wrap;
 }
 
 .computation .chart {
     display: grid;
     gap: 10px;
+    flex: 1;
+    min-width: 300px;
+}
 
+.computation .chart > div {
+    background: white;
+    border: solid 3px rgb(212, 216, 217);
+    padding: 5px;
+    color: gray;
+    border-radius: 3px;
+}
+
+.listing {
+    flex: 1;
+    min-width: 300px;
+}
+
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .listing table {
-    width: 45rem;
+    width: 100%;
+    min-width: 500px;
     border: solid 3px rgb(212, 216, 217);
     border-radius: 5px;
+    border-collapse: collapse;
+}
+
+.listing table th,
+.listing table td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
 }
 
 .listing table th {
-    font-weight: 200px;
+    font-weight: 600;
     color: rgb(138, 143, 148);
-}
-#content{
-    margin-left:4rem;
+    background-color: #f5f5f5;
 }
 
+#content {
+    margin-left: 4rem;
+    padding-right: 1rem;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    #content {
+        margin-left: 1rem;
+        padding-right: 1rem;
+    }
+    
+    .main {
+        margin-top: 2rem;
+    }
+    
+    section {
+        margin: 5px;
+    }
+    
+    .total {
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .total > div {
+        width: 100%;
+        max-width: 280px;
+        height: 100px;
+        gap: 8px;
+    }
+    
+    .total > div .content b {
+        font-size: 20px;
+    }
+    
+    .total > div figure i {
+        font-size: 35px;
+    }
+    
+    .computation {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .computation .chart,
+    .listing {
+        min-width: unset;
+        width: 100%;
+    }
+    
+    .listing table {
+        min-width: 400px;
+        font-size: 14px;
+    }
+    
+    .listing table th,
+    .listing table td {
+        padding: 6px 8px;
+    }
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) and (min-width: 769px) {
+    #content {
+        margin-left: 2rem;
+    }
+    
+    .total > div {
+        width: 220px;
+        height: 110px;
+    }
+    
+    .total > div .content b {
+        font-size: 22px;
+    }
+    
+    .total > div figure i {
+        font-size: 40px;
+    }
+    
+    .computation {
+        gap: 12px;
+    }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+    #content {
+        margin-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    
+    .summary_content {
+        padding: 8px;
+    }
+    
+    .total {
+        gap: 6px;
+    }
+    
+    .total > div {
+        height: 90px;
+        padding: 5px;
+    }
+    
+    .total > div .content b {
+        font-size: 18px;
+    }
+    
+    .total > div figure i {
+        font-size: 30px;
+    }
+    
+    .listing table {
+        min-width: 350px;
+        font-size: 12px;
+    }
+    
+    .listing table th,
+    .listing table td {
+        padding: 4px 6px;
+    }
+    
+    .computation .chart > div {
+        padding: 8px;
+    }
+}
+
+/* Very Small Screens */
+@media (max-width: 360px) {
+    .total > div {
+        height: 80px;
+        min-width: 160px;
+    }
+    
+    .total > div .content b {
+        font-size: 16px;
+    }
+    
+    .total > div figure i {
+        font-size: 25px;
+    }
+    
+    .listing table {
+        min-width: 320px;
+        font-size: 11px;
+    }
+}
 </style>
