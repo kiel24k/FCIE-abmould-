@@ -121,7 +121,7 @@ onMounted(() => {
                         <th>Item</th>
                         <th>Schedule date</th>
                         <th>Request quantity</th>
-                        <th>Message</th>
+                        <th>Notes</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -148,13 +148,14 @@ onMounted(() => {
                         <td>{{ data.schedule_quantity }}x</td>
                         <td><span>{{ data.message }}</span></td>
                         <td class="table_status">
-                            <span :style="data.status === 'pending' ? 'background-color: orange'
+                            <!-- <span :style="data.status === 'pending' ? 'background-color: orange'
                              : data.status === 'released' ? 'background-color: rgb(37, 102, 235)' 
                              :data.status === 'not-release' ? 'background-color: rgb(221, 48, 41)'
                              : 'background-color: white;'
                              ">
                                 {{ data.status }}
-                            </span>
+                            </span> -->
+                            <b>  {{ data.status }}</b>
                         </td>
                     </tr>
                 </tbody>

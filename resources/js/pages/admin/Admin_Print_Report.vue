@@ -144,7 +144,7 @@ GET_PRINT_USER_LIST_API()
                     <div class="chart">
                         <div class="bargraph">
                             <Message variant="simple" severity="secondary">
-                                <Button label="Print Bar Graph" icon="pi pi-print" severity="danger"
+                                <Button label="Print Bar Graph" icon="pi pi-print" severity="contrast"
                                     @click="printBargraph()" class="m-1" />
                             </Message>
                             <div class="bargraph_content" ref="printBargraphContent">
@@ -165,7 +165,7 @@ GET_PRINT_USER_LIST_API()
                         </div>
                         <div class="linechart">
                             <Message variant="simple" severity="secondary">
-                                <Button label="Print Line Chart" icon="pi pi-print" severity="danger"
+                                <Button label="Print Line Chart" icon="pi pi-print" severity="contrast"
                                     @click="printLineChart()" class="m-1" />
                             </Message>
                             <div class="linechart_content" ref="printLineChartContent">
@@ -190,7 +190,7 @@ GET_PRINT_USER_LIST_API()
                 <div class="tables mt-3">
                     <div class="list_table">
                         <Message variant="simple" severity="secondary">
-                            <Button label="Print Item List" icon="pi pi-print" severity="danger"
+                            <Button label="Print Item List" icon="pi pi-print" severity="contrast"
                                 @click="printItemList()" />
                         </Message>
                         <div class="table_content" ref="printItemListContent">
@@ -239,7 +239,7 @@ GET_PRINT_USER_LIST_API()
 
                     <div class="list_table">
                         <Message variant="simple" severity="secondary">
-                            <Button label="Print User List" icon="pi pi-print" severity="danger" @click="print()" />
+                            <Button label="Print User List" icon="pi pi-print" severity="contrast" @click="print()" />
                         </Message>
                         <div class="table_content">
                             <div class="modal_header">

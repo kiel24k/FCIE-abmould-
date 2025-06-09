@@ -25,16 +25,13 @@ const user = (data) => {
     userId.value = data.id
 }
 
-
 const GET_SET_STOCK_CATEGORY_API = async () => {
     await axios({
         method: 'GET',
         url: 'api/stock-category'
+    }).then(response => {
+        getTrackLowStockCategory.value = response.data
     })
-        .then(function (response) {
-            getTrackLowStockCategory.value = response.data
-        }
-        )
 }
 
 const GET_SET_STOCK_API = async (page = pagination.value.page) => {
@@ -47,20 +44,16 @@ const GET_SET_STOCK_API = async (page = pagination.value.page) => {
             sort: sortType.value,
             sortedName: sortedName.value
         }
+    }).then(response => {
+        pagination.value = {
+            current_page: response.data.current_page,
+            last_page: response.data.last_page
+        }
+        getTrackLowStockData.value = response.data
     })
-        .then(function (response) {
-            console.log(response.data);
-            pagination.value = {
-                current_page: response.data.current_page,
-                last_page: response.data.last_page
-            }
-
-            getTrackLowStockData.value = response.data
-        })
 }
 
 const sort = (value) => {
-
     if (sortType.value === 'DESC') {
         sortedName.value = value
         sortType.value = 'ASC'
@@ -77,7 +70,7 @@ const clear = () => {
 }
 
 const prev = () => {
-    if (pagination.value.current_page <= pagination.value.last_page) {
+    if (pagination.value.current_page > 1) {
         GET_SET_STOCK_API(pagination.value.current_page - 1)
     }
 }
@@ -87,6 +80,7 @@ const next = () => {
         GET_SET_STOCK_API(pagination.value.current_page + 1)
     }
 }
+
 const openAdjustTresholdModal = (id) => {
     tableId.value = id
     isModal.value = true
@@ -97,119 +91,112 @@ const closeSetStockModal = () => {
     isModal.value = false
 }
 
-watch(selectedCategory, (oldVal, newVal) => {
+watch(selectedCategory, () => {
     GET_SET_STOCK_API()
 })
 
-watch(search, (oldVal, newVal) => {
+watch(search, () => {
     GET_SET_STOCK_API()
 })
-
 
 onMounted(() => {
     GET_SET_STOCK_CATEGORY_API()
     GET_SET_STOCK_API()
 })
-
 </script>
 
 <template>
     <header>
         <Header @user="user" />
     </header>
+
     <SetStockTresholdModal v-if="isModal" @closeSetStockModal="closeSetStockModal" :tableId="tableId" :userId="userId" />
 
-   <div id="main">
-    <section >
-        <div class="row title">
-            <Message severity="info" size="large" icon="pi pi-wrench" fluid>
-                SET ITEM STOCK
-            </Message>
-        </div>
-    </section>
-
-    <section>
-        <div class="row bg-white p-3">
-
-            <div class="col-3 category">
-                <Select v-model="selectedCategory" :options="getTrackLowStockCategory" optionLabel="release_date"
-                    size="small" placeholder="Select a Date" class="w-full md:w-56" />
-                <InputGroup>
-                    <InputText placeholder="Search" v-model="search" size="small" />
-                    <InputGroupAddon>
-                        <Button icon="pi pi-search" severity="contrast" size="small" variant="text" @click="toggle" />
-                    </InputGroupAddon>
-                </InputGroup>
-                <Button label="Clear" severity="danger" raised size="small" @click="clear()" />
-
+    <div id="main">
+        <section>
+            <div class="row title">
+                <Message severity="info" size="large" icon="pi pi-wrench" style="width: 100%;">
+                    SET ITEM STOCK
+                </Message>
             </div>
-            <div class="col text-end search">
-                <Button icon="pi pi-print" severity="danger" label="Print" raised />
-            </div>
-        </div>
-        <div class="row bg-white p-3">
-            <table class="table table-responsive table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            <div class="table-head">
-                                <span>#</span>
-                            </div>
-                        </th>
-                        <th @click="sort('category')">
-                            <div class="table-head">
-                                <span>Category</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
-                        <th @click="sort('item_code')">
-                            <div class="table-head">
-                                <span>Item Code</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
-                        <th @click="sort('treshold')">
-                            <div class="table-head">
-                                <span>Treshold</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
-                        <th @click="sort('quantity')">
-                            <div class="table-head">
-                                <span>Current Stock</span><i class="pi pi-sort-amount-up" v-if="sortType === 'ASC'"></i>
-                                <i class="pi pi-sort-amount-down" v-else></i>
-                            </div>
-                        </th>
+        </section>
 
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(data, index) in getTrackLowStockData.data" :key="index">
-                        <td>{{ index + 1 }}</td>
-                        <td>{{ data.category }}</td>
-                        <td>{{ data.item_code }}</td>
-                        <td>x{{ data.treshold }}</td>
-                        <td>x{{ data.quantity }}</td>
-                        <td>
-                            <Button label="Adjust Stock" severity="info" icon="pi pi-pencil" raised
-                                @click="openAdjustTresholdModal(data.id)" />
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="pag text-center">
+        <section>
+            <div class="row bg-white p-3 gy-3 align-items-end">
+                <div class="col-12 col-md-6 d-flex flex-column flex-md-row gap-2">
+                    <Select v-model="selectedCategory" :options="getTrackLowStockCategory" optionLabel="release_date"
+                        size="small" placeholder="Select a Date" class="flex-fill" />
+                    <InputGroup class="flex-fill">
+                        <InputText placeholder="Search" v-model="search" size="small" />
+                        <InputGroupAddon>
+                            <Button icon="pi pi-search" severity="contrast" size="small" variant="text" />
+                        </InputGroupAddon>
+                    </InputGroup>
+                </div>
+                <div class="col-12 col-md-3">
+                    <Button label="Clear" severity="secondary" raised size="small" class="w-100"
+                        @click="clear()" v-if="search || selectedCategory" />
+                </div>
+            </div>
+
+            <div class="row bg-white p-3">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th @click="sort('category')">
+                                    <div class="table-head">
+                                        <span>Category</span>
+                                        <i :class="sortType === 'ASC' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'"></i>
+                                    </div>
+                                </th>
+                                <th @click="sort('item_code')">
+                                    <div class="table-head">
+                                        <span>Item Code</span>
+                                        <i :class="sortType === 'ASC' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'"></i>
+                                    </div>
+                                </th>
+                                <th @click="sort('treshold')">
+                                    <div class="table-head">
+                                        <span>Treshold</span>
+                                        <i :class="sortType === 'ASC' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'"></i>
+                                    </div>
+                                </th>
+                                <th @click="sort('quantity')">
+                                    <div class="table-head">
+                                        <span>Current Stock</span>
+                                        <i :class="sortType === 'ASC' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'"></i>
+                                    </div>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(data, index) in getTrackLowStockData.data" :key="index">
+                                <td>{{ index + 1 }}</td>
+                                <td>{{ data.category }}</td>
+                                <td>{{ data.item_code }}</td>
+                                <td>x{{ data.treshold }}</td>
+                                <td>x{{ data.quantity }}</td>
+                                <td>
+                                    <Button label="Adjust Stock" severity="info" icon="pi pi-pencil" raised
+                                        @click="openAdjustTresholdModal(data.id)" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col-12 mt-3 d-flex justify-content-center align-items-center gap-3 flex-wrap">
                     <Button label="Prev" severity="contrast" icon="pi pi-angle-left" variant="text" @click="prev()" />
-                  <b>  {{ pagination.last_page }} of {{ pagination.current_page }}</b>
-                    <Button label="Next" severity="contrast" icon="pi pi-angle-right" variant="text"  iconPos="right" @click="next()" />
+                    <b>{{ pagination.current_page }} of {{ pagination.last_page }}</b>
+                    <Button label="Next" severity="contrast" icon="pi pi-angle-right" variant="text" iconPos="right"
+                        @click="next()" />
+                </div>
             </div>
-            
-        </div>
-
-    </section>
-   </div>
-
-
+        </section>
+    </div>
 </template>
 
 <style scoped>
@@ -218,35 +205,24 @@ section {
     box-shadow: 1px 1px 5px 0px gray;
 }
 
-.category {
-    display: flex;
-    gap: 5px;
-    align-items: center;
-    align-content: center;
-}
-
-
-
 .table-head {
     display: flex;
     justify-content: space-between;
-    align-content: center;
     align-items: center;
 }
 
-
-.pag{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-}
-.title{
-    margin-top:5rem;
+.title {
+    margin-top: 5rem;
 }
 
-#main{
+#main {
     margin-left: 3rem;
 }
 
+@media (max-width: 768px) {
+    .table-head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
 </style>

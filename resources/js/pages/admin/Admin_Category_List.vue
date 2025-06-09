@@ -8,15 +8,12 @@ import Swal from 'sweetalert2';
 
 const router = useRouter()
 
-//INPUT VARIABLES
 const selectedCategory = ref()
 const search = ref('')
 
-//API VARIABLES
 const categoryListCategoryData = ref({})
 const categoryListTable = ref({})
 
-//COMPONENTS VARIABLES
 const isCategoryListUpdateModal = ref(false)
 const categoryTableId = ref(null)
 const categoryLIstId = ref(null)
@@ -25,18 +22,15 @@ const sortName = ref('')
 const pagination = ref({
     current_page: '',
     last_page: ''
-
 })
 
-//API FUNCTIONS
 const CATEGORY_LIST_CATEGORY = async () => {
     axios({
         method: 'GET',
         url: 'api/category-list-category'
+    }).then(response => {
+        categoryListCategoryData.value = response.data
     })
-        .then(response => {
-            categoryListCategoryData.value = response.data
-        })
 }
 
 const CATEGORY_LIST = async (page = 1) => {
@@ -50,41 +44,28 @@ const CATEGORY_LIST = async (page = 1) => {
             search: search.value
         }
     })
-        .then(response => {
-            categoryListTable.value = response.data
-            pagination.value = {
-                current_page: response.data.current_page,
-                last_page: response.data.last_page
-            }
-
-
-            console.log(response.data);
-
-        })
-        .catch(e => {
-            console.log(e);
-        })
+    .then(response => {
+        categoryListTable.value = response.data
+        pagination.value = {
+            current_page: response.data.current_page,
+            last_page: response.data.last_page
+        }
+    })
+    .catch(e => {
+        console.log(e);
+    })
 }
 
-
-//COMPONENTS
 const sort = (val) => {
-    if (sortOrder.value === 'DESC') {
-        sortName.value = val
-        sortOrder.value = 'ASC'
-    } else {
-        sortName.value = val
-        sortOrder.value = 'DESC'
-    }
+    sortName.value = val
+    sortOrder.value = sortOrder.value === 'DESC' ? 'ASC' : 'DESC'
     CATEGORY_LIST()
-
 }
 
 const prevBtn = () => {
-    if (pagination.value.current_page <= pagination.value.last_page) {
+    if (pagination.value.current_page > 1) {
         CATEGORY_LIST(pagination.value.current_page - 1)
     }
-
 }
 
 const nextBtn = () => {
@@ -102,11 +83,12 @@ const clear = () => {
     search.value = ""
     categoryLIstId.value = ""
 }
+
 const closeCategoryListModal = () => {
     isCategoryListUpdateModal.value = false
     CATEGORY_LIST()
 }
-//commetdsadasdas
+
 const deleteBtn = (val) => {
     const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -128,68 +110,41 @@ const deleteBtn = (val) => {
             axios({
                 method: 'GET',
                 url: 'api/delete-category',
-                params: {
-                    id: val
-                }
+                params: { id: val }
             }).then(response => {
                 if (response.status === 200) {
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
-                        title: "Deleted Successfull",
+                        title: "Deleted Successfully",
                         showConfirmButton: false,
                         timer: 1500
                     });
+                    CATEGORY_LIST()
                 }
             })
-            CATEGORY_LIST()
-
-
-        } else if (
-            /* Read more about handling dismissals below */
-            result.dismiss === Swal.DismissReason.cancel
-        ) {
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
             swalWithBootstrapButtons.fire({
                 title: "Cancelled",
-                text: "Delete not successfull",
+                text: "Delete not successful",
                 icon: "error"
             });
         }
     });
-
-
-
-    CATEGORY_LIST()
 }
 
+watch(selectedCategory, () => CATEGORY_LIST())
+watch(search, () => CATEGORY_LIST())
 
-
-
-
-
-
-watch(selectedCategory, (oldVal, newVal) => {
-    console.log(selectedCategory.value);
-    CATEGORY_LIST()
-
-})
-
-watch(search, (oldVal, newVal) => {
-    CATEGORY_LIST()
-
-})
-
-//Hooks
 onMounted(() => {
     CATEGORY_LIST_CATEGORY()
     CATEGORY_LIST()
 })
-
-
 </script>
 
 <template>
-    <AdminCategoryListModal v-if="isCategoryListUpdateModal" @closeCategoryListModal="closeCategoryListModal"
+    <AdminCategoryListModal v-if="isCategoryListUpdateModal"
+        @closeCategoryListModal="closeCategoryListModal"
         :categoryLIstId="categoryLIstId" />
     <header>
         <Header />
@@ -198,92 +153,102 @@ onMounted(() => {
     <div id="main">
         <section>
             <div class="row title mt-5">
-                <Message severity="info" size="large" icon="pi pi-wrench" fluid>
+                <Message severity="info" size="large" icon="pi pi-wrench" style="width: 100%;">
                     CATEGORY LIST
                 </Message>
             </div>
         </section>
-    
+
         <section>
-            <div class="row mt-3">
-                <div class="col-3 table-option">
+            <div class="row mt-3 g-3 align-items-end">
+                <div class="col-12 col-md-6 d-flex flex-column flex-md-row gap-2">
                     <Select placeholder="Category" v-model="selectedCategory" :options="categoryListCategoryData"
-                        optionLabel="release_date" />
-                    <InputGroup>
+                        optionLabel="release_date" class="flex-fill" />
+                    <InputGroup class="flex-fill">
                         <InputText placeholder="Search" v-model="search" size="small" />
                         <InputGroupAddon>
-                            <Button icon="pi pi-search" severity="contrast" size="small" variant="text" @click="toggle" />
+                            <Button icon="pi pi-search" severity="contrast" size="small" variant="text" />
                         </InputGroupAddon>
                     </InputGroup>
-                    <Button label="clear" severity="secondary" icon="pi pi-erased" raised  @click="clear" v-if="search || category"  />
                 </div>
-                <div class="col text-end list-action">
+                <div class="col-12 col-md-3 mt-2 mt-md-0">
+                    <Button label="Clear" icon="pi pi-eraser" severity="secondary" raised @click="clear"
+                        v-if="search || selectedCategory" class="w-100" />
+                </div>
+                <div class="col-12 col-md-3 text-md-end mt-2 mt-md-0">
                     <Button label="New Category" icon="pi pi-plus" severity="info"
-                        @click="router.push('admin-new-category')" />
+                        @click="router.push('admin-new-category')" class="w-100 w-md-auto" />
                 </div>
             </div>
-            <div class="row mt-2">
-                <div class="col">
-                    <table class="table table-bordered table-responsive table-hover">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th @click="sort('name')">
-                                    <div class="table_head">
-                                        <span>Category Name</span>
-                                        <i class="pi pi-sort-amount-down"></i>
-                                    </div>
-                                </th>
-                                <th @click="sort('details')">
-                                    <div class="table_head">
-                                        <span>Details</span>
-                                        <i class="pi pi-sort-amount-down"></i>
-                                    </div>
-                                </th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="(data, index) in categoryListTable.data" :key="index">
-                                <td>{{ index + 1 }}</td>
-                                <td>{{ data.name }}</td>
-                                <td>{{ data.details }}</td>
-                                <td class="category_table_action">
-                                    <Button icon="pi pi-pencil" severity="info" raised @click="editBtn(data.id)"  />
-                                    <Button icon="pi pi-trash" severity="danger" raised @click="deleteBtn(data.id)" />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row">
-                    <div class="col pagination_button">
-                        <Button label="Prev" variant="text" icon="pi pi-angle-left" severity="contrast" @click="prevBtn()" />
-                        <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
-                        <Button label="Next" icon="pi pi-angle-right" variant="text" iconPos="right" severity="contrast" @click="nextBtn()" />
+
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th @click="sort('name')">
+                                        <div class="table_head">
+                                            <span>Category Name</span>
+                                            <i class="pi pi-sort-amount-down"></i>
+                                        </div>
+                                    </th>
+                                    <th @click="sort('details')">
+                                        <div class="table_head">
+                                            <span>Details</span>
+                                            <i class="pi pi-sort-amount-down"></i>
+                                        </div>
+                                    </th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="(data, index) in categoryListTable.data" :key="index">
+                                    <td>{{ index + 1 }}</td>
+                                    <td>{{ data.name }}</td>
+                                    <td>{{ data.details }}</td>
+                                    <td class="category_table_action">
+                                        <Button icon="pi pi-pencil" severity="info" raised @click="editBtn(data.id)" />
+                                        <Button icon="pi pi-trash" severity="danger" raised @click="deleteBtn(data.id)" />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
+                </div>
+                <div class="col-12 mt-3 d-flex justify-content-center align-items-center gap-3 flex-wrap">
+                    <Button label="Prev" variant="text" icon="pi pi-angle-left" severity="contrast" @click="prevBtn()" />
+                    <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
+                    <Button label="Next" icon="pi pi-angle-right" variant="text" iconPos="right" severity="contrast"
+                        @click="nextBtn()" />
                 </div>
             </div>
         </section>
     </div>
 </template>
 
+
 <style scoped>
 .table-option {
     display: flex;
     gap: 10px;
+    flex-wrap: wrap;
 }
 
 section {
     padding: 10px;
     margin: 20px;
     box-shadow: 1px 1px 5px 0px gray;
+    border-radius: 5px;
+    background-color: #fff;
 }
 
 .list-action {
     display: flex;
     gap: 10px;
     justify-content: end;
+    flex-wrap: wrap;
 }
 
 th {
@@ -291,36 +256,31 @@ th {
     transition: all linear 0.4s;
 }
 
-.table-head {
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    align-items: center;
-}
-
 th:hover {
     background: #D9D9D9;
     cursor: pointer;
 }
-
-
 
 .table_head {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-.category_table_action{
+
+.category_table_action {
     display: flex;
-    gap:5px;
-}
-.pagination_button{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#main{
-    margin-left: 3rem;
+    gap: 5px;
+    flex-wrap: wrap;
 }
 
+#main {
+    margin: 1rem;
+}
+
+@media (max-width: 768px) {
+    .table_head {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
 </style>

@@ -247,7 +247,7 @@ section {
 }
 
 .listing table {
-    width: 45rem;
+    width: auto;
     border: solid 3px rgb(212, 216, 217);
     border-radius: 5px;
 }

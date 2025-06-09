@@ -99,7 +99,7 @@ onMounted(() => {
 </script>
 
 <template>
-    
+
     <AdminNotApproveModal v-if="isAdminNotApproveModal" @closeNotApproveModal="closeNotApproveModal"
         :notApproveData="notApproveData" />
     <AdminApproveModal v-if="isAdminApprovalModal" @closeApproveModal="closeApproveModal" :approveData="approveData" />
@@ -141,23 +141,24 @@ onMounted(() => {
                                 <span>{{ data.category }}</span>
                                 <span>{{ data.item_code }}</span>
                                 <span>{{ data.brand }}</span>
-                                <router-link :to="{ name: 'admin-edit-item', params: { id: data.id } } ">
+                                <router-link :to="{ name: 'admin-edit-item', params: { id: data.id } }">
                                     <span>View this item</span>
                                     <i class="pi pi-arrow-right" style="font-size: 10px"></i>
                                 </router-link>
-                                
+
                             </div>
                         </td>
                         <td>{{ data.schedule_date }}</td>
                         <td>{{ data.schedule_quantity }}x</td>
                         <td class="table_status">
-                            <span :style="data.status === 'pending' ? 'background-color: orange'
+                            <b> {{ data.status }}</b>
+                            <!-- <span :style="data.status === 'pending' ? 'background-color: orange'
                              : data.status === 'released' ? 'background-color: rgb(37, 102, 235)' 
                              :data.status === 'not-release' ? 'background-color: rgb(221, 48, 41)'
                              : 'background-color: white;'
                              ">
                                 {{ data.status }}
-                            </span>
+                            </span> -->
                         </td>
                         <td class="table_data_action">
                             <div class="table_action">
@@ -214,21 +215,23 @@ onMounted(() => {
     width: 20rem;
 }
 
-.table_item a{
+.table_item a {
     display: flex;
     align-items: center;
     justify-content: space-between;
 
-    
+
 }
+
 .table_action {
     display: flex;
     gap: 10px;
 }
-.table_status span{
+
+.table_status span {
     padding: 7px;
     border-radius: 50px;
     font-weight: bold;
-    color:rgb(241, 239, 239);
+    color: rgb(241, 239, 239);
 }
 </style>

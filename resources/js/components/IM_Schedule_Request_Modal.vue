@@ -96,7 +96,7 @@ const save = async () => {
     height: 100%;
     width: 100%;
     background: rgba(17, 16, 16, 0.5);
-    z-index: 1000;
+    z-index: 9999;
     justify-content: center;
     align-items: center;
   
