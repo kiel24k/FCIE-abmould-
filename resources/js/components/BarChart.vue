@@ -124,10 +124,37 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.bar {
-    width: 60rem;
-    max-height: 30rem;
-    border-radius: 5px;
-    background: white;
+@media (min-width: 1025px) {
+    .bar {
+        height: 320px;
+    }
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .bar {
+        height: 280px;
+    }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .bar {
+        height: 250px;
+    }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+    .bar {
+        height: 220px;
+    }
+}
+
+/* Very Small Screens */
+@media (max-width: 360px) {
+    .bar {
+        height: 200px;
+    }
 }
 </style>
