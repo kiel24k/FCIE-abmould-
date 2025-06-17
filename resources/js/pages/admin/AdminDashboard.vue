@@ -234,6 +234,8 @@ section {
     padding: 5px;
     color: gray;
     border-radius: 3px;
+    width: 100%;
+    overflow-x: auto;
 }
 
 .listing {
