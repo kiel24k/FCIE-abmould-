@@ -193,7 +193,8 @@ onMounted(() => {
             </div>
           </div> -->
         </div>
-        <table class="table table-hover table-bordered  mt-3" ref="printContent">
+       <div class="table-responsive">
+         <table class="table table-hover table-bordered  mt-3" ref="printContent">
           <thead>
             <tr>
               <th>#</th>
@@ -248,6 +249,7 @@ onMounted(() => {
             </tr>
           </tbody>
         </table>
+       </div>
         <div class="pagination_btn ">
           <Button label="Prev" variant="text" severity="contrast" icon="pi pi-chevron-left" @click="prevBtn()" />
           <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>

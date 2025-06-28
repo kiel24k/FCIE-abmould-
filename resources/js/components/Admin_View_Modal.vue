@@ -70,54 +70,70 @@ onMounted(() => {
 
 <style scoped>
 .view-modal {
-    position: fixed;
-    top:0;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(0, 0, 0,0.5);
-    height: 100%;
-    width: 100%;
-    z-index:999;
-  }
-  .card-header{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .card-body{
-    height: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  width: 100%;
+  z-index: 999;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.card {
+  width: 100rem;
+  max-width: 640px;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.card-body {
+  padding: 1rem;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.item h4 {
+  color: rgb(72, 128, 231);
+  font-weight: 600;
+}
+
+/* Scrollbar styling (optional) */
+.card-body::-webkit-scrollbar {
+  width: 6px;
+}
+.card-body::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .card {
+    max-width: 25rem;
   }
 
-  .item {
-    width: 40rem;
-    background: rgb(255, 255, 255);
-    height: auto;
-    overflow: scroll;
-    overflow-x: hidden;
-    box-shadow: 0px 0px 5px 0px black;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  .item::-webkit-scrollbar {
-    width: 5px;
-    height: 25px;
-  }
-  .item::-webkit-scrollbar-track {
-    border-radius: 15px;
-    background: rgb(192, 191, 191);
-  }
-  .item::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    -webkit-box-shadow: inset 0 0 6px rgba(26, 25, 25, 0.5);
+  .card-header h4 {
+    font-size: 1.1rem;
   }
 
   .item h4 {
-    color: rgb(72, 128, 231);
-    font-weight: 600;
+    font-size: 1rem;
   }
-  .title {
-    display: flex;
-    justify-content: space-between;
-  }
+}
+
 </style>

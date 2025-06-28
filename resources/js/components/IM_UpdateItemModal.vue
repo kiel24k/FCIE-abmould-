@@ -148,26 +148,53 @@ onMounted(() => {
 <style scoped>
 .update-item {
     position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
+    inset: 0;
     z-index: 9999;
-    background: rgb(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(5px);
     display: grid;
-    justify-content: center;
-    align-items: center;
+    place-items: center;
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
 .form {
+    width: 100%;
+    max-width: 800px; /* Instead of fixed 50rem */
+    background: #ffffff;
     border-radius: 15px;
-    background: rgb(255, 255, 255);
-    box-shadow: 0px 0px 15px 0px gray;
-    width: 50rem;
-    margin: auto;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    padding: 2rem;
     display: grid;
-    gap: 25px;
-    border-radius: 10px;
-    padding: 10px;
+    gap: 1.5rem;
+    box-sizing: border-box;
 }
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.col {
+    flex: 1 1 100%;
+}
+
+@media (min-width: 768px) {
+    .col {
+        flex: 1;
+    }
+}
+
+button {
+    width: 100%;
+    max-width: 100%;
+}
+
+@media (min-width: 576px) {
+    button {
+        width: auto;
+    }
+}
+
 </style>

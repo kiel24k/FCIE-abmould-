@@ -88,6 +88,7 @@ onMounted(() => {
                         <b class="text-primary">
                             {{ data.action === "treshold" ? "Changed the Treshold" : "Changed the Stock" }}
                         </b> from Inventory
+                        
                     </p>
                 </div>
             </div>
