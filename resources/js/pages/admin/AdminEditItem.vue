@@ -227,23 +227,50 @@ onMounted(() => {
 
 <style scoped>
 form {
-    width: 70rem;
+    width: 100%;
+    max-width: 1120px; /* ~70rem */
     margin: auto;
     display: grid;
     gap: 25px;
     background: #ffffff;
     border-radius: 10px;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 2rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-sizing: border-box;
 }
 
 .action {
     display: flex;
-    justify-content: end;
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 10px;
+    margin-top: 1rem;
 }
-.edit_form{
+
+.edit_form {
     margin-top: 5rem;
+    padding: 0 1rem;
 }
+
+/* Responsive layout */
+@media screen and (max-width: 768px) {
+    form {
+        padding: 1rem;
+        gap: 20px;
+    }
+
+    .row {
+        flex-direction: column;
+    }
+
+    .col {
+        width: 100% !important;
+        margin-bottom: 1rem;
+    }
+
+    .action {
+        justify-content: center;
+    }
+}
+
 </style>
