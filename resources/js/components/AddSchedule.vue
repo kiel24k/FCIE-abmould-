@@ -114,11 +114,11 @@ onMounted(() => {
                 <form @submit.prevent enctype="multipart/form-data">
                     <h4>Schedule | <span style="color:gray;font-size:15px; font-weight:400">Schedule Information</span>
                     </h4>
-                    <div class="row">
-                        <div class="col ">
-                            <div class="card flex justify-center">
+                    <div class="row select-category">
+                        <div class="col">
+                            <div class="">
                                 <Select v-model="selectCategory" :options="scheduleItemCategoryData.category" filter
-                                    optionLabel="category" placeholder="Select a Category" class="w-full md:w-56">
+                                    optionLabel="category" placeholder="Select a Category" >
                                     <template #value="slotProps">
                                         <div v-if="slotProps.value" class="flex items-center">
                                             <div>{{ slotProps.value.category }}</div>
@@ -139,9 +139,9 @@ onMounted(() => {
                             <Button label="Clear" severity="contrast" raised @click="clearCategory()" />
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row select-category">
                         <div class="col">
-                            <div class="card flex justify-center">
+                            <div class="">
                                 <Select v-model="selectSupplierName" :options="scheduleItemCategoryData.supplier_name"
                                     filter optionLabel="supplier_name" placeholder="Select a Supplier name "
                                     class="w-full md:w-">
@@ -168,9 +168,9 @@ onMounted(() => {
                             <Button label="Clear" severity="contrast" raised @click="clearSupplierName()" />
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row select-category">
                         <div class="col">
-                            <div class="card flex justify-center">
+                            <div class="">
                                 <Select v-model="selectItemCode" :options="scheduleItemCategoryData.item_code" filter
                                     optionLabel="item_code" placeholder="Select an Item Code " class="w-full md:w-56">
                                     <template #value="slotProps">
@@ -196,8 +196,8 @@ onMounted(() => {
                     </div>
                    
                     <div class="row">
-                        <div class="col">
-                            <table class="table">
+                        <div class="table-class table-responsive">
+                            <table class="table table-bordered">
                                 <thead>
                                     <tr>
                                         <th>Item Code</th>
@@ -247,6 +247,9 @@ onMounted(() => {
 
 
 <style scoped>
+.p-select{
+    width: 100%;
+}
 .add-schedule {
     position: fixed;
     width: 100%;
@@ -258,6 +261,7 @@ onMounted(() => {
     z-index: 999;
     margin: auto;
     top:0;
+    left:0;
 }
 
 .schedule {
@@ -274,6 +278,9 @@ form {
     border-radius: 10px;
     padding: 10px;
     box-shadow: 0px 0px 10px gray;
+}
+.table-class{
+    max-width: auto;
 }
 
 .category {
@@ -292,5 +299,100 @@ form {
 .quantity_table input:focus {
     outline: none;
     box-shadow: none;
+}
+
+@media (max-width: 851px){
+    .table-class{
+        width: 23rem;
+    }
+    .p-select{
+    width: 23rem;
+}
+  .select-category{
+    display: grid;
+    gap: 10px;
+  }
+
+.schedule {
+    display: flex;
+    margin-top:2rem;
+}
+
+form {
+    width: 25rem;
+    margin: auto;
+    display: grid;
+    gap: 25px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px gray;
+}
+
+.category {
+    display: flex;
+   
+}
+
+.quantity_table {
+    display: flex;
+  
+}
+
+.quantity_table input {
+    width: 100px;
+    border: solid 1px rgb(155, 153, 153);
+}
+
+.quantity_table input:focus {
+    outline: none;
+    box-shadow: none;
+}
+}
+
+@media (max-width: 200px){
+    .p-select{
+    width: 10rem;
+}
+  .select-category{
+    display: grid;
+    gap: 10px;
+  }
+
+.schedule {
+    display: flex;
+    margin-top:2rem;
+}
+
+form {
+    width: 30rem;
+    margin: auto;
+    display: grid;
+    gap: 25px;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px gray;
+}
+
+.category {
+    display: flex;
+   
+}
+
+.quantity_table {
+    display: flex;
+  
+}
+
+.quantity_table input {
+    width: 100px;
+    border: solid 1px rgb(155, 153, 153);
+}
+
+.quantity_table input:focus {
+    outline: none;
+    box-shadow: none;
+}
 }
 </style>

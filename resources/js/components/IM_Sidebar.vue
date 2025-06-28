@@ -113,7 +113,7 @@ aside {
     height: 100%;
     overflow: scroll;
     overflow-x: hidden;
-    z-index: 999;
+    z-index: 998;
     background: rgb(255, 255, 255);
     box-shadow: 0px 0px 15px 0px gray;
     transition: all linear 0.3s;

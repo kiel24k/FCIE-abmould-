@@ -124,27 +124,70 @@ onMounted(() => {
 <style scoped>
 section {
     margin-top: 10px;
-   
 }
-.container{
+
+.container {
     box-shadow: 2px 10px 15px 2px gray;
     margin-top: 5rem;
+    padding: 1rem;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.notif {
+    margin-bottom: 1rem;
 }
 
 .notif-info {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-
+    gap: 1rem;
 }
 
 .info {
     display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    border: 1px rgb(177, 207, 8) solid;
-    border-width: 0px 0px 1px 0px;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgb(177, 207, 8);
     background: rgb(247, 245, 245);
     border-radius: 15px;
-    padding: 10px;
+    padding: 1rem;
+}
+
+.date_and_time {
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.message b {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.notif_info_option {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+}
+
+@media (min-width: 768px) {
+    .info {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .notif-info {
+        flex: 1;
+    }
+
+    .notif_info_option {
+        flex: 0 0 auto;
+        justify-content: flex-end;
+    }
 }
 </style>

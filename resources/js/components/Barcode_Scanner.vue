@@ -86,9 +86,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@media screen and (min-width: 887px){
+
   .scanner {
-    width: 604px;
+    width: 604px; 
     height: 500px;
     border:rgb(0, 0, 0) 2px solid;
     background: rgb(0, 0, 0);
@@ -100,12 +100,40 @@ onMounted(() => {
     justify-content: center;
     flex-wrap: wrap;
   }
-  
- 
-  
- 
-  
- 
 
+
+
+
+@media screen and (max-width:730px){
+.scanner {
+    width: 400px;
+    height: 500px;
+    border:rgb(0, 0, 0) 2px solid;
+    background: rgb(0, 0, 0);
+   
+  }
+  .action{
+    display: flex;
+    gap:10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+
+@media screen and (max-width:200px){
+.scanner {
+    width: 200px;
+    height: 300px;
+    border:rgb(0, 0, 0) 2px solid;
+    background: rgb(0, 0, 0);
+   
+  }
+  .action{
+    display: flex;
+    gap:10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
 }
 </style>

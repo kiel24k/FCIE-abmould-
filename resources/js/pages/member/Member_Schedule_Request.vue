@@ -113,7 +113,7 @@ onMounted(() => {
             <Select placeholder="Select status" :options="category" optionLabel="status" v-model="categoryStatus" />
             <Button severity="secondary" label="Clear filter" raised @click="categoryStatus = ''" />
         </section>
-        <section>
+        <section class="table-responsive">
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -170,50 +170,322 @@ onMounted(() => {
 
 <style scoped>
 .main {
-    margin-top: 1rem;
+    margin-top: 5rem;
     margin-left: 3.5rem;
+    padding-right: 1rem;
     display: grid;
     gap: 15px;
 }
 
+.filter-section {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.filter-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.table-section {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.table-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table {
+    width: 100%;
+    min-width: 1000px;
+    border-collapse: collapse;
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+    vertical-align: top;
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #495057;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
 .table figure {
     display: flex;
-    gap: 5px;
+    gap: 8px;
+    align-items: center;
 }
 
 .table figure img {
-    border-radius: 100%;
-    width: 50px;
-    height: 50px;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    flex-shrink: 0;
 }
 
 .user_name {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    min-width: 120px;
+}
+
+.user_name span {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.user_name b {
+    font-size: 12px;
+    color: #6c757d;
+    font-weight: 400;
 }
 
 .table_item {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 150px;
 }
 
-.table_data_action {
-    width: 20rem;
+.table_item span {
+    font-size: 13px;
 }
 
-.table_item a{
+.table_item a {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    
+    color: #007bff;
+    text-decoration: none;
+    font-size: 12px;
+    margin-top: 4px;
 }
+
+.table_item a:hover {
+    text-decoration: underline;
+}
+
+.action-cell {
+    min-width: 250px;
+}
+
 .table_action {
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
 }
-.table_status span{
-    padding: 7px;
-    border-radius: 50px;
-    font-weight: bold;
-    color:rgb(241, 239, 239);
+
+.action-btn {
+    font-size: 12px;
+    padding: 6px 12px;
+}
+
+.status-message {
+    font-size: 11px;
+    padding: 4px 8px;
+}
+
+.table_status b {
+    font-size: 13px;
+    color: #495057;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+
+    .main {
+        margin-left: 1rem;
+        padding-right: 0.5rem;
+        margin-top: 5rem;
+    }
+    
+    .filter-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .table {
+        min-width: 800px;
+        font-size: 12px;
+    }
+    
+    .table th,
+    .table td {
+        padding: 8px;
+    }
+    
+    .table figure img {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .user_name {
+        min-width: 100px;
+    }
+    
+    .user_name span {
+        font-size: 12px;
+    }
+    
+    .user_name b {
+        font-size: 10px;
+    }
+    
+    .table_item {
+        min-width: 120px;
+    }
+    
+    .table_item span {
+        font-size: 11px;
+    }
+    
+    .action-cell {
+        min-width: 200px;
+    }
+    
+    .action-btn {
+        font-size: 10px;
+        padding: 4px 8px;
+    }
+    
+    .table_action {
+        gap: 6px;
+    }
+    
+    .status-message {
+        font-size: 9px;
+        padding: 2px 6px;
+    }
+}
+
+/* Tablet Styles */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .main {
+        margin-left: 2rem;
+        margin-top:5rem;
+    }
+    
+    .table {
+        min-width: 900px;
+    }
+    
+    .table th,
+    .table td {
+        padding: 10px;
+    }
+    
+    .action-cell {
+        min-width: 220px;
+    }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+    .main {
+        margin-left: 0.5rem;
+        padding-right: 0.5rem;
+        margin-top:5rem;
+    }
+    
+    .filter-section,
+    .table-section {
+        margin: 0 -0.5rem;
+        border-radius: 0;
+    }
+    
+    .table {
+        min-width: 700px;
+        font-size: 11px;
+    }
+    
+    .table th,
+    .table td {
+        padding: 6px;
+    }
+    
+    .table figure {
+        gap: 6px;
+    }
+    
+    .table figure img {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .user_name {
+        min-width: 80px;
+    }
+    
+    .user_name span {
+        font-size: 11px;
+    }
+    
+    .user_name b {
+        font-size: 9px;
+    }
+    
+    .table_item {
+        min-width: 100px;
+    }
+    
+    .table_item span {
+        font-size: 10px;
+    }
+    
+    .action-cell {
+        min-width: 180px;
+    }
+    
+    .action-btn {
+        font-size: 9px;
+        padding: 3px 6px;
+    }
+    
+    .table_action {
+        gap: 4px;
+    }
+}
+
+/* Very Small Screens */
+@media (max-width: 360px) {
+    .table {
+        min-width: 600px;
+        font-size: 10px;
+    }
+    
+    .table th,
+    .table td {
+        padding: 4px;
+    }
+    
+    .action-cell {
+        min-width: 160px;
+    }
+    
+    .action-btn {
+        font-size: 8px;
+        padding: 2px 4px;
+    }
+    .main{
+        margin-top:10rem;
+    }
 }
 </style>

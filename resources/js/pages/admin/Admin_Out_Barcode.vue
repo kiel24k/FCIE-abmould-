@@ -204,7 +204,7 @@ onMounted(() => {
 
 
 <style scoped>
-#main {
+  #main {
     margin-top: 5rem;
 
 }
@@ -217,6 +217,7 @@ section {
 .page {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 10px;
 }
 
@@ -264,4 +265,10 @@ section {
     align-items: center;
     align-content: center;
 }
+
+ @media  (max-width: 670px){
+.barcode_data {
+    width: 25rem;
+}
+ }
 </style>

@@ -124,6 +124,7 @@ onMounted(() => {
                             <th>User</th>
                             <th>Item</th>
                             <th>Schedule date</th>
+                            <th>Date requested</th>
                             <th>Request quantity</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -152,6 +153,7 @@ onMounted(() => {
                                 </div>
                             </td>
                             <td class="date-cell">{{ data.schedule_date }}</td>
+                            <td>{{ data.created_at.split(' ')[0] }}</td>
                             <td class="quantity-cell">{{ data.schedule_quantity }}x</td>
                             <td class="status-cell">
                                 <div class="table_status">
@@ -324,10 +326,11 @@ onMounted(() => {
 
 /* Mobile Styles */
 @media (max-width: 768px) {
+
     .main {
         margin-left: 1rem;
         padding-right: 0.5rem;
-        margin-top: 2rem;
+        margin-top: 5rem;
     }
     
     .filter-controls {
@@ -394,6 +397,7 @@ onMounted(() => {
 @media (max-width: 1024px) and (min-width: 769px) {
     .main {
         margin-left: 2rem;
+        margin-top:5rem;
     }
     
     .table {
@@ -415,6 +419,7 @@ onMounted(() => {
     .main {
         margin-left: 0.5rem;
         padding-right: 0.5rem;
+        margin-top:5rem;
     }
     
     .filter-section,
@@ -495,6 +500,9 @@ onMounted(() => {
     .action-btn {
         font-size: 8px;
         padding: 2px 4px;
+    }
+    .main{
+        margin-top:10rem;
     }
 }
 </style>

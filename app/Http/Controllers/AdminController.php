@@ -269,7 +269,7 @@ class AdminController extends Controller
     }
     public function scheduledDate($date)
     {
-        $schedule = Schedule::where('date_schedule', $date)->get();
+        $schedule = ScheduleRequest::select('*')->where('status', 'pending')->where('schedule_date', $date)->get();
         return response()->json([
             'data' => $schedule,
             'message' => '200'
@@ -311,7 +311,7 @@ class AdminController extends Controller
         $scheduleRequest->user_id = $request->user_id;
         $scheduleRequest->item_id = $request->item_id;
         $scheduleRequest->schedule_quantity = $request->schedule_quantity;
-        $scheduleRequest->schedule_date = Carbon::parse($request->schedule_date)->format('Y-m-d');
+  $scheduleRequest->schedule_date = Carbon::parse($request->schedule_date)->addDay()->format('Y-m-d');
         $scheduleRequest->status = 'pending';
         $scheduleRequest->message = $request->message;
         $scheduleRequest->save();
