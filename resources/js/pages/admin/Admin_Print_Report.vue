@@ -16,6 +16,7 @@ const selectType = ref([
 const printBargraphContent = ref(null)
 const printLineChartContent = ref(null)
 const printItemListContent = ref(null)
+const printUserListContent = ref(null)
 
 const date_one = ref(null)
 const date_two = ref(null)
@@ -72,6 +73,21 @@ const printItemList = () => {
         .save();
 }
 
+
+const printUserList = () => {
+    const elem = printUserListContent.value
+    const options = {
+        margin: 1,
+        filename: 'document.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, allowTaint: false },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'landscape' },
+    };
+    html2pdf()
+        .from(elem)
+        .set(options)
+        .save();
+}
 
 
 //API FUNCTIONS
@@ -239,9 +255,9 @@ GET_PRINT_USER_LIST_API()
 
                     <div class="list_table">
                         <Message variant="simple" severity="secondary">
-                            <Button label="Print User List" icon="pi pi-print" severity="contrast" @click="print()" />
+                            <Button label="Print User List" icon="pi pi-print" severity="contrast" @click="printUserList()" />
                         </Message>
-                        <div class="table_content">
+                        <div class="table_content" ref="printUserListContent">
                             <div class="modal_header">
                                 <figure>
                                     <img src="/public/background/abMouldLogo.png" alt="">

@@ -1,14 +1,13 @@
 <template>
 
-  <header>
   <Sidebar v-if="showSidebar" @hideSidebar="hideSidebar" :class="{ hideSidebarActive: hideSidebarIsActive }" />
+  <header>
     <div class="row">
-      <div class="col-2">
+      <div class="col">
         <ul class="navbar nav">
           <li class="nav-item">
             <img src="/public/icon/menu.png" width="40px" alt="" @click="menu" style="cursor:pointer">
             <img src="/public/background/abMouldLogo.png" width="120px" alt="">
-
           </li>
         </ul>
       </div>
@@ -126,12 +125,12 @@ const hideSidebar = () => {
 }
 
 header {
-  position: fixed;
-  top: 0;
-  z-index:999;
-  width: 100%;
+    position: sticky;
+  top:0;
   background-color: #f8f7f7;
   box-shadow: 1px 1px 10px 0px gray;
+  width: 100%;
+  z-index: 997;
 }
 
 .nav-link {
@@ -145,8 +144,9 @@ header {
   padding: 4px;
 
 }
-.p-popover{
- z-index:999;
- position:absolute;
+
+.p-popover {
+  z-index: 999;
+  position: absolute;
 }
 </style>

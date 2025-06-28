@@ -114,32 +114,60 @@ const release = async () => {
 #modal {
     top: 0;
     display: grid;
-    justify-content: center;
+    place-items: center;
     position: fixed;
     height: 100%;
     width: 100%;
     background: rgba(17, 16, 16, 0.5);
     z-index: 1000;
-    justify-content: center;
-    align-items: center;
-
+    padding: 1rem;
+    overflow-y: scroll;
 }
 
 .main {
     background: white;
-    height: auto;
-    width: 50rem;
-    padding: 10px;
+    width: 100%;
+    max-width: 800px; /* Responsive cap */
+    padding: 1.5rem;
     border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    box-sizing: border-box;
 }
 
 .form_action {
     display: flex;
     gap: 10px;
-    justify-content: end;
+    justify-content: flex-end;
+    flex-wrap: wrap;
 }
 
 .item_details {
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    word-break: break-word;
 }
+
+/* Responsive stacking on small screens */
+@media (max-width: 576px) {
+    .row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .col-3 {
+        font-weight: bold;
+    }
+
+    .form_action {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .main {
+        padding: 1rem;
+    }
+}
+
 </style>

@@ -4,22 +4,21 @@
             @data="addScheduleModal = false" :userData="userData" />
     </transition>
     <Header @toggle-sidebar="toggleSidebar" @user="user" />
-    <div class="row justify-content-center main">
+   <div class="row justify-content-center main">
         <div class="col-8">
             <div class="col">
-                <div class="row scheduling">
+                <div class="row">
+                    <div class="col text-end">
+                        <Button label="Add schedule" @click="addSchedule()" />
+                    </div>
+                </div>
+                <div class="row scheduling mt-2" raised>
                     <div class="col" style="width:50rem">
                         <ScheduledItems :selectedDate="selectedDate" />
                     </div>
-                    <div class="col-3">
-                        <div class="add-sched">
-                            <button class="btn" @click="addSchedule()">
-                                Add schedule
-                            </button>
-                        </div>
-                        <div class="calendar">
-                            <VDatePicker v-model.string='selectedDate' mode="date" :masks="masks" expanded />
-                        </div>
+                    <div class="col">
+                        <VDatePicker v-model.string='selectedDate' mode="date" :min-date="minDate" :max-date="maxDate"
+                            :masks="masks" expanded />
                     </div>
                 </div>
             </div>
@@ -32,7 +31,26 @@ import Sidebar from '@/components/Admin_Sidebar.vue';
 import ScheduledItems from '@/components/ScheduledMaterials.vue'
 import { onMounted, ref, watch } from 'vue';
 import AddSchedule from '../../components/AddSchedule.vue';
+import { Button } from 'primevue';
 const userData = ref({})
+
+// Today's date
+const today = new Date()
+
+const minDate = today.toISOString().split('T')[0]
+
+// Set max date to 2 years from today
+const futureDate = new Date()
+futureDate.setFullYear(today.getFullYear() + 2)
+
+
+// Add 2 years
+const maxDate = new Date()
+maxDate.setFullYear(today.getFullYear() + 2)
+
+
+
+
 
 const user = (data) => {
     userData.value = data
@@ -85,6 +103,9 @@ const addSchedule = () => {
 .add-sched {
     margin-top: 20px;
     height: 10rem;
+    display: grid;
+    gap: 10px;
+    
 }
 
 .add-sched button {

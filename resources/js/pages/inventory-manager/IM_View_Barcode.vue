@@ -71,7 +71,7 @@ onMounted(() => {
     <header>
         <Header />
     </header>
-    <div id="main">
+    <div id="main" class="main">
         <section>
             <div class="page_title">
                 <Message icon="pi pi-list" severity="secondary">
@@ -184,7 +184,6 @@ onMounted(() => {
 <style scoped>
 #main {
     margin-top: 5rem;
-
 }
 
 section {
@@ -195,6 +194,7 @@ section {
 .page {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
     gap: 10px;
 }
 
@@ -229,7 +229,7 @@ section {
 
 .list_field {
     display: grid;
-    gap:10px;
+    gap: 10px;
 }
 
 .list_action {
@@ -241,5 +241,12 @@ section {
     display: flex;
     align-items: center;
     align-content: center;
+}
+
+@media (max-width: 670px) {
+    .barcode_data {
+        width: 25rem;
+    }
+ 
 }
 </style>

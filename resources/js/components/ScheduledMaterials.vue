@@ -1,66 +1,69 @@
 <template>
-
-   <div class="container-fluid">
-    <div class="col text-center">
-        <h4>Schedules of materials & Equipments</h4>
+  <div class="container-fluid schedule-wrapper">
+    <div class="row">
+      <div class="col text-center">
+        <h4>Schedules of Materials & Equipments</h4>
+      </div>
     </div>
-    <div class="row text-center justify-content-center">
-        <div class="col-2">
-            <p>Materials</p>
-        </div>
-        <div class="col-2">
-            <p>equipments</p>
-        </div>
+
+   
+
+    <div class="table-responsive">
+      <table class="table table-borderless table-hover">
+        <thead>
+          <tr>
+              <th>Schedule Date</th>
+              <th>Date Scheduled</th>
+              <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(data, index) in scheduledData" :key="index">
+            <td>{{ data.schedule_date }}</td>
+            <td>{{ new Date(data.created_at).toISOString().split('T')[0] }}</td>
+             <td><b>{{ data.status }}</b></td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-   <table class="table table-borderless table-hover">
-
-    <thead>
-        <tr>
-            <th>Supplier</th>
-            <th>Item</th>
-            <th>Quantity</th>
-            <th>Date scheduled</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr v-for="(data, index) in scheduledData" :key="index">
-            <td>{{ data.supplier_name }}</td>
-            <td>{{ data.item_code }}</td>
-            <td>{{ data.quantity }}</td>
-            <td>{{ data.date_schedule }}</td>
-        </tr>
-    </tbody>
-   </table>
-   </div>
-
+  </div>
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 const props = defineProps(['selectedDate'])
 
-//get date selected
-const scheduledData = ref({})
-watch(props, (oldVal, newVal) => {
-    axios({
-        method: 'GET',
-        url:`/api/scheduled-date/${props.selectedDate}`
-    }).then(response => {
-        scheduledData.value = response.data.data
+const scheduledData = ref([])
+
+watch(props, () => {
+  axios.get(`/api/scheduled-date/${props.selectedDate}`)
+    .then(response => {
+      scheduledData.value = response.data.data
     })
 })
-
 </script>
+
 <style scoped>
-.container-fluid{
-    box-shadow: 5px 5px 15px 0px rgb(83, 81, 81);
-    border-radius: 15px;
-    height: 34rem;
-    width: 90%;
-    padding: 30px 20px;
-    background-color: rgb(255, 255, 255);
+.schedule-wrapper {
+  box-shadow: 0px 0px 5px rgb(83, 81, 81);
+  border-radius: 15px;
+  padding: 30px 20px;
+  background-color: #fff;
+  max-width: 100%;
+  overflow-x: auto;
 }
-th,tbody{
-    text-align: center;
+
+th, tbody {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .schedule-wrapper {
+    padding: 20px 10px;
+  }
+
+  table {
+    font-size: 0.9rem;
+  }
 }
 </style>

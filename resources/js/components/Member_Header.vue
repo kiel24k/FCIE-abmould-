@@ -161,6 +161,7 @@ header {
   background-color: #f8f7f7;
   box-shadow: 1px 1px 10px 0px gray;
   width: 100%;
+  z-index: 997;
 }
 
 .nav-link {

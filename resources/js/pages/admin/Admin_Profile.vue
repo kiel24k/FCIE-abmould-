@@ -52,7 +52,7 @@ const closeModal = () => {
             </div>
             <div class="col profile-action">
                 <div class="">
-                    <Button @click="editProfileBtn" icon="pi pi-file-edit" label="edit" raised severity="info"/>
+                    <Button @click="editProfileBtn" icon="pi pi-file-edit" label="Change password" raised severity="danger"/>
                 </div>
             </div>
         </section>

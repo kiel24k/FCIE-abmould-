@@ -56,7 +56,7 @@ const clicktBtn = () => {
     <header>
         <Header @user="user" />
     </header>
-    <div class="row mt-5">
+    <div class="row main">
         <div class="col">
             <form @submit.prevent enctype="multipart/form-data">
                 <div class="card card-main">
@@ -106,37 +106,59 @@ const clicktBtn = () => {
 
 
 <style scoped>
+.main{
+    margin-top: 5rem;
+}
 form {
-    width: 70rem;
+    max-width: 100%;
+    width: 100%;
     margin: auto;
     display: grid;
     gap: 25px;
     border-radius: 10px;
-    padding: 10px;
-
-
+    padding: 20px;
 }
 
 .card-main {
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    max-width: 900px;
+    margin: auto;
+    padding: 15px;
+    width: 100%;
 }
-
 
 label {
     font-weight: 500;
 }
 
-
-
-.action {
+.form-action {
     display: flex;
-    justify-content: end;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
 }
-.form-action{
-    display: flex;
-    gap:10px;
-    justify-content: end;
-    margin-top:10px;
+
+@media (max-width: 768px) {
+    .form-action {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .card-header h4 {
+        font-size: 18px;
+    }
+
+    .card-body .row {
+        flex-direction: column;
+    }
+
+    .form-control,
+    .p-inputtext,
+    .p-textarea {
+        width: 100%;
+    }
 }
 </style>
+

@@ -138,7 +138,7 @@ const clear = () => {
 
 const prev = () => {
 if(pagination.value.last_page >= pagination.value.current_page){
-    GET_ITEM_LIST_API(pagination.value.last_page - 1)
+    GET_ITEM_LIST_API(pagination.value.current - 1)
 }
 }
 const next = () => {
@@ -187,7 +187,8 @@ onMounted(() => {
                     <div class="col bg-white">
                         <div class="row p-3">
                             <div class="col table-category">
-                                <Select placeholder="Select Date" :options="itemListCategory" optionLabel="release_date"
+                              <div class="d-flex select-categoy">
+                                  <Select placeholder="Select Date" :options="itemListCategory" optionLabel="release_date"
                                     v-model="category" />
                                 <InputGroup>
                                     <InputText placeholder="Search Item" v-model="search" />
@@ -197,17 +198,18 @@ onMounted(() => {
                                     <Button label="clear" severity="secondary" raised @click="clear"
                                         v-if="search || category" />
                                 </InputGroup>
+                              </div>
                             </div>
                             <div class="col table-action">
                                 <Button icon="pi pi-file-pdf" severity="contrast" label="Export" raised
                                     @click="print()"></Button>
-                                <router-link :to="{ name: 'admin-new-item' }">
+                                <!-- <router-link :to="{ name: 'admin-new-item' }">
                                     <Button icon="pi pi-plus-circle" severity="info" label="New" raised />
-                                </router-link>
+                                </router-link> -->
                             </div>
                         </div>
-                        <figure class="table-main">
-                            <table class="table table-bordered  table-hover table-responsive">
+                        <figure class="table-main table-responsive">
+                            <table class="table table-bordered  table-hover">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -289,18 +291,18 @@ onMounted(() => {
                                             <span class="action">
                                                 <Button @click="view(data.id)" icon="pi pi-eye" severity="info"
                                                     raised />
-                                                <router-link class="btnUpdate"
+                                                <!-- <router-link class="btnUpdate"
                                                     :to="{ name: 'admin-edit-item', params: { id: data.id } }">
                                                     <Button icon="pi pi-pen-to-square" severity="success" raised />
-                                                </router-link>
-                                                <Button @click="deleteItem(data.id)" icon="pi pi-trash"
-                                                    severity="danger" raised />
+                                                </router-link> -->
+                                                <!-- <Button @click="deleteItem(data.id)" icon="pi pi-trash"
+                                                    severity="danger" raised /> -->
                                             </span>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="paginator">
+                            <div class="paginator  ">
                              <Button label="Prev" icon="pi pi-chevron-left" severity="contrast" variant="text" @click="prev()"/>
                              <span>{{ pagination.current_page }} of {{ pagination.last_page }}</span>
                              <Button label="Next" icon="pi pi-chevron-right" iconPos="right" severity="contrast" variant="text" @click="next()"/>
@@ -324,337 +326,40 @@ onMounted(() => {
 
 
 <style scoped>
-@media screen and (max-width:1019px) {
-    .table-main {
-        max-width: 50rem;
-        overflow-y: scroll;
-        margin: auto;
-    }
-
-}
-
-@media screen and (max-width:888px) {
-    .table-main {
-        max-width: 30rem;
-        overflow-y: scroll;
-        margin: auto;
-    }
-
-}
-
-.admin-inventory-list {
-    display: grid;
-    gap: 20px;
-
-}
-
-.table-action {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    align-content: center;
-}
-
-.search input:focus {
-    outline: none;
-}
-
-.search {
-    display: flex;
-}
-
-.table {
-    padding: 10px;
-    border-radius: 10px;
-
-}
-
-.table-category {
-    display: flex;
-}
-
-.table-category select:focus {
-    outline: none;
-    box-shadow: none;
-
-
-}
-
-
-
-.table table .action {
-    display: flex;
-    gap: 10px;
-}
-
-.action {
-    display: flex;
-    justify-content: start;
-    gap: 10px;
-}
 .paginator{
     display: flex;
     justify-content: center;
     align-items: center;
 }
-</style>
-
-<!-- <style scoped>
-.hideSidebar {
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-}
-
-/* laptop or pc */
-@media screen and (min-width: 769px) {
+@media screen and (max-width: 610px) {
     .admin-inventory-list {
-        width: 67rem;
-        margin: auto;
-
-    }
-
-    .inventory-filter {
-        display: flex;
-        justify-content: space-between;
-        align-content: center;
-
-        align-items: center;
-    }
-
-    .filter {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-
-    }
-
-    .category {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .createButton {
-        background-color: rgb(24, 180, 24);
-        color: white;
-    }
-
-    .createButton span {
-        display: flex;
-        align-items: center;
-
-
-    }
-
-    #table {
-        margin-top: 10px;
-        display: grid;
-        justify-content: center
-    }
-
-    table {
-        height: 50rem;
-        border-radius: 5px;
-        max-width: rem;
-        overflow-y: scroll;
-        box-shadow: 0px 0px 5px 0px gray;
         padding: 10px;
-        display: block;
+        width: 100%;
     }
 
-    table th {
-        color: rgb(94, 93, 93);
-        font-weight: 600;
-        cursor: pointer;
+    .table-main {
+        overflow-x: auto;
+        width: 100%;
     }
 
-    table td {
-        border-bottom: 2px solid white;
-    }
+ .select-category {
+    display: flex;
+    flex-wrap: wrap;
+ }
 
-    table .head-title {
-        display: flex;
-        justify-content: space-between;
-    }
 
     .action {
-        display: flex;
-    }
-    .action button{
-        margin: 5px;
-    }
-
-    table tbody button {
-        border-radius: 5px;
-        color: white;
-        border: 0px;
-        font-weight: 600;
-    }
-
-    .btnView {
-        background: none;
-    }
-
-    .btnUpdate {
-        background: none;
-    }
-
-    .btnDelete {
-        background: none;
-    }
-
-    .pagination {
-        display: grid;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .pagination-action button {
-        border-radius: 4px;
-        background-color: black;
-        color: white;
-        font-weight: 550;
-        width: 4rem;
-        text-align: center;
-    }
-
-    .btnPaginate {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-    }
-
-    .btnPaginate button {
-        width: 6rem;
-        text-align: center;
-    }
-}
-
-/* for small phones */
-@media screen and (max-width: 1035px) {
-    .admin-inventory-list {
-        width: 50rem;
-        margin: auto;
-
-
-    }
-
-    .inventory-filter {
-        display: flex;
-        justify-content: start;
-        align-content: start;
-        align-items: center;
-
-
-    }
-
-    .filter {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-
-    }
-
-    .category {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-
-    }
-
-    .createButton {
-        background-color: rgb(24, 180, 24);
-        color: white;
-    }
-
-    .createButton span {
-        display: flex;
-        align-items: center;
-
-
-    }
-
-    .search {
-        width: 20rem;
-    }
-
-    .search input {
-        max-width: 80%;
-
-    }
-
-    #table {
-        margin: auto;
-        max-width: 80rem;
-
-
+        flex-direction: column;
+        gap: 5px;
     }
 
     table {
-        margin: auto;
-        height: 30rem;
-        overflow-x: scroll;
-        overflow-y: scroll;
-        display: block;
-        width: 50rem;
+        font-size: 0.75rem;
+        min-width: 700px; /* allows horizontal scrolling if needed */
     }
 
-    table th {
-        color: rgb(94, 93, 93);
-        font-weight: 600;
-        border-bottom: 2px solid white;
-
-    }
-
-    table td {
-        border-bottom: 2px solid white;
-    }
-
-    table .head-title {
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .action {
-        display: flex;
-    }
    
 
-    table tbody button {
-        border-radius: 5px;
-        color: white;
-        border: 0px;
-        font-weight: 600;
-    }
-
-    .btnView {
-        background: none;
-    }
-
-    .btnUpdate {
-        background: none;
-    }
-
-    .btnDelete {
-        background: none;
-    }
-
-    .pagination {
-        display: grid;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .pagination-action button {
-        border-radius: 4px;
-        background-color: black;
-        color: white;
-        font-weight: 550;
-        width: 4rem;
-        text-align: center;
-    }
 }
 
-/* screen and tablets */
-@media screen and (min-width: 601px) {}
-</style> -->
+</style>

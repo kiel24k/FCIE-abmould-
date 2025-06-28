@@ -84,6 +84,7 @@ const save = async () => {
                     </div>
                 </div>
             </form>
+            
         </div>
     </div>
 </template>
@@ -96,10 +97,11 @@ const save = async () => {
     height: 100%;
     width: 100%;
     background: rgba(17, 16, 16, 0.5);
-    z-index: 9999;
+    z-index: 1000;
     justify-content: center;
     align-items: center;
-  
+    top: 0;
+
 }
 
 .main {
@@ -119,5 +121,9 @@ const save = async () => {
     justify-content: end;
     gap: 5px;
     margin-top: 1rem;
+}
+
+form .validation {
+    width: 18rem;
 }
 </style>

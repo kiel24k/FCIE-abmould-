@@ -111,7 +111,7 @@ const sort = (val) => {
 
 const prevBtn = () => {
   if (pagination.value.last_page >= pagination.value.current_page) {
-    GET_ITEM_LIST_API(pagination.value.last_page - 1)
+    GET_ITEM_LIST_API(pagination.value.current_page - 1)
   }
 }
 

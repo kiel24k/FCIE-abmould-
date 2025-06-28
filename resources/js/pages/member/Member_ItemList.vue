@@ -186,7 +186,7 @@ onMounted(() => {
                     
                     <div class="col bg-white">
                         <div class="row p-3">
-                            <div class="col table-category">
+                            <div class="col select-category d-flex">
                                 <Select placeholder="Select Date" :options="itemListCategory" optionLabel="release_date"
                                     v-model="category" />
                                 <InputGroup>
@@ -292,79 +292,43 @@ onMounted(() => {
 
 
 <style scoped>
-@media screen and (max-width:1019px) {
-    .table-main {
-        max-width: 50rem;
-        overflow-y: scroll;
-        margin: auto;
-    }
 
-}
-
-@media screen and (max-width:888px) {
-    .table-main {
-        max-width: 30rem;
-        overflow-y: scroll;
-        margin: auto;
-    }
-
-}
-
-.admin-inventory-list {
-    display: grid;
-    gap: 20px;
-
-}
-
-.table-action {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    align-content: center;
-}
-
-.search input:focus {
-    outline: none;
-}
-
-.search {
-    display: flex;
-}
-
-.table {
-    padding: 10px;
-    border-radius: 10px;
-
-}
-
-.table-category {
-    display: flex;
-}
-
-.table-category select:focus {
-    outline: none;
-    box-shadow: none;
-
-
-}
-
-
-
-.table table .action {
-    display: flex;
-    gap: 10px;
-}
-
-.action {
-    display: flex;
-    justify-content: start;
-    gap: 10px;
-}
 .paginator{
     display: flex;
     justify-content: center;
     align-items: center;
 }
+@media screen and (max-width: 610px) {
+    .admin-inventory-list {
+        padding: 10px;
+        width: 100%;
+    }
+
+    .table-main {
+        overflow-x: auto;
+        width: 100%;
+    }
+
+ .select-category {
+    display: flex;
+    flex-wrap: wrap;
+ }
+
+
+    .action {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    table {
+        font-size: 0.75rem;
+        min-width: 700px; /* allows horizontal scrolling if needed */
+    }
+
+   
+
+}
+
 </style>
 
 <!-- <style scoped>

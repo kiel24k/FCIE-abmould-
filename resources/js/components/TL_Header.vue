@@ -3,7 +3,7 @@
     <Sidebar v-if="showSidebar" @hideSidebar="hideSidebar" :class="{ hideSidebarActive: hideSidebarIsActive }" />
     <header>
         <div class="row">
-            <div class="col-2">
+            <div class="col">
                 <ul class="navbar nav">
                     <li class="nav-item">
                         <img src="/public/icon/menu.png" width="40px" alt="" @click="menu" style="cursor:pointer">
